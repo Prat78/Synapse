@@ -1,0 +1,701 @@
+does this need chaning:<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse AI - Intelligent AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @keyframes float {0%,100%{transform:translateY(0px);}50%{transform:translateY(-20px);}}
+        @keyframes pulse-glow {0%,100%{box-shadow:0 0 20px rgba(59,130,246,0.5);}50%{box-shadow:0 0 40px rgba(59,130,246,0.8);}}
+        @keyframes fadeInUp {from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes starTwinkle {0%,100%{opacity:0.2;}50%{opacity:1;}}
+        @keyframes typing {from{width:0;}to{width:100%;}}
+        @keyframes blink {0%,100%{opacity:1;}50%{opacity:0;}}
+        
+        .animate-float{animation:float 6s ease-in-out infinite;}
+        .animate-pulse-glow{animation:pulse-glow 2s ease-in-out infinite;}
+        .typing-animation{overflow:hidden;white-space:nowrap;animation:typing 3.5s steps(40,end);}
+        .cursor-blink{animation:blink 1s infinite;}
+        .glassmorphism{background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);}
+        .nav-underline{position:relative;}
+        .nav-underline::after{content:'';position:absolute;width:0;height:2px;bottom:-5px;left:0;background:linear-gradient(90deg,#3b82f6,#8b5cf6);transition:width 0.3s ease;}
+        .nav-underline:hover::after,.nav-underline.active::after{width:100%;}
+        .chat-bubble-user{background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-radius:20px 20px 0 20px;}
+        .chat-bubble-ai{background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:20px 20px 20px 0;}
+        .game-card{transition:all 0.3s ease;cursor:pointer;}
+        .game-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 20px 40px rgba(59,130,246,0.3);}
+        .game-card:hover .play-overlay{opacity:1;}
+        .play-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;}
+        .play-icon{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:24px;}
+        .loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:#0f172a;display:flex;justify-content:center;align-items:center;z-index:9999;transition:opacity 0.5s ease;}
+        .loading-dots{display:flex;gap:10px;}
+        .loading-dot{width:20px;height:20px;border-radius:50%;background:linear-gradient(45deg,#3b82f6,#8b5cf6);animation:float 1s ease-in-out infinite;}
+        .loading-dot:nth-child(2){animation-delay:0.2s;}
+        .loading-dot:nth-child(3){animation-delay:0.4s;}
+        .parallax-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;}
+        .star{position:absolute;background:white;border-radius:50%;animation:starTwinkle 3s infinite;}
+        .page-transition{animation:fadeInUp 0.5s ease forwards;}
+        .typing-indicator{display:flex;align-items:center;gap:4px;}
+        .typing-dot{width:8px;height:8px;border-radius:50%;background:#8b5cf6;animation:float 1.4s infinite ease-in-out;}
+        .typing-dot:nth-child(1){animation-delay:-0.32s;}
+        .typing-dot:nth-child(2){animation-delay:-0.16s;}
+        .cat-btn{padding:8px 16px;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#9ca3af;cursor:pointer;transition:all 0.3s;}
+        .cat-btn:hover,.cat-btn.active{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:white;border:none;}
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        secondary: "#8b5cf6",
+                        dark: "#0f172a",
+                        "dark-light": "#1e293b"
+                    },
+                    fontFamily: {
+                        'sans': ['Inter','system-ui','sans-serif'],
+                        'orbitron': ['Orbitron','monospace']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden">
+
+<!-- Loading Screen -->
+<div id="loadingScreen" class="loading-screen">
+    <div class="text-center">
+        <div class="loading-dots mb-6">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+        </div>
+        <h2 class="text-2xl font-orbitron font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Loading Synapse AI...</h2>
+        <p class="text-gray-400 mt-2">Initializing neural networks</p>
+    </div>
+</div>
+
+<!-- Parallax Background -->
+<div id="parallaxBg" class="parallax-bg"></div>
+
+<!-- Navigation -->
+<nav class="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-white/10">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                <i class="fas fa-brain text-white"></i>
+            </div>
+            <span class="text-2xl font-orbitron font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse AI</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+            <a href="#" data-page="home" class="nav-underline active text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+            <a href="#" data-page="chat" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">AI Chat</a>
+            <a href="#" data-page="games" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Games</a>
+            <a href="#" data-page="policy" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
+            <a href="#" data-page="roblox" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Roblox</a>
+
+        </div>
+        <button id="tryAI" class="px-6 py-2 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform duration-300 animate-pulse-glow">Try the AI</button>
+        <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white"><i class="fas fa-bars text-2xl"></i></button>
+    </div>
+    <div id="mobileMenu" class="md:hidden mt-4 hidden flex-col space-y-4 px-4">
+        <a href="#" data-page="home" class="nav-underline active text-gray-300 hover:text-white py-2">Home</a>
+        <a href="#" data-page="chat" class="nav-underline text-gray-300 hover:text-white py-2">AI Chat</a>
+        <a href="#" data-page="games" class="nav-underline text-gray-300 hover:text-white py-2">Games</a>
+        <a href="#" data-page="policy" class="nav-underline text-gray-300 hover:text-white py-2">Policy</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="pt-20">
+
+<!-- HOME PAGE -->
+<div id="homePage" class="page-transition">
+    <section class="container mx-auto px-4 py-16 md:py-24 text-center">
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-6">
+            <span class="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">Welcome to</span>
+            <br>
+            <span class="typing-animation bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse AI</span>
+            <span class="cursor-blink">|</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">When that stupid English essay is due but Chatgpt is blocked....</p>
+        <button onclick="showPage('chat')" class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 animate-pulse-glow">
+            <i class="fas fa-rocket mr-2"></i>Start Your AI Journey
+        </button>
+        <div class="mt-16 animate-float">
+            <div class="glassmorphism rounded-3xl p-8 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bolt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Lightning Fast💨</h3>
+                    <p class="text-gray-400">Instant responses powered by advanced neural networks</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Undetectable Ai🤯</h3>
+                    <p class="text-gray-400">Undetectable Ai that can do EVERYTHING for you!😎</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-gamepad text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Fun Games😉</h3>
+                    <p class="text-gray-400">Play awesome unblocked games in your browser</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- CHAT PAGE -->
+<div id="chatPage" class="page-transition hidden">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
+                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse AI Chat</span>
+            </h1>
+            <p class="text-gray-400">Your intelligent AI assistant with superpowers 🚀</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Chat Area -->
+            <div class="lg:col-span-2">
+                <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
+                    <!-- Animated Header -->
+                    <div class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="font-semibold">Synapse AI Assistant</h3>
+                                <p class="text-sm text-green-400">● Online • Lightning Fast</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="clearChat()" class="p-2 hover:bg-white/10 rounded-lg transition-all" title="Clear Chat">
+                                <i class="fas fa-trash text-gray-400"></i>
+                            </button>
+                            <button onclick="toggleVoice()" class="p-2 hover:bg-white/10 rounded-lg transition-all" title="Voice Mode">
+                                <i class="fas fa-microphone text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Messages Area -->
+                    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-robot text-sm"></i>
+                            </div>
+                            <div class="ml-3">
+                                <div class="chat-bubble-ai p-4 max-w-md">
+                                    <p>👋 Hello! I'm Synapse AI. I can help you with:</p>
+                                    <ul class="mt-2 space-y-1 text-sm">
+                                        <li>📝 Essays & homework</li>
+                                        <li>🧮 Math problems</li>
+                                        <li>💡 Creative ideas</li>
+                                        <li>🔬 Research & analysis</li>
+                                        <li>💻 Coding help</li>
+                                    </ul>
+                                    <p class="mt-2">What can I help you with today?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="typingIndicator" class="flex items-start hidden">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-robot text-sm"></i>
+                            </div>
+                            <div class="ml-3">
+                                <div class="chat-bubble-ai p-4 max-w-md">
+                                    <div class="typing-indicator">
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Area with Quick Actions -->
+                    <div class="p-4 border-t border-white/10 bg-dark-light/50">
+                        <div class="flex flex-wrap gap-2 mb-3" id="quickPrompts">
+                            <button onclick="useQuickPrompt('Help me write an essay about')" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                📝 Essay Help
+                            </button>
+                            <button onclick="useQuickPrompt('Solve this math problem:')" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                🧮 Math Solver
+                            </button>
+                            <button onclick="useQuickPrompt('Explain this concept:')" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                💡 Explain
+                            </button>
+                            <button onclick="useQuickPrompt('Help me code:')" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                💻 Code Helper
+                            </button>
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" id="chatInput" placeholder="Ask me anything..." class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
+                            <button id="sendMessage" class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar with Stats & Features -->
+            <div class="space-y-6">
+                <!-- Stats Card -->
+                <div class="glassmorphism rounded-2xl p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-chart-line text-primary mr-2"></i>
+                        Chat Stats
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400">Messages Sent</span>
+                            <span class="font-bold text-primary" id="messageCount">0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400">Avg Response</span>
+                            <span class="font-bold text-green-400">0.8s</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400">AI Power</span>
+                            <span class="font-bold text-secondary">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Card -->
+                <div class="glassmorphism rounded-2xl p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-magic text-secondary mr-2"></i>
+                        AI Features
+                    </h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Undetectable Content</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Multi-Language Support</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Context Understanding</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Code Generation</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>24/7 Availability</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pro Tips Card -->
+                <div class="glassmorphism rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary/10">
+                    <h3 class="text-lg font-semibold mb-3 flex items-center">
+                        <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
+                        Pro Tips
+                    </h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>💡 Be specific for better results</li>
+                        <li>🎯 Ask follow-up questions</li>
+                        <li>📋 Request different formats</li>
+                        <li>🔄 Ask for revisions anytime</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <div class="p-4 border-t border-white/10">
+                <div class="flex space-x-2">
+                    <input type="text" id="chatInput" placeholder="Type your message here..." class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary">
+                    <button id="sendMessage" class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ROBLOX PAGE -->
+<div id="robloxPage" class="page-transition hidden">
+    <div class="container mx-auto px-4 py-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-6">
+            <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Roblox Games</span>
+        </h1>
+        <p class="text-white-700 mb-8">Steps to get roblox to run in 2 min!</p>
+	<p class="text-white-700 mb-8">1.Enter this link in the search bar at the bottom of the screen and click "Open in Browser
+2": https://web.cloudmoonapp.com/</p>
+				       
+                                      
+        <p class="text-white-700 mb-8">2.Sign up with your homeaccount(or make a new account if you feel unsafe)</p>
+        <p class="text-white-700 mb-8">3.Click Roblox and enjoy! </p>
+<p class="text-white-700 mb-8">Info:This is a remote browser which means you can do anything you want unblocked with ease! </p>
+        <!-- IFRAME CONTAINER WITH WHITE BACKGROUND -->
+        <div class="roblox-embed-container rounded-2xl p-4 max-w-4xl mx-auto bg-white shadow-lg">
+            <!-- DROP YOUR IFRAME HERE -->
+            <iframe src="https://coursera.gq/" 
+                    width="100%" height="600" 
+                    class="rounded-2xl border border-gray-300"
+                    allowfullscreen
+                    sandbox="allow-scripts allow-same-origin allow-popups">
+            </iframe>
+        </div>
+    </div>
+</div>
+
+<!-- GAMES PAGE -->
+<div id="gamesPage" class="page-transition hidden">
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
+                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">🎮 Unblocked Games</span>
+            </h1>
+            <!-- SEARCH BAR ADDITION #1 -->
+            <div class="max-w-md mx-auto mb-6 relative">
+                <input type="text" id="gameSearch" placeholder="Search games..." class="w-full bg-dark-light border border-white/10 rounded-full px-12 py-3 focus:outline-none focus:border-primary transition-all duration-300">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+            <p class="text-gray-400 max-w-2xl mx-auto">Click any game to play!</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3 mb-8" id="categoryFilter"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="gamesGrid"></div>
+    </div>
+</div>
+
+<!-- POLICY PAGE -->
+<div id="policyPage" class="page-transition hidden">
+    <div class="container mx-auto px-4 py-8 max-w-4xl space-y-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
+                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Privacy Policy & Terms</span>
+            </h1>
+        </div>
+        <section class="glassmorphism rounded-2xl p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-primary">Privacy Policy</h2>
+            <p class="text-gray-300">At Synapse AI, we take your privacy seriously.</p>
+        </section>
+        <section class="glassmorphism rounded-2xl p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-primary">Terms of Service</h2>
+            <p class="text-gray-300">By using Synapse AI, you agree to these terms.</p>
+        </section>
+        <section class="glassmorphism rounded-2xl p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-primary">Contact</h2>
+            <p class="text-gray-300"><i class="fas fa-envelope text-primary mr-2"></i>support@Synapse-ai.com</p>
+        </section>
+    </div>
+</div>
+
+</main>
+
+<!-- Footer -->
+<footer class="mt-16 border-t border-white/10">
+    <div class="container mx-auto px-4 py-8 text-center">
+        <p class="text-gray-500">© 2024 Synapse AI. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="games.js"></script>
+<script>
+// ===========================
+// Hugging Face AI Config
+// ===========================
+const HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
+
+const HF_API_TOKEN = ""; // <- no token needed for your local APIsen
+
+    // ===========================
+    // AI Responses
+    // ===========================
+    var aiResponses = [
+        "That's an interesting question!",
+        "I'd be happy to help with that!",
+        "Great question! Here's what I know...",
+        "Let me explain that for you."
+    ];
+
+    // ===========================
+    // Page Elements
+    // ===========================
+    var pages = {
+    home: document.getElementById("homePage"),
+    chat: document.getElementById("chatPage"),
+    games: document.getElementById("gamesPage"),
+    policy: document.getElementById("policyPage"),
+    roblox: document.getElementById("robloxPage") // NEW PAGE
+};
+
+
+    // ===========================
+    // State Variables
+    // ===========================
+    var currentCategory = 'all';
+    var searchQuery = ''; // SEARCH ADDITION #2
+
+    // ===========================
+    // Initialization Function
+    // ===========================
+    function init() {
+        setTimeout(() => {
+            var l = document.getElementById("loadingScreen");
+            l.style.opacity = "0";
+
+            setTimeout(() => {
+                l.style.display = "none";
+            }, 500);
+
+        }, 1500);
+
+        createStars();
+        renderCategories();
+        renderGames();
+        setupEvents();
+    }
+
+    // ===========================
+    // Create Stars Background
+    // ===========================
+    function createStars() {
+        var bg = document.getElementById("parallaxBg");
+
+        for (var i = 0; i < 100; i++) {
+            var s = document.createElement("div");
+            s.className = "star";
+            s.style.width = Math.random() * 3 + "px";
+            s.style.height = s.style.width;
+            s.style.left = Math.random() * 100 + "%";
+            s.style.top = Math.random() * 100 + "%";
+            s.style.animationDelay = Math.random() * 5 + "s";
+
+            bg.appendChild(s);
+        }
+    }
+
+    // ===========================
+    // Show Page Function
+    // ===========================
+    function showPage(name) {
+        for (var k in pages) {
+            if (pages[k]) pages[k].classList.add("hidden");
+        }
+
+        if (pages[name]) pages[name].classList.remove("hidden");
+
+        document.querySelectorAll("[data-page]").forEach(l => {
+            l.classList.remove("active");
+            if (l.getAttribute("data-page") === name) l.classList.add("active");
+        });
+
+        document.getElementById("mobileMenu").classList.add("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // ===========================
+    // Render Categories
+    // ===========================
+    function renderCategories() {
+        if (typeof GAMES === 'undefined') return;
+
+        var cats = ['all'];
+        GAMES.forEach(g => {
+            if (cats.indexOf(g.category) === -1) cats.push(g.category);
+        });
+
+        var html = '';
+        cats.forEach(cat => {
+            var active = cat === currentCategory ? 'active' : '';
+            var label = cat === 'all' ? 'All Games' : cat;
+            html += '<button class="cat-btn ' + active + '" onclick="filterCategory(\'' + cat + '\')">' + label + '</button>';
+        });
+
+        document.getElementById("categoryFilter").innerHTML = html;
+    }
+
+    // ===========================
+    // Filter Category
+    // ===========================
+    function filterCategory(cat) {
+        currentCategory = cat;
+        renderCategories();
+        renderGames();
+    }
+
+    // ===========================
+    // Render Games
+    // ===========================
+    function renderGames() {
+        if (typeof GAMES === 'undefined') {
+            document.getElementById("gamesGrid").innerHTML =
+                '<p class="text-gray-400 col-span-full text-center">No games found. Check games.js file.</p>';
+            return;
+        }
+
+        var filtered = GAMES.filter(g => {
+            var matchesCat = currentCategory === 'all' || g.category === currentCategory;
+            var matchesSearch = searchQuery === '' || (g.title || g.name || '').toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesCat && matchesSearch;
+        });
+
+        var html = '';
+        filtered.forEach(g => {
+            var idx = GAMES.indexOf(g);
+            var img = g.image || 'https://via.placeholder.com/400x200/1e293b/3b82f6?text=' + encodeURIComponent(g.title || g.name);
+
+            html += '<div class="game-card glassmorphism rounded-2xl overflow-hidden" onclick="playGame(' + idx + ')">';
+            html += '<div class="relative overflow-hidden">';
+            html += '<img src="' + img + '" alt="' + (g.title || g.name) + '" class="w-full h-48 object-cover">';
+            html += '<div class="absolute top-4 right-4"><span class="bg-primary/80 text-white px-3 py-1 rounded-full text-xs">' + g.category + '</span></div>';
+            html += '<div class="play-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>';
+            html += '</div>';
+            html += '<div class="p-6">';
+            html += '<h3 class="text-xl font-semibold mb-2">' + (g.title || g.name) + '</h3>';
+            html += '<p class="text-gray-400 text-sm mb-4">' + (g.description || '') + '</p>';
+            html += '<span class="text-primary font-semibold">Play Now →</span>';
+            html += '</div></div>';
+        });
+
+        document.getElementById("gamesGrid").innerHTML = html;
+    }
+
+    // ===========================
+    // Play Game
+    // ===========================
+    function playGame(i) {
+        var g = GAMES[i];
+        if (!g) return;
+
+        sessionStorage.setItem('currentGame', JSON.stringify(g));
+        window.location.href = 'play.html';
+    }
+
+    // ===========================
+    // Send Chat
+    // ===========================
+async function sendChat() {
+    const input = document.getElementById("chatInput");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    addMessage(msg, "user");
+    input.value = "";
+
+    const typingIndicator = document.getElementById("typingIndicator");
+    typingIndicator.classList.remove("hidden");
+
+    // Create a container for the AI response
+    const c = document.getElementById("chatMessages");
+    const t = document.getElementById("typingIndicator");
+    const aiDiv = document.createElement("div");
+    aiDiv.className = "flex items-start";
+    aiDiv.innerHTML =
+        '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"><i class="fas fa-robot text-sm"></i></div>' +
+        '<div class="ml-3"><div class="chat-bubble-ai p-4 max-w-md"><p id="streamText"></p></div></div>';
+    c.insertBefore(aiDiv, t);
+    const streamText = aiDiv.querySelector("#streamText");
+
+    try {
+        const response = await fetch(HF_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: msg, max_tokens: 300 })
+        });
+
+        // Stream the response!
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let done = false;
+
+        while (!done) {
+            const { value, done: doneReading } = await reader.read();
+            done = doneReading;
+            const chunk = decoder.decode(value);
+            streamText.textContent += chunk; // append chunk to div
+            c.scrollTop = c.scrollHeight;
+        }
+
+    } catch (err) {
+        console.error(err);
+        addMessage("Oops! Something went wrong with the AI.", "ai");
+    } finally {
+        typingIndicator.classList.add("hidden");
+    }
+}
+
+    // ===========================
+    // Add Chat Message
+    // ===========================
+    function addMessage(text, sender) {
+        var c = document.getElementById("chatMessages");
+        var t = document.getElementById("typingIndicator");
+        var d = document.createElement("div");
+
+        d.className = "flex items-start " + (sender === "user" ? "justify-end" : "");
+
+        if (sender === "user") {
+            d.innerHTML =
+                '<div class="mr-3"><div class="chat-bubble-user p-4 max-w-md"><p>' + text + '</p></div></div>' +
+                '<div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"><i class="fas fa-user text-sm"></i></div>';
+        } else {
+            d.innerHTML =
+                '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"><i class="fas fa-robot text-sm"></i></div>' +
+                '<div class="ml-3"><div class="chat-bubble-ai p-4 max-w-md"><p>' + text + '</p></div></div>';
+        }
+
+        c.insertBefore(d, t);
+        c.scrollTop = c.scrollHeight;
+    }
+
+    // ===========================
+    // Setup Event Listeners
+    // ===========================
+    function setupEvents() {
+        document.querySelectorAll("[data-page]").forEach(l => {
+            l.addEventListener("click", function(e) {
+                e.preventDefault();
+                showPage(this.getAttribute("data-page"));
+            });
+        });
+
+        document.getElementById("mobileMenuBtn").addEventListener("click", () => {
+            document.getElementById("mobileMenu").classList.toggle("hidden");
+        });
+
+        document.getElementById("tryAI").addEventListener("click", () => {
+            showPage("chat");
+        });
+
+        document.getElementById("sendMessage").addEventListener("click", sendChat);
+
+        document.getElementById("chatInput").addEventListener("keypress", e => {
+            if (e.key === "Enter") sendChat();
+        });
+
+        document.getElementById("gameSearch").addEventListener("input", e => {
+            searchQuery = e.target.value;
+            renderGames();
+        });
+    } // SEARCH ADDITION #3
+
+    // ===========================
+    // DOM Ready
+    // ===========================
+    document.addEventListener("DOMContentLoaded", init);
+
+</script>
