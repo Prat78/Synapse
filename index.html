@@ -337,6 +337,38 @@
             </h1>
             <p class="text-gray-400">Chat with everyone using Synapse AI • Be respectful!</p>
         </div>
+		<!-- Admin Panel (Hidden by default) -->
+<div id="adminPanel" class="hidden absolute top-0 left-0 right-0 bottom-0 bg-dark/95 backdrop-blur-sm z-50 p-6 overflow-y-auto">
+    <div class="max-w-2xl mx-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-red-400">
+                <i class="fas fa-shield-alt mr-2"></i>Admin Control Panel
+            </h2>
+            <button onclick="closeAdminPanel()" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-all">
+                <i class="fas fa-times mr-1"></i>Close
+            </button>
+        </div>
+        
+        <div class="glassmorphism rounded-xl p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-4 text-red-400">Danger Zone</h3>
+            <button onclick="deleteAllMessages()" class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all mb-3">
+                <i class="fas fa-trash-alt mr-2"></i>Delete ALL Messages
+            </button>
+            <button onclick="toggleDeleteMode()" id="deleteMode" class="w-full px-4 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-all">
+                <i class="fas fa-mouse-pointer mr-2"></i>Enable Delete Mode (Click Messages to Delete)
+            </button>
+        </div>
+        
+        <div class="glassmorphism rounded-xl p-6">
+            <h3 class="text-lg font-semibold mb-3">Admin Stats</h3>
+            <div class="space-y-2 text-sm">
+                <p><i class="fas fa-users text-primary mr-2"></i>Online Users: <span id="adminOnlineCount">0</span></p>
+                <p><i class="fas fa-comments text-secondary mr-2"></i>Total Messages: <span id="adminTotalMessages">0</span></p>
+                <p><i class="fas fa-clock text-yellow-400 mr-2"></i>Auto-delete: 30 minutes</p>
+            </div>
+        </div>
+    </div>
+</div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Main Chat Area -->
@@ -356,6 +388,9 @@
                         <button onclick="changeNickname()" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
                             <i class="fas fa-user-edit mr-1"></i>Change Nickname
                         </button>
+						<button onclick="adminLogin()" class="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-full text-xs transition-all" id="adminLoginBtn">
+    <i class="fas fa-shield-alt mr-1"></i>Admin
+</button>
                     </div>
 
                     <!-- Messages Area -->
@@ -779,6 +814,142 @@ async function sendChat() {
     // ===========================
     // Setup Event Listeners
     // ===========================
+	// ===========================
+// ADMIN SYSTEM
+// ===========================
+const ADMIN_USERNAME = "synapseadmin"; // Change this to YOUR username
+const ADMIN_PASSWORD = "PingZingBlingBling"; // Change this to YOUR password
+let isAdmin = false;
+let deleteModeActive = false;
+
+function adminLogin() {
+    const username = prompt('Enter admin username:');
+    
+    if (!username) return;
+    
+    if (username.toLowerCase() !== ADMIN_USERNAME.toLowerCase()) {
+        alert('❌ Invalid username!');
+        return;
+    }
+    
+    const password = prompt('Enter admin password:');
+    
+    if (!password) return;
+    
+    if (password !== ADMIN_PASSWORD) {
+        alert('❌ Wrong password!');
+        return;
+    }
+    
+    // Login successful
+    isAdmin = true;
+    alert('✅ Admin access granted!');
+    
+    // Update button
+    document.getElementById('adminLoginBtn').innerHTML = '<i class="fas fa-crown mr-1"></i>Admin Panel';
+    document.getElementById('adminLoginBtn').classList.remove('bg-red-500/20', 'hover:bg-red-500/30');
+    document.getElementById('adminLoginBtn').classList.add('bg-yellow-500/30', 'hover:bg-yellow-500/40');
+    document.getElementById('adminLoginBtn').onclick = openAdminPanel;
+    
+    // Mark user as admin
+    currentUser.nickname = '👑 ' + currentUser.nickname;
+    document.getElementById('currentNickname').textContent = currentUser.nickname;
+    
+    console.log('Admin logged in');
+}
+
+function openAdminPanel() {
+    if (!isAdmin) {
+        alert('⛔ Access denied!');
+        return;
+    }
+    
+    document.getElementById('adminPanel').classList.remove('hidden');
+    updateAdminStats();
+}
+
+function closeAdminPanel() {
+    document.getElementById('adminPanel').classList.add('hidden');
+    if (deleteModeActive) {
+        toggleDeleteMode();
+    }
+}
+
+function updateAdminStats() {
+    presenceRef.once('value', (snapshot) => {
+        document.getElementById('adminOnlineCount').textContent = snapshot.numChildren();
+    });
+    
+    messagesRef.once('value', (snapshot) => {
+        document.getElementById('adminTotalMessages').textContent = snapshot.numChildren();
+    });
+}
+
+function deleteAllMessages() {
+    if (!isAdmin) {
+        alert('⛔ Access denied!');
+        return;
+    }
+    
+    const confirm = prompt('⚠️ WARNING: This will delete ALL messages!\n\nType "DELETE ALL" to confirm:');
+    
+    if (confirm !== 'DELETE ALL') {
+        alert('Cancelled.');
+        return;
+    }
+    
+    messagesRef.remove()
+        .then(() => {
+            alert('✅ All messages deleted!');
+            document.getElementById('chatroomMessages').innerHTML = '<div class="text-center text-gray-500 py-8"><p>All messages cleared by admin.</p></div>';
+            updateAdminStats();
+        })
+        .catch((error) => {
+            console.error('Delete error:', error);
+            alert('❌ Failed to delete messages.');
+        });
+}
+
+function toggleDeleteMode() {
+    if (!isAdmin) {
+        alert('⛔ Access denied!');
+        return;
+    }
+    
+    deleteModeActive = !deleteModeActive;
+    const btn = document.getElementById('deleteMode');
+    
+    if (deleteModeActive) {
+        btn.innerHTML = '<i class="fas fa-times-circle mr-2"></i>Disable Delete Mode';
+        btn.classList.remove('bg-orange-600', 'hover:bg-orange-700');
+        btn.classList.add('bg-green-600', 'hover:bg-green-700');
+        alert('🎯 Delete mode ACTIVE\n\nClick any message to delete it.');
+    } else {
+        btn.innerHTML = '<i class="fas fa-mouse-pointer mr-2"></i>Enable Delete Mode (Click Messages to Delete)';
+        btn.classList.remove('bg-green-600', 'hover:bg-green-700');
+        btn.classList.add('bg-orange-600', 'hover:bg-orange-700');
+    }
+}
+
+function deleteSpecificMessage(messageId) {
+    if (!isAdmin || !deleteModeActive) {
+        return;
+    }
+    
+    if (!confirm('Delete this message?')) {
+        return;
+    }
+    
+    messagesRef.child(messageId).remove()
+        .then(() => {
+            console.log('Message deleted:', messageId);
+            updateAdminStats();
+        })
+        .catch((error) => {
+            console.error('Delete error:', error);
+            alert('❌ Failed to delete message.');
+        });
+}
     function setupEvents() {
         document.querySelectorAll("[data-page]").forEach(l => {
             l.addEventListener("click", function(e) {
@@ -826,7 +997,7 @@ let lastMessageTime = 0;
 let userMessageCount = 0;
 let isFirebaseInitialized = false;
 
-const badWords = ['damn', 'hell', 'crap', 'stupid', 'idiot', 'dumb'];
+const badWords = [];
 
 function initFirebase() {
     if (isFirebaseInitialized) return;
@@ -915,8 +1086,25 @@ function listenToMessages() {
     
     messagesRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
         const msg = snapshot.val();
+        msg.id = snapshot.key; // Store the message ID
         displayMessage(msg);
         updateTotalCount();
+    });
+    
+    // Add click listener for delete mode
+    document.getElementById('chatroomMessages').addEventListener('click', (e) => {
+        if (!isAdmin || !deleteModeActive) return;
+        
+        const bubble = e.target.closest('.chat-bubble-user, .chat-bubble-ai');
+        if (!bubble) return;
+        
+        const messageDiv = e.target.closest('[data-message-id]');
+        if (!messageDiv) return;
+        
+        const messageId = messageDiv.getAttribute('data-message-id');
+        if (messageId) {
+            deleteSpecificMessage(messageId);
+        }
     });
     
     // Auto-delete messages older than 30 minutes
@@ -963,6 +1151,7 @@ function displayMessage(msg) {
     
     const msgDiv = document.createElement('div');
     msgDiv.className = 'flex items-start ' + (isOwn ? 'justify-end' : '');
+    msgDiv.setAttribute('data-message-id', msg.id || ''); // Store message ID
     
     const time = new Date(msg.timestamp).toLocaleTimeString('en-US', { 
         hour: 'numeric', 
@@ -976,7 +1165,7 @@ function displayMessage(msg) {
                     <span class="text-xs text-gray-500 mr-2">${time}</span>
                     <span class="text-sm font-semibold text-primary">${escapeHtml(msg.nickname)}</span>
                 </div>
-                <div class="chat-bubble-user p-3">
+                <div class="chat-bubble-user p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
                     <p class="text-sm">${escapeHtml(msg.text)}</p>
                 </div>
             </div>
@@ -994,7 +1183,7 @@ function displayMessage(msg) {
                     <span class="text-sm font-semibold text-secondary">${escapeHtml(msg.nickname)}</span>
                     <span class="text-xs text-gray-500 ml-2">${time}</span>
                 </div>
-                <div class="chat-bubble-ai p-3">
+                <div class="chat-bubble-ai p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
                     <p class="text-sm">${escapeHtml(msg.text)}</p>
                 </div>
             </div>
