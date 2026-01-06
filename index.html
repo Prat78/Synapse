@@ -1,4 +1,4 @@
-does this need chaning:<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <base target="_self">
@@ -98,6 +98,7 @@ does this need chaning:<!DOCTYPE html>
             <a href="#" data-page="games" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Games</a>
             <a href="#" data-page="policy" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
             <a href="#" data-page="roblox" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Roblox</a>
+<a href="#" data-page="chatroom" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Chatroom</a>
 
         </div>
         <button id="tryAI" class="px-6 py-2 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform duration-300 animate-pulse-glow">Try the AI</button>
@@ -108,6 +109,7 @@ does this need chaning:<!DOCTYPE html>
         <a href="#" data-page="chat" class="nav-underline text-gray-300 hover:text-white py-2">AI Chat</a>
         <a href="#" data-page="games" class="nav-underline text-gray-300 hover:text-white py-2">Games</a>
         <a href="#" data-page="policy" class="nav-underline text-gray-300 hover:text-white py-2">Policy</a>
+<a href="#" data-page="chatroom" class="nav-underline text-gray-300 hover:text-white py-2">Chatroom</a>
     </div>
 </nav>
 
@@ -323,8 +325,121 @@ does this need chaning:<!DOCTYPE html>
         </div>
     </div>
 </div>
-          
-<!-- ROBLOX PAGE -->
+
+</div>
+
+<!-- CHATROOM PAGE -->
+<div id="chatroomPage" class="page-transition hidden">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
+                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">🌐 Public Chatroom</span>
+            </h1>
+            <p class="text-gray-400">Chat with everyone using Synapse AI • Be respectful!</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Chat Area -->
+            <div class="lg:col-span-2">
+                <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col">
+                    <!-- Header -->
+                    <div class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="font-semibold">Global Chat</h3>
+                                <p class="text-sm text-green-400">● <span id="onlineCount">0</span> Online</p>
+                            </div>
+                        </div>
+                        <button onclick="changeNickname()" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                            <i class="fas fa-user-edit mr-1"></i>Change Nickname
+                        </button>
+                    </div>
+
+                    <!-- Messages Area -->
+                    <div id="chatroomMessages" class="flex-1 overflow-y-auto p-4 space-y-3">
+                        <div class="text-center text-gray-500 text-sm py-8">
+                            <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                            <p>Loading messages...</p>
+                        </div>
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="p-4 border-t border-white/10 bg-dark-light/50">
+                        <div class="flex space-x-2">
+                            <input type="text" id="chatroomInput" placeholder="Type your message..." maxlength="200" class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
+                            <button id="sendChatroomMessage" class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2" id="chatroomStatus">Connecting...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- User Info Card -->
+                <div class="glassmorphism rounded-2xl p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-user text-primary mr-2"></i>
+                        Your Profile
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold" id="currentNickname">Guest</p>
+                                <p class="text-xs text-gray-400">Click above to change</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rules Card -->
+                <div class="glassmorphism rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary/10">
+                    <h3 class="text-lg font-semibold mb-3 flex items-center">
+                        <i class="fas fa-shield-alt text-yellow-400 mr-2"></i>
+                        Chat Rules
+                    </h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>✅ Be kind and respectful</li>
+                        <li>✅ No spam or flooding</li>
+                        <li>✅ Keep it school-appropriate</li>
+                        <li>❌ No personal info sharing</li>
+                        <li>❌ No harassment or bullying</li>
+                    </ul>
+                </div>
+
+                <!-- Stats Card -->
+                <div class="glassmorphism rounded-2xl p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-chart-bar text-secondary mr-2"></i>
+                        Stats
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400">Your Messages</span>
+                            <span class="font-bold text-primary" id="userMessageCount">0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400">Total Messages</span>
+                            <span class="font-bold text-green-400" id="totalMessageCount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+           <!-- ROBLOX PAGE -->
+<div id="robloxPage" class="page-transition hidden">
+           <!-- ROBLOX PAGE -->
 <div id="robloxPage" class="page-transition hidden">
     <div class="container mx-auto px-4 py-8 text-center">
         <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-6">
@@ -401,6 +516,8 @@ does this need chaning:<!DOCTYPE html>
         <p class="text-gray-500">© 2024 Synapse AI. All rights reserved.</p>
     </div>
 </footer>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
 <script src="games.js"></script>
 <script>
@@ -429,7 +546,8 @@ const HF_API_TOKEN = ""; // <- no token needed for your local APIsen
     chat: document.getElementById("chatPage"),
     games: document.getElementById("gamesPage"),
     policy: document.getElementById("policyPage"),
-    roblox: document.getElementById("robloxPage") // NEW PAGE
+    roblox: document.getElementById("robloxPage"),
+    chatroom: document.getElementById("chatroomPage") // ADD THIS LINE
 };
 
 
@@ -443,21 +561,22 @@ const HF_API_TOKEN = ""; // <- no token needed for your local APIsen
     // Initialization Function
     // ===========================
     function init() {
+    setTimeout(() => {
+        var l = document.getElementById("loadingScreen");
+        l.style.opacity = "0";
+
         setTimeout(() => {
-            var l = document.getElementById("loadingScreen");
-            l.style.opacity = "0";
+            l.style.display = "none";
+        }, 500);
 
-            setTimeout(() => {
-                l.style.display = "none";
-            }, 500);
+    }, 1500);
 
-        }, 1500);
-
-        createStars();
-        renderCategories();
-        renderGames();
-        setupEvents();
-    }
+    createStars();
+    renderCategories();
+    renderGames();
+    setupEvents();
+    setupChatroomEvents(); // ADD THIS LINE
+}
 
     // ===========================
     // Create Stars Background
@@ -481,21 +600,26 @@ const HF_API_TOKEN = ""; // <- no token needed for your local APIsen
     // ===========================
     // Show Page Function
     // ===========================
-    function showPage(name) {
-        for (var k in pages) {
-            if (pages[k]) pages[k].classList.add("hidden");
-        }
-
-        if (pages[name]) pages[name].classList.remove("hidden");
-
-        document.querySelectorAll("[data-page]").forEach(l => {
-            l.classList.remove("active");
-            if (l.getAttribute("data-page") === name) l.classList.add("active");
-        });
-
-        document.getElementById("mobileMenu").classList.add("hidden");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+   function showPage(name) {
+    for (var k in pages) {
+        if (pages[k]) pages[k].classList.add("hidden");
     }
+
+    if (pages[name]) pages[name].classList.remove("hidden");
+
+    document.querySelectorAll("[data-page]").forEach(l => {
+        l.classList.remove("active");
+        if (l.getAttribute("data-page") === name) l.classList.add("active");
+    });
+
+    document.getElementById("mobileMenu").classList.add("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    
+    // Initialize Firebase when entering chatroom
+    if (name === 'chatroom' && !isFirebaseInitialized) {
+        initFirebase();
+    }
+}
 
     // ===========================
     // Render Categories
@@ -594,11 +718,11 @@ async function sendChat() {
     const t = document.getElementById("typingIndicator");
     const aiDiv = document.createElement("div");
     aiDiv.className = "flex items-start";
-    aiDiv.innerHTML =
-        '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"><i class="fas fa-robot text-sm"></i></div>' +
-        '<div class="ml-3"><div class="chat-bubble-ai p-4 max-w-md"><p id="streamText"></p></div></div>';
+   aiDiv.innerHTML =
+    '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"><i class="fas fa-robot text-sm"></i></div>' +
+    '<div class="ml-3"><div class="chat-bubble-ai p-4 max-w-md"><p class="streamText"></p></div></div>';;
     c.insertBefore(aiDiv, t);
-    const streamText = aiDiv.querySelector("#streamText");
+    const streamText = aiDiv.querySelector(".streamText");
 
     try {
         const response = await fetch(HF_API_URL, {
@@ -682,7 +806,241 @@ async function sendChat() {
             renderGames();
         });
     } // SEARCH ADDITION #3
+// ===========================
+// FIREBASE CONFIGURATION
+// ===========================
+const firebaseConfig = {
+  apiKey: "AIzaSyB4p6X2u5thYySUjgCnjQeYZYQ87xg-xds",
+  authDomain: "chatroom-f1e6b.firebaseapp.com",
+  databaseURL: "https://chatroom-f1e6b-default-rtdb.firebaseio.com",
+  projectId: "chatroom-f1e6b",
+  storageBucket: "chatroom-f1e6b.firebasestorage.app",
+  messagingSenderId: "663028089072",
+  appId: "1:663028089072:web:04f2706fd3f5badf334235",
+  measurementId: "G-ZT0KHEJ77Y"
+};
 
+let firebaseApp, database, messagesRef, presenceRef, userPresenceRef;
+let currentUser = { nickname: '', id: '' };
+let lastMessageTime = 0;
+let userMessageCount = 0;
+let isFirebaseInitialized = false;
+
+const badWords = ['damn', 'hell', 'crap', 'stupid', 'idiot', 'dumb'];
+
+function initFirebase() {
+    if (isFirebaseInitialized) return;
+    
+    try {
+        firebaseApp = firebase.initializeApp(firebaseConfig);
+        database = firebase.database();
+        messagesRef = database.ref('chatroom/messages');
+        presenceRef = database.ref('chatroom/presence');
+        
+        isFirebaseInitialized = true;
+        console.log('Firebase initialized');
+        
+        setupUser();
+        listenToMessages();
+        setupPresence();
+        
+        document.getElementById('chatroomStatus').textContent = 'Connected • Ready to chat!';
+    } catch (error) {
+        console.error('Firebase init error:', error);
+        document.getElementById('chatroomStatus').textContent = 'Connection failed. Please refresh.';
+    }
+}
+
+function setupUser() {
+    currentUser.id = localStorage.getItem('chatroomUserId');
+    if (!currentUser.id) {
+        currentUser.id = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('chatroomUserId', currentUser.id);
+    }
+    
+    currentUser.nickname = localStorage.getItem('chatroomNickname');
+    if (!currentUser.nickname) {
+        promptForNickname();
+    } else {
+        document.getElementById('currentNickname').textContent = currentUser.nickname;
+    }
+    
+    userMessageCount = parseInt(localStorage.getItem('userMessageCount') || '0');
+    document.getElementById('userMessageCount').textContent = userMessageCount;
+}
+
+function promptForNickname() {
+    let nickname = prompt('Enter your nickname (3-20 characters):');
+    
+    if (!nickname) {
+        nickname = 'Guest' + Math.floor(Math.random() * 9999);
+    }
+    
+    nickname = nickname.trim().substring(0, 20);
+    nickname = filterProfanity(nickname);
+    
+    if (nickname.length < 3) {
+        nickname = 'Guest' + Math.floor(Math.random() * 9999);
+    }
+    
+    currentUser.nickname = nickname;
+    localStorage.setItem('chatroomNickname', nickname);
+    document.getElementById('currentNickname').textContent = nickname;
+}
+
+function changeNickname() {
+    localStorage.removeItem('chatroomNickname');
+    promptForNickname();
+}
+
+function setupPresence() {
+    userPresenceRef = presenceRef.child(currentUser.id);
+    
+    userPresenceRef.set({
+        nickname: currentUser.nickname,
+        online: true,
+        lastSeen: firebase.database.ServerValue.TIMESTAMP
+    });
+    
+    userPresenceRef.onDisconnect().remove();
+    
+    presenceRef.on('value', (snapshot) => {
+        const count = snapshot.numChildren();
+        document.getElementById('onlineCount').textContent = count;
+    });
+}
+
+function listenToMessages() {
+    document.getElementById('chatroomMessages').innerHTML = '';
+    
+    messagesRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
+        const msg = snapshot.val();
+        displayMessage(msg);
+        updateTotalCount();
+    });
+}
+
+function displayMessage(msg) {
+    const container = document.getElementById('chatroomMessages');
+    const isOwn = msg.userId === currentUser.id;
+    
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'flex items-start ' + (isOwn ? 'justify-end' : '');
+    
+    const time = new Date(msg.timestamp).toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit' 
+    });
+    
+    if (isOwn) {
+        msgDiv.innerHTML = `
+            <div class="text-right mr-3 max-w-md">
+                <div class="flex items-center justify-end mb-1">
+                    <span class="text-xs text-gray-500 mr-2">${time}</span>
+                    <span class="text-sm font-semibold text-primary">${escapeHtml(msg.nickname)}</span>
+                </div>
+                <div class="chat-bubble-user p-3">
+                    <p class="text-sm">${escapeHtml(msg.text)}</p>
+                </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user text-xs"></i>
+            </div>
+        `;
+    } else {
+        msgDiv.innerHTML = `
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user text-xs"></i>
+            </div>
+            <div class="ml-3 max-w-md">
+                <div class="flex items-center mb-1">
+                    <span class="text-sm font-semibold text-secondary">${escapeHtml(msg.nickname)}</span>
+                    <span class="text-xs text-gray-500 ml-2">${time}</span>
+                </div>
+                <div class="chat-bubble-ai p-3">
+                    <p class="text-sm">${escapeHtml(msg.text)}</p>
+                </div>
+            </div>
+        `;
+    }
+    
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+}
+
+function sendChatroomMessage() {
+    const input = document.getElementById('chatroomInput');
+    const btn = document.getElementById('sendChatroomMessage');
+    const text = input.value.trim();
+    
+    if (!text) return;
+    
+    const now = Date.now();
+    if (now - lastMessageTime < 2000) {
+        alert('Please wait a moment before sending another message.');
+        return;
+    }
+    
+    const filtered = filterProfanity(text);
+    
+    btn.disabled = true;
+    
+    messagesRef.push({
+        userId: currentUser.id,
+        nickname: currentUser.nickname,
+        text: filtered,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    }).then(() => {
+        input.value = '';
+        lastMessageTime = now;
+        
+        userMessageCount++;
+        localStorage.setItem('userMessageCount', userMessageCount);
+        document.getElementById('userMessageCount').textContent = userMessageCount;
+        
+        setTimeout(() => {
+            btn.disabled = false;
+        }, 2000);
+    }).catch(error => {
+        console.error('Send error:', error);
+        alert('Failed to send message. Please try again.');
+        btn.disabled = false;
+    });
+}
+
+function updateTotalCount() {
+    messagesRef.once('value', (snapshot) => {
+        document.getElementById('totalMessageCount').textContent = snapshot.numChildren();
+    });
+}
+
+function filterProfanity(text) {
+    let filtered = text;
+    badWords.forEach(word => {
+        const regex = new RegExp(word, 'gi');
+        filtered = filtered.replace(regex, '*'.repeat(word.length));
+    });
+    return filtered;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function setupChatroomEvents() {
+    document.getElementById('sendChatroomMessage').addEventListener('click', sendChatroomMessage);
+    
+    document.getElementById('chatroomInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendChatroomMessage();
+    });
+}
+
+// ===========================
+// DOM Ready
+// ===========================
+document.addEventListener("DOMContentLoaded", init);
     // ===========================
     // DOM Ready
     // ===========================
