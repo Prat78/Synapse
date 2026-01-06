@@ -918,6 +918,43 @@ function listenToMessages() {
         displayMessage(msg);
         updateTotalCount();
     });
+    
+    // Auto-delete messages older than 30 minutes
+    cleanupOldMessages();
+}
+
+function cleanupOldMessages() {
+    const thirtyMinutesAgo = Date.now() - (30 * 60 * 1000); // 30 minutes in milliseconds
+    
+    messagesRef.orderByChild('timestamp').endAt(thirtyMinutesAgo).once('value', (snapshot) => {
+        const updates = {};
+        snapshot.forEach((child) => {
+            updates[child.key] = null; // Mark for deletion
+        });
+        
+        // Delete old messages
+        if (Object.keys(updates).length > 0) {
+            messagesRef.update(updates);
+            console.log('Cleaned up ' + Object.keys(updates).length + ' old messages');
+        }
+    });
+    
+    // Run cleanup every 5 minutes
+    setInterval(() => {
+        const thirtyMinutesAgo = Date.now() - (30 * 60 * 1000);
+        
+        messagesRef.orderByChild('timestamp').endAt(thirtyMinutesAgo).once('value', (snapshot) => {
+            const updates = {};
+            snapshot.forEach((child) => {
+                updates[child.key] = null;
+            });
+            
+            if (Object.keys(updates).length > 0) {
+                messagesRef.update(updates);
+                console.log('Auto-cleanup: Removed ' + Object.keys(updates).length + ' messages');
+            }
+        });
+    }, 5 * 60 * 1000); // Check every 5 minutes
 }
 
 function displayMessage(msg) {
