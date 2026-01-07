@@ -47,6 +47,36 @@
         .cat-btn:hover,.cat-btn.active{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:white;border:none;}
     </style>
     <script>
+		.room-btn{
+    padding:10px 20px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.05);
+    border:2px solid rgba(255,255,255,0.1);
+    color:#9ca3af;
+    cursor:pointer;
+    transition:all 0.3s;
+    font-weight:500;
+}
+.room-btn:hover{
+    background:rgba(59,130,246,0.2);
+    border-color:rgba(59,130,246,0.4);
+    color:white;
+}
+.room-btn.active{
+    background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+    color:white;
+    border:none;
+}
+.image-message{
+    max-width:300px;
+    max-height:400px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:transform 0.2s;
+}
+.image-message:hover{
+    transform:scale(1.05);
+}
         tailwind.config = {
             theme: {
                 extend: {
@@ -329,51 +359,73 @@
 </div>
 
 <!-- CHATROOM PAGE -->
+<!-- CHATROOM PAGE -->
 <div id="chatroomPage" class="page-transition hidden">
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
         <div class="text-center mb-8">
             <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
-                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">🌐 Public Chatroom</span>
+                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">🌐 Public Chatrooms</span>
             </h1>
-            <p class="text-gray-400">Chat with everyone using Synapse AI • Be respectful!</p>
+            <p class="text-gray-400">Choose a room and start chatting!</p>
         </div>
-		<!-- Admin Panel (Hidden by default) -->
-<div id="adminPanel" class="hidden absolute top-0 left-0 right-0 bottom-0 bg-dark/95 backdrop-blur-sm z-50 p-6 overflow-y-auto">
-    <div class="max-w-2xl mx-auto">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-red-400">
-                <i class="fas fa-shield-alt mr-2"></i>Admin Control Panel
-            </h2>
-            <button onclick="closeAdminPanel()" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-all">
-                <i class="fas fa-times mr-1"></i>Close
+
+        <!-- Room Selection -->
+        <div class="mb-6 flex flex-wrap gap-3 justify-center" id="roomSelector">
+            <button onclick="switchRoom('chatroom1')" class="room-btn active" data-room="general">
+                <i class="fas fa-comments mr-2"></i>Talk!
+            </button>
+            <button onclick="switchRoom('chatroom2')" class="room-btn" data-room="gaming">
+                <i class="fas fa-gamepad mr-2"></i>Talk!
+            </button>
+            <button onclick="switchRoom('chatroom3')" class="room-btn" data-room="homework">
+                <i class="fas fa-book mr-2"></i>Talk!
+            </button>
+            <button onclick="switchRoom('chatroom4')" class="room-btn" data-room="memes">
+                <i class="fas fa-laugh mr-2"></i>Talk!
+            </button>
+            <button onclick="switchRoom('chatroom5')" class="room-btn" data-room="tech">
+                <i class="fas fa-laptop-code mr-2"></i>Talk!
             </button>
         </div>
-        
-        <div class="glassmorphism rounded-xl p-6 mb-4">
-            <h3 class="text-lg font-semibold mb-4 text-red-400">Danger Zone</h3>
-            <button onclick="deleteAllMessages()" class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all mb-3">
-                <i class="fas fa-trash-alt mr-2"></i>Delete ALL Messages
-            </button>
-            <button onclick="toggleDeleteMode()" id="deleteMode" class="w-full px-4 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-all">
-                <i class="fas fa-mouse-pointer mr-2"></i>Enable Delete Mode (Click Messages to Delete)
-            </button>
-        </div>
-        
-        <div class="glassmorphism rounded-xl p-6">
-            <h3 class="text-lg font-semibold mb-3">Admin Stats</h3>
-            <div class="space-y-2 text-sm">
-                <p><i class="fas fa-users text-primary mr-2"></i>Online Users: <span id="adminOnlineCount">0</span></p>
-                <p><i class="fas fa-comments text-secondary mr-2"></i>Total Messages: <span id="adminTotalMessages">0</span></p>
-                <p><i class="fas fa-clock text-yellow-400 mr-2"></i>Auto-delete: 30 minutes</p>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="hidden absolute top-0 left-0 right-0 bottom-0 bg-dark/95 backdrop-blur-sm z-50 p-6 overflow-y-auto">
+            <div class="max-w-2xl mx-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-red-400">
+                        <i class="fas fa-shield-alt mr-2"></i>Admin Control Panel
+                    </h2>
+                    <button onclick="closeAdminPanel()" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-all">
+                        <i class="fas fa-times mr-1"></i>Close
+                    </button>
+                </div>
+                
+                <div class="glassmorphism rounded-xl p-6 mb-4">
+                    <h3 class="text-lg font-semibold mb-4 text-red-400">Danger Zone</h3>
+                    <button onclick="deleteAllMessages()" class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all mb-3">
+                        <i class="fas fa-trash-alt mr-2"></i>Delete ALL Messages (Current Room)
+                    </button>
+                    <button onclick="toggleDeleteMode()" id="deleteMode" class="w-full px-4 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-all">
+                        <i class="fas fa-mouse-pointer mr-2"></i>Enable Delete Mode
+                    </button>
+                </div>
+                
+                <div class="glassmorphism rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-3">Admin Stats</h3>
+                    <div class="space-y-2 text-sm">
+                        <p><i class="fas fa-door-open text-primary mr-2"></i>Current Room: <span id="adminCurrentRoom">General</span></p>
+                        <p><i class="fas fa-users text-primary mr-2"></i>Online Users: <span id="adminOnlineCount">0</span></p>
+                        <p><i class="fas fa-comments text-secondary mr-2"></i>Total Messages: <span id="adminTotalMessages">0</span></p>
+                        <p><i class="fas fa-clock text-yellow-400 mr-2"></i>Auto-delete: 20 minutes</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Main Chat Area -->
             <div class="lg:col-span-2">
-                <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col">
+                <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
                     <!-- Header -->
                     <div class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
                         <div class="flex items-center">
@@ -381,16 +433,18 @@
                                 <i class="fas fa-comments"></i>
                             </div>
                             <div class="ml-3">
-                                <h3 class="font-semibold">Global Chat</h3>
+                                <h3 class="font-semibold" id="currentRoomTitle">Chat</h3>
                                 <p class="text-sm text-green-400">● <span id="onlineCount">0</span> Online</p>
                             </div>
                         </div>
-                        <button onclick="changeNickname()" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
-                            <i class="fas fa-user-edit mr-1"></i>Change Nickname
-                        </button>
-						<button onclick="adminLogin()" class="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-full text-xs transition-all" id="adminLoginBtn">
-    <i class="fas fa-shield-alt mr-1"></i>Admin
-</button>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="changeNickname()" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                <i class="fas fa-user-edit mr-1"></i>Change Nickname
+                            </button>
+                            <button onclick="adminLogin()" class="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-full text-xs transition-all" id="adminLoginBtn">
+                                <i class="fas fa-shield-alt mr-1"></i>Admin
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Messages Area -->
@@ -403,8 +457,22 @@
 
                     <!-- Input Area -->
                     <div class="p-4 border-t border-white/10 bg-dark-light/50">
+                        <!-- Image Preview -->
+                        <div id="imagePreview" class="hidden mb-3 relative inline-block">
+                            <img id="previewImg" src="" class="max-h-32 rounded-lg border border-white/20">
+                            <button onclick="cancelImage()" class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-xs hover:bg-red-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
                         <div class="flex space-x-2">
-                            <input type="text" id="chatroomInput" placeholder="Type your message..." maxlength="200" class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
+                            <input type="text" id="chatroomInput" placeholder="Type your message..." maxlength="500" class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
+                            
+                            <label for="imageUpload" class="px-4 py-3 bg-purple-600/80 hover:bg-purple-600 rounded-full cursor-pointer transition-all flex items-center justify-center" title="Upload Image">
+                                <i class="fas fa-image"></i>
+                            </label>
+                            <input type="file" id="imageUpload" accept="image/*" class="hidden">
+                            
                             <button id="sendChatroomMessage" class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
@@ -442,12 +510,12 @@
                         Chat Rules
                     </h3>
                     <ul class="space-y-2 text-sm text-gray-300">
-                        <li>✅Do whatever you want👍</li>
-                        <li>❌ I am NOT liable for ANYTHING that happens in here(enter at your own cost as if anything happens the creator is NOT involved)</li>
-                        <li>❌ No spam flooding</li>
-						<li>❌ Do not post any copy righted material, personal info, or anything important as YOU are held accountable for it</li>
-                        <li>❌ If you feel like you are being mistreated, just leave🙏</li>
-                        <li>❌ Anything that happens here is NOT monitored</li>
+                     <li>✅Do whatever you want👍</li> 
+						<li>❌ I am NOT liable for ANYTHING that happens in here(enter at your own cost as if anything happens the creator is NOT involved)</li>
+						<li>❌ No spam flooding</li> 
+						<li>❌ Do not post any copy righted material, personal info, or anything important as YOU are held accountable for it</li> 
+						<li>❌ If you feel like you are being mistreated, just leave🙏</li>
+						<li>❌ Anything that happens here is NOT monitored</li>
                     </ul>
                 </div>
 
@@ -463,7 +531,7 @@
                             <span class="font-bold text-primary" id="userMessageCount">0</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-400">Total Messages</span>
+                            <span class="text-gray-400">Room Messages</span>
                             <span class="font-bold text-green-400" id="totalMessageCount">0</span>
                         </div>
                     </div>
@@ -982,6 +1050,9 @@ function deleteSpecificMessage(messageId) {
 // ===========================
 // FIREBASE CONFIGURATION
 // ===========================
+// ===========================
+// FIREBASE CONFIGURATION
+// ===========================
 const firebaseConfig = {
   apiKey: "AIzaSyB4p6X2u5thYySUjgCnjQeYZYQ87xg-xds",
   authDomain: "chatroom-f1e6b.firebaseapp.com",
@@ -993,13 +1064,23 @@ const firebaseConfig = {
   measurementId: "G-ZT0KHEJ77Y"
 };
 
-let firebaseApp, database, messagesRef, presenceRef, userPresenceRef;
+let firebaseApp, database, storage, messagesRef, presenceRef, userPresenceRef;
 let currentUser = { nickname: '', id: '' };
+let currentRoom = 'general';
 let lastMessageTime = 0;
 let userMessageCount = 0;
 let isFirebaseInitialized = false;
+let selectedImage = null;
 
 const badWords = [];
+
+const roomTitles = {
+    'Chatroom 1 ': '1',
+    'Chatroom2': '2',
+    'Chatroom3': '3',
+    'Chatroom4': '4',
+    'Chatroom5': '5'
+};
 
 function initFirebase() {
     if (isFirebaseInitialized) return;
@@ -1007,21 +1088,50 @@ function initFirebase() {
     try {
         firebaseApp = firebase.initializeApp(firebaseConfig);
         database = firebase.database();
-        messagesRef = database.ref('chatroom/messages');
-        presenceRef = database.ref('chatroom/presence');
+        storage = firebase.storage();
         
         isFirebaseInitialized = true;
         console.log('Firebase initialized');
         
         setupUser();
-        listenToMessages();
-        setupPresence();
+        switchRoom('general');
         
         document.getElementById('chatroomStatus').textContent = 'Connected • Ready to chat!';
     } catch (error) {
         console.error('Firebase init error:', error);
         document.getElementById('chatroomStatus').textContent = 'Connection failed. Please refresh.';
     }
+}
+
+function switchRoom(room) {
+    // Remove active class from all buttons
+    document.querySelectorAll('.room-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Add active class to clicked button
+    document.querySelector(`[data-room="${room}"]`).classList.add('active');
+    
+    // Clean up old room listeners
+    if (messagesRef) {
+        messagesRef.off();
+    }
+    if (presenceRef) {
+        presenceRef.off();
+    }
+    if (userPresenceRef) {
+        userPresenceRef.remove();
+    }
+    
+    currentRoom = room;
+    messagesRef = database.ref(`chatroom/${room}/messages`);
+    presenceRef = database.ref(`chatroom/${room}/presence`);
+    
+    document.getElementById('currentRoomTitle').textContent = roomTitles[room];
+    document.getElementById('chatroomMessages').innerHTML = '<div class="text-center text-gray-500 text-sm py-8"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><p>Loading messages...</p></div>';
+    
+    listenToMessages();
+    setupPresence();
 }
 
 function setupUser() {
@@ -1083,17 +1193,51 @@ function setupPresence() {
     });
 }
 
+// Image Upload Handler
+document.getElementById('imageUpload').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Check file size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+        alert('Image too large! Max 2MB');
+        return;
+    }
+    
+    // Check if it's an image
+    if (!file.type.startsWith('image/')) {
+        alert('Please upload an image file');
+        return;
+    }
+    
+    selectedImage = file;
+    
+    // Show preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        document.getElementById('previewImg').src = e.target.result;
+        document.getElementById('imagePreview').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+});
+
+function cancelImage() {
+    selectedImage = null;
+    document.getElementById('imagePreview').classList.add('hidden');
+    document.getElementById('imageUpload').value = '';
+}
+
 function listenToMessages() {
     document.getElementById('chatroomMessages').innerHTML = '';
     
     messagesRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
         const msg = snapshot.val();
-        msg.id = snapshot.key; // Store the message ID
+        msg.id = snapshot.key;
         displayMessage(msg);
         updateTotalCount();
     });
     
-    // Add click listener for delete mode
+    // Click listener for delete mode
     document.getElementById('chatroomMessages').addEventListener('click', (e) => {
         if (!isAdmin || !deleteModeActive) return;
         
@@ -1109,42 +1253,46 @@ function listenToMessages() {
         }
     });
     
-    // Auto-delete messages older than 30 minutes
     cleanupOldMessages();
 }
 
 function cleanupOldMessages() {
-    const thirtyMinutesAgo = Date.now() - (30 * 60 * 1000); // 30 minutes in milliseconds
-    
-    messagesRef.orderByChild('timestamp').endAt(thirtyMinutesAgo).once('value', (snapshot) => {
-        const updates = {};
-        snapshot.forEach((child) => {
-            updates[child.key] = null; // Mark for deletion
-        });
+    const performCleanup = () => {
+        const twentyMinutesAgo = Date.now() - (20 * 60 * 1000);
         
-        // Delete old messages
-        if (Object.keys(updates).length > 0) {
-            messagesRef.update(updates);
-            console.log('Cleaned up ' + Object.keys(updates).length + ' old messages');
-        }
-    });
-    
-    // Run cleanup every 5 minutes
-    setInterval(() => {
-        const thirtyMinutesAgo = Date.now() - (30 * 60 * 1000);
+        console.log('🔍 Checking for old messages in room:', currentRoom);
         
-        messagesRef.orderByChild('timestamp').endAt(thirtyMinutesAgo).once('value', (snapshot) => {
+        messagesRef.once('value', (snapshot) => {
             const updates = {};
+            const now = Date.now();
+            
             snapshot.forEach((child) => {
-                updates[child.key] = null;
+                const msg = child.val();
+                if (msg.timestamp && (now - msg.timestamp) > (20 * 60 * 1000)) {
+                    updates[child.key] = null;
+                    
+                    // Delete image from storage if exists
+                    if (msg.imageUrl) {
+                        const imagePath = `chatroom/${currentRoom}/images/${child.key}`;
+                        storage.ref(imagePath).delete().catch(err => console.log('Image already deleted'));
+                    }
+                }
             });
             
             if (Object.keys(updates).length > 0) {
-                messagesRef.update(updates);
-                console.log('Auto-cleanup: Removed ' + Object.keys(updates).length + ' messages');
+                messagesRef.update(updates).then(() => {
+                    console.log('🗑️ Deleted ' + Object.keys(updates).length + ' old messages');
+                });
+            } else {
+                console.log('✅ No messages older than 20 minutes');
             }
         });
-    }, 5 * 60 * 1000); // Check every 5 minutes
+    };
+    
+    console.log('⏰ Starting auto-cleanup system (20 min threshold)');
+    performCleanup();
+    
+    setInterval(performCleanup, 2 * 60 * 1000);
 }
 
 function displayMessage(msg) {
@@ -1153,12 +1301,20 @@ function displayMessage(msg) {
     
     const msgDiv = document.createElement('div');
     msgDiv.className = 'flex items-start ' + (isOwn ? 'justify-end' : '');
-    msgDiv.setAttribute('data-message-id', msg.id || ''); // Store message ID
+    msgDiv.setAttribute('data-message-id', msg.id || '');
     
     const time = new Date(msg.timestamp).toLocaleTimeString('en-US', { 
         hour: 'numeric', 
         minute: '2-digit' 
     });
+    
+    let messageContent = '';
+    if (msg.imageUrl) {
+        messageContent = `<img src="${escapeHtml(msg.imageUrl)}" class="image-message" onclick="window.open('${escapeHtml(msg.imageUrl)}', '_blank')">`;
+    }
+    if (msg.text) {
+        messageContent += `<p class="text-sm ${msg.imageUrl ? 'mt-2' : ''}">${escapeHtml(msg.text)}</p>`;
+    }
     
     if (isOwn) {
         msgDiv.innerHTML = `
@@ -1168,7 +1324,7 @@ function displayMessage(msg) {
                     <span class="text-sm font-semibold text-primary">${escapeHtml(msg.nickname)}</span>
                 </div>
                 <div class="chat-bubble-user p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
-                    <p class="text-sm">${escapeHtml(msg.text)}</p>
+                    ${messageContent}
                 </div>
             </div>
             <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
@@ -1186,7 +1342,7 @@ function displayMessage(msg) {
                     <span class="text-xs text-gray-500 ml-2">${time}</span>
                 </div>
                 <div class="chat-bubble-ai p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
-                    <p class="text-sm">${escapeHtml(msg.text)}</p>
+                    ${messageContent}
                 </div>
             </div>
         `;
@@ -1196,12 +1352,12 @@ function displayMessage(msg) {
     container.scrollTop = container.scrollHeight;
 }
 
-function sendChatroomMessage() {
+async function sendChatroomMessage() {
     const input = document.getElementById('chatroomInput');
     const btn = document.getElementById('sendChatroomMessage');
     const text = input.value.trim();
     
-    if (!text) return;
+    if (!text && !selectedImage) return;
     
     const now = Date.now();
     if (now - lastMessageTime < 2000) {
@@ -1209,17 +1365,32 @@ function sendChatroomMessage() {
         return;
     }
     
-    const filtered = filterProfanity(text);
-    
     btn.disabled = true;
     
-    messagesRef.push({
-        userId: currentUser.id,
-        nickname: currentUser.nickname,
-        text: filtered,
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-    }).then(() => {
+    try {
+        let imageUrl = null;
+        
+        // Upload image if selected
+        if (selectedImage) {
+            const messageId = Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const imagePath = `chatroom/${currentRoom}/images/${messageId}`;
+            const uploadTask = await storage.ref(imagePath).put(selectedImage);
+            imageUrl = await uploadTask.ref.getDownloadURL();
+        }
+        
+        const filtered = filterProfanity(text);
+        
+        // Send message
+        await messagesRef.push({
+            userId: currentUser.id,
+            nickname: currentUser.nickname,
+            text: filtered || null,
+            imageUrl: imageUrl,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+        
         input.value = '';
+        cancelImage();
         lastMessageTime = now;
         
         userMessageCount++;
@@ -1229,11 +1400,11 @@ function sendChatroomMessage() {
         setTimeout(() => {
             btn.disabled = false;
         }, 2000);
-    }).catch(error => {
+    } catch (error) {
         console.error('Send error:', error);
         alert('Failed to send message. Please try again.');
         btn.disabled = false;
-    });
+    }
 }
 
 function updateTotalCount() {
@@ -1265,13 +1436,23 @@ function setupChatroomEvents() {
     });
 }
 
+// Update admin panel for current room
+function updateAdminStats() {
+    document.getElementById('adminCurrentRoom').textContent = roomTitles[currentRoom];
+    
+    presenceRef.once('value', (snapshot) => {
+        document.getElementById('adminOnlineCount').textContent = snapshot.numChildren();
+    });
+    
+    messagesRef.once('value', (snapshot) => {
+        document.getElementById('adminTotalMessages').textContent = snapshot.numChildren();
+    });
+}
+
 // ===========================
 // DOM Ready
 // ===========================
 document.addEventListener("DOMContentLoaded", init);
-    // ===========================
-    // DOM Ready
-    // ===========================
-    document.addEventListener("DOMContentLoaded", init);
+
 
 </script>
