@@ -1228,22 +1228,7 @@ function setupImageUpload() {
         reader.readAsDataURL(file);
     });
 }
-    const file = e.target.files[0];
-    if (!file) return;
     
-    // Check file size (max 2MB)
-    if (file.size > 2 * 1024 * 1024) {
-        alert('Image too large! Max 2MB');
-        return;
-    }
-    
-    // Check if it's an image
-    if (!file.type.startsWith('image/')) {
-        alert('Please upload an image file');
-        return;
-    }
-    
-    selectedImage = file;
     
     // Show preview
     const reader = new FileReader();
