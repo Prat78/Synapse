@@ -1229,15 +1229,6 @@ function setupImageUpload() {
     });
 }
     
-    
-    // Show preview
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        document.getElementById('previewImg').src = e.target.result;
-        document.getElementById('imagePreview').classList.remove('hidden');
-    };
-    reader.readAsDataURL(file);
-});
 
 function cancelImage() {
     selectedImage = null;
