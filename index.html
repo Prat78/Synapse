@@ -90,6 +90,35 @@
     font-size: 0.75rem;
     font-weight: 500;
 }
+		@keyframes particleMove {
+    0% { 
+        transform: translateY(0) translateX(0); 
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% { 
+        transform: translateY(-1000px) translateX(100px); 
+        opacity: 0;
+    }
+}
+
+.particle {
+    position: absolute;
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+    border-radius: 50%;
+    animation: particleMove 20s linear infinite;
+    pointer-events: none;
+}
+
+.nebula {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.1;
+    pointer-events: none;
+}
     </style>
     <script>
 		
@@ -752,21 +781,55 @@ let sessionId = crypto.randomUUID(); // Generate unique session per tab
     // ===========================
     // Create Stars Background
     // ===========================
-    function createStars() {
-        var bg = document.getElementById("parallaxBg");
+function createStars() {
+    var bg = document.getElementById("parallaxBg");
 
-        for (var i = 0; i < 100; i++) {
-            var s = document.createElement("div");
-            s.className = "star";
-            s.style.width = Math.random() * 3 + "px";
-            s.style.height = s.style.width;
-            s.style.left = Math.random() * 100 + "%";
-            s.style.top = Math.random() * 100 + "%";
-            s.style.animationDelay = Math.random() * 5 + "s";
-
-            bg.appendChild(s);
-        }
+    // Create stars
+    for (var i = 0; i < 100; i++) {
+        var s = document.createElement("div");
+        s.className = "star";
+        s.style.width = Math.random() * 3 + "px";
+        s.style.height = s.style.width;
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.animationDelay = Math.random() * 5 + "s";
+        bg.appendChild(s);
     }
+    
+    // Create floating particles (purple orbs)
+    for (var i = 0; i < 50; i++) {
+        var particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.width = Math.random() * 4 + 1 + "px";
+        particle.style.height = particle.style.width;
+        particle.style.left = Math.random() * 100 + "%";
+        particle.style.top = Math.random() * 100 + 100 + "%"; // Start below viewport
+        particle.style.opacity = Math.random() * 0.5 + 0.1;
+        particle.style.animationDelay = Math.random() * 10 + "s";
+        particle.style.animationDuration = Math.random() * 10 + 15 + "s";
+        bg.appendChild(particle);
+    }
+    
+    // Create nebula effects (glowing blobs)
+    for (var i = 0; i < 3; i++) {
+        var nebula = document.createElement("div");
+        nebula.className = "nebula";
+        nebula.style.width = Math.random() * 300 + 200 + "px";
+        nebula.style.height = nebula.style.width;
+        nebula.style.left = Math.random() * 100 + "%";
+        nebula.style.top = Math.random() * 100 + "%";
+        
+        if (i === 0) {
+            nebula.style.background = "radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent)";
+        } else if (i === 1) {
+            nebula.style.background = "radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent)";
+        } else {
+            nebula.style.background = "radial-gradient(circle, rgba(236, 72, 153, 0.2), transparent)";
+        }
+        
+        bg.appendChild(nebula);
+    }
+}
 
     // ===========================
     // Show Page Function
