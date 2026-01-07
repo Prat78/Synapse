@@ -7969,5 +7969,22 @@ var GAMES = [
       ],
       "thumb": "logo.png",
       "new": true
+    }, {
+      "id": 512,
+      "name": "Eaglercraft",
+      "category": "Sandbox",
+      "popularity": "1M+",
+      "releaseDate": "Unknown",
+      "rating": "TODO",
+      "link": "https://eaglercraft1-8.github.io/",
+      "genre": "Minecraft",
+      "build": "Unity WebGL",
+      "dev": "Anonymous",
+      "about": "Oops, you caught us, we're still working hard to provide game description on this game! In the upcoming updates, more and more games will have their descriptions and instructions to help you beat it, so stay tuned for more updates!",
+      "controls": [
+        "Still working on this one O_O"
+      ],
+      "thumb": "logo.png",
+      "new": true
     }
   ]
