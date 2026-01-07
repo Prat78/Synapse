@@ -879,6 +879,62 @@ const HF_API_TOKEN = ""; // <- no token needed for your local APIsen
     // ===========================
     // Send Chat
     // ===========================
+	<!DOCTYPE html>
+<html>
+<head>
+    <title>Arton AI</title>
+</head>
+
+<body>
+    <!-- your chat UI HTML here -->
+    
+    <input id="userInput" placeholder="Say something...">
+    <button onclick="sendMsg()">Send</button>
+    <div id="chat"></div>
+
+    <!-- >>> ADD YOUR JAVASCRIPT HERE <<< -->
+    <script>
+        let sessionId = crypto.randomUUID();  
+
+        async function sendMessage(msg) {
+            const response = await fetch("https://YOUR-NGROK-URL-HERE/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    prompt: msg,
+                    session_id: sessionId,
+                    max_tokens: 300
+                })
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            let fullText = "";
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+                fullText += chunk;
+
+                document.getElementById("chat").innerHTML += chunk;
+            }
+
+            return fullText;
+        }
+
+        async function sendMsg() {
+            const msg = document.getElementById("userInput").value;
+            document.getElementById("chat").innerHTML += "<br><b>You:</b> " + msg + "<br>";
+
+            await sendMessage(msg);
+        }
+    </script>
+</body>
+</html>
+
 async function sendChat() {
     const input = document.getElementById("chatInput");
     const msg = input.value.trim();
