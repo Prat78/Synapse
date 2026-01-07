@@ -7976,7 +7976,7 @@ var GAMES = [
       "popularity": "1M+",
       "releaseDate": "Unknown",
       "rating": "TODO",
-      "link": "https://eaglercraft1-8.github.io/",
+      "link": "https://github.com/lax1dude/eaglercraft",
       "genre": "Minecraft",
       "build": "Unity WebGL",
       "dev": "Anonymous",
