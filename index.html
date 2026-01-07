@@ -1194,6 +1194,132 @@ function setupPresence() {
     });
 }
 
+// ADD THIS ENTIRE SECTION HERE ↓↓↓
+
+function listenToMessages() {
+    document.getElementById('chatroomMessages').innerHTML = '';
+    
+    messagesRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
+        const msg = snapshot.val();
+        msg.id = snapshot.key;
+        displayMessage(msg);
+        updateTotalCount();
+    });
+    
+    // Click listener for delete mode
+    document.getElementById('chatroomMessages').addEventListener('click', (e) => {
+        if (!isAdmin || !deleteModeActive) return;
+        
+        const bubble = e.target.closest('.chat-bubble-user, .chat-bubble-ai');
+        if (!bubble) return;
+        
+        const messageDiv = e.target.closest('[data-message-id]');
+        if (!messageDiv) return;
+        
+        const messageId = messageDiv.getAttribute('data-message-id');
+        if (messageId) {
+            deleteSpecificMessage(messageId);
+        }
+    });
+    
+    cleanupOldMessages();
+}
+
+function cleanupOldMessages() {
+    const performCleanup = () => {
+        const twentyMinutesAgo = Date.now() - (20 * 60 * 1000);
+        
+        console.log('🔍 Checking for old messages in room:', currentRoom);
+        
+        messagesRef.once('value', (snapshot) => {
+            const updates = {};
+            const now = Date.now();
+            
+            snapshot.forEach((child) => {
+                const msg = child.val();
+                if (msg.timestamp && (now - msg.timestamp) > (20 * 60 * 1000)) {
+                    updates[child.key] = null;
+                    
+                    // Delete image from storage if exists
+                    if (msg.imageUrl) {
+                        const imagePath = `chatroom/${currentRoom}/images/${child.key}`;
+                        storage.ref(imagePath).delete().catch(err => console.log('Image already deleted'));
+                    }
+                }
+            });
+            
+            if (Object.keys(updates).length > 0) {
+                messagesRef.update(updates).then(() => {
+                    console.log('🗑️ Deleted ' + Object.keys(updates).length + ' old messages');
+                });
+            } else {
+                console.log('✅ No messages older than 20 minutes');
+            }
+        });
+    };
+    
+    console.log('⏰ Starting auto-cleanup system (20 min threshold)');
+    performCleanup();
+    
+    setInterval(performCleanup, 2 * 60 * 1000);
+}
+
+function displayMessage(msg) {
+    const container = document.getElementById('chatroomMessages');
+    const isOwn = msg.userId === currentUser.id;
+    
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'flex items-start ' + (isOwn ? 'justify-end' : '');
+    msgDiv.setAttribute('data-message-id', msg.id || '');
+    
+    const time = new Date(msg.timestamp).toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit' 
+    });
+    
+    let messageContent = '';
+    if (msg.imageUrl) {
+        messageContent = `<img src="${escapeHtml(msg.imageUrl)}" class="image-message" onclick="window.open('${escapeHtml(msg.imageUrl)}', '_blank')">`;
+    }
+    if (msg.text) {
+        messageContent += `<p class="text-sm ${msg.imageUrl ? 'mt-2' : ''}">${escapeHtml(msg.text)}</p>`;
+    }
+    
+    if (isOwn) {
+        msgDiv.innerHTML = `
+            <div class="text-right mr-3 max-w-md">
+                <div class="flex items-center justify-end mb-1">
+                    <span class="text-xs text-gray-500 mr-2">${time}</span>
+                    <span class="text-sm font-semibold text-primary">${escapeHtml(msg.nickname)}</span>
+                </div>
+                <div class="chat-bubble-user p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
+                    ${messageContent}
+                </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user text-xs"></i>
+            </div>
+        `;
+    } else {
+        msgDiv.innerHTML = `
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user text-xs"></i>
+            </div>
+            <div class="ml-3 max-w-md">
+                <div class="flex items-center mb-1">
+                    <span class="text-sm font-semibold text-secondary">${escapeHtml(msg.nickname)}</span>
+                    <span class="text-xs text-gray-500 ml-2">${time}</span>
+                </div>
+                <div class="chat-bubble-ai p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
+                    ${messageContent}
+                </div>
+            </div>
+        `;
+    }
+    
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+}
 // Image Upload Handler
 // Image Upload Handler
 // Image Upload Handler
