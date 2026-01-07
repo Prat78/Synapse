@@ -624,10 +624,7 @@
 </footer>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-
 <script src="games.js"></script>
 <script>
 // ===========================
@@ -1084,8 +1081,7 @@ const roomTitles = {
     'chatroom3': 'Chatroom 3',
     'chatroom4': 'Chatroom 4',
     'chatroom5': 'Chatroom 5'
-};;
-
+};
 function initFirebase() {
     if (isFirebaseInitialized) return;
     
@@ -1198,6 +1194,7 @@ function setupPresence() {
     });
 }
 
+// Image Upload Handler
 // Image Upload Handler
 // Image Upload Handler
 function setupImageUpload() {
