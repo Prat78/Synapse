@@ -26,7 +26,8 @@ var GAMES = [
         "Numbers / Certain Letters: Switch Weapons / Materials",
         "Esc: Pause"
       ],
-      "thumb": "splash.png"
+      "thumb": "games/1v1lol/splash.png"
+
     },
     {
       "id": 4,
