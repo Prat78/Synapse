@@ -1228,8 +1228,10 @@ function setupImageUpload() {
         reader.readAsDataURL(file);
     });
 }
+const file = e.target.files[0]; if (!file) return; 
+	 if (file.size > 2 * 1024 * 1024) { alert('Image too large! Max 2MB'); return; } 
+	 if (!file.type.startsWith('image/')) { alert('Please upload an image file'); return; } selectedImage = file;
     
-
 function cancelImage() {
     selectedImage = null;
     document.getElementById('imagePreview').classList.add('hidden');
