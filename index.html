@@ -1227,27 +1227,7 @@ function setupImageUpload() {
         };
         reader.readAsDataURL(file);
     });
-}
-const file = target.files[0]; 
-	 if (file.size > 2 * 1024 * 1024)
-	 if (!file.type.startsWith('image/')) selectedImage = file;
-    
-function cancelImage() {
-    selectedImage = null;
-    document.getElementById('imagePreview').classList.add('hidden');
-    document.getElementById('imageUpload').value = '';
-}
 
-function listenToMessages() {
-    document.getElementById('chatroomMessages').innerHTML = '';
-    
-    messagesRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
-        const msg = snapshot.val();
-        msg.id = snapshot.key;
-        displayMessage(msg);
-        updateTotalCount();
-    });
-    
     // Click listener for delete mode
     document.getElementById('chatroomMessages').addEventListener('click', (e) => {
         if (!isAdmin || !deleteModeActive) return;
