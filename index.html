@@ -45,8 +45,6 @@
         .typing-dot:nth-child(2){animation-delay:-0.16s;}
         .cat-btn{padding:8px 16px;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#9ca3af;cursor:pointer;transition:all 0.3s;}
         .cat-btn:hover,.cat-btn.active{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:white;border:none;}
-    </style>
-    <script>
 		.room-btn{
     padding:10px 20px;
     border-radius:25px;
@@ -77,6 +75,9 @@
 .image-message:hover{
     transform:scale(1.05);
 }
+    </style>
+    <script>
+		
         tailwind.config = {
             theme: {
                 extend: {
@@ -370,24 +371,24 @@
         </div>
 
         <!-- Room Selection -->
-        <div class="mb-6 flex flex-wrap gap-3 justify-center" id="roomSelector">
-            <button onclick="switchRoom('chatroom1')" class="room-btn active" data-room="general">
-                <i class="fas fa-comments mr-2"></i>Talk!
-            </button>
-            <button onclick="switchRoom('chatroom2')" class="room-btn" data-room="gaming">
-                <i class="fas fa-gamepad mr-2"></i>Talk!
-            </button>
-            <button onclick="switchRoom('chatroom3')" class="room-btn" data-room="homework">
-                <i class="fas fa-book mr-2"></i>Talk!
-            </button>
-            <button onclick="switchRoom('chatroom4')" class="room-btn" data-room="memes">
-                <i class="fas fa-laugh mr-2"></i>Talk!
-            </button>
-            <button onclick="switchRoom('chatroom5')" class="room-btn" data-room="tech">
-                <i class="fas fa-laptop-code mr-2"></i>Talk!
-            </button>
-        </div>
-
+     <!-- Room Selection -->
+<div class="mb-6 flex flex-wrap gap-3 justify-center" id="roomSelector">
+    <button onclick="switchRoom('chatroom1')" class="room-btn active" data-room="chatroom1">
+        <i class="fas fa-comments mr-2"></i>Chatroom 1
+    </button>
+    <button onclick="switchRoom('chatroom2')" class="room-btn" data-room="chatroom2">
+        <i class="fas fa-gamepad mr-2"></i>Chatroom 2
+    </button>
+    <button onclick="switchRoom('chatroom3')" class="room-btn" data-room="chatroom3">
+        <i class="fas fa-book mr-2"></i>Chatroom 3
+    </button>
+    <button onclick="switchRoom('chatroom4')" class="room-btn" data-room="chatroom4">
+        <i class="fas fa-laugh mr-2"></i>Chatroom 4
+    </button>
+    <button onclick="switchRoom('chatroom5')" class="room-btn" data-room="chatroom5">
+        <i class="fas fa-laptop-code mr-2"></i>Chatroom 5
+    </button>
+</div>
         <!-- Admin Panel -->
         <div id="adminPanel" class="hidden absolute top-0 left-0 right-0 bottom-0 bg-dark/95 backdrop-blur-sm z-50 p-6 overflow-y-auto">
             <div class="max-w-2xl mx-auto">
@@ -623,6 +624,9 @@
 </footer>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
 <script src="games.js"></script>
 <script>
@@ -1075,12 +1079,12 @@ let selectedImage = null;
 const badWords = [];
 
 const roomTitles = {
-    'Chatroom 1 ': '1',
-    'Chatroom2': '2',
-    'Chatroom3': '3',
-    'Chatroom4': '4',
-    'Chatroom5': '5'
-};
+    'chatroom1': 'Chatroom 1',
+    'chatroom2': 'Chatroom 2',
+    'chatroom3': 'Chatroom 3',
+    'chatroom4': 'Chatroom 4',
+    'chatroom5': 'Chatroom 5'
+};;
 
 function initFirebase() {
     if (isFirebaseInitialized) return;
@@ -1094,7 +1098,8 @@ function initFirebase() {
         console.log('Firebase initialized');
         
         setupUser();
-        switchRoom('general');
+        switchRoom('chatroom1');
+        setupImageUpload(); // ADD THIS LINE
         
         document.getElementById('chatroomStatus').textContent = 'Connected • Ready to chat!';
     } catch (error) {
@@ -1194,7 +1199,38 @@ function setupPresence() {
 }
 
 // Image Upload Handler
-document.getElementById('imageUpload').addEventListener('change', (e) => {
+// Image Upload Handler
+function setupImageUpload() {
+    const imageUpload = document.getElementById('imageUpload');
+    if (!imageUpload) return;
+    
+    imageUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        // Check file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Image too large! Max 2MB');
+            return;
+        }
+        
+        // Check if it's an image
+        if (!file.type.startsWith('image/')) {
+            alert('Please upload an image file');
+            return;
+        }
+        
+        selectedImage = file;
+        
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('previewImg').src = e.target.result;
+            document.getElementById('imagePreview').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    });
+}
     const file = e.target.files[0];
     if (!file) return;
     
