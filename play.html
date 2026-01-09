@@ -1,56 +1,399 @@
-<script src="games.js"></script>
-<script>
-// ======== HELPER: GET QUERY PARAM ========
-function getQueryParam(name) {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(name);
-}
+<!DOCTYPE html>
+<html lang="en">
 
-// ======== LOAD GAME ========
-const gameId = getQueryParam('game');
-
-if (!gameId || !games[gameId]) {
-    // Invalid or missing game, redirect back
-    alert('Game not found! Redirecting...');
-    window.location.href = 'index.html';
-} else {
-    const gameData = games[gameId]; // from games.js
-
-    // Set title
-    document.getElementById('title').textContent = gameData.name || gameId;
-
-    // Load game in iframe
-    const iframe = document.getElementById('frame');
-    iframe.src = gameData.link;
-
-    // Show game container when iframe loads
-    iframe.onload = () => {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('game').style.display = 'block';
-    };
-
-    // Fallback in case onload doesn't fire
-    setTimeout(() => {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('game').style.display = 'block';
-    }, 3000);
-}
-
-// ======== FULLSCREEN ========
-function goFull() {
-    const elem = document.documentElement;
-    if (elem.requestFullscreen) elem.requestFullscreen();
-    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-    else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-    document.body.classList.add('full');
-}
-
-// Remove fullscreen class when exiting fullscreen
-['fullscreenchange', 'webkitfullscreenchange'].forEach(evt => {
-    document.addEventListener(evt, () => {
-        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-            document.body.classList.remove('full');
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Game...</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            background: #000;
         }
-    });
-});
-</script>
+
+        #container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        #fr {
+            width: 100%;
+            height: calc(100% - 50px);
+            border: none;
+            display: block;
+            background: #000;
+        }
+
+        .controls-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: rgba(15, 23, 42, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+
+        .game-title {
+            color: #fff;
+            font: bold 16px Arial;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #4a148c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font: bold 14px Arial;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #6a1b9a;
+        }
+
+        .btn-back {
+            background: #333;
+        }
+
+        .btn-back:hover {
+            background: #555;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            color: #fff;
+            margin-top: 20px;
+            font: 18px Arial;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        body.fullscreen .controls-bar {
+            display: none;
+        }
+
+        body.fullscreen #fr {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Checking game configuration...</div>
+    </div>
+
+    <div id="container">
+        <iframe id="fr" allowfullscreen allow="autoplay; fullscreen; clipboard-read; clipboard-write"></iframe>
+    </div>
+
+    <div class="controls-bar" id="controlsBar">
+        <span class="game-title" id="gameTitleBar">Game</span>
+        <div class="btn-group">
+            <button class="btn btn-back" onclick="goBack()">← Back</button>
+            <button class="btn" onclick="openFullscreen()">Fullscreen</button>
+        </div>
+    </div>
+
+    <script>
+        // ===========================
+        // DB Config & Globals
+        // ===========================
+        const DB_NAME = 'GameCacheDB';
+        const STORE_NAME = 'GameFiles';
+        const CACHE_DURATION = 90 * 24 * 60 * 60 * 1000;
+        const CDN_BASE = 'https://cdn.jsdelivr.net/gh/selenite-cc/selenite-old@main';
+        const NETWORK_PATCHER = `
+        <script>
+            (function() {
+                let fakeCookies = "";
+                try {
+                    Object.defineProperty(document, 'cookie', {
+                        get: function() { return fakeCookies; },
+                        set: function(val) { fakeCookies = val; },
+                        configurable: true
+                    });
+                } catch (e) {}
+                
+                function fixUrl(url) {
+                    if (!url || typeof url !== 'string') return url;
+                    if (url.includes('/js/all.js')) return '${CDN_BASE}/js/all.js';
+                    if (url.match(/\\.(ogg|mp3|wav|json|png|jpg)\\?v=/i)) return url.split('?')[0];
+                    return url;
+                }
+
+                const originalFetch = window.fetch;
+                window.fetch = function(input, init) {
+                    if (typeof input === 'string') input = fixUrl(input);
+                    else if (input instanceof Request) input = new Request(fixUrl(input.url), input);
+                    return originalFetch(input, init);
+                };
+
+                const originalOpen = XMLHttpRequest.prototype.open;
+                XMLHttpRequest.prototype.open = function(method, url) {
+                    return originalOpen.apply(this, [method, fixUrl(url)]);
+                };
+
+                const originalImage = window.Image;
+                window.Image = function() {
+                    const img = new originalImage();
+                    img.crossOrigin = "Anonymous";
+                    return img;
+                };
+
+                window.addEventListener('error', function(e) {
+                    if (e.target && (e.target.tagName === 'AUDIO' || e.target.tagName === 'VIDEO')) {
+                        e.stopImmediatePropagation();
+                        e.preventDefault();
+                    }
+                }, true);
+            })();
+        <\/script>`;
+
+        // ===========================
+        // Main Logic
+        // ===========================
+        const currentGame = JSON.parse(sessionStorage.getItem('currentGame'));
+
+        if (!currentGame) {
+            alert('No game selected!');
+            window.location.href = 'index.html';
+        } else {
+            document.getElementById('gameTitleBar').textContent = currentGame.title || currentGame.name || 'Game';
+            document.title = (currentGame.title || currentGame.name || 'Game') + ' - Synapse AI';
+
+            // 1. Check for Manual Custom Code (Embed Code) - Old Format
+            if (currentGame.customCode && currentGame.customCode.trim() !== "") {
+                console.log("🛠️ Manual Code Detected.");
+                document.getElementById('loadingText').textContent = "Loading custom embed...";
+                loadManualCode(currentGame.customCode);
+            }
+            // 2. Check for "link" - New Database Format
+            else if (currentGame.link) {
+                console.log("🔗 New DB Link Detected: " + currentGame.link);
+
+                // CHECK IF IT IS A UNITY JSON BUILD
+                if (currentGame.link.endsWith('.json')) {
+                    document.getElementById('loadingText').textContent = "Initializing Unity Loader...";
+                    loadUnityFromJson(currentGame.link);
+                } else {
+                    document.getElementById('loadingText').textContent = "Loading from external link...";
+                    // Use loadManualCode to handle the URL setting
+                    loadManualCode(currentGame.link);
+                }
+            }
+            // 3. Fallback to Auto-Loader - Old Format
+            else {
+                console.log("🤖 No Manual Code/Link. Using Auto-Loader.");
+                loadAutoSystem(currentGame);
+            }
+        }
+
+        function loadUnityFromJson(jsonUrl) {
+            // Extract base path from the JSON URL (remove the filename)
+            // e.g. https://cdn.jsdelivr.net/.../Build/Game.json -> https://cdn.jsdelivr.net/.../
+            // Actually, the loader script needs specific paths.
+            // Based on user template: 
+            // jsonUrl is passed to UnityLoader.instantiate.
+            // UnityLoader.js is in /Build/UnityLoader.js relative to the json? 
+            // The user provided absolute URLs for everything.
+            // We will construct the HTML using the user's template structure.
+
+            const iframe = document.getElementById('fr');
+            iframe.onload = () => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            };
+
+            // We need to derive the UnityLoader.js path. 
+            // If jsonUrl is ".../Build/X.json", UnityLoader is likely ".../Build/UnityLoader.js"
+            // The user's example uses explicit paths. We'll try to deduce it.
+            const unityLoaderUrl = jsonUrl.substring(0, jsonUrl.lastIndexOf('/')) + '/UnityLoader.js';
+            // And Progress? ".../TemplateData/UnityProgress.js"?
+            // This is tricky if we don't know the exact structure.
+            // BUT, the user's example shows:
+            // JSON: .../Build/GunSpin...json
+            // Loader: .../Build/UnityLoader.js
+            // Progress: .../TemplateData/UnityProgress.js
+
+            // Let's assume standard Unity WebGL export structure hosted on the same CDN root.
+            // Root seems to be 2 levels up from Build/file.json?
+            // "https://cdn.jsdelivr.net/gh/organig-schools6/99@main/Build/GunSpin.json"
+            // Root: "https://cdn.jsdelivr.net/gh/organig-schools6/99@main/"
+
+            const urlParts = jsonUrl.split('/');
+            // Remove last 2 parts (filename and 'Build') to get root?
+            // Only if valid structure.
+            let rootUrl = "";
+            let progressUrl = "";
+            let styleUrl = "";
+
+            if (jsonUrl.includes('/Build/')) {
+                const buildIndex = jsonUrl.lastIndexOf('/Build/');
+                rootUrl = jsonUrl.substring(0, buildIndex);
+                progressUrl = rootUrl + '/TemplateData/UnityProgress.js';
+                styleUrl = rootUrl + '/TemplateData/style.css';
+            } else {
+                // Fallback / Unknown structure
+                console.warn("⚠️ Non-standard Unity JSON path. Guessing dependencies.");
+                progressUrl = "TemplateData/UnityProgress.js"; // Relative?
+                styleUrl = "TemplateData/style.css";
+            }
+
+            const html = `<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player</title>
+    <link rel="stylesheet" href="${styleUrl}">
+    <script src="${progressUrl}"><\/script>
+    <script src="${unityLoaderUrl}"><\/script>
+    <script>
+      window.gameInstance = UnityLoader.instantiate("unityContainer", "${jsonUrl}", {onProgress: UnityProgress});
+    <\/script>
+    <style>
+        * { margin: 0; padding: 0; } 
+        body { background: black; overflow: hidden; }
+        div#unityContainer {
+            margin: auto !important;
+            position: absolute !important;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100% !important; 
+            height: 100% !important;
+        }
+        .footer { display:none }
+    </style>
+</head>
+<body>
+    <div class="webgl-content">
+      <div id="unityContainer" style="width: 100%; height: 100%"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+        <div class="title">Game</div>
+      </div>
+    </div>
+</body>
+</html>`;
+
+            iframe.contentDocument.open();
+            iframe.contentDocument.write(html);
+            iframe.contentDocument.close();
+        }
+
+        function loadManualCode(code) {
+            const iframe = document.getElementById('fr');
+            iframe.onload = () => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            };
+
+            // Detect if the user just pasted a URL (e.g. "https://example.com")
+            if (code.startsWith('http') && !code.includes('<') && !code.includes(' ')) {
+                console.log("🔗 Detected raw URL. Wrapping in iframe.");
+                iframe.src = code; // Just set the src
+            } else {
+                // Write the full HTML code (or iframe tag) into the frame
+                iframe.contentDocument.open();
+                iframe.contentDocument.write(code);
+                iframe.contentDocument.close();
+            }
+        }
+
+        async function loadAutoSystem(game) {
+            const gameBaseUrl = `${CDN_BASE}/${game.directory}/`;
+            const url = `${gameBaseUrl}index.html`;
+            const iframe = document.getElementById('fr');
+
+            try {
+                document.getElementById('loadingText').textContent = 'Fetching game files...';
+                let response = await fetch(url);
+                if (!response.ok) throw new Error("Failed to fetch game");
+                let html = await response.text();
+
+                if (html.toLowerCase().includes('<head>')) {
+                    html = html.replace(/<head>/i, `<head>${NETWORK_PATCHER}<base href="${gameBaseUrl}">`);
+                } else {
+                    html = `${NETWORK_PATCHER}<base href="${gameBaseUrl}">${html}`;
+                }
+
+                const correctJsPath = `${CDN_BASE}/js/all.js`;
+                html = html.replace(/src=["']\/js\/all\.js["']/gi, `src="${correctJsPath}"`);
+                html = html.replace(/src=["']\.\.\/js\/all\.js["']/gi, `src="${correctJsPath}"`);
+                html = html.replace(/player\.load\s*\(\s*["']([^"']+\.swf)["']\s*\)/gi, (match, swfFile) => {
+                    if (swfFile.startsWith('http')) return match;
+                    const safeSwfUrl = `${gameBaseUrl}${swfFile.trim()}`.replace(/ /g, '%20');
+                    return `player.load("${safeSwfUrl}")`;
+                });
+
+                const blob = new Blob([html], { type: 'text/html' });
+                const blobUrl = URL.createObjectURL(blob);
+                iframe.onload = () => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    URL.revokeObjectURL(blobUrl);
+                };
+                iframe.src = blobUrl;
+
+            } catch (e) {
+                console.error(e);
+                alert("Auto-Load failed. You might need to add Custom Code for this game.");
+            }
+        }
+
+        function goBack() { window.location.href = 'index.html'; }
+
+        async function openFullscreen() {
+            const iframe = document.getElementById('fr');
+            if (iframe.requestFullscreen) iframe.requestFullscreen();
+            else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+        }
+    </script>
+</body>
+
+</html>
