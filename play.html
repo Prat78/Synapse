@@ -168,8 +168,7 @@
         // 🔥 LOAD FLASH (SWF) USING RUFFLE
         function loadFlash(swfUrl) {
             const iframe = document.getElementById('fr');
-            const html = `
-<!DOCTYPE html>
+            const html = `<!DOCTYPE html>
 <html>
 <head>
 <style>
@@ -179,17 +178,20 @@ body,html{margin:0;padding:0;height:100%;overflow:hidden;background:#000;}
 </head>
 <body>
 <div id="r"></div>
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script src="https://unpkg.com/@ruffle-rs/ruffle"><\/script>
 <script>
-window.addEventListener("load", ()=>{
-    const r = window.RufflePlayer.newest();
-    const p = r.createPlayer();
-    document.getElementById("r").appendChild(p);
-    p.load("${swfUrl}");
-    p.style.width="100%";
-    p.style.height="100%";
+window.addEventListener("load", function() {
+    const container = document.getElementById("r");
+    if (container) {
+        const ruffle = window.RufflePlayer.newest();
+        const player = ruffle.createPlayer();
+        container.appendChild(player);
+        player.load("${swfUrl}");
+        player.style.width = "100%";
+        player.style.height = "100%";
+    }
 });
-</script>
+<\/script>
 </body>
 </html>`;
             iframe.srcdoc = html;
