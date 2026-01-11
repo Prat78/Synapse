@@ -124,11 +124,30 @@
         const urlParams = new URLSearchParams(window.location.search);
         const gameId = parseInt(urlParams.get('id'));
 
+        console.log('Game ID from URL:', gameId);
+        console.log('GAMES array available:', typeof GAMES !== 'undefined');
+        console.log('GAMES length:', typeof GAMES !== 'undefined' ? GAMES.length : 'N/A');
+
         // 🔥 FIND GAME IN GAMES ARRAY
-        const currentGame = GAMES.find(g => g.id === gameId);
+        let currentGame = null;
+        
+        if (typeof GAMES !== 'undefined') {
+            currentGame = GAMES.find(g => g.id === gameId);
+            console.log('Game found:', currentGame);
+        }
+
+        // Fallback to sessionStorage if GAMES not found
+        if (!currentGame) {
+            const stored = sessionStorage.getItem('currentGame');
+            if (stored) {
+                currentGame = JSON.parse(stored);
+                console.log('Using game from sessionStorage:', currentGame);
+            }
+        }
 
         if (!currentGame) {
-            alert('Game not found!');
+            alert('Game not found! Make sure games.js is loaded and the game ID is correct.');
+            console.error('Available game IDs:', typeof GAMES !== 'undefined' ? GAMES.map(g => g.id) : 'GAMES not loaded');
             window.location.href = 'index.html';
         } else {
             document.getElementById('gameTitleBar').textContent = currentGame.name;
