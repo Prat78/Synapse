@@ -122,7 +122,8 @@
     <script>
         // 🔥 GET GAME ID FROM URL
         const urlParams = new URLSearchParams(window.location.search);
-        const gameId = parseInt(urlParams.get('id'));
+        const gameIdParam = urlParams.get('id');
+        const gameId = gameIdParam ? parseInt(gameIdParam) : null;
 
         console.log('Game ID from URL:', gameId);
         console.log('GAMES array available:', typeof GAMES !== 'undefined');
@@ -131,12 +132,13 @@
         // 🔥 FIND GAME IN GAMES ARRAY
         let currentGame = null;
         
-        if (typeof GAMES !== 'undefined') {
+        // Try to find by ID from URL
+        if (gameId && typeof GAMES !== 'undefined') {
             currentGame = GAMES.find(g => g.id === gameId);
-            console.log('Game found:', currentGame);
+            console.log('Game found by ID:', currentGame);
         }
 
-        // Fallback to sessionStorage if GAMES not found
+        // Fallback to sessionStorage if not found
         if (!currentGame) {
             const stored = sessionStorage.getItem('currentGame');
             if (stored) {
@@ -146,8 +148,7 @@
         }
 
         if (!currentGame) {
-            alert('Game not found! Make sure games.js is loaded and the game ID is correct.');
-            console.error('Available game IDs:', typeof GAMES !== 'undefined' ? GAMES.map(g => g.id) : 'GAMES not loaded');
+            alert('Game not found! Please select a game from the home page.');
             window.location.href = 'index.html';
         } else {
             document.getElementById('gameTitleBar').textContent = currentGame.name;
@@ -159,29 +160,27 @@
         async function loadGame(url) {
             const iframe = document.getElementById('fr');
             const loadingText = document.getElementById('loadingText');
-            loadingText.textContent = 'Fetching game...';
+            loadingText.textContent = 'Loading game...';
 
-            try {
-                // FETCH THE GAME
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Failed to fetch game!');
-
-                if (url.endsWith('.swf')) {
-                    loadFlash(url); // SWF games
-                } else {
-                    const html = await response.text();
-                    iframe.srcdoc = html; // HTML5 games
-                    document.getElementById('loadingScreen').style.display = 'none';
-                }
-
-            } catch (e) {
-                console.error("Game load failed:", e);
-                if (url.endsWith('.swf')) {
-                    loadFlash(url); // fallback SWF
-                } else {
-                    alert('Failed to load game!');
-                }
+            // Check if it's a SWF file
+            if (url.endsWith('.swf')) {
+                loadFlash(url);
+                return;
             }
+
+            // For folder URLs (ending with /), load directly
+            // For file URLs, load directly
+            // This avoids CORS and MIME type issues
+            iframe.src = url;
+            
+            iframe.onload = () => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            };
+            
+            // Hide loading screen after 2 seconds as fallback
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            }, 2000);
         }
 
         // 🔥 LOAD FLASH (SWF) USING RUFFLE
