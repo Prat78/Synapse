@@ -2256,8 +2256,13 @@
             document.getElementById('chatroomInput').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') sendChatroomMessage();
             });
+            
         }
-
+        function cancelImage() {
+            selectedImage = null;
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('imageUpload').value = ''; // Reset file input
+        }
         // Update admin panel for current room
         function updateAdminStats() {
             document.getElementById('adminCurrentRoom').textContent = roomTitles[currentRoom];
