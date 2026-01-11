@@ -2028,28 +2028,32 @@
         // Image Upload Handler
         // Image Upload Handler
         // Image Upload Handler
-        function setupImageUpload() {
+       function setupImageUpload() {
             const imageUpload = document.getElementById('imageUpload');
             if (!imageUpload) return;
-
-            imageUpload.addEventListener('change', (e) => {
+        
+            // Remove any existing listeners to avoid duplicates
+            imageUpload.replaceWith(imageUpload.cloneNode(true));
+            const newImageUpload = document.getElementById('imageUpload');
+        
+            newImageUpload.addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
-
+        
                 // Check file size (max 2MB)
                 if (file.size > 2 * 1024 * 1024) {
                     alert('Image too large! Max 2MB');
                     return;
                 }
-
+        
                 // Check if it's an image
                 if (!file.type.startsWith('image/')) {
                     alert('Please upload an image file');
                     return;
                 }
-
+        
                 selectedImage = file;
-
+        
                 // Show preview
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -2058,24 +2062,6 @@
                 };
                 reader.readAsDataURL(file);
             });
-
-            // Click listener for delete mode
-            document.getElementById('chatroomMessages').addEventListener('click', (e) => {
-                if (!isAdmin || !deleteModeActive) return;
-
-                const bubble = e.target.closest('.chat-bubble-user, .chat-bubble-ai');
-                if (!bubble) return;
-
-                const messageDiv = e.target.closest('[data-message-id]');
-                if (!messageDiv) return;
-
-                const messageId = messageDiv.getAttribute('data-message-id');
-                if (messageId) {
-                    deleteSpecificMessage(messageId);
-                }
-            });
-
-            cleanupOldMessages();
         }
 
         function cleanupOldMessages() {
