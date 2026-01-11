@@ -6,7 +6,7 @@ var GAMES = [
         "popularity": "1M+",
         "releaseDate": "2024",
         "rating": "4.5",
-        "link": "https://games-f518e.web.app/1on1soccer/",
+        "link": "https://games-f518e.web.app/1on1soccer/1on1soccer.swf",
         "genre": "Action Games",
         "build": "HTML5",
         "dev": "Unknown",
@@ -14,7 +14,7 @@ var GAMES = [
         "controls": [
             "Mouse/Keyboard"
         ],
-        "thumb": "https://games-f518e.web.app/1on1soccer/icon.png"
+        "thumb": "https://games-f518e.web.app/1on1soccer/logo.jpg"
     },
     {
         "id": 3001,
