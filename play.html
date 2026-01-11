@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playing Game...</title>
     <style>
-        body,
-        html {
+        body, html {
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -15,13 +14,11 @@
             background: #000;
             font-family: Arial, sans-serif;
         }
-
         #container {
             width: 100%;
             height: 100%;
             position: relative;
         }
-
         #fr {
             width: 100%;
             height: calc(100% - 50px);
@@ -29,7 +26,6 @@
             display: block;
             background: #000;
         }
-
         .controls-bar {
             position: fixed;
             bottom: 0;
@@ -43,18 +39,15 @@
             padding: 0 20px;
             z-index: 1000;
         }
-
         .game-title {
             color: #fff;
             font-weight: bold;
             font-size: 16px;
         }
-
         .btn-group {
             display: flex;
             gap: 10px;
         }
-
         .btn {
             padding: 8px 16px;
             background: #4a148c;
@@ -65,15 +58,12 @@
             cursor: pointer;
             transition: 0.2s;
         }
-
         .btn:hover {
             background: #6a1b9a;
         }
-
         .btn-back {
             background: #333;
         }
-
         .loading-screen {
             position: fixed;
             top: 0;
@@ -87,7 +77,6 @@
             align-items: center;
             z-index: 2000;
         }
-
         .loading-spinner {
             width: 50px;
             height: 50px;
@@ -96,13 +85,9 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
         @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
+            100% { transform: rotate(360deg); }
         }
-
         .loading-text {
             color: #fff;
             margin-top: 20px;
@@ -133,74 +118,68 @@
     <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
     <script>
-        const currentGame = JSON.parse(sessionStorage.getItem('currentGame'));
-        const CDN_BASE = 'https://games-f518e.web.app';
-
-        if (!currentGame) {
+        // 🔥 MAIN LOGIC - take game from games.js
+        const currentGame = JSON.parse(sessionStorage.getItem('currentGame')); // { title, url }
+        if (!currentGame || !currentGame.url) {
             alert('No game selected!');
             window.location.href = 'index.html';
         } else {
-            const title = currentGame.title || currentGame.name || 'Game';
-            document.getElementById('gameTitleBar').textContent = title;
-            document.title = title + " - Playing Now";
-            loadAutoSystem(currentGame);
+            document.getElementById('gameTitleBar').textContent = currentGame.title || 'Game';
+            document.title = (currentGame.title || 'Game') + " - Playing Now";
+            loadGame(currentGame.url);
         }
 
-        async function loadAutoSystem(game) {
-            // Fix names with spaces or weird chars for the folder path
-            const folderName = game.name.trim();
-            const gameBaseUrl = `${CDN_BASE}/${folderName}/`.replace(/ /g, '%20');
-            const url = `${gameBaseUrl}index.html`;
+        async function loadGame(url) {
             const iframe = document.getElementById('fr');
+            document.getElementById('loadingText').textContent = 'Fetching game...';
 
             try {
-                document.getElementById('loadingText').textContent = 'Fetching game files...';
-                let response = await fetch(url);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Failed to fetch');
 
-                if (!response.ok) {
-                    console.log("index.html not found, trying .swf directly...");
-                    loadFlashGame(`${gameBaseUrl}${folderName}.swf`.replace(/ /g, '%20'));
-                    return;
-                }
-
-                let html = await response.text();
-
-                // 1. Bypass Frame Blocker Security (The "Failed to load/bonk" message)
-                html = html.replace(/window\[['"]self['"]\]\s*!==\s*window\[['"]top['"]\]/g, 'false');
-                html = html.replace(/window\.top\s*!==\s*window\.self/g, 'false');
-                html = html.replace(/if\s*\(top\s*!==\s*self\)/g, 'if(false)');
-                html = html.replace(/<script[^>]*src=["']\/js\/all\.js["'][^>]*><\/script>/gi, '<!-- blocked protection -->');
-
-                // 2. Setup the Base URL so it knows where to find its assets
-                const patch = `<base href="${gameBaseUrl}"><script>window.top=window.self;<\/script>`;
-                if (html.toLowerCase().includes('<head>')) {
-                    html = html.replace(/<head>/i, `<head>${patch}`);
+                if (url.endsWith('.swf')) {
+                    loadFlash(url);
                 } else {
-                    html = patch + html;
+                    const html = await response.text();
+                    iframe.srcdoc = html;
                 }
 
-                // 3. Inject into iframe using srcdoc for reliability
-                iframe.removeAttribute('src');
-                iframe.srcdoc = html;
-
-                // Stop loading screen when ready
-                const checkReady = setInterval(() => {
-                    if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
-                        document.getElementById('loadingScreen').style.display = 'none';
-                        clearInterval(checkReady);
-                    }
-                }, 500);
+                document.getElementById('loadingScreen').style.display = 'none';
 
             } catch (e) {
-                console.error("Direct Load Failed:", e);
-                // Fallback to flash check
-                loadFlashGame(`${gameBaseUrl}${folderName}.swf`.replace(/ /g, '%20'));
+                console.error("Game load failed:", e);
+                if (url.endsWith('.swf')) {
+                    loadFlash(url); // try loading anyway
+                } else {
+                    alert('Failed to load game!');
+                }
             }
         }
 
-        function loadFlashGame(swfUrl) {
+        function loadFlash(swfUrl) {
             const iframe = document.getElementById('fr');
-            const html = `<!DOCTYPE html><html><head><style>body,html{margin:0;padding:0;height:100%;overflow:hidden;background:#000;}#r{width:100%;height:100%;}</style></head><body><div id="r"></div><script src="https://unpkg.com/@ruffle-rs/ruffle"><\/script><script>window.addEventListener("load",()=>{const r=window.RufflePlayer.newest();const p=r.createPlayer();document.getElementById("r").appendChild(p);p.load("${swfUrl}");p.style.width="100%";p.style.height="100%";});<\/script></body></html>`;
+            const html = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>body,html{margin:0;padding:0;height:100%;overflow:hidden;background:#000;}#r{width:100%;height:100%;}</style>
+                </head>
+                <body>
+                    <div id="r"></div>
+                    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+                    <script>
+                        window.addEventListener("load", ()=>{
+                            const r = window.RufflePlayer.newest();
+                            const p = r.createPlayer();
+                            document.getElementById("r").appendChild(p);
+                            p.load("${swfUrl}");
+                            p.style.width="100%";
+                            p.style.height="100%";
+                        });
+                    </script>
+                </body>
+                </html>
+            `;
             iframe.srcdoc = html;
             document.getElementById('loadingScreen').style.display = 'none';
         }
@@ -212,5 +191,4 @@
         }
     </script>
 </body>
-
 </html>
