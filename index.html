@@ -1485,12 +1485,12 @@
         // ===========================
         // Play Game
         // ===========================
-        function playGame(i) {
+       function playGame(i) {
             var g = GAMES[i];
             if (!g) return;
-
+        
             sessionStorage.setItem('currentGame', JSON.stringify(g));
-            window.location.href = 'https://gameplayer-8bcd3.web.app/play.html';
+            window.location.href = 'https://gameplayer-8bcd3.web.app/play.html?id=' + g.id;
         }
 
         // ===========================
