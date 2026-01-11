@@ -1,0 +1,29 @@
+{
+    "hosting": {
+        "public": ".",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "headers": [
+            {
+                "source": "**",
+                "headers": [
+                    {
+                        "key": "Access-Control-Allow-Origin",
+                        "value": "https://synapsecorp.pages.dev"
+                    },
+                    {
+                        "key": "Access-Control-Allow-Methods",
+                        "value": "GET, HEAD, OPTIONS"
+                    },
+                    {
+                        "key": "Access-Control-Allow-Headers",
+                        "value": "*"
+                    }
+                ]
+            }
+        ]
+    }
+}
