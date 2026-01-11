@@ -57,7 +57,7 @@ var GAMES = [
         "popularity": "1M+",
         "releaseDate": "2024",
         "rating": "4.5",
-        "link": "https://games-f518e.web.app/60sburgerrun/",
+        "link": "https://games-f518e.web.app/60sburgerrun/index.html",
         "genre": "Action Games",
         "build": "HTML5",
         "dev": "Unknown",
