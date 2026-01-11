@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playing Game...</title>
     <style>
-        body,
-        html {
+        body, html {
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -15,13 +13,11 @@
             background: #000;
             font-family: Arial, sans-serif;
         }
-
         #container {
             width: 100%;
             height: 100%;
             position: relative;
         }
-
         #fr {
             width: 100%;
             height: calc(100% - 50px);
@@ -29,7 +25,6 @@
             display: block;
             background: #000;
         }
-
         .controls-bar {
             position: fixed;
             bottom: 0;
@@ -43,18 +38,15 @@
             padding: 0 20px;
             z-index: 1000;
         }
-
         .game-title {
             color: #fff;
             font-weight: bold;
             font-size: 16px;
         }
-
         .btn-group {
             display: flex;
             gap: 10px;
         }
-
         .btn {
             padding: 8px 16px;
             background: #4a148c;
@@ -65,15 +57,12 @@
             cursor: pointer;
             transition: 0.2s;
         }
-
         .btn:hover {
             background: #6a1b9a;
         }
-
         .btn-back {
             background: #333;
         }
-
         .loading-screen {
             position: fixed;
             top: 0;
@@ -87,7 +76,6 @@
             align-items: center;
             z-index: 2000;
         }
-
         .loading-spinner {
             width: 50px;
             height: 50px;
@@ -96,13 +84,9 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
         @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
+            100% { transform: rotate(360deg); }
         }
-
         .loading-text {
             color: #fff;
             margin-top: 20px;
@@ -110,82 +94,96 @@
         }
     </style>
 </head>
-
 <body>
     <div id="loadingScreen" class="loading-screen">
         <div class="loading-spinner"></div>
-        <div class="loading-text">Loading game...</div>
+        <div class="loading-text" id="loadingText">Connecting to server...</div>
     </div>
 
     <div id="container">
-        <iframe id="fr" allowfullscreen allow="autoplay; fullscreen; clipboard-read; clipboard-write"
-            referrerpolicy="no-referrer"></iframe>
+        <iframe id="fr" allowfullscreen allow="autoplay; fullscreen; clipboard-read; clipboard-write" referrerpolicy="no-referrer"></iframe>
     </div>
 
-    <div class="controls-bar">
-        <span class="game-title" id="gameTitleBar">Game</span>
+    <div class="controls-bar" id="controlsBar">
+        <span class="game-title" id="gameTitleBar">Title</span>
         <div class="btn-group">
             <button class="btn btn-back" onclick="location.href='index.html'">← Back</button>
             <button class="btn" onclick="openFullscreen()">Fullscreen</button>
         </div>
     </div>
 
+    <!-- 🕹 Include your games.js -->
+    <script src="games.js"></script>
     <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
     <script>
-        const currentGame = JSON.parse(sessionStorage.getItem('currentGame'));
+        // 🔥 Get the game ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameId = parseInt(urlParams.get('id'));
+
+        // 🔥 Find the game in GAMES array
+        const currentGame = GAMES.find(g => g.id === gameId);
 
         if (!currentGame) {
-            alert('No game selected!');
+            alert('Game not found!');
             window.location.href = 'index.html';
         } else {
-            const title = currentGame.title || currentGame.name || 'Game';
-            document.getElementById('gameTitleBar').textContent = title;
-            document.title = title + " - Playing Now";
-            loadGame(currentGame);
+            document.getElementById('gameTitleBar').textContent = currentGame.name;
+            document.title = currentGame.name + " - Playing Now";
+            loadGame(currentGame.link);
         }
 
-        function loadGame(game) {
+        async function loadGame(url) {
             const iframe = document.getElementById('fr');
-            const gameUrl = game.link;
+            document.getElementById('loadingText').textContent = 'Fetching game...';
 
-            // Check if it's a Flash game (.swf)
-            if (gameUrl.endsWith('.swf')) {
-                loadFlashGame(gameUrl);
-            } else {
-                // For HTML5 games, just load directly
-                iframe.src = gameUrl;
-                iframe.onload = () => {
-                    document.getElementById('loadingScreen').style.display = 'none';
-                };
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Failed to fetch');
+
+                if (url.endsWith('.swf')) {
+                    loadFlash(url);
+                } else {
+                    const html = await response.text();
+                    iframe.srcdoc = html;
+                }
+
+                document.getElementById('loadingScreen').style.display = 'none';
+
+            } catch (e) {
+                console.error("Game load failed:", e);
+                if (url.endsWith('.swf')) {
+                    loadFlash(url);
+                } else {
+                    alert('Failed to load game!');
+                }
             }
         }
 
-        function loadFlashGame(swfUrl) {
+        function loadFlash(swfUrl) {
             const iframe = document.getElementById('fr');
-            const html = `<!DOCTYPE html>
-<html>
-<head>
-<style>body,html{margin:0;padding:0;height:100%;overflow:hidden;background:#000;}#r{width:100%;height:100%;}</style>
-</head>
-<body>
-<div id="r"></div>
-<script src="https://unpkg.com/@ruffle-rs/ruffle"><\/script>
-<script>
-window.addEventListener("DOMContentLoaded", ()=>{
-    const container = document.getElementById("r");
-    if(container){
-        const r = window.RufflePlayer.newest();
-        const p = r.createPlayer();
-        container.appendChild(p);
-        p.load("${swfUrl}");
-        p.style.width="100%";
-        p.style.height="100%";
-    }
-});
-<\/script>
-</body>
-</html>`;
+            const html = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>body,html{margin:0;padding:0;height:100%;overflow:hidden;background:#000;}#r{width:100%;height:100%;}</style>
+                </head>
+                <body>
+                    <div id="r"></div>
+                    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+                    <script>
+                        window.addEventListener("load", ()=>{
+                            const r = window.RufflePlayer.newest();
+                            const p = r.createPlayer();
+                            document.getElementById("r").appendChild(p);
+                            p.load("${swfUrl}");
+                            p.style.width="100%";
+                            p.style.height="100%";
+                        });
+                    </script>
+                </body>
+                </html>
+            `;
             iframe.srcdoc = html;
             document.getElementById('loadingScreen').style.display = 'none';
         }
@@ -197,5 +195,4 @@ window.addEventListener("DOMContentLoaded", ()=>{
         }
     </script>
 </body>
-
 </html>
