@@ -114,7 +114,7 @@
 <body>
     <div id="loadingScreen" class="loading-screen">
         <div class="loading-spinner"></div>
-        <div class="loading-text" id="loadingText">Connecting to server...</div>
+        <div class="loading-text">Loading game...</div>
     </div>
 
     <div id="container">
@@ -122,8 +122,8 @@
             referrerpolicy="no-referrer"></iframe>
     </div>
 
-    <div class="controls-bar" id="controlsBar">
-        <span class="game-title" id="gameTitleBar">Title</span>
+    <div class="controls-bar">
+        <span class="game-title" id="gameTitleBar">Game</span>
         <div class="btn-group">
             <button class="btn btn-back" onclick="location.href='index.html'">← Back</button>
             <button class="btn" onclick="openFullscreen()">Fullscreen</button>
@@ -134,7 +134,6 @@
 
     <script>
         const currentGame = JSON.parse(sessionStorage.getItem('currentGame'));
-        const CDN_BASE = 'https://games-f518e.web.app';
 
         if (!currentGame) {
             alert('No game selected!');
@@ -146,39 +145,20 @@
             loadGame(currentGame);
         }
 
-        async function loadGame(game) {
-            const folderName = encodeURIComponent(game.name.trim());
-            const gameBaseUrl = `${CDN_BASE}/${folderName}/`;
+        function loadGame(game) {
             const iframe = document.getElementById('fr');
+            const gameUrl = game.link;
 
-            document.getElementById('loadingText').textContent = 'Loading game...';
-
-            // Try index.html first
-            try {
-                const htmlResponse = await fetch(`${gameBaseUrl}index.html`);
-                if (htmlResponse.ok) {
-                    let html = await htmlResponse.text();
-
-                    // Inject base for assets
-                    const patch = `<base href="${gameBaseUrl}"><script>window.top=window.self;<\/script>`;
-                    if (html.toLowerCase().includes('<head>')) {
-                        html = html.replace(/<head>/i, `<head>${patch}`);
-                    } else {
-                        html = patch + html;
-                    }
-
-                    iframe.srcdoc = html;
-                    iframe.onload = () => {
-                        document.getElementById('loadingScreen').style.display = 'none';
-                    };
-                    return;
-                }
-            } catch (e) {
-                console.warn('index.html not found, trying .swf directly...');
+            // Check if it's a Flash game (.swf)
+            if (gameUrl.endsWith('.swf')) {
+                loadFlashGame(gameUrl);
+            } else {
+                // For HTML5 games, just load directly
+                iframe.src = gameUrl;
+                iframe.onload = () => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                };
             }
-
-            // If no index.html, try SWF
-            loadFlashGame(`${gameBaseUrl}${folderName}.swf`);
         }
 
         function loadFlashGame(swfUrl) {
@@ -190,7 +170,7 @@
 </head>
 <body>
 <div id="r"></div>
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script src="https://unpkg.com/@ruffle-rs/ruffle"><\/script>
 <script>
 window.addEventListener("DOMContentLoaded", ()=>{
     const container = document.getElementById("r");
@@ -201,11 +181,9 @@ window.addEventListener("DOMContentLoaded", ()=>{
         p.load("${swfUrl}");
         p.style.width="100%";
         p.style.height="100%";
-    } else {
-        console.error("Container not found!");
     }
 });
-</script>
+<\/script>
 </body>
 </html>`;
             iframe.srcdoc = html;
