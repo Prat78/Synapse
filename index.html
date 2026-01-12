@@ -1060,7 +1060,7 @@
                         </div>
                         <div
                             class="bg-white rounded-xl overflow-hidden h-[500px] flex items-center justify-center relative group">
-                            <iframe id="iframe-7" src="http://innulqjvzz.websdr64.ru/" width="100%" height="100%"
+                            <iframe id="iframe-7" src="https://innulqjvzz.websdr64.ru/" width="100%" height="100%"
                                 class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
                             </iframe>
                             <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -2157,6 +2157,9 @@
     // ===========================
 // FIXED SEND MESSAGE - BASE64 ONLY
 // ===========================
+  // ===========================
+// SEND MESSAGE - BASE64 ONLY (NO STORAGE UPLOAD)
+// ===========================
     async function sendChatroomMessage() {
         const input = document.getElementById('chatroomInput');
         const btn = document.getElementById('sendChatroomMessage');
@@ -2232,7 +2235,6 @@
             btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
         }
     }
-
     btn.disabled = true;
         console.log('Sending - Text:', text, 'Image:', selectedImage);
 
