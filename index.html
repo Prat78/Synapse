@@ -2236,13 +2236,42 @@
             return div.innerHTML;
         }
 
-        function setupChatroomEvents() {
+       function setupChatroomEvents() {
             document.getElementById('sendChatroomMessage').addEventListener('click', sendChatroomMessage);
-
+        
             document.getElementById('chatroomInput').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') sendChatroomMessage();
             });
-            
+        
+            // Add paste event listener for images
+            document.getElementById('chatroomInput').addEventListener('paste', (e) => {
+                const items = e.clipboardData.items;
+                
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                        e.preventDefault();
+                        
+                        const blob = items[i].getAsFile();
+                        const file = new File([blob], 'pasted-image.png', { type: blob.type });
+                        
+                        if (file.size > 2 * 1024 * 1024) {
+                            alert('Image too large! Max 2MB');
+                            return;
+                        }
+                        
+                        selectedImage = file;
+                        
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            document.getElementById('previewImg').src = e.target.result;
+                            document.getElementById('imagePreview').classList.remove('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                        
+                        break;
+                    }
+                }
+            });
         }
         function cancelImage() {
             selectedImage = null;
