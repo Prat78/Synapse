@@ -2160,17 +2160,26 @@
             container.scrollTop = container.scrollHeight;
         }
 
-      async function sendChatroomMessage() {
+     async function sendChatroomMessage() {
         const input = document.getElementById('chatroomInput');
         const btn = document.getElementById('sendChatroomMessage');
         const text = input.value.trim();
     
         // Check if there's either text or an image to send
         if (!text && !selectedImage) {
-            console.log('No message or image to send');
+            console.log('❌ No message or image to send');
             return;
         }
         
+    console.log('📤 Sending - Text:', text, '| Image:', selectedImage ? 'YES' : 'NO');
+
+    const now = Date.now();
+    if (now - lastMessageTime < 2000) {
+        alert('Please wait a moment before sending another message.');
+        return;
+    }
+
+    btn.disabled = true;
         console.log('Sending - Text:', text, 'Image:', selectedImage);
 
             btn.disabled = true;
