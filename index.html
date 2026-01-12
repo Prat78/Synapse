@@ -2275,7 +2275,7 @@
                         const blob = items[i].getAsFile();
                         const file = new File([blob], 'pasted-image.png', { type: blob.type });
                         
-                        if (file.size > 2 * 1024 * 1024) {
+                        if (file.size > 50 * 1024 * 1024) {
                             alert('Image too large! Max 2MB');
                             return;
                         }
