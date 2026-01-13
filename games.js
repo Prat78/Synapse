@@ -151,7 +151,7 @@ var games = {
     "motox3m-pool": "https://clever.pbseducation1914.org/games/motox3m-pool/index.html",
     "motox3m-spooky": "https://clever.pbseducation1914.org/games/motox3m-spooky/index.html",
     "minesweeper": "https://clever.pbseducation1914.org/games/minesweeper/index.html
-"mrbullet": "https://clever.pbseducation1914.org/games/mrbullet/index.html",
+    "mrbullet": "https://clever.pbseducation1914.org/games/mrbullet/index.html",
     "murder": "https://clever.pbseducation1914.org/games/murder/index.html",
     "mrpresident": "https://clever.pbseducation1914.org/games/mrpresident/index.html",
     "myfriendpedro": "https://clever.pbseducation1914.org/games/myfriendpedro/index.html",
