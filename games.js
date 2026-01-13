@@ -90,7 +90,7 @@ var GAMES = [
       "popularity": "5M+",
       "releaseDate": "June 10, 2013",
       "rating": "TODO",
-      "link": "https://macvg-games.github.io/action-games/adarkroom/",
+      "link": "https://gamesproxy.onrender.com/game?id=10",
       "genre": "Text-Based Strategy Games",
       "build": "HTML5, JavaScript",
       "dev": "Doublespeak Games",
