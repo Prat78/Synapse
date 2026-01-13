@@ -56,7 +56,7 @@ var GAMES = [
       "popularity": "1M+",
       "releaseDate": "December 2018",
       "rating": "TODO",
-      "link": "https://clever.pbseducation1914.org/games/basketballstars/index.html",
+      "link": "https://gamesproxy.onrender.com/game?id=15",
       "genre": "Point and Click Strategy Games",
       "build": "HTML5, JavaScript",
       "dev": "Functu Games",
