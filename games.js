@@ -36,7 +36,7 @@ var GAMES = [
       "popularity": "10M+",
       "releaseDate": "May 11, 2022",
       "rating": "TODO",
-      "link": "https://macvg-games.github.io/action-games/10-minutes-till-dawn/",
+      "link": "https://gamesproxy.onrender.com/game?id=4",
       "genre": "Survival Games",
       "build": "Unity WebGL",
       "dev": "flanne",
