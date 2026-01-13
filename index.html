@@ -2127,14 +2127,37 @@
             return div.innerHTML;
         }
 
-       function setupChatroomEvents() {
+      // ===========================
+// FIXED: setupChatroomEvents
+// ===========================
+// Replace your current setupChatroomEvents function with this:
+
+        function setupChatroomEvents() {
+            const sendBtn = document.getElementById('sendChatroomMessage');
+            const input = document.getElementById('chatroomInput');
+            
+            // Check if elements exist before adding listeners
+            if (!sendBtn || !input) {
+                console.log('⚠️ Chatroom elements not found, skipping event setup');
+                return;
+            }
+            
+            // Remove existing listeners by cloning elements
+            const newSendBtn = sendBtn.cloneNode(true);
+            sendBtn.parentNode.replaceChild(newSendBtn, sendBtn);
+            
+            const newInput = input.cloneNode(true);
+            input.parentNode.replaceChild(newInput, input);
+            
+            // Add click event
             document.getElementById('sendChatroomMessage').addEventListener('click', sendChatroomMessage);
-        
+            
+            // Add enter key event
             document.getElementById('chatroomInput').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') sendChatroomMessage();
             });
-        
-            // Add paste event listener for images
+            
+            // Add paste event for images
             document.getElementById('chatroomInput').addEventListener('paste', (e) => {
                 const items = e.clipboardData.items;
                 
@@ -2145,7 +2168,7 @@
                         const blob = items[i].getAsFile();
                         const file = new File([blob], 'pasted-image.png', { type: blob.type });
                         
-                        if (file.size > 190 * 1024 * 1024) {
+                        if (file.size > 2 * 1024 * 1024) {
                             alert('Image too large! Max 2MB');
                             return;
                         }
@@ -2163,6 +2186,70 @@
                     }
                 }
             });
+            
+            console.log('✅ Chatroom events setup complete');
+        }
+        
+        // ===========================
+        // FIXED: init function
+        // ===========================
+        // Replace your init() function with this:
+        
+        function init() {
+            setTimeout(() => {
+                var l = document.getElementById("loadingScreen");
+                l.style.opacity = "0";
+        
+                setTimeout(() => {
+                    l.style.display = "none";
+                }, 500);
+            }, 1500);
+        
+            createStars();
+            renderCategories();
+            renderGames();
+            setupEvents();
+            
+            // DON'T call setupChatroomEvents here - it will be called when page opens
+            console.log('✅ Initialization complete');
+        }
+        
+        // ===========================
+        // FIXED: showPage function
+        // ===========================
+        // Update your showPage function to call setupChatroomEvents when chatroom opens:
+        
+        function showPage(name) {
+            for (var k in pages) {
+                if (pages[k]) pages[k].classList.add("hidden");
+            }
+        
+            if (pages[name]) pages[name].classList.remove("hidden");
+        
+            document.querySelectorAll("[data-page]").forEach(l => {
+                l.classList.remove("active");
+                if (l.getAttribute("data-page") === name) l.classList.add("active");
+            });
+        
+            document.getElementById("mobileMenu").classList.add("hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        
+            // Initialize Firebase when needed
+            if ((name === 'chatroom' || name === 'feedback') && !isFirebaseInitialized) {
+                initFirebase();
+            }
+        
+            // Setup chatroom
+            if (name === 'chatroom' && isFirebaseInitialized) {
+                switchRoom('chatroom1');
+                setupImageUpload();
+                setupChatroomEvents(); // ← CALL IT HERE when chatroom opens!
+            }
+        
+            // Setup feedback
+            if (name === 'feedback' && !isFeedbackInitialized && isFirebaseInitialized) {
+                initFeedback();
+            }
         }
         function cancelImage() {
             selectedImage = null;
