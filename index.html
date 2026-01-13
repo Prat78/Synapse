@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <base target="_self">
     <meta charset="UTF-8">
@@ -7,121 +8,352 @@
     <title>Synapse AI - Intelligent AI Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
-        @keyframes float {0%,100%{transform:translateY(0px);}50%{transform:translateY(-20px);}}
-        @keyframes pulse-glow {0%,100%{box-shadow:0 0 20px rgba(59,130,246,0.5);}50%{box-shadow:0 0 40px rgba(59,130,246,0.8);}}
-        @keyframes fadeInUp {from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-        @keyframes starTwinkle {0%,100%{opacity:0.2;}50%{opacity:1;}}
-        @keyframes typing {from{width:0;}to{width:100%;}}
-        @keyframes blink {0%,100%{opacity:1;}50%{opacity:0;}}
-        
-        .animate-float{animation:float 6s ease-in-out infinite;}
-        .animate-pulse-glow{animation:pulse-glow 2s ease-in-out infinite;}
-        .typing-animation{overflow:hidden;white-space:nowrap;animation:typing 3.5s steps(40,end);}
-        .cursor-blink{animation:blink 1s infinite;}
-        .glassmorphism{background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);}
-        .nav-underline{position:relative;}
-        .nav-underline::after{content:'';position:absolute;width:0;height:2px;bottom:-5px;left:0;background:linear-gradient(90deg,#3b82f6,#8b5cf6);transition:width 0.3s ease;}
-        .nav-underline:hover::after,.nav-underline.active::after{width:100%;}
-        .chat-bubble-user{background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-radius:20px 20px 0 20px;}
-        .chat-bubble-ai{background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:20px 20px 20px 0;}
-        .game-card{transition:all 0.3s ease;cursor:pointer;}
-        .game-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 20px 40px rgba(59,130,246,0.3);}
-        .game-card:hover .play-overlay{opacity:1;}
-        .play-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;}
-        .play-icon{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:24px;}
-        .loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:#0f172a;display:flex;justify-content:center;align-items:center;z-index:9999;transition:opacity 0.5s ease;}
-        .loading-dots{display:flex;gap:10px;}
-        .loading-dot{width:20px;height:20px;border-radius:50%;background:linear-gradient(45deg,#3b82f6,#8b5cf6);animation:float 1s ease-in-out infinite;}
-        .loading-dot:nth-child(2){animation-delay:0.2s;}
-        .loading-dot:nth-child(3){animation-delay:0.4s;}
-        .parallax-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;}
-        .star{position:absolute;background:white;border-radius:50%;animation:starTwinkle 3s infinite;}
-        .page-transition{animation:fadeInUp 0.5s ease forwards;}
-        .typing-indicator{display:flex;align-items:center;gap:4px;}
-        .typing-dot{width:8px;height:8px;border-radius:50%;background:#8b5cf6;animation:float 1.4s infinite ease-in-out;}
-        .typing-dot:nth-child(1){animation-delay:-0.32s;}
-        .typing-dot:nth-child(2){animation-delay:-0.16s;}
-        .cat-btn{padding:8px 16px;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#9ca3af;cursor:pointer;transition:all 0.3s;}
-        .cat-btn:hover,.cat-btn.active{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:white;border:none;}
-		.room-btn{
-    padding:10px 20px;
-    border-radius:25px;
-    background:rgba(255,255,255,0.05);
-    border:2px solid rgba(255,255,255,0.1);
-    color:#9ca3af;
-    cursor:pointer;
-    transition:all 0.3s;
-    font-weight:500;
-}
-.room-btn:hover{
-    background:rgba(59,130,246,0.2);
-    border-color:rgba(59,130,246,0.4);
-    color:white;
-}
-.room-btn.active{
-    background:linear-gradient(135deg,#3b82f6,#8b5cf6);
-    color:white;
-    border:none;
-}
-.image-message{
-    max-width:300px;
-    max-height:400px;
-    border-radius:12px;
-    cursor:pointer;
-    transition:transform 0.2s;
-}
-.image-message:hover{
-    transform:scale(1.05);
-}
-		.feedback-card {
-    transition: all 0.3s ease;
-}
-.feedback-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
-}
-.feedback-type-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 500;
-}
-		@keyframes particleMove {
-    0% { 
-        transform: translateY(0) translateX(0); 
-        opacity: 0.3;
-    }
-    50% {
-        opacity: 0.6;
-    }
-    100% { 
-        transform: translateY(-1000px) translateX(100px); 
-        opacity: 0;
-    }
-}
+        @keyframes float {
 
-.particle {
-    position: absolute;
-    background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-    border-radius: 50%;
-    animation: particleMove 20s linear infinite;
-    pointer-events: none;
-}
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
 
-.nebula {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-    opacity: 0.1;
-    pointer-events: none;
-}
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes starTwinkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .typing-animation {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end);
+        }
+
+        .cursor-blink {
+            animation: blink 1s infinite;
+        }
+
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-underline {
+            position: relative;
+        }
+
+        .nav-underline::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-underline:hover::after,
+        .nav-underline.active::after {
+            width: 100%;
+        }
+
+        .chat-bubble-user {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 20px 20px 0 20px;
+        }
+
+        .chat-bubble-ai {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 20px 20px 20px 0;
+        }
+
+        .game-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .game-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .play-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .loading-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            animation: float 1s ease-in-out infinite;
+        }
+
+        .loading-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: starTwinkle 3s infinite;
+        }
+
+        .page-transition {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #8b5cf6;
+            animation: float 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .cat-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cat-btn:hover,
+        .cat-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+        }
+
+        .room-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .room-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+            color: white;
+        }
+
+        .room-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+        }
+
+        .image-message {
+            max-width: 300px;
+            max-height: 400px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .image-message:hover {
+            transform: scale(1.05);
+        }
+
+        .feedback-card {
+            transition: all 0.3s ease;
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .feedback-type-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        @keyframes particleMove {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-1000px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .particle {
+            position: absolute;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            animation: particleMove 20s linear infinite;
+            pointer-events: none;
+        }
+
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.1;
+            pointer-events: none;
+        }
     </style>
     <script>
-		
+
         tailwind.config = {
             theme: {
                 extend: {
@@ -132,1464 +364,1632 @@
                         "dark-light": "#1e293b"
                     },
                     fontFamily: {
-                        'sans': ['Inter','system-ui','sans-serif'],
-                        'orbitron': ['Orbitron','monospace']
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'monospace']
                     }
                 }
             }
         }
     </script>
 </head>
+
 <body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden">
 
-<!-- Loading Screen -->
-<div id="loadingScreen" class="loading-screen">
-    <div class="text-center">
-        <div class="loading-dots mb-6">
-            <div class="loading-dot"></div>
-            <div class="loading-dot"></div>
-            <div class="loading-dot"></div>
-        </div>
-        <h2 class="text-2xl font-orbitron font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Loading Synapse AI...</h2>
-        <p class="text-gray-400 mt-2">Initializing neural networks</p>
-    </div>
-</div>
-
-<!-- Parallax Background -->
-<div id="parallaxBg" class="parallax-bg"></div>
-
-<!-- Navigation -->
-<nav class="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-white/10">
-    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                <i class="fas fa-brain text-white"></i>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="text-center">
+            <div class="loading-dots mb-6">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
             </div>
-            <span class="text-2xl font-orbitron font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse AI</span>
+            <h2
+                class="text-2xl font-orbitron font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Loading Synapse AI...</h2>
+            <p class="text-gray-400 mt-2">Initializing neural networks</p>
         </div>
-        <div class="hidden md:flex items-center space-x-8">
-            <a href="#" data-page="home" class="nav-underline active text-gray-300 hover:text-white transition-colors duration-300">Home</a>
-            <a href="#" data-page="chat" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">AI Chat</a>
-            <a href="#" data-page="games" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Games</a>
-            <a href="#" data-page="policy" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
-            <a href="#" data-page="roblox" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Online Games/Proxy Browser!</a>
-<a href="#" data-page="chatroom" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Chatroom</a>
-<a href="#" data-page="feedback" class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Feedback</a>
-        </div>
-        <button id="tryAI" class="px-6 py-2 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform duration-300 animate-pulse-glow">Try the AI</button>
-        <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white"><i class="fas fa-bars text-2xl"></i></button>
     </div>
-    <div id="mobileMenu" class="md:hidden mt-4 hidden flex-col space-y-4 px-4">
-        <a href="#" data-page="home" class="nav-underline active text-gray-300 hover:text-white py-2">Home</a>
-        <a href="#" data-page="chat" class="nav-underline text-gray-300 hover:text-white py-2">AI Chat</a>
-        <a href="#" data-page="games" class="nav-underline text-gray-300 hover:text-white py-2">Games</a>
-        <a href="#" data-page="policy" class="nav-underline text-gray-300 hover:text-white py-2">Policy</a>
-<a href="#" data-page="chatroom" class="nav-underline text-gray-300 hover:text-white py-2">Chatroom</a>
-    </div>
-</nav>
 
-<!-- Main Content -->
-<main class="pt-20">
+    <!-- Parallax Background -->
+    <div id="parallaxBg" class="parallax-bg"></div>
 
-<!-- HOME PAGE -->
-<div id="homePage" class="page-transition">
-    <section class="container mx-auto px-4 py-16 md:py-24 text-center">
-        <h1 class="text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-6">
-            <span class="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">Welcome to</span>
-            <br>
-            <span class="typing-animation bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse AI</span>
-            <span class="cursor-blink">|</span>
-        </h1>
-        <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">When that stupid English essay is due but Chatgpt is blocked....</p>
-        <button onclick="showPage('chat')" class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 animate-pulse-glow">
-            <i class="fas fa-rocket mr-2"></i>Start Your AI Journey
-        </button>
-        <div class="mt-16 animate-float">
-            <div class="glassmorphism rounded-3xl p-8 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-bolt text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Lightning Fast💨</h3>
-                    <p class="text-gray-400">Instant responses powered by advanced neural networks</p>
+    <!-- Navigation -->
+    <nav class="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-white/10">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <i class="fas fa-brain text-white"></i>
                 </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-shield-alt text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Undetectable Ai🤯</h3>
-                    <p class="text-gray-400">Undetectable Ai that can do EVERYTHING for you!😎</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-gamepad text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Fun Games😉</h3>
-                    <p class="text-gray-400">Play awesome unblocked games in your browser</p>
-                </div>
+                <span
+                    class="text-2xl font-orbitron font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse
+                    AI</span>
             </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" data-page="home"
+                    class="nav-underline active text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                <a href="#" data-page="chat"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">AI Chat</a>
+                <a href="#" data-page="games"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Games</a>
+                <a href="#" data-page="policy"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
+                <a href="#" data-page="roblox"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Online
+                    Games/Proxy Browser!</a>
+                <a href="#" data-page="chatroom"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Chatroom</a>
+                <a href="#" data-page="feedback"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Feedback</a>
+            </div>
+            <button id="tryAI"
+                class="px-6 py-2 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform duration-300 animate-pulse-glow">Try
+                the AI</button>
+            <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white"><i
+                    class="fas fa-bars text-2xl"></i></button>
         </div>
-    </section>
-</div>
-
-<!-- CHAT PAGE -->
-<div id="chatPage" class="page-transition hidden">
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
-                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse AI Chat</span>
-            </h1>
-            <p class="text-gray-400">Your intelligent AI assistant with superpowers 🚀</p>
+        <div id="mobileMenu" class="md:hidden mt-4 hidden flex-col space-y-4 px-4">
+            <a href="#" data-page="home" class="nav-underline active text-gray-300 hover:text-white py-2">Home</a>
+            <a href="#" data-page="chat" class="nav-underline text-gray-300 hover:text-white py-2">AI Chat</a>
+            <a href="#" data-page="games" class="nav-underline text-gray-300 hover:text-white py-2">Games</a>
+            <a href="#" data-page="policy" class="nav-underline text-gray-300 hover:text-white py-2">Policy</a>
+            <a href="#" data-page="chatroom" class="nav-underline text-gray-300 hover:text-white py-2">Chatroom</a>
         </div>
+    </nav>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Main Chat Area -->
-            <div class="lg:col-span-2">
-                <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
-                    <!-- Animated Header -->
-                    <div class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
-                                <i class="fas fa-brain"></i>
+    <!-- Main Content -->
+    <main class="pt-20">
+
+        <!-- HOME PAGE -->
+        <div id="homePage" class="page-transition">
+            <section class="container mx-auto px-4 py-16 md:py-24 text-center">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-6">
+                    <span
+                        class="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">Welcome
+                        to</span>
+                    <br>
+                    <span
+                        class="typing-animation bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse
+                        AI</span>
+                    <span class="cursor-blink">|</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">When that stupid English essay is
+                    due but Chatgpt is blocked....</p>
+                <button onclick="showPage('chat')"
+                    class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 animate-pulse-glow">
+                    <i class="fas fa-rocket mr-2"></i>Start Your AI Journey
+                </button>
+                <div class="mt-16 animate-float">
+                    <div class="glassmorphism rounded-3xl p-8 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="text-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-bolt text-2xl"></i>
                             </div>
-                            <div class="ml-3">
-                                <h3 class="font-semibold">Synapse AI Assistant</h3>
-                                <p class="text-sm text-green-400">● Online • Lightning Fast</p>
-                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Lightning Fast💨</h3>
+                            <p class="text-gray-400">Instant responses powered by advanced neural networks</p>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="clearChat()" class="p-2 hover:bg-white/10 rounded-lg transition-all" title="Clear Chat">
-                                <i class="fas fa-trash text-gray-400"></i>
-                            </button>
-                            <button onclick="toggleVoice()" class="p-2 hover:bg-white/10 rounded-lg transition-all" title="Voice Mode">
-                                <i class="fas fa-microphone text-gray-400"></i>
-                            </button>
+                        <div class="text-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-shield-alt text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Undetectable Ai🤯</h3>
+                            <p class="text-gray-400">Undetectable Ai that can do EVERYTHING for you!😎</p>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-gamepad text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Fun Games😉</h3>
+                            <p class="text-gray-400">Play awesome unblocked games in your browser</p>
                         </div>
                     </div>
+                </div>
+            </section>
+        </div>
 
-                    <!-- Messages Area -->
-                    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4">
-                        <div class="flex items-start">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-robot text-sm"></i>
+        <!-- CHAT PAGE -->
+        <div id="chatPage" class="page-transition hidden">
+           <div class="w-full px-4 py-8">
+
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
+                        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse
+                            AI Chat</span>
+                    </h1>
+                    <p class="text-gray-400">Your intelligent AI assistant with superpowers 🚀</p>
+                </div>
+
+             <div class="grid grid-cols-1 gap-6">
+            <div class="col-span-1 w-full"> <!-- Main Chat Area -->
+
+                    <!-- Main Chat Area -->
+                    <div class="lg:col-span-2">
+                        <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
+                            <!-- Animated Header -->
+                            <div
+                                class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="font-semibold">Synapse AI Assistant</h3>
+                                        <p class="text-sm text-green-400">● Online • Lightning Fast</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="clearChat()"
+                                        class="p-2 hover:bg-white/10 rounded-lg transition-all" title="Clear Chat">
+                                        <i class="fas fa-trash text-gray-400"></i>
+                                    </button>
+                                    <button onclick="toggleVoice()"
+                                        class="p-2 hover:bg-white/10 rounded-lg transition-all" title="Voice Mode">
+                                        <i class="fas fa-microphone text-gray-400"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="ml-3">
-                                <div class="chat-bubble-ai p-4 max-w-md">
-                                    <p>👋 Hello! I'm Synapse AI. I can help you with:</p>
-                                    <ul class="mt-2 space-y-1 text-sm">
-                                        <li>📝 Essays & homework</li>
-                                        <li>🧮 Math problems</li>
-                                        <li>💡 Creative ideas</li>
-                                        <li>🔬 Research & analysis</li>
-                                        <li>💻 Coding help</li>
-                                    </ul>
-                                    <p class="mt-2">What can I help you with today?</p>
+
+                            <!-- Messages Area -->
+                            <div id="chatMessages" class="flex-1 w-full overflow-y-auto p-4 space-y-4">
+
+                                <div class="flex items-start">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-robot text-sm"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <div class="chat-bubble-ai p-4 w-full">
+
+                                            <p>👋 Hello! I'm Synapse AI. I can help you with:</p>
+                                            <ul class="mt-2 space-y-1 text-sm">
+                                                <li>📝 Essays & homework</li>
+                                                <li>🧮 Math problems</li>
+                                                <li>💡 Creative ideas</li>
+                                                <li>🔬 Research & analysis</li>
+                                                <li>💻 Coding help</li>
+                                            </ul>
+                                            <p class="mt-2">What can I help you with today?</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="typingIndicator" class="flex items-start hidden">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-robot text-sm"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <div class="chat-bubble-ai p-4 max-w-md">
+                                            <div class="typing-indicator">
+                                                <div class="typing-dot"></div>
+                                                <div class="typing-dot"></div>
+                                                <div class="typing-dot"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Input Area with Quick Actions -->
+                            <div class="p-4 border-t border-white/10 bg-dark-light/50">
+                                <div class="flex flex-wrap gap-2 mb-3" id="quickPrompts">
+                                    <button onclick="useQuickPrompt('Help me write an essay about')"
+                                        class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                        📝 Essay Help
+                                    </button>
+                                    <button onclick="useQuickPrompt('Solve this math problem:')"
+                                        class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                        🧮 Math Solver
+                                    </button>
+                                    <button onclick="useQuickPrompt('Explain this concept:')"
+                                        class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                        💡 Explain
+                                    </button>
+                                    <button onclick="useQuickPrompt('Help me code:')"
+                                        class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                        💻 Code Helper
+                                    </button>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <input type="text" id="chatInput" placeholder="Ask me anything..."
+                                        class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
+                                    <button id="sendMessage"
+                                        class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div id="typingIndicator" class="flex items-start hidden">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-robot text-sm"></i>
+                    </div>
+
+                    <!-- Sidebar with Stats & Features -->
+                    <div class="space-y-6">
+                        <!-- Stats Card -->
+                        <div class="glassmorphism rounded-2xl p-6">
+                            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                <i class="fas fa-chart-line text-primary mr-2"></i>
+                                Chat Stats
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Messages Sent</span>
+                                    <span class="font-bold text-primary" id="messageCount">0</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Avg Response</span>
+                                    <span class="font-bold text-green-400">0.8s</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">AI Power</span>
+                                    <span class="font-bold text-secondary">100%</span>
+                                </div>
                             </div>
-                            <div class="ml-3">
-                                <div class="chat-bubble-ai p-4 max-w-md">
-                                    <div class="typing-indicator">
-                                        <div class="typing-dot"></div>
-                                        <div class="typing-dot"></div>
-                                        <div class="typing-dot"></div>
+                        </div>
+
+                        <!-- Features Card -->
+                        <div class="glassmorphism rounded-2xl p-6">
+                            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                <i class="fas fa-magic text-secondary mr-2"></i>
+                                AI Features
+                            </h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-400"></i>
+                                    <span>Undetectable Content</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-400"></i>
+                                    <span>Multi-Language Support</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-400"></i>
+                                    <span>Context Understanding</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-400"></i>
+                                    <span>Code Generation</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-400"></i>
+                                    <span>24/7 Availability</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pro Tips Card -->
+                        <div class="glassmorphism rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary/10">
+                            <h3 class="text-lg font-semibold mb-3 flex items-center">
+                                <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
+                                Pro Tips
+                            </h3>
+                            <ul class="space-y-2 text-sm text-gray-300">
+                                <li>💡 Be specific for better results</li>
+                                <li>🎯 Ask follow-up questions</li>
+                                <li>📋 Request different formats</li>
+                                <li>🔄 Ask for revisions anytime</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- CHATROOM PAGE -->
+        <!-- CHATROOM PAGE -->
+        <div id="chatroomPage" class="page-transition hidden">
+            <div class="container mx-auto px-4 py-8 max-w-7xl">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
+                        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">🌐 Public
+                            Chatrooms</span>
+                    </h1>
+                    <p class="text-gray-400">Choose a room and start chatting!</p>
+                </div>
+
+                <!-- Room Selection -->
+                <!-- Room Selection -->
+                <div class="mb-6 flex flex-wrap gap-3 justify-center" id="roomSelector">
+                    <button onclick="switchRoom('chatroom1')" class="room-btn active" data-room="chatroom1">
+                        <i class="fas fa-globe mr-2"></i>Global
+                    </button>
+                    <button onclick="switchRoom('chatroom2')" class="room-btn" data-room="chatroom2">
+                        <i class="fas fa-comments mr-2"></i>Europe
+                    </button>
+                    <button onclick="switchRoom('chatroom3')" class="room-btn" data-room="chatroom3">
+                        <i class="fas fa-comments mr-2"></i>Stockholm
+                    </button>
+                    <button onclick="switchRoom('chatroom4')" class="room-btn" data-room="chatroom4">
+                        <i class="fas fa-school mr-2"></i>Ies Solna
+                    </button>
+                    <button onclick="switchRoom('chatroom5')" class="room-btn" data-room="chatroom5">
+                        <i class="fas fa-globe mr-2"></i>United States
+                    </button>
+                </div>
+                <!-- Admin Panel -->
+                <div id="adminPanel"
+                    class="hidden absolute top-0 left-0 right-0 bottom-0 bg-dark/95 backdrop-blur-sm z-50 p-6 overflow-y-auto">
+                    <div class="max-w-2xl mx-auto">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold text-red-400">
+                                <i class="fas fa-shield-alt mr-2"></i>Admin Control Panel
+                            </h2>
+                            <button onclick="closeAdminPanel()"
+                                class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-all">
+                                <i class="fas fa-times mr-1"></i>Close
+                            </button>
+                        </div>
+
+                        <div class="glassmorphism rounded-xl p-6 mb-4">
+                            <h3 class="text-lg font-semibold mb-4 text-red-400">Danger Zone</h3>
+                            <button onclick="deleteAllMessages()"
+                                class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all mb-3">
+                                <i class="fas fa-trash-alt mr-2"></i>Delete ALL Messages (Current Room)
+                            </button>
+                            <button onclick="toggleDeleteMode()" id="deleteMode"
+                                class="w-full px-4 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-all">
+                                <i class="fas fa-mouse-pointer mr-2"></i>Enable Delete Mode
+                            </button>
+                        </div>
+
+                        <div class="glassmorphism rounded-xl p-6">
+                            <h3 class="text-lg font-semibold mb-3">Admin Stats</h3>
+                            <div class="space-y-2 text-sm">
+                                <p><i class="fas fa-door-open text-primary mr-2"></i>Current Room: <span
+                                        id="adminCurrentRoom">General</span></p>
+                                <p><i class="fas fa-users text-primary mr-2"></i>Online Users: <span
+                                        id="adminOnlineCount">0</span></p>
+                                <p><i class="fas fa-comments text-secondary mr-2"></i>Total Messages: <span
+                                        id="adminTotalMessages">0</span></p>
+                                <p><i class="fas fa-clock text-yellow-400 mr-2"></i>Auto-delete: 20 minutes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Main Chat Area -->
+                    <div class="lg:col-span-2">
+                        <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
+                            <!-- Header -->
+                            <div
+                                class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="font-semibold" id="currentRoomTitle">Chat</h3>
+                                        <p class="text-sm text-green-400">● <span id="onlineCount">0</span> Online</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="changeNickname()"
+                                        class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                        <i class="fas fa-user-edit mr-1"></i>Change Nickname
+                                    </button>
+                                    <button onclick="adminLogin()"
+                                        class="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-full text-xs transition-all"
+                                        id="adminLoginBtn">
+                                        <i class="fas fa-shield-alt mr-1"></i>Admin
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Messages Area -->
+                            <div id="chatroomMessages" class="flex-1 overflow-y-auto p-4 space-y-3">
+                                <div class="text-center text-gray-500 text-sm py-8">
+                                    <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                                    <p>Loading messages...</p>
+                                </div>
+                            </div>
+
+                            <!-- Input Area -->
+                            <div class="p-4 border-t border-white/10 bg-dark-light/50">
+                                <!-- Image Preview -->
+                                <div id="imagePreview" class="hidden mb-3 relative inline-block">
+                                    <img id="previewImg" src="" class="max-h-32 rounded-lg border border-white/20">
+                                    <button onclick="cancelImage()"
+                                        class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-xs hover:bg-red-600">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+
+                                <div class="flex space-x-2">
+                                    <input type="text" id="chatroomInput" placeholder="Type your message..."
+                                        maxlength="500"
+                                        class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
+
+                                    <label for="imageUpload"
+                                        class="px-4 py-3 bg-purple-600/80 hover:bg-purple-600 rounded-full cursor-pointer transition-all flex items-center justify-center"
+                                        title="Upload Image">
+                                        <i class="fas fa-image"></i>
+                                    </label>
+                                    <input type="file" id="imageUpload" accept="image/*" class="hidden">
+
+                                    <button id="sendChatroomMessage"
+                                        class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2" id="chatroomStatus">Connecting...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="space-y-6">
+                        <!-- User Info Card -->
+                        <div class="glassmorphism rounded-2xl p-6">
+                            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                <i class="fas fa-user text-primary mr-2"></i>
+                                Your Profile
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center space-x-3">
+                                    <div
+                                        class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                                        <i class="fas fa-user text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold" id="currentNickname">Guest</p>
+                                        <p class="text-xs text-gray-400">Click above to change</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Input Area with Quick Actions -->
-                    <div class="p-4 border-t border-white/10 bg-dark-light/50">
-                        <div class="flex flex-wrap gap-2 mb-3" id="quickPrompts">
-                            <button onclick="useQuickPrompt('Help me write an essay about')" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
-                                📝 Essay Help
-                            </button>
-                            <button onclick="useQuickPrompt('Solve this math problem:')" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
-                                🧮 Math Solver
-                            </button>
-                            <button onclick="useQuickPrompt('Explain this concept:')" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
-                                💡 Explain
-                            </button>
-                            <button onclick="useQuickPrompt('Help me code:')" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
-                                💻 Code Helper
-                            </button>
+                        <!-- Rules Card -->
+                        <div class="glassmorphism rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary/10">
+                            <h3 class="text-lg font-semibold mb-3 flex items-center">
+                                <i class="fas fa-shield-alt text-yellow-400 mr-2"></i>
+                                Chat Rules
+                            </h3>
+                            <ul class="space-y-2 text-sm text-gray-300">
+                                <li>✅Do whatever you want👍</li>
+                                <li>❌ I am NOT liable for ANYTHING that happens in here(enter at your own cost as if
+                                    anything happens the creator is NOT involved)</li>
+                                <li>❌ No spam flooding</li>
+                                <li>❌ Do not post any copy righted material, personal info, or anything important as YOU
+                                    are held accountable for it</li>
+                                <li>❌ If you feel like you are being mistreated, just leave🙏</li>
+                                <li>❌ Anything that happens here is NOT monitored</li>
+                            </ul>
                         </div>
-                        <div class="flex space-x-2">
-                            <input type="text" id="chatInput" placeholder="Ask me anything..." class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
-                            <button id="sendMessage" class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform">
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
+
+                        <!-- Stats Card -->
+                        <div class="glassmorphism rounded-2xl p-6">
+                            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                <i class="fas fa-chart-bar text-secondary mr-2"></i>
+                                Stats
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Your Messages</span>
+                                    <span class="font-bold text-primary" id="userMessageCount">0</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Room Messages</span>
+                                    <span class="font-bold text-green-400" id="totalMessageCount">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Sidebar with Stats & Features -->
-            <div class="space-y-6">
-                <!-- Stats Card -->
-                <div class="glassmorphism rounded-2xl p-6">
-                    <h3 class="text-lg font-semibold mb-4 flex items-center">
-                        <i class="fas fa-chart-line text-primary mr-2"></i>
-                        Chat Stats
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400">Messages Sent</span>
-                            <span class="font-bold text-primary" id="messageCount">0</span>
+
+        <!-- ROBLOX PAGE -->
+        <div id="robloxPage" class="page-transition hidden">
+            <div class="container mx-auto px-4 py-8 text-center">
+                <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-6">
+                    <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Online
+                        Games</span>
+                </h1>
+                <p class="text-white-700 mb-8">Select a proxy that works and click full screen</p>
+                <p class="text-white-700 mb-8">1.Enter this link in the search bar at the bottom of the screen and click
+                    "Open in Browser
+                    ": https://web.cloudmoonapp.com/</p>
+
+
+                <p class="text-white-700 mb-8">2.Sign up with your homeaccount(or make a new account if you feel unsafe)
+                </p>
+                <p class="text-white-700 mb-8">3.Click your online game and enjoy! </p>
+                <p class="text-white-700 mb-8">4.There are many online games you can play such as Roblox, Fortnite,
+                    Clash Royale, etc.. </p>
+                <p class="text-white-700 mb-8">4.This is a remote proxy browser which means you can do whatever you want like watch Tiktok or Youtube
+                    fully unblocked and undetected!😉 </p>
+                <!-- IFRAME CONTAINER GRID -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 max-w-7xl mx-auto">
+
+                   
+                    <!-- Frame 3 -->
+                    <div
+                        class="glassmorphism rounded-2xl p-4 bg-white/5 shadow-lg transition-transform hover:scale-[1.01] duration-300">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-primary flex items-center">
+                                <i class="fas fa-server mr-2"></i> Unblocked Proxy server 1
+                            </h3>
+                            <button onclick="toggleFullscreen('iframe-3')"
+                                class="text-gray-400 hover:text-white transition-colors" title="Fullscreen">
+                                <i class="fas fa-expand"></i>
+                            </button>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400">Avg Response</span>
-                            <span class="font-bold text-green-400">0.8s</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400">AI Power</span>
-                            <span class="font-bold text-secondary">100%</span>
+                        <div
+                            class="bg-white rounded-xl overflow-hidden h-[500px] flex items-center justify-center relative group">
+                            <!-- Replace src below with your link -->
+                            <iframe id="iframe-3" src="https://web.vserver.app/" width="100%" height="100%"
+                                class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                            </iframe>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <span class="text-gray-400 bg-white/80 px-4 py-2 rounded-full">'
+                                    code</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Features Card -->
-                <div class="glassmorphism rounded-2xl p-6">
-                    <h3 class="text-lg font-semibold mb-4 flex items-center">
-                        <i class="fas fa-magic text-secondary mr-2"></i>
-                        AI Features
-                    </h3>
-                    <div class="space-y-3 text-sm">
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-check-circle text-green-400"></i>
-                            <span>Undetectable Content</span>
+                   
+
+                    <!-- Frame 5 -->
+                    <div
+                        class="glassmorphism rounded-2xl p-4 bg-white/5 shadow-lg transition-transform hover:scale-[1.01] duration-300">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-primary flex items-center">
+                                <i class="fas fa-server mr-2"></i> Unblocked Proxy Server 2:
+                            </h3>
+                            <button onclick="toggleFullscreen('iframe-5')"
+                                class="text-gray-400 hover:text-white transition-colors" title="Fullscreen">
+                                <i class="fas fa-expand"></i>
+                            </button>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-check-circle text-green-400"></i>
-                            <span>Multi-Language Support</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-check-circle text-green-400"></i>
-                            <span>Context Understanding</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-check-circle text-green-400"></i>
-                            <span>Code Generation</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-check-circle text-green-400"></i>
-                            <span>24/7 Availability</span>
+                        <div
+                            class="bg-white rounded-xl overflow-hidden h-[500px] flex items-center justify-center relative group">
+                            <iframe id="iframe-5" src="https://college-pathway.rakunan-h.ed.jp.n0p.at/" width="100%"
+                                height="100%" class="border-0" allowfullscreen
+                                sandbox="allow-scripts allow-same-origin allow-popups">
+                            </iframe>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <span class="text-gray-400 bg-white/80 px-4 py-2 rounded-full">'
+                                    code</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Pro Tips Card -->
-                <div class="glassmorphism rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary/10">
-                    <h3 class="text-lg font-semibold mb-3 flex items-center">
-                        <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
-                        Pro Tips
-                    </h3>
-                    <ul class="space-y-2 text-sm text-gray-300">
-                        <li>💡 Be specific for better results</li>
-                        <li>🎯 Ask follow-up questions</li>
-                        <li>📋 Request different formats</li>
-                        <li>🔄 Ask for revisions anytime</li>
-                    </ul>
+
+                    <!-- Frame 8 -->
+                    <div
+                        class="glassmorphism rounded-2xl p-4 bg-white/5 shadow-lg transition-transform hover:scale-[1.01] duration-300">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-primary flex items-center">
+                                <i class="fas fa-server mr-2"></i> Unblocked proxy server 3:
+                            </h3>
+                            <button onclick="toggleFullscreen('iframe-8')"
+                                class="text-gray-400 hover:text-white transition-colors" title="Fullscreen">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                        <div
+                            class="bg-white rounded-xl overflow-hidden h-[500px] flex items-center justify-center relative group">
+                            <iframe id="iframe-8" src="https://explore.bayworld.net/" width="100%" height="100%"
+                                class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                            </iframe>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <span class="text-gray-400 bg-white/80 px-4 py-2 rounded-full">'
+                                    code</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- Frame 10 -->
+                    <div
+                        class="glassmorphism rounded-2xl p-4 bg-white/5 shadow-lg transition-transform hover:scale-[1.01] duration-300">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-primary flex items-center">
+                                <i class="fas fa-server mr-2"></i> Movies!
+                            </h3>
+                            <button onclick="toggleFullscreen('iframe-10')"
+                                class="text-gray-400 hover:text-white transition-colors" title="Fullscreen">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                        <div
+                            class="bg-white rounded-xl overflow-hidden h-[500px] flex items-center justify-center relative group">
+                            <iframe id="iframe-10" src="https://ww3.soap2dayhdz.com/" width="100%" height="100%" class="border-0"
+                                allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                            </iframe>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <span class="text-gray-400 bg-white/80 px-4 py-2 rounded-full">
+                                    code</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-</div>
-
-<!-- CHATROOM PAGE -->
-<!-- CHATROOM PAGE -->
-<div id="chatroomPage" class="page-transition hidden">
-    <div class="container mx-auto px-4 py-8 max-w-7xl">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
-                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">🌐 Public Chatrooms</span>
-            </h1>
-            <p class="text-gray-400">Choose a room and start chatting!</p>
+        <!-- GAMES PAGE -->
+        <div id="gamesPage" class="page-transition hidden">
+            <div class="container mx-auto px-4 py-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
+                        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">🎮
+                            Unblocked Games</span>
+                    </h1>
+                    <!-- SEARCH BAR ADDITION #1 -->
+                    <div class="max-w-md mx-auto mb-6 relative">
+                        <input type="text" id="gameSearch" placeholder="Search games..."
+                            class="w-full bg-dark-light border border-white/10 rounded-full px-12 py-3 focus:outline-none focus:border-primary transition-all duration-300">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <p class="text-gray-400 max-w-2xl mx-auto">Click any game to play!</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3 mb-8" id="categoryFilter"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="gamesGrid"></div>
+            </div>
         </div>
+        <!-- FEEDBACK PAGE -->
+        <div id="feedbackPage" class="page-transition hidden">
+            <div class="container mx-auto px-4 py-8 max-w-4xl">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
+                        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">💬
+                            Anonymous Feedback</span>
+                    </h1>
+                    <p class="text-gray-400">Help us improve Synapse AI! Share your thoughts anonymously.</p>
+                </div>
 
-        <!-- Room Selection -->
-     <!-- Room Selection -->
-<div class="mb-6 flex flex-wrap gap-3 justify-center" id="roomSelector">
-    <button onclick="switchRoom('chatroom1')" class="room-btn active" data-room="chatroom1">
-        <i class="fas fa-globe mr-2"></i>Global
-    </button>
-    <button onclick="switchRoom('chatroom2')" class="room-btn" data-room="chatroom2">
-        <i class="fas fa-comments mr-2"></i>Europe
-    </button>
-    <button onclick="switchRoom('chatroom3')" class="room-btn" data-room="chatroom3">
-        <i class="fas fa-comments mr-2"></i>Stockholm
-    </button>
-    <button onclick="switchRoom('chatroom4')" class="room-btn" data-room="chatroom4">
-        <i class="fas fa-school mr-2"></i>Ies Solna
-    </button>
-    <button onclick="switchRoom('chatroom5')" class="room-btn" data-room="chatroom5">
-        <i class="fas fa-globe mr-2"></i>United States
-    </button>
-</div>
-        <!-- Admin Panel -->
-        <div id="adminPanel" class="hidden absolute top-0 left-0 right-0 bottom-0 bg-dark/95 backdrop-blur-sm z-50 p-6 overflow-y-auto">
-            <div class="max-w-2xl mx-auto">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-red-400">
-                        <i class="fas fa-shield-alt mr-2"></i>Admin Control Panel
+                <!-- Submit Feedback Card -->
+                <div class="glassmorphism rounded-2xl p-6 mb-8">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-paper-plane text-primary mr-2"></i>
+                        Submit Feedback
                     </h2>
-                    <button onclick="closeAdminPanel()" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-all">
-                        <i class="fas fa-times mr-1"></i>Close
-                    </button>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Feedback Type</label>
+                            <select id="feedbackType"
+                                class="w-full bg-dark-light border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all">
+                                <option value="bug">🐛 Bug Report</option>
+                                <option value="feature">✨ Feature Request</option>
+                                <option value="improvement">💡 Improvement Idea</option>
+                                <option value="general">💬 General Feedback</option>
+                                <option value="compliment">❤️ Compliment</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Your Feedback (Anonymous)</label>
+                            <textarea id="feedbackText" placeholder="Share your thoughts, ideas, or report issues..."
+                                rows="5" maxlength="1000"
+                                class="w-full bg-dark-light border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all resize-none"></textarea>
+                            <p class="text-xs text-gray-500 mt-1"><span id="charCount">0</span>/1000 characters</p>
+                        </div>
+                        <button onclick="submitFeedback()" id="submitFeedbackBtn"
+                            class="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-semibold hover:scale-105 transition-transform">
+                            <i class="fas fa-paper-plane mr-2"></i>Submit Anonymously
+                        </button>
+                    </div>
                 </div>
-                
-                <div class="glassmorphism rounded-xl p-6 mb-4">
-                    <h3 class="text-lg font-semibold mb-4 text-red-400">Danger Zone</h3>
-                    <button onclick="deleteAllMessages()" class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all mb-3">
-                        <i class="fas fa-trash-alt mr-2"></i>Delete ALL Messages (Current Room)
-                    </button>
-                    <button onclick="toggleDeleteMode()" id="deleteMode" class="w-full px-4 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-all">
-                        <i class="fas fa-mouse-pointer mr-2"></i>Enable Delete Mode
-                    </button>
-                </div>
-                
-                <div class="glassmorphism rounded-xl p-6">
-                    <h3 class="text-lg font-semibold mb-3">Admin Stats</h3>
-                    <div class="space-y-2 text-sm">
-                        <p><i class="fas fa-door-open text-primary mr-2"></i>Current Room: <span id="adminCurrentRoom">General</span></p>
-                        <p><i class="fas fa-users text-primary mr-2"></i>Online Users: <span id="adminOnlineCount">0</span></p>
-                        <p><i class="fas fa-comments text-secondary mr-2"></i>Total Messages: <span id="adminTotalMessages">0</span></p>
-                        <p><i class="fas fa-clock text-yellow-400 mr-2"></i>Auto-delete: 20 minutes</p>
+
+                <!-- Feedback List -->
+                <div class="space-y-4" id="feedbackList">
+                    <div class="text-center py-8">
+                        <i class="fas fa-spinner fa-spin text-3xl text-gray-500 mb-3"></i>
+                        <p class="text-gray-500">Loading feedback...</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Main Chat Area -->
-            <div class="lg:col-span-2">
-                <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
-                    <!-- Header -->
-                    <div class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="font-semibold" id="currentRoomTitle">Chat</h3>
-                                <p class="text-sm text-green-400">● <span id="onlineCount">0</span> Online</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="changeNickname()" class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
-                                <i class="fas fa-user-edit mr-1"></i>Change Nickname
-                            </button>
-                            <button onclick="adminLogin()" class="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-full text-xs transition-all" id="adminLoginBtn">
-                                <i class="fas fa-shield-alt mr-1"></i>Admin
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Messages Area -->
-                    <div id="chatroomMessages" class="flex-1 overflow-y-auto p-4 space-y-3">
-                        <div class="text-center text-gray-500 text-sm py-8">
-                            <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
-                            <p>Loading messages...</p>
-                        </div>
-                    </div>
-
-                    <!-- Input Area -->
-                    <div class="p-4 border-t border-white/10 bg-dark-light/50">
-                        <!-- Image Preview -->
-                        <div id="imagePreview" class="hidden mb-3 relative inline-block">
-                            <img id="previewImg" src="" class="max-h-32 rounded-lg border border-white/20">
-                            <button onclick="cancelImage()" class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-xs hover:bg-red-600">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="flex space-x-2">
-                            <input type="text" id="chatroomInput" placeholder="Type your message..." maxlength="500" class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
-                            
-                            <label for="imageUpload" class="px-4 py-3 bg-purple-600/80 hover:bg-purple-600 rounded-full cursor-pointer transition-all flex items-center justify-center" title="Upload Image">
-                                <i class="fas fa-image"></i>
-                            </label>
-                            <input type="file" id="imageUpload" accept="image/*" class="hidden">
-                            
-                            <button id="sendChatroomMessage" class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed">
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-2" id="chatroomStatus">Connecting...</p>
-                    </div>
+        <!-- POLICY PAGE -->
+        <!-- POLICY PAGE -->
+        <div id="policyPage" class="page-transition hidden">
+            <div class="container mx-auto px-4 py-8 max-w-4xl space-y-8">
+                <div class="text-center mb-12">
+                    <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
+                        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Privacy
+                            Policy & Terms</span>
+                    </h1>
                 </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="space-y-6">
-                <!-- User Info Card -->
-                <div class="glassmorphism rounded-2xl p-6">
-                    <h3 class="text-lg font-semibold mb-4 flex items-center">
-                        <i class="fas fa-user text-primary mr-2"></i>
-                        Your Profile
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                                <i class="fas fa-user text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold" id="currentNickname">Guest</p>
-                                <p class="text-xs text-gray-400">Click above to change</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Rules Card -->
-                <div class="glassmorphism rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary/10">
-                    <h3 class="text-lg font-semibold mb-3 flex items-center">
-                        <i class="fas fa-shield-alt text-yellow-400 mr-2"></i>
-                        Chat Rules
-                    </h3>
-                    <ul class="space-y-2 text-sm text-gray-300">
-                     <li>✅Do whatever you want👍</li> 
-						<li>❌ I am NOT liable for ANYTHING that happens in here(enter at your own cost as if anything happens the creator is NOT involved)</li>
-						<li>❌ No spam flooding</li> 
-						<li>❌ Do not post any copy righted material, personal info, or anything important as YOU are held accountable for it</li> 
-						<li>❌ If you feel like you are being mistreated, just leave🙏</li>
-						<li>❌ Anything that happens here is NOT monitored</li>
-                    </ul>
-                </div>
-
-                <!-- Stats Card -->
-                <div class="glassmorphism rounded-2xl p-6">
-                    <h3 class="text-lg font-semibold mb-4 flex items-center">
-                        <i class="fas fa-chart-bar text-secondary mr-2"></i>
-                        Stats
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400">Your Messages</span>
-                            <span class="font-bold text-primary" id="userMessageCount">0</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400">Room Messages</span>
-                            <span class="font-bold text-green-400" id="totalMessageCount">0</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    
-           <!-- ROBLOX PAGE -->
-<div id="robloxPage" class="page-transition hidden">
-    <div class="container mx-auto px-4 py-8 text-center">
-        <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-6">
-            <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Online Games</span>
-        </h1>
-        <p class="text-white-700 mb-8">Steps to get online games to run in 2 min!</p>
-	<p class="text-white-700 mb-8">1.Enter this link in the search bar at the bottom of the screen and click "Open in Browser
-": https://web.cloudmoonapp.com/</p>
-				       
-                                      
-        <p class="text-white-700 mb-8">2.Sign up with your homeaccount(or make a new account if you feel unsafe)</p>
-        <p class="text-white-700 mb-8">3.Click your online game and enjoy! </p>
-<p class="text-white-700 mb-8">4.There are many online games you can play such as Roblox, Fortnite, Clash Royale, etc.. </p>
-		<p class="text-white-700 mb-8">4.This is a remote proxy browser which means you can do whatever you want fully unblocked and undetected!😉 </p>
-        <!-- IFRAME CONTAINER WITH WHITE BACKGROUND -->
-        <div class="roblox-embed-container rounded-2xl p-4 max-w-4xl mx-auto bg-white shadow-lg">
-            <!-- DROP YOUR IFRAME HERE -->
-            <iframe src="https://coursera.gq/" 
-                    width="100%" height="600" 
-                    class="rounded-2xl border border-gray-300"
-                    allowfullscreen
-                    sandbox="allow-scripts allow-same-origin allow-popups">
-            </iframe>
-        </div>
-    </div>
-</div>
-
-<!-- GAMES PAGE -->
-<div id="gamesPage" class="page-transition hidden">
-    <div class="container mx-auto px-4 py-8">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
-                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">🎮 Unblocked Games</span>
-            </h1>
-            <!-- SEARCH BAR ADDITION #1 -->
-            <div class="max-w-md mx-auto mb-6 relative">
-                <input type="text" id="gameSearch" placeholder="Search games..." class="w-full bg-dark-light border border-white/10 rounded-full px-12 py-3 focus:outline-none focus:border-primary transition-all duration-300">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-            </div>
-            <p class="text-gray-400 max-w-2xl mx-auto">Click any game to play!</p>
-        </div>
-        <div class="flex flex-wrap justify-center gap-3 mb-8" id="categoryFilter"></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="gamesGrid"></div>
-    </div>
-</div>
-<!-- FEEDBACK PAGE -->
-<div id="feedbackPage" class="page-transition hidden">
-    <div class="container mx-auto px-4 py-8 max-w-4xl">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
-                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">💬 Anonymous Feedback</span>
-            </h1>
-            <p class="text-gray-400">Help us improve Synapse AI! Share your thoughts anonymously.</p>
-        </div>
-
-        <!-- Submit Feedback Card -->
-        <div class="glassmorphism rounded-2xl p-6 mb-8">
-            <h2 class="text-xl font-semibold mb-4 flex items-center">
-                <i class="fas fa-paper-plane text-primary mr-2"></i>
-                Submit Feedback
-            </h2>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm text-gray-400 mb-2">Feedback Type</label>
-                    <select id="feedbackType" class="w-full bg-dark-light border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all">
-                        <option value="bug">🐛 Bug Report</option>
-                        <option value="feature">✨ Feature Request</option>
-                        <option value="improvement">💡 Improvement Idea</option>
-                        <option value="general">💬 General Feedback</option>
-                        <option value="compliment">❤️ Compliment</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm text-gray-400 mb-2">Your Feedback (Anonymous)</label>
-                    <textarea id="feedbackText" placeholder="Share your thoughts, ideas, or report issues..." rows="5" maxlength="1000" class="w-full bg-dark-light border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all resize-none"></textarea>
-                    <p class="text-xs text-gray-500 mt-1"><span id="charCount">0</span>/1000 characters</p>
-                </div>
-                <button onclick="submitFeedback()" id="submitFeedbackBtn" class="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-semibold hover:scale-105 transition-transform">
-                    <i class="fas fa-paper-plane mr-2"></i>Submit Anonymously
-                </button>
+                <section class="glassmorphism rounded-2xl p-6">
+                    <h2 class="text-2xl font-semibold mb-4 text-primary">Privacy Policy</h2>
+                    <p class="text-gray-300">At Synapse AI, we take your privacy seriously.</p>
+                </section>
+                <section class="glassmorphism rounded-2xl p-6">
+                    <h2 class="text-2xl font-semibold mb-4 text-primary">Terms of Service</h2>
+                    <p class="text-gray-300">By using Synapse AI, you agree to these terms.</p>
+                </section>
+                <section class="glassmorphism rounded-2xl p-6">
+                    <h2 class="text-2xl font-semibold mb-4 text-primary">Contact</h2>
+                    <p class="text-gray-300"><i class="fas fa-envelope text-primary mr-2"></i>support@Synapse-ai.com</p>
+                </section>
             </div>
         </div>
 
-        <!-- Feedback List -->
-        <div class="space-y-4" id="feedbackList">
-            <div class="text-center py-8">
-                <i class="fas fa-spinner fa-spin text-3xl text-gray-500 mb-3"></i>
-                <p class="text-gray-500">Loading feedback...</p>
-            </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-16 border-t border-white/10">
+        <div class="container mx-auto px-4 py-8 text-center">
+            <p class="text-gray-500">© 2024 Synapse AI. All rights reserved.</p>
         </div>
-    </div>
-</div>
-
-<!-- POLICY PAGE -->
-<!-- POLICY PAGE -->
-<div id="policyPage" class="page-transition hidden">
-    <div class="container mx-auto px-4 py-8 max-w-4xl space-y-8">
-        <div class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4">
-                <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Privacy Policy & Terms</span>
-            </h1>
-        </div>
-        <section class="glassmorphism rounded-2xl p-6">
-            <h2 class="text-2xl font-semibold mb-4 text-primary">Privacy Policy</h2>
-            <p class="text-gray-300">At Synapse AI, we take your privacy seriously.</p>
-        </section>
-        <section class="glassmorphism rounded-2xl p-6">
-            <h2 class="text-2xl font-semibold mb-4 text-primary">Terms of Service</h2>
-            <p class="text-gray-300">By using Synapse AI, you agree to these terms.</p>
-        </section>
-        <section class="glassmorphism rounded-2xl p-6">
-            <h2 class="text-2xl font-semibold mb-4 text-primary">Contact</h2>
-            <p class="text-gray-300"><i class="fas fa-envelope text-primary mr-2"></i>support@Synapse-ai.com</p>
-        </section>
-    </div>
-</div>
-
-</main>
-
-<!-- Footer -->
-<footer class="mt-16 border-t border-white/10">
-    <div class="container mx-auto px-4 py-8 text-center">
-        <p class="text-gray-500">© 2024 Synapse AI. All rights reserved.</p>
-    </div>
-</footer>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-<script src="games.js"></script>
-<script>
-// ===========================
-// Hugging Face AI Config
-// ===========================
-// ===========================
-// AI Configuration
-// ===========================
-const HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
-let sessionId = crypto.randomUUID(); // Generate unique session per tab
-
-    // ===========================
-    // AI Responses
-    // ===========================
-    var aiResponses = [
-        "That's an interesting question!",
-        "I'd be happy to help with that!",
-        "Great question! Here's what I know...",
-        "Let me explain that for you."
-    ];
-
-    // ===========================
-    // Page Elements
-    // ===========================
-    var pages = {
-    home: document.getElementById("homePage"),
-    chat: document.getElementById("chatPage"),
-    games: document.getElementById("gamesPage"),
-    policy: document.getElementById("policyPage"),
-    roblox: document.getElementById("robloxPage"),
-    chatroom: document.getElementById("chatroomPage"), 
-    feedback: document.getElementById("feedbackPage")// ADD 
-};
-
-
-    // ===========================
-    // State Variables
-    // ===========================
-    var currentCategory = 'all';
-    var searchQuery = ''; // SEARCH ADDITION #2
-
-    // ===========================
-    // Initialization Function
-    // ===========================
-    function init() {
-    setTimeout(() => {
-        var l = document.getElementById("loadingScreen");
-        l.style.opacity = "0";
-
-        setTimeout(() => {
-            l.style.display = "none";
-        }, 500);
-
-    }, 1500);
-
-    createStars();
-    renderCategories();
-    renderGames();
-    setupEvents();
-    setupChatroomEvents(); // ADD THIS LINE
-}
-
-    // ===========================
-    // Create Stars Background
-    // ===========================
-function createStars() {
-    var bg = document.getElementById("parallaxBg");
-
-    // Create stars
-    for (var i = 0; i < 100; i++) {
-        var s = document.createElement("div");
-        s.className = "star";
-        s.style.width = Math.random() * 3 + "px";
-        s.style.height = s.style.width;
-        s.style.left = Math.random() * 100 + "%";
-        s.style.top = Math.random() * 100 + "%";
-        s.style.animationDelay = Math.random() * 5 + "s";
-        bg.appendChild(s);
-    }
-    
-    // Create floating particles (purple orbs)
-    for (var i = 0; i < 50; i++) {
-        var particle = document.createElement("div");
-        particle.className = "particle";
-        particle.style.width = Math.random() * 4 + 1 + "px";
-        particle.style.height = particle.style.width;
-        particle.style.left = Math.random() * 100 + "%";
-        particle.style.top = Math.random() * 100 + 100 + "%"; // Start below viewport
-        particle.style.opacity = Math.random() * 0.5 + 0.1;
-        particle.style.animationDelay = Math.random() * 10 + "s";
-        particle.style.animationDuration = Math.random() * 10 + 15 + "s";
-        bg.appendChild(particle);
-    }
-    
-    // Create nebula effects (glowing blobs)
-    for (var i = 0; i < 3; i++) {
-        var nebula = document.createElement("div");
-        nebula.className = "nebula";
-        nebula.style.width = Math.random() * 300 + 200 + "px";
-        nebula.style.height = nebula.style.width;
-        nebula.style.left = Math.random() * 100 + "%";
-        nebula.style.top = Math.random() * 100 + "%";
-        
-        if (i === 0) {
-            nebula.style.background = "radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent)";
-        } else if (i === 1) {
-            nebula.style.background = "radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent)";
-        } else {
-            nebula.style.background = "radial-gradient(circle, rgba(236, 72, 153, 0.2), transparent)";
-        }
-        
-        bg.appendChild(nebula);
-    }
-}
-
-    // ===========================
-    // Show Page Function
-    // ===========================
-   function showPage(name) {
-    for (var k in pages) {
-        if (pages[k]) pages[k].classList.add("hidden");
-    }
-
-    if (pages[name]) pages[name].classList.remove("hidden");
-
-    document.querySelectorAll("[data-page]").forEach(l => {
-        l.classList.remove("active");
-        if (l.getAttribute("data-page") === name) l.classList.add("active");
-    });
-
-    document.getElementById("mobileMenu").classList.add("hidden");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    
-    // Initialize Firebase when needed
-    if ((name === 'chatroom' || name === 'feedback') && !isFirebaseInitialized) {
-        initFirebase();
-    }
-    
-    // Setup chatroom
-    if (name === 'chatroom' && isFirebaseInitialized) {
-        switchRoom('chatroom1');
-        setupImageUpload();
-    }
-    
-    // Setup feedback
-    if (name === 'feedback' && !isFeedbackInitialized && isFirebaseInitialized) {
-        initFeedback();
-    }
-}
-
-    // ===========================
-    // Render Categories
-    // ===========================
-    function renderCategories() {
-        if (typeof GAMES === 'undefined') return;
-
-        var cats = ['all'];
-        GAMES.forEach(g => {
-            if (cats.indexOf(g.category) === -1) cats.push(g.category);
-        });
-
-        var html = '';
-        cats.forEach(cat => {
-            var active = cat === currentCategory ? 'active' : '';
-            var label = cat === 'all' ? 'All Games' : cat;
-            html += '<button class="cat-btn ' + active + '" onclick="filterCategory(\'' + cat + '\')">' + label + '</button>';
-        });
-
-        document.getElementById("categoryFilter").innerHTML = html;
-    }
-
-    // ===========================
-    // Filter Category
-    // ===========================
-    function filterCategory(cat) {
-        currentCategory = cat;
-        renderCategories();
-        renderGames();
-    }
-
-    // ===========================
-    // Render Games
-    // ===========================
-    function renderGames() {
-        if (typeof GAMES === 'undefined') {
-            document.getElementById("gamesGrid").innerHTML =
-                '<p class="text-gray-400 col-span-full text-center">No games found. Check games.js file.</p>';
-            return;
-        }
-
-        var filtered = GAMES.filter(g => {
-            var matchesCat = currentCategory === 'all' || g.category === currentCategory;
-            var matchesSearch = searchQuery === '' || (g.title || g.name || '').toLowerCase().includes(searchQuery.toLowerCase());
-            return matchesCat && matchesSearch;
-        });
-
-        var html = '';
-        filtered.forEach(g => {
-            var idx = GAMES.indexOf(g);
-            var img = g.image || 'https://via.placeholder.com/400x200/1e293b/3b82f6?text=' + encodeURIComponent(g.title || g.name);
-
-            html += '<div class="game-card glassmorphism rounded-2xl overflow-hidden" onclick="playGame(' + idx + ')">';
-            html += '<div class="relative overflow-hidden">';
-            html += '<img src="' + img + '" alt="' + (g.title || g.name) + '" class="w-full h-48 object-cover">';
-            html += '<div class="absolute top-4 right-4"><span class="bg-primary/80 text-white px-3 py-1 rounded-full text-xs">' + g.category + '</span></div>';
-            html += '<div class="play-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>';
-            html += '</div>';
-            html += '<div class="p-6">';
-            html += '<h3 class="text-xl font-semibold mb-2">' + (g.title || g.name) + '</h3>';
-            html += '<p class="text-gray-400 text-sm mb-4">' + (g.description || '') + '</p>';
-            html += '<span class="text-primary font-semibold">Play Now →</span>';
-            html += '</div></div>';
-        });
-
-        document.getElementById("gamesGrid").innerHTML = html;
-    }
-
-    // ===========================
-    // Play Game
-    // ===========================
-    function playGame(i) {
-        var g = GAMES[i];
-        if (!g) return;
-
-        sessionStorage.setItem('currentGame', JSON.stringify(g));
-        window.location.href = 'play.html';
-    }
-
-    // ===========================
-    // Send Chat
-    // ===========================
-
-
-
-async function sendChat() {
-    const input = document.getElementById("chatInput");
-    const msg = input.value.trim();
-    if (!msg) return;
-
-    addMessage(msg, "user");
-    input.value = "";
-    
-    // Update message count
-    const countEl = document.getElementById("messageCount");
-    countEl.textContent = parseInt(countEl.textContent) + 1;
-
-    const typingIndicator = document.getElementById("typingIndicator");
-    typingIndicator.classList.remove("hidden");
-
-    const c = document.getElementById("chatMessages");
-    const t = document.getElementById("typingIndicator");
-    const aiDiv = document.createElement("div");
-    aiDiv.className = "flex items-start";
-    aiDiv.innerHTML =
-        '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"><i class="fas fa-robot text-sm"></i></div>' +
-        '<div class="ml-3"><div class="chat-bubble-ai p-4 max-w-md"><p class="streamText"></p></div></div>';
-    c.insertBefore(aiDiv, t);
-    const streamText = aiDiv.querySelector(".streamText");
-
-    try {
-        const response = await fetch(HF_API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-                prompt: msg, 
-                session_id: sessionId,  // ADD THIS LINE
-                max_tokens: 300 
-            })
-        });
-
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let done = false;
-
-        while (!done) {
-            const { value, done: doneReading } = await reader.read();
-            done = doneReading;
-            if (value) {
-                const chunk = decoder.decode(value, { stream: true });
-                streamText.textContent += chunk;
-                c.scrollTop = c.scrollHeight;
-            }
-        }
-
-    } catch (err) {
-        console.error(err);
-        streamText.textContent = "The servers are probably asleep at this time😴, let them rest....";
-    } finally {
-        typingIndicator.classList.add("hidden");
-    }
-}
-
-function resetSession() {
-    sessionId = crypto.randomUUID();
-    clearChat();
-    console.log('New session started:', sessionId);
-}
-    // ===========================
-    // Add Chat Message
-    // ===========================
-    function addMessage(text, sender) {
-        var c = document.getElementById("chatMessages");
-        var t = document.getElementById("typingIndicator");
-        var d = document.createElement("div");
-
-        d.className = "flex items-start " + (sender === "user" ? "justify-end" : "");
-
-        if (sender === "user") {
-            d.innerHTML =
-                '<div class="mr-3"><div class="chat-bubble-user p-4 max-w-md"><p>' + text + '</p></div></div>' +
-                '<div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"><i class="fas fa-user text-sm"></i></div>';
-        } else {
-            d.innerHTML =
-                '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"><i class="fas fa-robot text-sm"></i></div>' +
-                '<div class="ml-3"><div class="chat-bubble-ai p-4 max-w-md"><p>' + text + '</p></div></div>';
-        }
-
-        c.insertBefore(d, t);
-        c.scrollTop = c.scrollHeight;
-    }
-
-    // ===========================
-    // Setup Event Listeners
-    // ===========================
-	// ===========================
-// ADMIN SYSTEM
-// ===========================
-const ADMIN_USERNAME = "synapseadmin"; // Change this to YOUR username
-const ADMIN_PASSWORD = "PingZingBlingBling"; // Change this to YOUR password
-let isAdmin = false;
-let deleteModeActive = false;
-
-function adminLogin() {
-    const username = prompt('Enter admin username:');
-    
-    if (!username) return;
-    
-    if (username.toLowerCase() !== ADMIN_USERNAME.toLowerCase()) {
-        alert('❌ Invalid username!');
-        return;
-    }
-    
-    const password = prompt('Enter admin password:');
-    
-    if (!password) return;
-    
-    if (password !== ADMIN_PASSWORD) {
-        alert('❌ Wrong password!');
-        return;
-    }
-    
-    // Login successful
-    isAdmin = true;
-    alert('✅ Admin access granted!');
-    
-    // Update button
-    document.getElementById('adminLoginBtn').innerHTML = '<i class="fas fa-crown mr-1"></i>Admin Panel';
-    document.getElementById('adminLoginBtn').classList.remove('bg-red-500/20', 'hover:bg-red-500/30');
-    document.getElementById('adminLoginBtn').classList.add('bg-yellow-500/30', 'hover:bg-yellow-500/40');
-    document.getElementById('adminLoginBtn').onclick = openAdminPanel;
-    
-    // Mark user as admin
-    currentUser.nickname = '👑 ' + currentUser.nickname;
-    document.getElementById('currentNickname').textContent = currentUser.nickname;
-    
-    console.log('Admin logged in');
-}
-
-function openAdminPanel() {
-    if (!isAdmin) {
-        alert('⛔ Access denied!');
-        return;
-    }
-    
-    document.getElementById('adminPanel').classList.remove('hidden');
-    updateAdminStats();
-}
-
-function closeAdminPanel() {
-    document.getElementById('adminPanel').classList.add('hidden');
-    if (deleteModeActive) {
-        toggleDeleteMode();
-    }
-}
-
-function updateAdminStats() {
-    presenceRef.once('value', (snapshot) => {
-        document.getElementById('adminOnlineCount').textContent = snapshot.numChildren();
-    });
-    
-    messagesRef.once('value', (snapshot) => {
-        document.getElementById('adminTotalMessages').textContent = snapshot.numChildren();
-    });
-}
-
-function deleteAllMessages() {
-    if (!isAdmin) {
-        alert('⛔ Access denied!');
-        return;
-    }
-    
-    const confirm = prompt('⚠️ WARNING: This will delete ALL messages!\n\nType "DELETE ALL" to confirm:');
-    
-    if (confirm !== 'DELETE ALL') {
-        alert('Cancelled.');
-        return;
-    }
-    
-    messagesRef.remove()
-        .then(() => {
-            alert('✅ All messages deleted!');
-            document.getElementById('chatroomMessages').innerHTML = '<div class="text-center text-gray-500 py-8"><p>All messages cleared by admin.</p></div>';
-            updateAdminStats();
-        })
-        .catch((error) => {
-            console.error('Delete error:', error);
-            alert('❌ Failed to delete messages.');
-        });
-}
-
-function toggleDeleteMode() {
-    if (!isAdmin) {
-        alert('⛔ Access denied!');
-        return;
-    }
-    
-    deleteModeActive = !deleteModeActive;
-    const btn = document.getElementById('deleteMode');
-    
-    if (deleteModeActive) {
-        btn.innerHTML = '<i class="fas fa-times-circle mr-2"></i>Disable Delete Mode';
-        btn.classList.remove('bg-orange-600', 'hover:bg-orange-700');
-        btn.classList.add('bg-green-600', 'hover:bg-green-700');
-        alert('🎯 Delete mode ACTIVE\n\nClick any message to delete it.');
-    } else {
-        btn.innerHTML = '<i class="fas fa-mouse-pointer mr-2"></i>Enable Delete Mode (Click Messages to Delete)';
-        btn.classList.remove('bg-green-600', 'hover:bg-green-700');
-        btn.classList.add('bg-orange-600', 'hover:bg-orange-700');
-    }
-}
-
-function deleteSpecificMessage(messageId) {
-    if (!isAdmin || !deleteModeActive) {
-        return;
-    }
-    
-    if (!confirm('Delete this message?')) {
-        return;
-    }
-    
-    messagesRef.child(messageId).remove()
-        .then(() => {
-            console.log('Message deleted:', messageId);
-            updateAdminStats();
-        })
-        .catch((error) => {
-            console.error('Delete error:', error);
-            alert('❌ Failed to delete message.');
-        });
-}
-    function setupEvents() {
-        document.querySelectorAll("[data-page]").forEach(l => {
-            l.addEventListener("click", function(e) {
-                e.preventDefault();
-                showPage(this.getAttribute("data-page"));
-            });
-        });
-
-        document.getElementById("mobileMenuBtn").addEventListener("click", () => {
-            document.getElementById("mobileMenu").classList.toggle("hidden");
-        });
-
-        document.getElementById("tryAI").addEventListener("click", () => {
-            showPage("chat");
-        });
-
-        document.getElementById("sendMessage").addEventListener("click", sendChat);
-
-        document.getElementById("chatInput").addEventListener("keypress", e => {
-            if (e.key === "Enter") sendChat();
-        });
-
-        document.getElementById("gameSearch").addEventListener("input", e => {
-            searchQuery = e.target.value;
-            renderGames();
-        });
-    } // SEARCH ADDITION #3
-// ===========================
-// FIREBASE CONFIGURATION
-// ===========================
-// ===========================
-// FIREBASE CONFIGURATION
-// ===========================
-const firebaseConfig = {
-  apiKey: "AIzaSyB4p6X2u5thYySUjgCnjQeYZYQ87xg-xds",
-  authDomain: "chatroom-f1e6b.firebaseapp.com",
-  databaseURL: "https://chatroom-f1e6b-default-rtdb.firebaseio.com",
-  projectId: "chatroom-f1e6b",
-  storageBucket: "chatroom-f1e6b.firebasestorage.app",
-  messagingSenderId: "663028089072",
-  appId: "1:663028089072:web:04f2706fd3f5badf334235",
-  measurementId: "G-ZT0KHEJ77Y"
-};
-
-let firebaseApp, database, storage, messagesRef, presenceRef, userPresenceRef;
-let currentUser = { nickname: '', id: '' };
-let currentRoom = 'general';
-let lastMessageTime = 0;
-let userMessageCount = 0;
-let isFirebaseInitialized = false;
-let selectedImage = null;
-
-const badWords = [];
-
-const roomTitles = {
-    'chatroom1': 'Chatroom 1',
-    'chatroom2': 'Chatroom 2',
-    'chatroom3': 'Chatroom 3',
-    'chatroom4': 'Chatroom 4',
-    'chatroom5': 'Chatroom 5'
-};
-function initFirebase() {
-    if (isFirebaseInitialized) return;
-    
-    try {
-        firebaseApp = firebase.initializeApp(firebaseConfig);
-        database = firebase.database();
-        storage = firebase.storage();
-        
-        isFirebaseInitialized = true;
-        console.log('Firebase initialized');
-        
-        setupUser();
-        
-        if (document.getElementById('chatroomPage').classList.contains('hidden') === false) {
-            switchRoom('chatroom1');
-            setupImageUpload();
-            document.getElementById('chatroomStatus').textContent = 'Connected • Ready to chat!';
-        }
-    } catch (error) {
-        console.error('Firebase init error:', error);
-    }
-}
-function switchRoom(room) {
-    // Remove active class from all buttons
-    document.querySelectorAll('.room-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    // Add active class to clicked button
-    document.querySelector(`[data-room="${room}"]`).classList.add('active');
-    
-    // Clean up old room listeners
-    if (messagesRef) {
-        messagesRef.off();
-    }
-    if (presenceRef) {
-        presenceRef.off();
-    }
-    if (userPresenceRef) {
-        userPresenceRef.remove();
-    }
-    
-    currentRoom = room;
-    messagesRef = database.ref(`chatroom/${room}/messages`);
-    presenceRef = database.ref(`chatroom/${room}/presence`);
-    
-    document.getElementById('currentRoomTitle').textContent = roomTitles[room];
-    document.getElementById('chatroomMessages').innerHTML = '<div class="text-center text-gray-500 text-sm py-8"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><p>Loading messages...</p></div>';
-    
-    listenToMessages();
-    setupPresence();
-}
-
-function setupUser() {
-    currentUser.id = localStorage.getItem('chatroomUserId');
-    if (!currentUser.id) {
-        currentUser.id = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('chatroomUserId', currentUser.id);
-    }
-    
-    currentUser.nickname = localStorage.getItem('chatroomNickname');
-    if (!currentUser.nickname) {
-        promptForNickname();
-    } else {
-        document.getElementById('currentNickname').textContent = currentUser.nickname;
-    }
-    
-    userMessageCount = parseInt(localStorage.getItem('userMessageCount') || '0');
-    document.getElementById('userMessageCount').textContent = userMessageCount;
-}
-
-function promptForNickname() {
-    let nickname = prompt('Enter your nickname (3-20 characters):');
-    
-    if (!nickname) {
-        nickname = 'Guest' + Math.floor(Math.random() * 9999);
-    }
-    
-    nickname = nickname.trim().substring(0, 20);
-    nickname = filterProfanity(nickname);
-    
-    if (nickname.length < 3) {
-        nickname = 'Guest' + Math.floor(Math.random() * 9999);
-    }
-    
-    currentUser.nickname = nickname;
-    localStorage.setItem('chatroomNickname', nickname);
-    document.getElementById('currentNickname').textContent = nickname;
-}
-
-function changeNickname() {
-    localStorage.removeItem('chatroomNickname');
-    promptForNickname();
-}
-
-function setupPresence() {
-    userPresenceRef = presenceRef.child(currentUser.id);
-    
-    userPresenceRef.set({
-        nickname: currentUser.nickname,
-        online: true,
-        lastSeen: firebase.database.ServerValue.TIMESTAMP
-    });
-    
-    userPresenceRef.onDisconnect().remove();
-    
-    presenceRef.on('value', (snapshot) => {
-        const count = snapshot.numChildren();
-        document.getElementById('onlineCount').textContent = count;
-    });
-}
-
-// ADD THIS ENTIRE SECTION HERE ↓↓↓
-
-function listenToMessages() {
-    document.getElementById('chatroomMessages').innerHTML = '';
-    
-    messagesRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
-        const msg = snapshot.val();
-        msg.id = snapshot.key;
-        displayMessage(msg);
-        updateTotalCount();
-    });
-    
-    // Click listener for delete mode
-    document.getElementById('chatroomMessages').addEventListener('click', (e) => {
-        if (!isAdmin || !deleteModeActive) return;
-        
-        const bubble = e.target.closest('.chat-bubble-user, .chat-bubble-ai');
-        if (!bubble) return;
-        
-        const messageDiv = e.target.closest('[data-message-id]');
-        if (!messageDiv) return;
-        
-        const messageId = messageDiv.getAttribute('data-message-id');
-        if (messageId) {
-            deleteSpecificMessage(messageId);
-        }
-    });
-    
-    cleanupOldMessages();
-}
-
-function cleanupOldMessages() {
-    const performCleanup = () => {
-        const twentyMinutesAgo = Date.now() - (20 * 60 * 1000);
-        
-        console.log('🔍 Checking for old messages in room:', currentRoom);
-        
-        messagesRef.once('value', (snapshot) => {
-            const updates = {};
-            const now = Date.now();
-            
-            snapshot.forEach((child) => {
-                const msg = child.val();
-                if (msg.timestamp && (now - msg.timestamp) > (20 * 60 * 1000)) {
-                    updates[child.key] = null;
-                    
-                    // Delete image from storage if exists
-                    if (msg.imageUrl) {
-                        const imagePath = `chatroom/${currentRoom}/images/${child.key}`;
-                        storage.ref(imagePath).delete().catch(err => console.log('Image already deleted'));
-                    }
-                }
-            });
-            
-            if (Object.keys(updates).length > 0) {
-                messagesRef.update(updates).then(() => {
-                    console.log('🗑️ Deleted ' + Object.keys(updates).length + ' old messages');
-                });
-            } else {
-                console.log('✅ No messages older than 20 minutes');
-            }
-        });
-    };
-    
-    console.log('⏰ Starting auto-cleanup system (20 min threshold)');
-    performCleanup();
-    
-    setInterval(performCleanup, 2 * 60 * 1000);
-}
-
-function displayMessage(msg) {
-    const container = document.getElementById('chatroomMessages');
-    const isOwn = msg.userId === currentUser.id;
-    
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'flex items-start ' + (isOwn ? 'justify-end' : '');
-    msgDiv.setAttribute('data-message-id', msg.id || '');
-    
-    const time = new Date(msg.timestamp).toLocaleTimeString('en-US', { 
-        hour: 'numeric', 
-        minute: '2-digit' 
-    });
-    
-    let messageContent = '';
-    if (msg.imageUrl) {
-        messageContent = `<img src="${escapeHtml(msg.imageUrl)}" class="image-message" onclick="window.open('${escapeHtml(msg.imageUrl)}', '_blank')">`;
-    }
-    if (msg.text) {
-        messageContent += `<p class="text-sm ${msg.imageUrl ? 'mt-2' : ''}">${escapeHtml(msg.text)}</p>`;
-    }
-    
-    if (isOwn) {
-        msgDiv.innerHTML = `
-            <div class="text-right mr-3 max-w-md">
-                <div class="flex items-center justify-end mb-1">
-                    <span class="text-xs text-gray-500 mr-2">${time}</span>
-                    <span class="text-sm font-semibold text-primary">${escapeHtml(msg.nickname)}</span>
-                </div>
-                <div class="chat-bubble-user p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
-                    ${messageContent}
-                </div>
-            </div>
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-user text-xs"></i>
-            </div>
-        `;
-    } else {
-        msgDiv.innerHTML = `
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-user text-xs"></i>
-            </div>
-            <div class="ml-3 max-w-md">
-                <div class="flex items-center mb-1">
-                    <span class="text-sm font-semibold text-secondary">${escapeHtml(msg.nickname)}</span>
-                    <span class="text-xs text-gray-500 ml-2">${time}</span>
-                </div>
-                <div class="chat-bubble-ai p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
-                    ${messageContent}
-                </div>
-            </div>
-        `;
-    }
-    
-    container.appendChild(msgDiv);
-    container.scrollTop = container.scrollHeight;
-}
-// Image Upload Handler
-// Image Upload Handler
-// Image Upload Handler
-function setupImageUpload() {
-    const imageUpload = document.getElementById('imageUpload');
-    if (!imageUpload) return;
-    
-    imageUpload.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        // Check file size (max 2MB)
-        if (file.size > 2 * 1024 * 1024) {
-            alert('Image too large! Max 2MB');
-            return;
-        }
-        
-        // Check if it's an image
-        if (!file.type.startsWith('image/')) {
-            alert('Please upload an image file');
-            return;
-        }
-        
-        selectedImage = file;
-        
-        // Show preview
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            document.getElementById('previewImg').src = e.target.result;
-            document.getElementById('imagePreview').classList.remove('hidden');
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://gameplayer-8bcd3.web.app/games.js"></script>
+    <script>
+        // ===========================
+        // Hugging Face AI Config
+        // ===========================
+        // ===========================
+        // AI Configuration
+        // ===========================
+        const HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
+        let sessionId = crypto.randomUUID(); // Generate unique session per tab
+
+        // ===========================
+        // AI Responses
+        // ===========================
+        var aiResponses = [
+            "That's an interesting question!",
+            "I'd be happy to help with that!",
+            "Great question! Here's what I know...",
+            "Let me explain that for you."
+        ];
+
+        // ===========================
+        // Page Elements
+        // ===========================
+        var pages = {
+            home: document.getElementById("homePage"),
+            chat: document.getElementById("chatPage"),
+            games: document.getElementById("gamesPage"),
+            policy: document.getElementById("policyPage"),
+            roblox: document.getElementById("robloxPage"),
+            chatroom: document.getElementById("chatroomPage"),
+            feedback: document.getElementById("feedbackPage")// ADD 
         };
-        reader.readAsDataURL(file);
-    });
 
-    // Click listener for delete mode
-    document.getElementById('chatroomMessages').addEventListener('click', (e) => {
-        if (!isAdmin || !deleteModeActive) return;
-        
-        const bubble = e.target.closest('.chat-bubble-user, .chat-bubble-ai');
-        if (!bubble) return;
-        
-        const messageDiv = e.target.closest('[data-message-id]');
-        if (!messageDiv) return;
-        
-        const messageId = messageDiv.getAttribute('data-message-id');
-        if (messageId) {
-            deleteSpecificMessage(messageId);
+
+        // ===========================
+        // State Variables
+        // ===========================
+        var currentCategory = 'all';
+        var searchQuery = ''; // SEARCH ADDITION #2
+
+        // ===========================
+        // Initialization Function
+        // ===========================
+        function init() {
+            setTimeout(() => {
+                var l = document.getElementById("loadingScreen");
+                l.style.opacity = "0";
+
+                setTimeout(() => {
+                    l.style.display = "none";
+                }, 500);
+
+            }, 1500);
+
+            createStars();
+            renderCategories();
+            renderGames();
+            setupEvents();
+            setupChatroomEvents(); // ADD THIS LINE
         }
-    });
-    
-    cleanupOldMessages();
-}
 
-function cleanupOldMessages() {
-    const performCleanup = () => {
-        const twentyMinutesAgo = Date.now() - (20 * 60 * 1000);
+        // ===========================
+        // Create Stars Background
+        // ===========================
+        function createStars() {
+            var bg = document.getElementById("parallaxBg");
+
+            // Create stars
+            for (var i = 0; i < 100; i++) {
+                var s = document.createElement("div");
+                s.className = "star";
+                s.style.width = Math.random() * 3 + "px";
+                s.style.height = s.style.width;
+                s.style.left = Math.random() * 100 + "%";
+                s.style.top = Math.random() * 100 + "%";
+                s.style.animationDelay = Math.random() * 5 + "s";
+                bg.appendChild(s);
+            }
+
+            // Create floating particles (purple orbs)
+            for (var i = 0; i < 50; i++) {
+                var particle = document.createElement("div");
+                particle.className = "particle";
+                particle.style.width = Math.random() * 4 + 1 + "px";
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + "%";
+                particle.style.top = Math.random() * 100 + 100 + "%"; // Start below viewport
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                particle.style.animationDelay = Math.random() * 10 + "s";
+                particle.style.animationDuration = Math.random() * 10 + 15 + "s";
+                bg.appendChild(particle);
+            }
+
+            // Create nebula effects (glowing blobs)
+            for (var i = 0; i < 3; i++) {
+                var nebula = document.createElement("div");
+                nebula.className = "nebula";
+                nebula.style.width = Math.random() * 300 + 200 + "px";
+                nebula.style.height = nebula.style.width;
+                nebula.style.left = Math.random() * 100 + "%";
+                nebula.style.top = Math.random() * 100 + "%";
+
+                if (i === 0) {
+                    nebula.style.background = "radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent)";
+                } else if (i === 1) {
+                    nebula.style.background = "radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent)";
+                } else {
+                    nebula.style.background = "radial-gradient(circle, rgba(236, 72, 153, 0.2), transparent)";
+                }
+
+                bg.appendChild(nebula);
+            }
+        }
+
+        // ===========================
+        // Show Page Function
+        // ===========================
+        function showPage(name) {
+            for (var k in pages) {
+                if (pages[k]) pages[k].classList.add("hidden");
+            }
+
+            if (pages[name]) pages[name].classList.remove("hidden");
+
+            document.querySelectorAll("[data-page]").forEach(l => {
+                l.classList.remove("active");
+                if (l.getAttribute("data-page") === name) l.classList.add("active");
+            });
+
+            document.getElementById("mobileMenu").classList.add("hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+            // Initialize Firebase when needed
+            if ((name === 'chatroom' || name === 'feedback') && !isFirebaseInitialized) {
+                initFirebase();
+            }
+
+            // Setup chatroom
+            if (name === 'chatroom' && isFirebaseInitialized) {
+                switchRoom('chatroom1');
+                setupImageUpload();
+            }
+
+            // Setup feedback
+            if (name === 'feedback' && !isFeedbackInitialized && isFirebaseInitialized) {
+                initFeedback();
+            }
+        }
+
+        // ===========================
+        // Render Categories
+        // ===========================
+        function renderCategories() {
+            if (typeof GAMES === 'undefined') return;
+
+            var cats = ['all'];
+            GAMES.forEach(g => {
+                if (cats.indexOf(g.category) === -1) cats.push(g.category);
+            });
+
+            var html = '';
+            cats.forEach(cat => {
+                var active = cat === currentCategory ? 'active' : '';
+                var label = cat === 'all' ? 'All Games' : cat;
+                html += '<button class="cat-btn ' + active + '" onclick="filterCategory(\'' + cat + '\')">' + label + '</button>';
+            });
+
+            document.getElementById("categoryFilter").innerHTML = html;
+        }
+
+        // ===========================
+        // Filter Category
+        // ===========================
+        function filterCategory(cat) {
+            currentCategory = cat;
+            renderCategories();
+            renderGames();
+        }
+
+        // ===========================
+        // Get Game Image URL
+        // ===========================
+        function getGameImageUrl(g) {
+            if (g.thumb) return g.thumb;
+            var folder = g.directory || g.name || '';
+            return 'https://games-f518e.web.app/' + folder + '/icon.png';
+        }
+
+        // ===========================
+        // Render Games
+        // ===========================
+        function renderGames() {
+            if (typeof GAMES === 'undefined') {
+                document.getElementById("gamesGrid").innerHTML =
+                    '<p class="text-gray-400 col-span-full text-center">No games found. Check games.js file.</p>';
+                return;
+            }
+
+            var filtered = GAMES.filter(g => {
+                var matchesCat = currentCategory === 'all' || g.category === currentCategory;
+                var matchesSearch = searchQuery === '' || (g.title || g.name || '').toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCat && matchesSearch;
+            });
+
+            var html = '';
+            filtered.forEach(g => {
+                var idx = GAMES.indexOf(g);
+                // Use jsDelivr CDN for game images
+                var img = getGameImageUrl(g);
+
+                html += '<div class="game-card glassmorphism rounded-2xl overflow-hidden" onclick="playGame(' + idx + ')">';
+                html += '<div class="relative overflow-hidden">';
+                html += '<img src="' + img + '" alt="' + (g.title || g.name) + '" class="w-full h-48 object-cover" onerror="this.src=\'https://via.placeholder.com/400x200/1e293b/3b82f6?text=' + encodeURIComponent(g.title || g.name) + '\'">';
+                html += '<div class="absolute top-4 right-4"><span class="bg-primary/80 text-white px-3 py-1 rounded-full text-xs">' + g.category + '</span></div>';
+                html += '<div class="play-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>';
+                html += '</div>';
+                html += '<div class="p-6">';
+                html += '<h3 class="text-xl font-semibold mb-2">' + (g.title || g.name) + '</h3>';
+                html += '<p class="text-gray-400 text-sm mb-4">' + (g.description || 'Click to play this game!') + '</p>';
+                html += '<span class="text-primary font-semibold">Play Now →</span>';
+                html += '</div></div>';
+            });
+
+            document.getElementById("gamesGrid").innerHTML = html;
+        }
+
+        // ===========================
+        // Play Game
+        // ===========================
+       function playGame(i) {
+            var g = GAMES[i];
+            if (!g) return;
         
-        console.log('🔍 Checking for old messages in room:', currentRoom);
+            console.log("CLICKED GAME:", g);
         
-        messagesRef.once('value', (snapshot) => {
-            const updates = {};
-            const now = Date.now();
-            
-            snapshot.forEach((child) => {
-                const msg = child.val();
-                if (msg.timestamp && (now - msg.timestamp) > (20 * 60 * 1000)) {
-                    updates[child.key] = null;
-                    
-                    // Delete image from storage if exists
-                    if (msg.imageUrl) {
-                        const imagePath = `chatroom/${currentRoom}/images/${child.key}`;
-                        storage.ref(imagePath).delete().catch(err => console.log('Image already deleted'));
+            window.location.href = `https://games-f518e.web.app/play.html?id=${g.id}`;
+        }
+
+        // ===========================
+        // Send Chat
+        // ===========================
+
+
+
+        async function sendChat() {
+            const input = document.getElementById("chatInput");
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            addMessage(msg, "user");
+            input.value = "";
+
+            // Update message count
+            const countEl = document.getElementById("messageCount");
+            countEl.textContent = parseInt(countEl.textContent) + 1;
+
+            const typingIndicator = document.getElementById("typingIndicator");
+            typingIndicator.classList.remove("hidden");
+
+            const c = document.getElementById("chatMessages");
+            const t = document.getElementById("typingIndicator");
+            const aiDiv = document.createElement("div");
+            aiDiv.className = "flex items-start";
+            aiDiv.innerHTML =
+                '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"><i class="fas fa-robot text-sm"></i></div>' +
+                '<div class="ml-3"><div class="chat-bubble-ai p-4 max-w-md"><p class="streamText"></p></div></div>';
+            c.insertBefore(aiDiv, t);
+            const streamText = aiDiv.querySelector(".streamText");
+
+            try {
+                const response = await fetch(HF_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        prompt: msg,
+                        session_id: sessionId,  // ADD THIS LINE
+                        max_tokens: 300
+                    })
+                });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let done = false;
+
+                while (!done) {
+                    const { value, done: doneReading } = await reader.read();
+                    done = doneReading;
+                    if (value) {
+                        const chunk = decoder.decode(value, { stream: true });
+                        streamText.textContent += chunk;
+                        c.scrollTop = c.scrollHeight;
                     }
                 }
-            });
-            
-            if (Object.keys(updates).length > 0) {
-                messagesRef.update(updates).then(() => {
-                    console.log('🗑️ Deleted ' + Object.keys(updates).length + ' old messages');
-                });
-            } else {
-                console.log('✅ No messages older than 20 minutes');
-            }
-        });
-    };
-    
-    console.log('⏰ Starting auto-cleanup system (20 min threshold)');
-    performCleanup();
-    
-    setInterval(performCleanup, 2 * 60 * 1000);
-}
 
-function displayMessage(msg) {
-    const container = document.getElementById('chatroomMessages');
-    const isOwn = msg.userId === currentUser.id;
-    
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'flex items-start ' + (isOwn ? 'justify-end' : '');
-    msgDiv.setAttribute('data-message-id', msg.id || '');
-    
-    const time = new Date(msg.timestamp).toLocaleTimeString('en-US', { 
-        hour: 'numeric', 
-        minute: '2-digit' 
-    });
-    
-    let messageContent = '';
-    if (msg.imageUrl) {
-        messageContent = `<img src="${escapeHtml(msg.imageUrl)}" class="image-message" onclick="window.open('${escapeHtml(msg.imageUrl)}', '_blank')">`;
-    }
-    if (msg.text) {
-        messageContent += `<p class="text-sm ${msg.imageUrl ? 'mt-2' : ''}">${escapeHtml(msg.text)}</p>`;
-    }
-    
-    if (isOwn) {
-        msgDiv.innerHTML = `
+            } catch (err) {
+                console.error(err);
+                streamText.textContent = "The servers are probably asleep at this time😴, let them rest....";
+            } finally {
+                typingIndicator.classList.add("hidden");
+            }
+        }
+
+        function resetSession() {
+            sessionId = crypto.randomUUID();
+            clearChat();
+            console.log('New session started:', sessionId);
+        }
+        // ===========================
+        // Add Chat Message
+        // ===========================
+        function addMessage(text, sender) {
+            var c = document.getElementById("chatMessages");
+            var t = document.getElementById("typingIndicator");
+            var d = document.createElement("div");
+
+            d.className = "flex items-start " + (sender === "user" ? "justify-end" : "");
+
+            if (sender === "user") {
+                d.innerHTML =
+                    '<div class="mr-3"><div class="chat-bubble-user p-4 max-w-md"><p>' + text + '</p></div></div>' +
+                    '<div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"><i class="fas fa-user text-sm"></i></div>';
+            } else {
+                d.innerHTML =
+                    '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"><i class="fas fa-robot text-sm"></i></div>' +
+                    '<div class="ml-3"><div class="chat-bubble-ai p-4 max-w-md"><p>' + text + '</p></div></div>';
+            }
+
+            c.insertBefore(d, t);
+            c.scrollTop = c.scrollHeight;
+        }
+
+        // ===========================
+        // Setup Event Listeners
+        // ===========================
+        // ===========================
+        // ADMIN SYSTEM
+        // ===========================
+        const ADMIN_USERNAME = "synapseadmin"; // Change this to YOUR username
+        const ADMIN_PASSWORD = "PingZingBlingBling"; // Change this to YOUR password
+        let isAdmin = false;
+        let deleteModeActive = false;
+
+        function adminLogin() {
+            const username = prompt('Enter admin username:');
+
+            if (!username) return;
+
+            if (username.toLowerCase() !== ADMIN_USERNAME.toLowerCase()) {
+                alert('❌ Invalid username!');
+                return;
+            }
+
+            const password = prompt('Enter admin password:');
+
+            if (!password) return;
+
+            if (password !== ADMIN_PASSWORD) {
+                alert('❌ Wrong password!');
+                return;
+            }
+
+            // Login successful
+            isAdmin = true;
+            alert('✅ Admin access granted!');
+
+            // Update button
+            document.getElementById('adminLoginBtn').innerHTML = '<i class="fas fa-crown mr-1"></i>Admin Panel';
+            document.getElementById('adminLoginBtn').classList.remove('bg-red-500/20', 'hover:bg-red-500/30');
+            document.getElementById('adminLoginBtn').classList.add('bg-yellow-500/30', 'hover:bg-yellow-500/40');
+            document.getElementById('adminLoginBtn').onclick = openAdminPanel;
+
+            // Mark user as admin
+            currentUser.nickname = '👑 ' + currentUser.nickname;
+            document.getElementById('currentNickname').textContent = currentUser.nickname;
+
+            console.log('Admin logged in');
+        }
+
+        function openAdminPanel() {
+            if (!isAdmin) {
+                alert('⛔ Access denied!');
+                return;
+            }
+
+            document.getElementById('adminPanel').classList.remove('hidden');
+            updateAdminStats();
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            if (deleteModeActive) {
+                toggleDeleteMode();
+            }
+        }
+
+        function updateAdminStats() {
+            presenceRef.once('value', (snapshot) => {
+                document.getElementById('adminOnlineCount').textContent = snapshot.numChildren();
+            });
+
+            messagesRef.once('value', (snapshot) => {
+                document.getElementById('adminTotalMessages').textContent = snapshot.numChildren();
+            });
+        }
+
+        function deleteAllMessages() {
+            if (!isAdmin) {
+                alert('⛔ Access denied!');
+                return;
+            }
+
+            const confirm = prompt('⚠️ WARNING: This will delete ALL messages!\n\nType "DELETE ALL" to confirm:');
+
+            if (confirm !== 'DELETE ALL') {
+                alert('Cancelled.');
+                return;
+            }
+
+            messagesRef.remove()
+                .then(() => {
+                    alert('✅ All messages deleted!');
+                    document.getElementById('chatroomMessages').innerHTML = '<div class="text-center text-gray-500 py-8"><p>All messages cleared by admin.</p></div>';
+                    updateAdminStats();
+                })
+                .catch((error) => {
+                    console.error('Delete error:', error);
+                    alert('❌ Failed to delete messages.');
+                });
+        }
+
+        function toggleDeleteMode() {
+            if (!isAdmin) {
+                alert('⛔ Access denied!');
+                return;
+            }
+
+            deleteModeActive = !deleteModeActive;
+            const btn = document.getElementById('deleteMode');
+
+            if (deleteModeActive) {
+                btn.innerHTML = '<i class="fas fa-times-circle mr-2"></i>Disable Delete Mode';
+                btn.classList.remove('bg-orange-600', 'hover:bg-orange-700');
+                btn.classList.add('bg-green-600', 'hover:bg-green-700');
+                alert('🎯 Delete mode ACTIVE\n\nClick any message to delete it.');
+            } else {
+                btn.innerHTML = '<i class="fas fa-mouse-pointer mr-2"></i>Enable Delete Mode (Click Messages to Delete)';
+                btn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                btn.classList.add('bg-orange-600', 'hover:bg-orange-700');
+            }
+        }
+
+        function deleteSpecificMessage(messageId) {
+            if (!isAdmin || !deleteModeActive) {
+                return;
+            }
+
+            if (!confirm('Delete this message?')) {
+                return;
+            }
+
+            messagesRef.child(messageId).remove()
+                .then(() => {
+                    console.log('Message deleted:', messageId);
+                    updateAdminStats();
+                })
+                .catch((error) => {
+                    console.error('Delete error:', error);
+                    alert('❌ Failed to delete message.');
+                });
+        }
+        function setupEvents() {
+            document.querySelectorAll("[data-page]").forEach(l => {
+                l.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    showPage(this.getAttribute("data-page"));
+                });
+            });
+
+            document.getElementById("mobileMenuBtn").addEventListener("click", () => {
+                document.getElementById("mobileMenu").classList.toggle("hidden");
+            });
+
+            document.getElementById("tryAI").addEventListener("click", () => {
+                showPage("chat");
+            });
+
+            document.getElementById("sendMessage").addEventListener("click", sendChat);
+
+            document.getElementById("chatInput").addEventListener("keypress", e => {
+                if (e.key === "Enter") sendChat();
+            });
+
+            document.getElementById("gameSearch").addEventListener("input", e => {
+                searchQuery = e.target.value;
+                renderGames();
+            });
+        } // SEARCH ADDITION #3
+        // ===========================
+        // FIREBASE CONFIGURATION
+        // ===========================
+        // ===========================
+        // FIREBASE CONFIGURATION
+        // ===========================
+        const firebaseConfig = {
+            apiKey: "AIzaSyB4p6X2u5thYySUjgCnjQeYZYQ87xg-xds",
+            authDomain: "chatroom-f1e6b.firebaseapp.com",
+            databaseURL: "https://chatroom-f1e6b-default-rtdb.firebaseio.com",
+            projectId: "chatroom-f1e6b",
+            storageBucket: "chatroom-f1e6b.firebasestorage.app",
+            messagingSenderId: "663028089072",
+            appId: "1:663028089072:web:04f2706fd3f5badf334235",
+            measurementId: "G-ZT0KHEJ77Y"
+        };
+
+        let firebaseApp, database, storage, messagesRef, presenceRef, userPresenceRef;
+        let currentUser = { nickname: '', id: '' };
+        let currentRoom = 'general';
+        let lastMessageTime = 0;
+        let userMessageCount = 0;
+        let isFirebaseInitialized = false;
+        let selectedImage = null;
+
+        const badWords = [];
+
+        const roomTitles = {
+            'chatroom1': 'Chatroom 1',
+            'chatroom2': 'Chatroom 2',
+            'chatroom3': 'Chatroom 3',
+            'chatroom4': 'Chatroom 4',
+            'chatroom5': 'Chatroom 5'
+        };
+        function initFirebase() {
+            if (isFirebaseInitialized) return;
+
+            try {
+                firebaseApp = firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+                storage = firebase.storage();
+
+                isFirebaseInitialized = true;
+                console.log('Firebase initialized');
+
+                setupUser();
+
+                if (document.getElementById('chatroomPage').classList.contains('hidden') === false) {
+                    switchRoom('chatroom1');
+                    setupImageUpload();
+                    document.getElementById('chatroomStatus').textContent = 'Connected • Ready to chat!';
+                }
+            } catch (error) {
+                console.error('Firebase init error:', error);
+            }
+        }
+        function switchRoom(room) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.room-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Add active class to clicked button
+            document.querySelector(`[data-room="${room}"]`).classList.add('active');
+
+            // Clean up old room listeners
+            if (messagesRef) {
+                messagesRef.off();
+            }
+            if (presenceRef) {
+                presenceRef.off();
+            }
+            if (userPresenceRef) {
+                userPresenceRef.remove();
+            }
+
+            currentRoom = room;
+            messagesRef = database.ref(`chatroom/${room}/messages`);
+            presenceRef = database.ref(`chatroom/${room}/presence`);
+
+            document.getElementById('currentRoomTitle').textContent = roomTitles[room];
+            document.getElementById('chatroomMessages').innerHTML = '<div class="text-center text-gray-500 text-sm py-8"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><p>Loading messages...</p></div>';
+
+            listenToMessages();
+            setupPresence();
+        }
+
+        function setupUser() {
+            currentUser.id = localStorage.getItem('chatroomUserId');
+            if (!currentUser.id) {
+                currentUser.id = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('chatroomUserId', currentUser.id);
+            }
+
+            currentUser.nickname = localStorage.getItem('chatroomNickname');
+            if (!currentUser.nickname) {
+                promptForNickname();
+            } else {
+                document.getElementById('currentNickname').textContent = currentUser.nickname;
+            }
+
+            userMessageCount = parseInt(localStorage.getItem('userMessageCount') || '0');
+            document.getElementById('userMessageCount').textContent = userMessageCount;
+        }
+
+        function promptForNickname() {
+            let nickname = prompt('Enter your nickname (3-20 characters):');
+
+            if (!nickname) {
+                nickname = 'Guest' + Math.floor(Math.random() * 9999);
+            }
+
+            nickname = nickname.trim().substring(0, 20);
+            nickname = filterProfanity(nickname);
+
+            if (nickname.length < 3) {
+                nickname = 'Guest' + Math.floor(Math.random() * 9999);
+            }
+
+            currentUser.nickname = nickname;
+            localStorage.setItem('chatroomNickname', nickname);
+            document.getElementById('currentNickname').textContent = nickname;
+        }
+
+        function changeNickname() {
+            localStorage.removeItem('chatroomNickname');
+            promptForNickname();
+        }
+
+        function setupPresence() {
+            userPresenceRef = presenceRef.child(currentUser.id);
+
+            userPresenceRef.set({
+                nickname: currentUser.nickname,
+                online: true,
+                lastSeen: firebase.database.ServerValue.TIMESTAMP
+            });
+
+            userPresenceRef.onDisconnect().remove();
+
+            presenceRef.on('value', (snapshot) => {
+                const count = snapshot.numChildren();
+                document.getElementById('onlineCount').textContent = count;
+            });
+        }
+
+        // ADD THIS ENTIRE SECTION HERE ↓↓↓
+
+        function listenToMessages() {
+            document.getElementById('chatroomMessages').innerHTML = '';
+
+            messagesRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
+                const msg = snapshot.val();
+                msg.id = snapshot.key;
+                displayMessage(msg);
+                updateTotalCount();
+            });
+
+            // Click listener for delete mode
+            document.getElementById('chatroomMessages').addEventListener('click', (e) => {
+                if (!isAdmin || !deleteModeActive) return;
+
+                const bubble = e.target.closest('.chat-bubble-user, .chat-bubble-ai');
+                if (!bubble) return;
+
+                const messageDiv = e.target.closest('[data-message-id]');
+                if (!messageDiv) return;
+
+                const messageId = messageDiv.getAttribute('data-message-id');
+                if (messageId) {
+                    deleteSpecificMessage(messageId);
+                }
+            });
+
+            cleanupOldMessages();
+        }
+
+        function cleanupOldMessages() {
+            const performCleanup = () => {
+                const twentyMinutesAgo = Date.now() - (20 * 60 * 1000);
+
+                console.log('🔍 Checking for old messages in room:', currentRoom);
+
+                messagesRef.once('value', (snapshot) => {
+                    const updates = {};
+                    const now = Date.now();
+
+                    snapshot.forEach((child) => {
+                        const msg = child.val();
+                        if (msg.timestamp && (now - msg.timestamp) > (20 * 60 * 1000)) {
+                            updates[child.key] = null;
+
+                            // Delete image from storage if exists
+                            if (msg.imageUrl) {
+                                const imagePath = `chatroom/${currentRoom}/images/${child.key}`;
+                                storage.ref(imagePath).delete().catch(err => console.log('Image already deleted'));
+                            }
+                        }
+                    });
+
+                    if (Object.keys(updates).length > 0) {
+                        messagesRef.update(updates).then(() => {
+                            console.log('🗑️ Deleted ' + Object.keys(updates).length + ' old messages');
+                        });
+                    } else {
+                        console.log('✅ No messages older than 20 minutes');
+                    }
+                });
+            };
+
+            console.log('⏰ Starting auto-cleanup system (20 min threshold)');
+            performCleanup();
+
+            setInterval(performCleanup, 2 * 60 * 1000);
+        }
+
+       function displayMessage(msg) {
+            const container = document.getElementById('chatroomMessages');
+            const isOwn = msg.userId === currentUser.id;
+        
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'flex items-start ' + (isOwn ? 'justify-end' : '');
+            msgDiv.setAttribute('data-message-id', msg.id || '');
+        
+            const time = new Date(msg.timestamp).toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit'
+            });
+        
+            let messageContent = '';
+            
+            // Check for imageData (base64) instead of imageUrl
+            if (msg.imageData) {
+                messageContent = `<img src="${msg.imageData}" class="image-message" onclick="window.open('${msg.imageData}', '_blank')">`;
+            }
+            
+            if (msg.text) {
+                messageContent += `<p class="text-sm ${msg.imageData ? 'mt-2' : ''}">${escapeHtml(msg.text)}</p>`;
+            }
+        
+            if (isOwn) {
+                msgDiv.innerHTML = `
+                    <div class="text-right mr-3 max-w-md">
+                        <div class="flex items-center justify-end mb-1">
+                            <span class="text-xs text-gray-500 mr-2">${time}</span>
+                            <span class="text-sm font-semibold text-primary">${escapeHtml(msg.nickname)}</span>
+                        </div>
+                        <div class="chat-bubble-user p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
+                            ${messageContent}
+                        </div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-user text-xs"></i>
+                    </div>
+                `;
+            } else {
+                msgDiv.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-user text-xs"></i>
+                    </div>
+                    <div class="ml-3 max-w-md">
+                        <div class="flex items-center mb-1">
+                            <span class="text-sm font-semibold text-secondary">${escapeHtml(msg.nickname)}</span>
+                            <span class="text-xs text-gray-500 ml-2">${time}</span>
+                        </div>
+                        <div class="chat-bubble-ai p-3 ${deleteModeActive && isAdmin ? 'cursor-pointer hover:ring-2 hover:ring-red-500' : ''}">
+                            ${messageContent}
+                        </div>
+                    </div>
+                `;
+            }
+        
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+        // Image Upload Handler
+        // Image Upload Handler
+        // Image Upload Handler
+       function setupImageUpload() {
+            const imageUpload = document.getElementById('imageUpload');
+            if (!imageUpload) return;
+        
+            // Remove any existing listeners to avoid duplicates
+            imageUpload.replaceWith(imageUpload.cloneNode(true));
+            const newImageUpload = document.getElementById('imageUpload');
+        
+            newImageUpload.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+        
+                // Check file size (max 2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Image too large! Max 2MB');
+                    return;
+                }
+        
+                // Check if it's an image
+                if (!file.type.startsWith('image/')) {
+                    alert('Please upload an image file');
+                    return;
+                }
+        
+                selectedImage = file;
+        
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function cleanupOldMessages() {
+            const performCleanup = () => {
+                console.log('🔍 Checking for old messages in room:', currentRoom);
+        
+                messagesRef.once('value', (snapshot) => {
+                    const updates = {};
+                    const now = Date.now();
+        
+                    snapshot.forEach((child) => {
+                        const msg = child.val();
+                        if (msg.timestamp && (now - msg.timestamp) > (20 * 60 * 1000)) {
+                            updates[child.key] = null;
+                            // No need to delete from storage since we're using base64 in database
+                        }
+                    });
+        
+                    if (Object.keys(updates).length > 0) {
+                        messagesRef.update(updates).then(() => {
+                            console.log('🗑️ Deleted ' + Object.keys(updates).length + ' old messages');
+                        });
+                    } else {
+                        console.log('✅ No messages older than 20 minutes');
+                    }
+                });
+            };
+        
+            console.log('⏰ Starting auto-cleanup system (20 min threshold)');
+            performCleanup();
+            setInterval(performCleanup, 2 * 60 * 1000);
+        }
+        function displayMessage(msg) {
+            const container = document.getElementById('chatroomMessages');
+            const isOwn = msg.userId === currentUser.id;
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'flex items-start ' + (isOwn ? 'justify-end' : '');
+            msgDiv.setAttribute('data-message-id', msg.id || '');
+
+            const time = new Date(msg.timestamp).toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit'
+            });
+
+            let messageContent = '';
+            if (msg.imageUrl) {
+                messageContent = `<img src="${escapeHtml(msg.imageUrl)}" class="image-message" onclick="window.open('${escapeHtml(msg.imageUrl)}', '_blank')">`;
+            }
+            if (msg.text) {
+                messageContent += `<p class="text-sm ${msg.imageUrl ? 'mt-2' : ''}">${escapeHtml(msg.text)}</p>`;
+            }
+
+            if (isOwn) {
+                msgDiv.innerHTML = `
             <div class="text-right mr-3 max-w-md">
                 <div class="flex items-center justify-end mb-1">
                     <span class="text-xs text-gray-500 mr-2">${time}</span>
@@ -1603,8 +2003,8 @@ function displayMessage(msg) {
                 <i class="fas fa-user text-xs"></i>
             </div>
         `;
-    } else {
-        msgDiv.innerHTML = `
+            } else {
+                msgDiv.innerHTML = `
             <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
                 <i class="fas fa-user text-xs"></i>
             </div>
@@ -1618,226 +2018,287 @@ function displayMessage(msg) {
                 </div>
             </div>
         `;
-    }
-    
-    container.appendChild(msgDiv);
-    container.scrollTop = container.scrollHeight;
-}
+            }
 
-async function sendChatroomMessage() {
-    const input = document.getElementById('chatroomInput');
-    const btn = document.getElementById('sendChatroomMessage');
-    const text = input.value.trim();
-    
-    if (!text && !selectedImage) return;
-    
-    const now = Date.now();
-    if (now - lastMessageTime < 2000) {
-        alert('Please wait a moment before sending another message.');
-        return;
-    }
-    
-    btn.disabled = true;
-    
-    try {
-        let imageUrl = null;
-        
-        // Upload image if selected
-        if (selectedImage) {
-            const messageId = Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            const imagePath = `chatroom/${currentRoom}/images/${messageId}`;
-            const uploadTask = await storage.ref(imagePath).put(selectedImage);
-            imageUrl = await uploadTask.ref.getDownloadURL();
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
         }
-        
-        const filtered = filterProfanity(text);
-        
-        // Send message
-        await messagesRef.push({
-            userId: currentUser.id,
-            nickname: currentUser.nickname,
-            text: filtered || null,
-            imageUrl: imageUrl,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
-        
-        input.value = '';
-        cancelImage();
-        lastMessageTime = now;
-        
-        userMessageCount++;
-        localStorage.setItem('userMessageCount', userMessageCount);
-        document.getElementById('userMessageCount').textContent = userMessageCount;
-        
-        setTimeout(() => {
-            btn.disabled = false;
-        }, 2000);
-    } catch (error) {
-        console.error('Send error:', error);
-      ;
-        btn.disabled = false;
-    }
-}
 
-function updateTotalCount() {
-    messagesRef.once('value', (snapshot) => {
-        document.getElementById('totalMessageCount').textContent = snapshot.numChildren();
-    });
-}
-
-function filterProfanity(text) {
-    let filtered = text;
-    badWords.forEach(word => {
-        const regex = new RegExp(word, 'gi');
-        filtered = filtered.replace(regex, '*'.repeat(word.length));
-    });
-    return filtered;
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function setupChatroomEvents() {
-    document.getElementById('sendChatroomMessage').addEventListener('click', sendChatroomMessage);
-    
-    document.getElementById('chatroomInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendChatroomMessage();
-    });
-}
-
-// Update admin panel for current room
-function updateAdminStats() {
-    document.getElementById('adminCurrentRoom').textContent = roomTitles[currentRoom];
-    
-    presenceRef.once('value', (snapshot) => {
-        document.getElementById('adminOnlineCount').textContent = snapshot.numChildren();
-    });
-    
-    messagesRef.once('value', (snapshot) => {
-        document.getElementById('adminTotalMessages').textContent = snapshot.numChildren();
-    });
-}
+    // ===========================
+// FIXED SEND MESSAGE - BASE64 ONLY
 // ===========================
-// FEEDBACK SYSTEM
+  // ===========================
+// SEND MESSAGE - BASE64 ONLY (NO STORAGE UPLOAD)
 // ===========================
-let feedbackRef;
-let isFeedbackInitialized = false;
-
-function initFeedback() {
-    if (isFeedbackInitialized) return;
+    async function sendChatroomMessage() {
+        const input = document.getElementById('chatroomInput');
+        const btn = document.getElementById('sendChatroomMessage');
+        const text = input.value.trim();
     
-    feedbackRef = database.ref('feedback');
-    isFeedbackInitialized = true;
+        console.log('📤 Send attempt - Text:', text, '| Image:', selectedImage ? selectedImage.name : 'NONE');
     
-    listenToFeedback();
-    
-    // Character counter
-    document.getElementById('feedbackText').addEventListener('input', (e) => {
-        document.getElementById('charCount').textContent = e.target.value.length;
-    });
-}
-
-function submitFeedback() {
-    const type = document.getElementById('feedbackType').value;
-    const text = document.getElementById('feedbackText').value.trim();
-    const btn = document.getElementById('submitFeedbackBtn');
-    
-    if (!text) {
-        alert('Please write your feedback!');
-        return;
-    }
-    
-    if (text.length < 10) {
-        alert('Please write at least 10 characters.');
-        return;
-    }
-    
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
-    
-    feedbackRef.push({
-        type: type,
-        text: text,
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        replies: null
-    }).then(() => {
-        document.getElementById('feedbackText').value = '';
-        document.getElementById('charCount').textContent = '0';
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Anonymously';
-        alert('✅ Feedback submitted! Thank you!');
-    }).catch((error) => {
-        console.error('Feedback error:', error);
-        alert('❌ Failed to submit. Please try again.');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Anonymously';
-    });
-}
-
-function listenToFeedback() {
-    feedbackRef.orderByChild('timestamp').limitToLast(50).on('value', (snapshot) => {
-        const feedbackList = document.getElementById('feedbackList');
-        feedbackList.innerHTML = '';
-        
-        if (!snapshot.exists()) {
-            feedbackList.innerHTML = '<div class="text-center py-8"><p class="text-gray-500">No feedback yet. Be the first!</p></div>';
+        if (!text && !selectedImage) {
+            console.log('❌ Nothing to send');
             return;
         }
-        
-        const items = [];
-        snapshot.forEach((child) => {
-            items.push({ id: child.key, ...child.val() });
-        });
-        
-        items.reverse().forEach(item => {
-            displayFeedback(item);
-        });
-    });
-}
+    
+        const now = Date.now();
+        if (now - lastMessageTime < 2000) {
+            alert('⏱️ Please wait a moment before sending another message.');
+            return;
+        }
+    
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    
+        try {
+            let imageData = null;
+    
+            // Convert image to base64 (NO STORAGE UPLOAD)
+            if (selectedImage) {
+                console.log('📤 Converting image to base64...');
+                
+                imageData = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(selectedImage);
+                });
+                
+                console.log('✅ Image converted to base64');
+            }
+    
+            const filtered = text ? filterProfanity(text) : null;
+    
+            console.log('💾 Saving to database...');
+            await messagesRef.push({
+                userId: currentUser.id,
+                nickname: currentUser.nickname,
+                text: filtered,
+                imageData: imageData, // Base64 string stored in database
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            });
+    
+            console.log('✅ Message saved');
+    
+            // Clear inputs
+            input.value = '';
+            cancelImage();
+            document.getElementById('imageUpload').value = '';
+            
+            lastMessageTime = now;
+    
+            userMessageCount++;
+            localStorage.setItem('userMessageCount', userMessageCount);
+            document.getElementById('userMessageCount').textContent = userMessageCount;
+    
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+            }, 2000);
+    
+        } catch (error) {
+            console.error('❌ Error:', error);
+            alert('❌ Failed to send: ' + error.message);
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        }
+    }
 
-function displayFeedback(item) {
-    const feedbackList = document.getElementById('feedbackList');
-    
-    const typeEmojis = {
-        bug: '🐛 Bug Report',
-        feature: '✨ Feature Request',
-        improvement: '💡 Improvement',
-        general: '💬 General',
-        compliment: '❤️ Compliment'
-    };
-    
-    const typeColors = {
-        bug: 'bg-red-500/20 text-red-400',
-        feature: 'bg-purple-500/20 text-purple-400',
-        improvement: 'bg-yellow-500/20 text-yellow-400',
-        general: 'bg-blue-500/20 text-blue-400',
-        compliment: 'bg-pink-500/20 text-pink-400'
-    };
-    
-    const time = new Date(item.timestamp).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-    
-    const card = document.createElement('div');
-    card.className = 'glassmorphism rounded-2xl p-6 feedback-card';
-    
-    let repliesHTML = '';
-    if (item.replies) {
-        Object.values(item.replies).forEach(reply => {
-            const replyTime = new Date(reply.timestamp).toLocaleDateString('en-US', {
+        function updateTotalCount() {
+            messagesRef.once('value', (snapshot) => {
+                document.getElementById('totalMessageCount').textContent = snapshot.numChildren();
+            });
+        }
+
+        function filterProfanity(text) {
+            let filtered = text;
+            badWords.forEach(word => {
+                const regex = new RegExp(word, 'gi');
+                filtered = filtered.replace(regex, '*'.repeat(word.length));
+            });
+            return filtered;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+       function setupChatroomEvents() {
+            document.getElementById('sendChatroomMessage').addEventListener('click', sendChatroomMessage);
+        
+            document.getElementById('chatroomInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendChatroomMessage();
+            });
+        
+            // Add paste event listener for images
+            document.getElementById('chatroomInput').addEventListener('paste', (e) => {
+                const items = e.clipboardData.items;
+                
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                        e.preventDefault();
+                        
+                        const blob = items[i].getAsFile();
+                        const file = new File([blob], 'pasted-image.png', { type: blob.type });
+                        
+                        if (file.size > 190 * 1024 * 1024) {
+                            alert('Image too large! Max 2MB');
+                            return;
+                        }
+                        
+                        selectedImage = file;
+                        
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            document.getElementById('previewImg').src = e.target.result;
+                            document.getElementById('imagePreview').classList.remove('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                        
+                        break;
+                    }
+                }
+            });
+        }
+        function cancelImage() {
+            selectedImage = null;
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('imageUpload').value = ''; // Reset file input
+        }
+        // Update admin panel for current room
+        function updateAdminStats() {
+            document.getElementById('adminCurrentRoom').textContent = roomTitles[currentRoom];
+
+            presenceRef.once('value', (snapshot) => {
+                document.getElementById('adminOnlineCount').textContent = snapshot.numChildren();
+            });
+
+            messagesRef.once('value', (snapshot) => {
+                document.getElementById('adminTotalMessages').textContent = snapshot.numChildren();
+            });
+        }
+        // ===========================
+        // FEEDBACK SYSTEM
+        // ===========================
+        let feedbackRef;
+        let isFeedbackInitialized = false;
+
+        function initFeedback() {
+            if (isFeedbackInitialized) return;
+
+            feedbackRef = database.ref('feedback');
+            isFeedbackInitialized = true;
+
+            listenToFeedback();
+
+            // Character counter
+            document.getElementById('feedbackText').addEventListener('input', (e) => {
+                document.getElementById('charCount').textContent = e.target.value.length;
+            });
+        }
+
+        function submitFeedback() {
+            const type = document.getElementById('feedbackType').value;
+            const text = document.getElementById('feedbackText').value.trim();
+            const btn = document.getElementById('submitFeedbackBtn');
+
+            if (!text) {
+                alert('Please write your feedback!');
+                return;
+            }
+
+            if (text.length < 10) {
+                alert('Please write at least 10 characters.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+
+            feedbackRef.push({
+                type: type,
+                text: text,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                replies: null
+            }).then(() => {
+                document.getElementById('feedbackText').value = '';
+                document.getElementById('charCount').textContent = '0';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Anonymously';
+                alert('✅ Feedback submitted! Thank you!');
+            }).catch((error) => {
+                console.error('Feedback error:', error);
+                alert('❌ Failed to submit. Please try again.');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Anonymously';
+            });
+        }
+
+        function listenToFeedback() {
+            feedbackRef.orderByChild('timestamp').limitToLast(50).on('value', (snapshot) => {
+                const feedbackList = document.getElementById('feedbackList');
+                feedbackList.innerHTML = '';
+
+                if (!snapshot.exists()) {
+                    feedbackList.innerHTML = '<div class="text-center py-8"><p class="text-gray-500">No feedback yet. Be the first!</p></div>';
+                    return;
+                }
+
+                const items = [];
+                snapshot.forEach((child) => {
+                    items.push({ id: child.key, ...child.val() });
+                });
+
+                items.reverse().forEach(item => {
+                    displayFeedback(item);
+                });
+            });
+        }
+
+        function displayFeedback(item) {
+            const feedbackList = document.getElementById('feedbackList');
+
+            const typeEmojis = {
+                bug: '🐛 Bug Report',
+                feature: '✨ Feature Request',
+                improvement: '💡 Improvement',
+                general: '💬 General',
+                compliment: '❤️ Compliment'
+            };
+
+            const typeColors = {
+                bug: 'bg-red-500/20 text-red-400',
+                feature: 'bg-purple-500/20 text-purple-400',
+                improvement: 'bg-yellow-500/20 text-yellow-400',
+                general: 'bg-blue-500/20 text-blue-400',
+                compliment: 'bg-pink-500/20 text-pink-400'
+            };
+
+            const time = new Date(item.timestamp).toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
+                year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            repliesHTML += `
+
+            const card = document.createElement('div');
+            card.className = 'glassmorphism rounded-2xl p-6 feedback-card';
+
+            let repliesHTML = '';
+            if (item.replies) {
+                Object.values(item.replies).forEach(reply => {
+                    const replyTime = new Date(reply.timestamp).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    repliesHTML += `
                 <div class="mt-4 ml-4 pl-4 border-l-2 border-primary/30">
                     <div class="flex items-center mb-2">
                         <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mr-2">
@@ -1849,16 +2310,16 @@ function displayFeedback(item) {
                     <p class="text-gray-300 text-sm">${escapeHtml(reply.text)}</p>
                 </div>
             `;
-        });
-    }
-    
-    const replyButton = isAdmin ? `
+                });
+            }
+
+            const replyButton = isAdmin ? `
         <button onclick="replyToFeedback('${item.id}')" class="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm transition-all">
             <i class="fas fa-reply mr-1"></i>Reply as Developer
         </button>
     ` : '';
-    
-    card.innerHTML = `
+
+            card.innerHTML = `
         <div class="flex items-start justify-between mb-3">
             <span class="feedback-type-badge ${typeColors[item.type]}">${typeEmojis[item.type]}</span>
             <span class="text-xs text-gray-500">${time}</span>
@@ -1870,33 +2331,57 @@ function displayFeedback(item) {
             ${replyButton}
         </div>
     `;
-    
-    feedbackList.appendChild(card);
-}
 
-function replyToFeedback(feedbackId) {
-    if (!isAdmin) {
-        alert('⛔ Only admins can reply!');
-        return;
-    }
-    
-    const replyText = prompt('Enter your reply as the developer:');
-    if (!replyText || !replyText.trim()) return;
-    
-    feedbackRef.child(feedbackId).child('replies').push({
-        text: replyText.trim(),
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-    }).then(() => {
-        alert('✅ Reply posted!');
-    }).catch((error) => {
-        console.error('Reply error:', error);
-        alert('❌ Failed to post reply.');
-    });
-}
-// ===========================
-// DOM Ready
-// ===========================
-document.addEventListener("DOMContentLoaded", init);
+            feedbackList.appendChild(card);
+        }
+
+        function replyToFeedback(feedbackId) {
+            if (!isAdmin) {
+                alert('⛔ Only admins can reply!');
+                return;
+            }
+
+            const replyText = prompt('Enter your reply as the developer:');
+            if (!replyText || !replyText.trim()) return;
+
+            feedbackRef.child(feedbackId).child('replies').push({
+                text: replyText.trim(),
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            }).then(() => {
+                alert('✅ Reply posted!');
+            }).catch((error) => {
+                console.error('Reply error:', error);
+                alert('❌ Failed to post reply.');
+            });
+        }
+
+      // ===========================
+        // Fullscreen Function
+        // ===========================
+        function toggleFullscreen(id) {
+            var iframe = document.getElementById(id);
+            if (!iframe) return;
+
+            // Get the parent container (the div with rounded-xl that contains the iframe)
+            var container = iframe.parentElement;
+
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) { /* Safari */
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) { /* IE11 */
+                    container.msRequestFullscreen();
+                }
+            }
+        }
+
+        // ===========================
+        // DOM Ready
+        // ===========================
+        document.addEventListener("DOMContentLoaded", init);
 
 
-</script>
+    </script>
