@@ -56,7 +56,7 @@ var GAMES = [
       "popularity": "1M+",
       "releaseDate": "December 2018",
       "rating": "TODO",
-      "link": ""https://gamesproxy.onrender.com/game?id=332",
+      "link": "https://gamesproxy.onrender.com/game?id=332",
       "genre": "Point and Click Strategy Games",
       "build": "HTML5, JavaScript",
       "dev": "Functu Games",
