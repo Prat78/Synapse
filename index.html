@@ -1184,7 +1184,6 @@
             renderCategories();
             renderGames();
             setupEvents();
-            setupChatroomEvents(); // ADD THIS LINE
         }
 
         // ===========================
@@ -1267,6 +1266,7 @@
             if (name === 'chatroom' && isFirebaseInitialized) {
                 switchRoom('chatroom1');
                 setupImageUpload();
+                setupChatroomEvents(); 
             }
 
             // Setup feedback
