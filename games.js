@@ -164,5 +164,5 @@ var games = {
     "ninjago": "https://clever.pbseducation1914.org/games/ninjago",
     "notpron": "https://clever.pbseducation1914.org/games/notpron",
     "office-panic": "https://clever.pbseducation1914.org/games/office-panic",
-    "olympicrunner": "https://clever.pbseducation1914.org
+    "olympicrunner": "https://clever.pbseducation1914.org"
 };
