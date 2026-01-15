@@ -3,14 +3,14 @@
 
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT0KHEJ77Y"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT0KHEJ77Y"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-ZT0KHEJ77Y');
-</script>
+        gtag('config', 'G-ZT0KHEJ77Y');
+    </script>
     <base target="_self">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,434 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
+        /* ============================================
+           HIGHTECH FUTURISTIC ANIMATIONS
+           ============================================ */
+
+        /* Cyber Grid Background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridPulse 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gridPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Scanlines Overlay */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.05) 0px,
+                    rgba(0, 0, 0, 0.05) 1px,
+                    transparent 1px,
+                    transparent 2px);
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* Matrix Rain Effect */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .matrix-drop {
+            position: absolute;
+            color: #3b82f6;
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
+            opacity: 0.3;
+            animation: matrixFall linear infinite;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes matrixFall {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.3;
+            }
+
+            90% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Hologram Effect */
+        .hologram {
+            position: relative;
+            animation: hologramFlicker 0.1s infinite;
+        }
+
+        @keyframes hologramFlicker {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            92% {
+                opacity: 0.8;
+            }
+
+            94% {
+                opacity: 1;
+            }
+
+            97% {
+                opacity: 0.9;
+            }
+        }
+
+        .hologram::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(transparent 0%,
+                    rgba(59, 130, 246, 0.03) 50%,
+                    transparent 100%);
+            animation: hologramScan 2s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes hologramScan {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        /* Electric Arc Animation */
+        @keyframes electricArc {
+
+            0%,
+            100% {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                filter: brightness(1);
+            }
+
+            25% {
+                clip-path: polygon(0 0, 95% 5%, 100% 100%, 5% 95%);
+                filter: brightness(1.2);
+            }
+
+            50% {
+                clip-path: polygon(5% 5%, 100% 0, 95% 95%, 0 100%);
+                filter: brightness(1);
+            }
+
+            75% {
+                clip-path: polygon(0 5%, 95% 0, 100% 95%, 5% 100%);
+                filter: brightness(1.3);
+            }
+        }
+
+        .electric-border {
+            animation: electricArc 0.5s ease-in-out infinite;
+        }
+
+        /* Neon Pulse */
+        @keyframes neonPulse {
+
+            0%,
+            100% {
+                text-shadow:
+                    0 0 5px #3b82f6,
+                    0 0 10px #3b82f6,
+                    0 0 20px #3b82f6,
+                    0 0 40px #8b5cf6;
+            }
+
+            50% {
+                text-shadow:
+                    0 0 10px #3b82f6,
+                    0 0 20px #3b82f6,
+                    0 0 40px #3b82f6,
+                    0 0 80px #8b5cf6,
+                    0 0 120px #ec4899;
+            }
+        }
+
+        .neon-pulse {
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+
+        /* Glitch Effect */
+        @keyframes glitch {
+
+            0%,
+            100% {
+                transform: translate(0);
+                filter: hue-rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-3px, 3px);
+                filter: hue-rotate(90deg);
+            }
+
+            20% {
+                transform: translate(3px, -3px);
+                filter: hue-rotate(180deg);
+            }
+
+            30% {
+                transform: translate(-2px, 0);
+                filter: hue-rotate(270deg);
+            }
+
+            40% {
+                transform: translate(0, 2px);
+                filter: hue-rotate(0deg);
+            }
+
+            50%,
+            100% {
+                transform: translate(0);
+                filter: hue-rotate(0deg);
+            }
+        }
+
+        .glitch:hover {
+            animation: glitch 0.4s ease infinite;
+        }
+
+        .glitch-always {
+            animation: glitch 3s ease infinite;
+        }
+
+        /* Data Stream */
+        .data-stream {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #3b82f6, transparent);
+            opacity: 0.4;
+            animation: dataFlow 3s linear infinite;
+        }
+
+        @keyframes dataFlow {
+            0% {
+                top: -200px;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        /* Hexagon Pattern */
+        .hex-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.05'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Circuit Lines */
+        .circuit-lines::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(90deg, transparent 49%, rgba(59, 130, 246, 0.1) 50%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, rgba(59, 130, 246, 0.1) 50%, transparent 51%);
+            background-size: 100px 100px;
+            pointer-events: none;
+        }
+
+        /* Radar Sweep */
+        @keyframes radarSweep {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .radar-sweep {
+            position: relative;
+        }
+
+        .radar-sweep::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(from 0deg, transparent 0%, rgba(59, 130, 246, 0.3) 10%, transparent 20%);
+            transform-origin: 0 0;
+            animation: radarSweep 4s linear infinite;
+        }
+
+        /* Typing Cursor */
+        @keyframes cursorBlink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .typing-cursor::after {
+            content: '|';
+            color: #3b82f6;
+            animation: cursorBlink 0.8s infinite;
+            margin-left: 4px;
+        }
+
+        /* Energy Wave */
+        @keyframes energyWave {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .energy-wave::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border: 2px solid rgba(59, 130, 246, 0.5);
+            border-radius: inherit;
+            animation: energyWave 2s ease-out infinite;
+        }
+
+        /* Particle Burst */
+        @keyframes particleBurst {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Loading Bar */
+        @keyframes loadingBar {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .loading-progress {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            animation: loadingBar 2s ease-out forwards;
+        }
+
+        /* Rotate 3D */
+        @keyframes rotate3D {
+            0% {
+                transform: perspective(1000px) rotateY(0deg);
+            }
+
+            100% {
+                transform: perspective(1000px) rotateY(360deg);
+            }
+        }
+
+        .rotate-3d {
+            animation: rotate3D 10s linear infinite;
+        }
+
+        /* Scale Pulse */
+        @keyframes scalePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .scale-pulse {
+            animation: scalePulse 2s ease-in-out infinite;
+        }
+
+        /* Gradient Shift */
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .gradient-animated {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #8b5cf6, #3b82f6);
+            background-size: 400% 100%;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        /* Base Animations */
         @keyframes float {
 
             0%,
@@ -41,7 +469,7 @@
             }
 
             50% {
-                box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+                box-shadow: 0 0 60px rgba(59, 130, 246, 0.8), 0 0 100px rgba(139, 92, 246, 0.4);
             }
         }
 
@@ -360,6 +788,474 @@
             opacity: 0.1;
             pointer-events: none;
         }
+
+        /* ========== MEGA COOL ANIMATIONS ========== */
+        :root {
+            --glow-primary: rgba(59, 130, 246, 0.5);
+            --glow-secondary: rgba(139, 92, 246, 0.5);
+        }
+
+        /* Custom Cursor */
+        .cursor-outline {
+            width: 30px;
+            height: 30px;
+            border: 2px solid white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-outline.hovered {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-left.active,
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Gradient Border Animation */
+        @keyframes gradientBorder {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(90deg, #0f172a, #0f172a) padding-box,
+                linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6) border-box;
+            border: 2px solid transparent;
+            background-size: 100% 100%, 300% 100%;
+            animation: gradientBorder 3s ease infinite;
+        }
+
+        /* Glow Effects */
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8));
+            }
+        }
+
+        @keyframes textGlow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
+            }
+
+            50% {
+                text-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 0 40px rgba(139, 92, 246, 0.5);
+            }
+        }
+
+        .glow-pulse {
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        .text-glow {
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        /* Morphing Blob */
+        @keyframes morphBlob {
+
+            0%,
+            100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+
+            25% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+            }
+
+            50% {
+                border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+            }
+
+            75% {
+                border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%;
+            }
+        }
+
+        .morph-blob {
+            animation: morphBlob 8s ease-in-out infinite;
+        }
+
+        /* Bounce and Scale Effects */
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .scale-in {
+            animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        /* Ripple Button Effect */
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ripple::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: scale(0);
+            pointer-events: none;
+        }
+
+        .btn-ripple:active::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        /* Glitch Text */
+        @keyframes glitchText {
+
+            0%,
+            100% {
+                clip-path: inset(0 0 0 0);
+                transform: translate(0);
+            }
+
+            20% {
+                clip-path: inset(20% 0 60% 0);
+                transform: translate(-2px, 2px);
+            }
+
+            40% {
+                clip-path: inset(40% 0 40% 0);
+                transform: translate(2px, -2px);
+            }
+
+            60% {
+                clip-path: inset(60% 0 20% 0);
+                transform: translate(-1px, 1px);
+            }
+
+            80% {
+                clip-path: inset(80% 0 0 0);
+                transform: translate(1px, -1px);
+            }
+        }
+
+        .glitch-text:hover {
+            animation: glitchText 0.3s ease infinite;
+        }
+
+        /* Aurora Background */
+        @keyframes aurora {
+
+            0%,
+            100% {
+                background-position: 50% 50%;
+            }
+
+            25% {
+                background-position: 0% 100%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            75% {
+                background-position: 50% 0%;
+            }
+        }
+
+        .aurora-bg {
+            background: linear-gradient(135deg,
+                    rgba(59, 130, 246, 0.1) 0%,
+                    rgba(139, 92, 246, 0.1) 25%,
+                    rgba(236, 72, 153, 0.1) 50%,
+                    rgba(139, 92, 246, 0.1) 75%,
+                    rgba(59, 130, 246, 0.1) 100%);
+            background-size: 400% 400%;
+            animation: aurora 15s ease infinite;
+        }
+
+        /* Card Shine Effect */
+        .card-shine {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.5s ease;
+        }
+
+        .card-shine:hover::before {
+            left: 125%;
+        }
+
+        /* Neon Glow */
+        .neon-glow {
+            box-shadow:
+                0 0 5px rgba(59, 130, 246, 0.5),
+                0 0 10px rgba(59, 130, 246, 0.3),
+                0 0 20px rgba(59, 130, 246, 0.2),
+                0 0 40px rgba(59, 130, 246, 0.1);
+        }
+
+        .neon-text {
+            text-shadow:
+                0 0 5px currentColor,
+                0 0 10px currentColor,
+                0 0 20px currentColor;
+        }
+
+        /* Animated Gradient Text */
+        .gradient-text-animated {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientBorder 3s ease infinite;
+        }
+
+        /* Hover Glow */
+        .hover-glow:hover {
+            box-shadow:
+                0 0 20px rgba(59, 130, 246, 0.6),
+                0 0 40px rgba(139, 92, 246, 0.4),
+                0 0 60px rgba(59, 130, 246, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+
+        /* Floating Elements */
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .floating-icon:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        /* Shimmer Effect */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+
+        /* Hover Lift */
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.05);
+        }
+
+        /* Enhanced Game Card */
+        .game-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .game-card:hover {
+            box-shadow: 0 0 30px var(--glow-primary);
+            border-color: #3b82f6;
+        }
+
+        /* Glassmorphism Enhancement */
+        .glassmorphism::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(45deg, transparent 45%, rgba(255, 255, 255, 0.05) 50%, transparent 55%);
+            transition: all 0.6s;
+            pointer-events: none;
+        }
+
+        .glassmorphism:hover::after {
+            top: 100%;
+            left: 100%;
+        }
+
+        /* Rotating Border */
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .rotating-border {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rotating-border::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, #3b82f6);
+            animation: rotate 4s linear infinite;
+            z-index: -1;
+        }
+
+        /* Pulse Ring */
+        @keyframes pulseRing {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border: 2px solid rgba(59, 130, 246, 0.5);
+            border-radius: inherit;
+            animation: pulseRing 1.5s ease-out infinite;
+        }
+
+        /* Stagger Animation */
+        .stagger-1 {
+            animation-delay: 0.1s;
+        }
+
+        .stagger-2 {
+            animation-delay: 0.2s;
+        }
+
+        .stagger-3 {
+            animation-delay: 0.3s;
+        }
+
+        .stagger-4 {
+            animation-delay: 0.4s;
+        }
+
+        .stagger-5 {
+            animation-delay: 0.5s;
+        }
     </style>
     <script>
 
@@ -382,25 +1278,49 @@
     </script>
 </head>
 
-<body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden">
+<body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden hex-pattern">
+    <!-- Hightech Background Effects -->
+    <div class="cyber-grid"></div>
+    <div class="scanlines"></div>
+    <div class="matrix-rain" id="matrixRain"></div>
 
-    <!-- Loading Screen -->
+    <!-- Custom Cursor -->
+    <div class="cursor-outline" id="cursorOutline"></div>
+
+    <!-- EPIC Loading Screen -->
     <div id="loadingScreen" class="loading-screen">
-        <div class="text-center">
-            <div class="loading-dots mb-6">
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
+        <div class="text-center relative">
+            <!-- Hexagon Loader -->
+            <div class="relative w-32 h-32 mx-auto mb-8">
+                <div class="absolute inset-0 border-4 border-transparent border-t-primary rounded-full animate-spin">
+                </div>
+                <div class="absolute inset-2 border-4 border-transparent border-t-secondary rounded-full animate-spin"
+                    style="animation-direction: reverse; animation-duration: 0.8s;"></div>
+                <div class="absolute inset-4 border-4 border-transparent border-t-pink-500 rounded-full animate-spin"
+                    style="animation-duration: 0.6s;"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full animate-pulse scale-pulse">
+                    </div>
+                </div>
             </div>
-            <h2
-                class="text-2xl font-orbitron font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Loading Synapse AI...</h2>
-            <p class="text-gray-400 mt-2">Initializing neural networks</p>
+
+            <h2 class="text-2xl font-orbitron font-bold typing-cursor mb-4">
+                INITIALIZING SYNAPSE</h2>
+
+            <!-- Progress Bar -->
+            <div class="w-64 mx-auto h-1 bg-gray-800 rounded-full overflow-hidden mb-4">
+                <div class="loading-progress h-full rounded-full"></div>
+            </div>
+
+            <p class="text-gray-500 text-sm font-orbitron tracking-widest" id="loadingStatus">LOADING NEURAL NETWORK...
+            </p>
         </div>
     </div>
 
     <!-- Parallax Background -->
     <div id="parallaxBg" class="parallax-bg"></div>
+
 
     <!-- Navigation -->
     <nav class="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-white/10">
@@ -410,9 +1330,7 @@
                     class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                     <i class="fas fa-brain text-white"></i>
                 </div>
-                <span
-                    class="text-2xl font-orbitron font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse
-                    AI</span>
+                <span class="text-2xl font-orbitron font-bold text-primary">SYNAPSE AI</span>
             </div>
             <div class="hidden md:flex items-center space-x-8">
                 <a href="#" data-page="home"
@@ -424,19 +1342,19 @@
                 <a href="#" data-page="policy"
                     class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
                 <a href="#" data-page="roblox"
-                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Online
-                    Games/Proxy Browser!</a>
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Online Games</a>
                 <a href="#" data-page="chatroom"
                     class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Chatroom</a>
                 <a href="#" data-page="feedback"
                     class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Feedback</a>
             </div>
             <button id="tryAI"
-                class="px-6 py-2 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform duration-300 animate-pulse-glow">Try
-                the AI</button>
+                class="px-6 py-2 bg-primary rounded-full font-semibold font-orbitron uppercase tracking-wider hover:scale-110 transition-all duration-300">
+                LAUNCH AI</button>
             <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white"><i
                     class="fas fa-bars text-2xl"></i></button>
         </div>
+
         <div id="mobileMenu" class="md:hidden mt-4 hidden flex-col space-y-4 px-4">
             <a href="#" data-page="home" class="nav-underline active text-gray-300 hover:text-white py-2">Home</a>
             <a href="#" data-page="chat" class="nav-underline text-gray-300 hover:text-white py-2">AI Chat</a>
@@ -452,52 +1370,54 @@
         <!-- HOME PAGE -->
         <div id="homePage" class="page-transition">
             <section class="container mx-auto px-4 py-16 md:py-24 text-center">
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-6">
-                    <span
-                        class="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">Welcome
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-6 reveal text-glow">
+                    <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Welcome
                         to</span>
                     <br>
                     <span
                         class="typing-animation bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse
                         AI</span>
-                    <span class="cursor-blink">|</span>
+                    <span class="cursor-blink neon-text text-primary">|</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">When that stupid English essay is
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto reveal stagger-1">When that stupid
+                    English essay is
                     due but Chatgpt is blocked....</p>
                 <button onclick="showPage('chat')"
-                    class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 animate-pulse-glow">
-                    <i class="fas fa-rocket mr-2"></i>Start Your AI Journey
+                    class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full text-lg font-semibold hover:scale-110 transition-all duration-300 animate-pulse-glow btn-ripple hover-glow neon-glow reveal stagger-2">
+                    <i class="fas fa-rocket mr-2 floating-icon"></i>Start Your AI Journey
                 </button>
-                <div class="mt-16 animate-float">
-                    <div class="glassmorphism rounded-3xl p-8 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="text-center">
+                <div class="mt-16 reveal stagger-3">
+                    <div
+                        class="glassmorphism gradient-border rounded-3xl p-8 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="text-center hover-lift card-shine stagger-1">
                             <div
-                                class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-bolt text-2xl"></i>
+                                class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4 morph-blob glow-pulse">
+                                <i class="fas fa-bolt text-2xl floating-icon"></i>
                             </div>
-                            <h3 class="text-xl font-semibold mb-2">Lightning Fast💨</h3>
+                            <h3 class="text-xl font-semibold mb-2 text-glow">Lightning Fast💨</h3>
                             <p class="text-gray-400">Instant responses powered by advanced neural networks</p>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center hover-lift card-shine stagger-2">
                             <div
-                                class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-shield-alt text-2xl"></i>
+                                class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4 morph-blob glow-pulse">
+                                <i class="fas fa-shield-alt text-2xl floating-icon"></i>
                             </div>
-                            <h3 class="text-xl font-semibold mb-2">Undetectable Ai🤯</h3>
+                            <h3 class="text-xl font-semibold mb-2 text-glow">Undetectable Ai🤯</h3>
                             <p class="text-gray-400">Undetectable Ai that can do EVERYTHING for you!😎</p>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center hover-lift card-shine stagger-3">
                             <div
-                                class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-gamepad text-2xl"></i>
+                                class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4 morph-blob glow-pulse">
+                                <i class="fas fa-gamepad text-2xl floating-icon"></i>
                             </div>
-                            <h3 class="text-xl font-semibold mb-2">Fun Games😉</h3>
+                            <h3 class="text-xl font-semibold mb-2 text-glow">Fun Games😉</h3>
                             <p class="text-gray-400">Play awesome unblocked games in your browser</p>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
+
 
         <!-- CHAT PAGE -->
         <div id="chatPage" class="page-transition hidden">
@@ -1164,7 +2084,7 @@
         // ===========================
         // AI Configuration
         // ===========================
-       // ===========================
+        // ===========================
         // AI Configuration
         // ===========================
         let HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
@@ -1176,7 +2096,7 @@
                 const baseURL = HF_API_URL.replace('/generate', '');
                 const res = await fetch(baseURL + "/current_url");
                 const data = await res.json();
-                
+
                 if (data.url && data.url !== baseURL) {
                     console.log("⚡ NEW NGROK URL DETECTED:", data.url);
                     HF_API_URL = data.url + "/generate";
@@ -1226,21 +2146,67 @@
         // Initialization Function
         // ===========================
         function init() {
+            // Create matrix rain effect
+            createMatrixRain();
+
+            // Animate loading status
+            const loadingStatuses = [
+                'LOADING NEURAL NETWORK...',
+                'INITIALIZING AI CORE...',
+                'CONNECTING TO SERVERS...',
+                'DECRYPTING DATA STREAMS...',
+                'CALIBRATING INTERFACE...',
+                'SYSTEM READY...'
+            ];
+            let statusIndex = 0;
+            const statusEl = document.getElementById('loadingStatus');
+            if (statusEl) {
+                const statusInterval = setInterval(() => {
+                    statusIndex = (statusIndex + 1) % loadingStatuses.length;
+                    statusEl.textContent = loadingStatuses[statusIndex];
+                }, 400);
+
+                setTimeout(() => clearInterval(statusInterval), 2500);
+            }
+
             setTimeout(() => {
                 var l = document.getElementById("loadingScreen");
                 l.style.opacity = "0";
+                l.style.transition = "opacity 0.5s ease";
 
                 setTimeout(() => {
                     l.style.display = "none";
                 }, 500);
 
-            }, 1500);
+            }, 2500);
 
             createStars();
             renderCategories();
             renderGames();
             setupEvents();
-            setupChatroomEvents(); // ADD THIS LINE
+            setupChatroomEvents();
+            setupAnimations();
+            setupCursor();
+        }
+
+        // ===========================
+        // Create Matrix Rain Effect
+        // ===========================
+        function createMatrixRain() {
+            const container = document.getElementById('matrixRain');
+            if (!container) return;
+
+            const chars = '01アイウエオカキクケコサシスセソ';
+
+            for (let i = 0; i < 20; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'matrix-drop';
+                drop.style.left = (Math.random() * 100) + '%';
+                drop.style.animationDuration = (Math.random() * 5 + 3) + 's';
+                drop.style.animationDelay = (Math.random() * 5) + 's';
+                drop.textContent = chars[Math.floor(Math.random() * chars.length)];
+                container.appendChild(drop);
+            }
         }
 
         // ===========================
@@ -2368,6 +3334,105 @@
         // DOM Ready
         // ===========================
         document.addEventListener("DOMContentLoaded", init);
+
+        // ===========================
+        // Premium Animations & Interactions
+        // ===========================
+        function setupCursor() {
+            const cursor = document.getElementById('cursorOutline');
+            if (!cursor) return;
+
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            const interactables = 'button, a, input, select, textarea, .game-card, .room-btn, .cat-btn, .glassmorphism';
+
+            // Bind cursor hover effect to interactables
+            function bindCursorHover() {
+                document.querySelectorAll(interactables).forEach(el => {
+                    if (el.dataset.cursorBound) return;
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+                    el.dataset.cursorBound = "true";
+                });
+            }
+
+            bindCursorHover();
+            setInterval(bindCursorHover, 2000); // Rebind for dynamically added elements
+        }
+
+        function setupAnimations() {
+            // Scroll reveal observer
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Re-observe games when rendered
+            const gamesGrid = document.getElementById('gamesGrid');
+            if (gamesGrid) {
+                const gridObserver = new MutationObserver(() => {
+                    document.querySelectorAll('#gamesGrid .game-card').forEach(el => {
+                        if (!el.classList.contains('reveal')) {
+                            el.classList.add('reveal');
+                            observer.observe(el);
+                        }
+                    });
+                });
+                gridObserver.observe(gamesGrid, { childList: true });
+            }
+
+            // Parallax background movement
+            const bg = document.getElementById("parallaxBg");
+            if (bg) {
+                document.addEventListener('mousemove', (e) => {
+                    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+                    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+                    bg.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                });
+            }
+
+            // 3D tilt effect on cards
+            setupTilt();
+        }
+
+        function setupTilt() {
+            document.addEventListener('mousemove', (e) => {
+                if (window.innerWidth < 768) return;
+
+                const tiltCards = document.querySelectorAll('.game-card');
+                tiltCards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        const rotateX = (centerY - y) / 15;
+                        const rotateY = (x - centerX) / 15;
+
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                    } else {
+                        card.style.transform = '';
+                    }
+                });
+            });
+        }
 
     </script>
 </body>
