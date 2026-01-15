@@ -795,25 +795,7 @@
             --glow-secondary: rgba(139, 92, 246, 0.5);
         }
 
-        /* Custom Cursor */
-        .cursor-outline {
-            width: 30px;
-            height: 30px;
-            border: 2px solid white;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background-color 0.3s;
-            mix-blend-mode: difference;
-        }
 
-        .cursor-outline.hovered {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
 
         /* Reveal Animations */
         .reveal {
@@ -1284,8 +1266,7 @@
     <div class="scanlines"></div>
     <div class="matrix-rain" id="matrixRain"></div>
 
-    <!-- Custom Cursor -->
-    <div class="cursor-outline" id="cursorOutline"></div>
+
 
     <!-- EPIC Loading Screen -->
     <div id="loadingScreen" class="loading-screen">
@@ -2186,7 +2167,6 @@
             setupEvents();
             setupChatroomEvents();
             setupAnimations();
-            setupCursor();
         }
 
         // ===========================
@@ -3335,33 +3315,7 @@
         // ===========================
         document.addEventListener("DOMContentLoaded", init);
 
-        // ===========================
-        // Premium Animations & Interactions
-        // ===========================
-        function setupCursor() {
-            const cursor = document.getElementById('cursorOutline');
-            if (!cursor) return;
 
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-
-            const interactables = 'button, a, input, select, textarea, .game-card, .room-btn, .cat-btn, .glassmorphism';
-
-            // Bind cursor hover effect to interactables
-            function bindCursorHover() {
-                document.querySelectorAll(interactables).forEach(el => {
-                    if (el.dataset.cursorBound) return;
-                    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-                    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-                    el.dataset.cursorBound = "true";
-                });
-            }
-
-            bindCursorHover();
-            setInterval(bindCursorHover, 2000); // Rebind for dynamically added elements
-        }
 
         function setupAnimations() {
             // Scroll reveal observer
