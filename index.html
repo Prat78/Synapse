@@ -1155,8 +1155,33 @@
         // ===========================
         // AI Configuration
         // ===========================
-        const HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
+       // ===========================
+        // AI Configuration
+        // ===========================
+        let HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
         let sessionId = crypto.randomUUID(); // Generate unique session per tab
+
+        // Auto-refresh ngrok URL system
+        async function refreshNgrokURL() {
+            try {
+                const baseURL = HF_API_URL.replace('/generate', '');
+                const res = await fetch(baseURL + "/current_url");
+                const data = await res.json();
+                
+                if (data.url && data.url !== baseURL) {
+                    console.log("⚡ NEW NGROK URL DETECTED:", data.url);
+                    HF_API_URL = data.url + "/generate";
+                    console.log("✅ API URL updated to:", HF_API_URL);
+                }
+            } catch (err) {
+                console.warn("⚠️ URL check failed (this is normal if server is restarting):", err.message);
+            }
+        }
+
+        // Check for new URL every 2 minutes
+        setInterval(refreshNgrokURL, 2 * 60 * 1000);
+        // Also check on page load
+        refreshNgrokURL();
 
         // ===========================
         // AI Responses
