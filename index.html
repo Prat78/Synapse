@@ -351,42 +351,6 @@
             opacity: 0.1;
             pointer-events: none;
         }
-    // ===========================
-// ADMIN SYSTEM (ADD THIS AT THE TOP OF YOUR SCRIPT)
-// ===========================
-
-let isAdmin = false;
-
-// Check if admin is already logged in (persists across page reloads)
-if (localStorage.getItem('isAdminLoggedIn') === 'true') {
-    isAdmin = true;
-}
-
-function adminLogin() {
-    const username = prompt('Enter admin username:');
-
-    if (!username) return;
-
-    if (username.toLowerCase() !== ADMIN_USERNAME.toLowerCase()) {
-        alert('❌ Invalid username!');
-        return;
-    }
-
-    const password = prompt('Enter admin password:');
-
-    if (!password) return;
-
-    if (password !== ADMIN_PASSWORD) {
-        alert('❌ Wrong password!');
-        return;
-    }
-
-    // Login successful
-    isAdmin = true;
-    localStorage.setItem('isAdminLoggedIn', 'true'); // Persist admin login
-    alert('✅ Admin access granted! You can now reply to feedback.');
-
-    console.log('Admin logged in');
     </style>
     <script>
 
@@ -2192,167 +2156,126 @@ function adminLogin() {
         // ===========================
         // FEEDBACK SYSTEM
         // ===========================
-       // ===========================
-// ADMIN SYSTEM (ADD THIS AT THE TOP OF YOUR SCRIPT)
-// ===========================
+        let feedbackRef;
+        let isFeedbackInitialized = false;
 
-let isAdmin = false;
+        function initFeedback() {
+            if (isFeedbackInitialized) return;
 
-// Check if admin is already logged in (persists across page reloads)
-if (localStorage.getItem('isAdminLoggedIn') === 'true') {
-    isAdmin = true;
-}
+            feedbackRef = database.ref('feedback');
+            isFeedbackInitialized = true;
 
-function adminLogin() {
-    const username = prompt('Enter admin username:');
+            listenToFeedback();
 
-    if (!username) return;
-
-    if (username.toLowerCase() !== ADMIN_USERNAME.toLowerCase()) {
-        alert('❌ Invalid username!');
-        return;
-    }
-
-    const password = prompt('Enter admin password:');
-
-    if (!password) return;
-
-    if (password !== ADMIN_PASSWORD) {
-        alert('❌ Wrong password!');
-        return;
-    }
-
-    // Login successful
-    isAdmin = true;
-    localStorage.setItem('isAdminLoggedIn', 'true'); // Persist admin login
-    alert('✅ Admin access granted! You can now reply to feedback.');
-
-    console.log('Admin logged in');
-}
-
-// ===========================
-// FEEDBACK SYSTEM (REPLACE YOUR EXISTING FEEDBACK FUNCTIONS WITH THESE)
-// ===========================
-let feedbackRef;
-let isFeedbackInitialized = false;
-
-function initFeedback() {
-    if (isFeedbackInitialized) return;
-
-    feedbackRef = database.ref('feedback');
-    isFeedbackInitialized = true;
-
-    listenToFeedback();
-
-    // Character counter
-    const feedbackInput = document.getElementById('feedbackText');
-    if (feedbackInput) {
-        feedbackInput.addEventListener('input', (e) => {
-            const charCountEl = document.getElementById('charCount');
-            if (charCountEl) charCountEl.textContent = e.target.value.length;
-        });
-    }
-}
-
-function submitFeedback() {
-    const typeValue = document.getElementById('feedbackType').value;
-    const textValue = document.getElementById('feedbackText').value.trim();
-    const btn = document.getElementById('submitFeedbackBtn');
-
-    if (!textValue) {
-        alert('Please write your feedback!');
-        return;
-    }
-
-    if (textValue.length < 10) {
-        alert('Please write at least 10 characters.');
-        return;
-    }
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
-
-    feedbackRef.push({
-        type: typeValue,
-        text: textValue,
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        replies: null
-    }).then(() => {
-        document.getElementById('feedbackText').value = '';
-        const charCountEl = document.getElementById('charCount');
-        if (charCountEl) charCountEl.textContent = '0';
-        alert('✅ Feedback submitted! Thank you!');
-    }).catch((error) => {
-        console.error('Feedback error:', error);
-        alert('❌ Failed to submit. Please try again.');
-    }).finally(() => {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Anonymously';
-    });
-}
-
-function listenToFeedback() {
-    feedbackRef.orderByChild('timestamp').limitToLast(50).on('value', (snapshot) => {
-        const feedbackList = document.getElementById('feedbackList');
-        if (!feedbackList) return;
-        feedbackList.innerHTML = '';
-
-        if (!snapshot.exists()) {
-            feedbackList.innerHTML = '<div class="text-center py-8"><p class="text-gray-500">No feedback yet. Be the first!</p></div>';
-            return;
+            // Character counter
+            const feedbackInput = document.getElementById('feedbackText');
+            if (feedbackInput) {
+                feedbackInput.addEventListener('input', (e) => {
+                    const charCountEl = document.getElementById('charCount');
+                    if (charCountEl) charCountEl.textContent = e.target.value.length;
+                });
+            }
         }
 
-        const items = [];
-        snapshot.forEach((child) => {
-            items.push({ id: child.key, ...child.val() });
-        });
+        function submitFeedback() {
+            const typeValue = document.getElementById('feedbackType').value;
+            const textValue = document.getElementById('feedbackText').value.trim();
+            const btn = document.getElementById('submitFeedbackBtn');
 
-        items.reverse().forEach(item => {
-            displayFeedback(item);
-        });
-    });
-}
+            if (!textValue) {
+                alert('Please write your feedback!');
+                return;
+            }
 
-function displayFeedback(item) {
-    const feedbackList = document.getElementById('feedbackList');
+            if (textValue.length < 10) {
+                alert('Please write at least 10 characters.');
+                return;
+            }
 
-    const typeEmojis = {
-        bug: '🐛 Bug Report',
-        feature: '✨ Feature Request',
-        improvement: '💡 Improvement',
-        general: '💬 General',
-        compliment: '❤️ Compliment'
-    };
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
 
-    const typeColors = {
-        bug: 'bg-red-500/20 text-red-400',
-        feature: 'bg-purple-500/20 text-purple-400',
-        improvement: 'bg-yellow-500/20 text-yellow-400',
-        general: 'bg-blue-500/20 text-blue-400',
-        compliment: 'bg-pink-500/20 text-pink-400'
-    };
+            feedbackRef.push({
+                type: typeValue,
+                text: textValue,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                replies: null
+            }).then(() => {
+                document.getElementById('feedbackText').value = '';
+                const charCountEl = document.getElementById('charCount');
+                if (charCountEl) charCountEl.textContent = '0';
+                alert('✅ Feedback submitted! Thank you!');
+            }).catch((error) => {
+                console.error('Feedback error:', error);
+                alert('❌ Failed to submit. Please try again.');
+            }).finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Anonymously';
+            });
+        }
 
-    const time = new Date(item.timestamp).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+        function listenToFeedback() {
+            feedbackRef.orderByChild('timestamp').limitToLast(50).on('value', (snapshot) => {
+                const feedbackList = document.getElementById('feedbackList');
+                if (!feedbackList) return;
+                feedbackList.innerHTML = '';
 
-    const card = document.createElement('div');
-    card.className = 'glassmorphism rounded-2xl p-6 feedback-card';
+                if (!snapshot.exists()) {
+                    feedbackList.innerHTML = '<div class="text-center py-8"><p class="text-gray-500">No feedback yet. Be the first!</p></div>';
+                    return;
+                }
 
-    let repliesHTML = '';
-    if (item.replies) {
-        Object.values(item.replies).forEach(reply => {
-            const replyTime = new Date(reply.timestamp).toLocaleDateString('en-US', {
+                const items = [];
+                snapshot.forEach((child) => {
+                    items.push({ id: child.key, ...child.val() });
+                });
+
+                items.reverse().forEach(item => {
+                    displayFeedback(item);
+                });
+            });
+        }
+
+        function displayFeedback(item) {
+            const feedbackList = document.getElementById('feedbackList');
+
+            const typeEmojis = {
+                bug: '🐛 Bug Report',
+                feature: '✨ Feature Request',
+                improvement: '💡 Improvement',
+                general: '💬 General',
+                compliment: '❤️ Compliment'
+            };
+
+            const typeColors = {
+                bug: 'bg-red-500/20 text-red-400',
+                feature: 'bg-purple-500/20 text-purple-400',
+                improvement: 'bg-yellow-500/20 text-yellow-400',
+                general: 'bg-blue-500/20 text-blue-400',
+                compliment: 'bg-pink-500/20 text-pink-400'
+            };
+
+            const time = new Date(item.timestamp).toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
+                year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            repliesHTML += `
+
+            const card = document.createElement('div');
+            card.className = 'glassmorphism rounded-2xl p-6 feedback-card';
+
+            let repliesHTML = '';
+            if (item.replies) {
+                Object.values(item.replies).forEach(reply => {
+                    const replyTime = new Date(reply.timestamp).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    repliesHTML += `
                 <div class="mt-4 ml-4 pl-4 border-l-2 border-primary/30">
                     <div class="flex items-center mb-2">
                         <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mr-2">
@@ -2364,17 +2287,16 @@ function displayFeedback(item) {
                     <p class="text-gray-300 text-sm">${escapeHtml(reply.text)}</p>
                 </div>
             `;
-        });
-    }
+                });
+            }
 
-    // ONLY show reply button if user is admin
-    const replyButton = isAdmin ? `
+            const replyButton = isAdmin ? `
         <button onclick="replyToFeedback('${item.id}')" class="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm transition-all">
             <i class="fas fa-reply mr-1"></i>Reply as Developer
         </button>
     ` : '';
 
-    card.innerHTML = `
+            card.innerHTML = `
         <div class="flex items-start justify-between mb-3">
             <span class="feedback-type-badge ${typeColors[item.type]}">${typeEmojis[item.type]}</span>
             <span class="text-xs text-gray-500">${time}</span>
@@ -2387,51 +2309,29 @@ function displayFeedback(item) {
         </div>
     `;
 
-    feedbackList.appendChild(card);
-}
-
-function replyToFeedback(feedbackId) {
-    // SECURITY CHECK - Only admins can reply
-    if (!isAdmin) {
-        alert('⛔ Only admins can reply to feedback!');
-        
-        // Prompt for admin login
-        const tryLogin = confirm('Would you like to login as admin?');
-        if (tryLogin) {
-            adminLogin();
-            // After login, ask if they want to try again
-            if (isAdmin) {
-                setTimeout(() => {
-                    const retry = confirm('Admin login successful! Would you like to reply to this feedback now?');
-                    if (retry) {
-                        replyToFeedback(feedbackId);
-                    }
-                }, 100);
-            }
+            feedbackList.appendChild(card);
         }
-        return;
-    }
 
-    const replyText = prompt('Enter your reply as the developer:');
-    if (!replyText || !replyText.trim()) return;
+        function replyToFeedback(feedbackId) {
+            if (!isAdmin) {
+                alert('⛔ Only admins can reply!');
+                return;
+            }
 
-    feedbackRef.child(feedbackId).child('replies').push({
-        text: replyText.trim(),
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-    }).then(() => {
-        alert('✅ Reply posted successfully!');
-    }).catch((error) => {
-        console.error('Reply error:', error);
-        alert('❌ Failed to post reply. Error: ' + error.message);
-    });
-}
+            const replyText = prompt('Enter your reply as the developer:');
+            if (!replyText || !replyText.trim()) return;
 
-// Helper function (if not already defined elsewhere)
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
+            feedbackRef.child(feedbackId).child('replies').push({
+                text: replyText.trim(),
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            }).then(() => {
+                alert('✅ Reply posted!');
+            }).catch((error) => {
+                console.error('Reply error:', error);
+                alert('❌ Failed to post reply.');
+            });
+        }
+
         // ===========================
         // Fullscreen Function
         // ===========================
