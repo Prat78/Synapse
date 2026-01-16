@@ -2068,30 +2068,50 @@
         // ===========================
         // AI Configuration
         // ===========================
-        let HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
-        let sessionId = crypto.randomUUID(); // Generate unique session per tab
+        // ===========================
+// AI Configuration
+// ===========================
+let HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
+let sessionId = crypto.randomUUID();
 
-        // Auto-refresh ngrok URL system
-        async function refreshNgrokURL() {
-            try {
-                const baseURL = HF_API_URL.replace('/generate', '');
-                const res = await fetch(baseURL + "/current_url");
-                const data = await res.json();
-
-                if (data.url && data.url !== baseURL) {
-                    console.log("⚡ NEW NGROK URL DETECTED:", data.url);
-                    HF_API_URL = data.url + "/generate";
-                    console.log("✅ API URL updated to:", HF_API_URL);
-                }
-            } catch (err) {
-                console.warn("⚠️ URL check failed (this is normal if server is restarting):", err.message);
-            }
+// Auto-refresh ngrok URL system
+async function refreshNgrokURL() {
+    try {
+        const baseURL = HF_API_URL.replace('/generate','');
+        const res = await fetch(baseURL + "/current_url");
+        const data = await res.json();
+        if (data.url && data.url !== baseURL) {
+            console.log("⚡ NEW NGROK URL DETECTED:", data.url);
+            HF_API_URL = data.url + "/generate";
+            console.log("✅ API URL updated to:", HF_API_URL);
         }
+    } catch (err) {
+        console.warn("⚠️ URL check failed:", err.message);
+    }
+}
 
-        // Check for new URL every 2 minutes
-        setInterval(refreshNgrokURL, 2 * 60 * 1000);
-        // Also check on page load
-        refreshNgrokURL();
+// Check for new URL every 2 minutes
+setInterval(refreshNgrokURL, 2*60*1000);
+refreshNgrokURL(); // Also check on page load
+
+// Function to send chat
+async function sendChat(promptText) {
+    const res = await fetch(HF_API_URL, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({prompt: promptText, session_id: sessionId, max_tokens:500})
+    });
+    const reader = res.body.getReader();
+    let decoder = new TextDecoder();
+    let result = '';
+    while(true) {
+        const {done, value} = await reader.read();
+        if (done) break;
+        result += decoder.decode(value);
+    }
+    console.log("AI Response:", result);
+}
+
 
         // ===========================
         // AI Responses
