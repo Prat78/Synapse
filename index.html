@@ -2071,46 +2071,79 @@
         // ===========================
 // AI Configuration
 // ===========================
+// ==========================
+// AI CONFIGURATION
+// ==========================
 let HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
-let sessionId = crypto.randomUUID();
+let sessionId = crypto.randomUUID(); // unique session per tab
 
-// Auto-refresh ngrok URL system
+// ==========================
+// AUTO-REFRESH NGROK URL
+// ==========================
 async function refreshNgrokURL() {
     try {
-        const baseURL = HF_API_URL.replace('/generate','');
+        // Remove /generate to get base URL
+        const baseURL = HF_API_URL.replace('/generate', '');
+        
+        // Ping our /current_url endpoint
         const res = await fetch(baseURL + "/current_url");
         const data = await res.json();
+        
+        // If URL changed, update HF_API_URL
         if (data.url && data.url !== baseURL) {
             console.log("⚡ NEW NGROK URL DETECTED:", data.url);
             HF_API_URL = data.url + "/generate";
             console.log("✅ API URL updated to:", HF_API_URL);
         }
     } catch (err) {
-        console.warn("⚠️ URL check failed:", err.message);
+        console.warn("⚠️ URL check failed (normal if server restarting):", err.message);
     }
 }
 
-// Check for new URL every 2 minutes
-setInterval(refreshNgrokURL, 2*60*1000);
-refreshNgrokURL(); // Also check on page load
+// ==========================
+// INITIAL CHECK & INTERVAL
+// ==========================
+refreshNgrokURL();  // run once on page load
+setInterval(refreshNgrokURL, 2 * 60 * 1000);  // then every 2 minutes
 
-// Function to send chat
-async function sendChat(promptText) {
-    const res = await fetch(HF_API_URL, {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({prompt: promptText, session_id: sessionId, max_tokens:500})
-    });
-    const reader = res.body.getReader();
-    let decoder = new TextDecoder();
-    let result = '';
-    while(true) {
-        const {done, value} = await reader.read();
-        if (done) break;
-        result += decoder.decode(value);
+// ==========================
+// SEND CHAT FUNCTION
+// ==========================
+async function sendChat(userText) {
+    try {
+        const response = await fetch(HF_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                prompt: userText,
+                session_id: sessionId,
+                max_tokens: 500
+            })
+        });
+
+        if (!response.ok) throw new Error("Server error");
+
+        const reader = response.body.getReader();
+        let decoder = new TextDecoder("utf-8");
+        let result = "";
+
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            result += decoder.decode(value);
+        }
+
+        console.log("🤖 AI RESPONSE:", result);
+        return result;
+    } catch (err) {
+        console.error("❌ Chat failed:", err.message);
     }
-    console.log("AI Response:", result);
 }
+
+// ==========================
+// EXAMPLE USAGE
+// ==========================
+// sendChat("Hello! How are you?").then(res => console.log(res));
 
 
         // ===========================
