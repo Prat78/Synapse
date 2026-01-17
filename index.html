@@ -1796,131 +1796,160 @@
         </div>
 
 
-        <!-- ROBLOX PAGE -->
+ <!-- ROBLOX PAGE -->
         <div id="robloxPage" class="page-transition hidden">
-            <div class="container mx-auto px-4 py-8 text-center">
-                <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-6">
-                    <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Online
-                        Games</span>
-                </h1>
-                <p class="text-white-700 mb-8">Select a proxy that works and click full screen</p>
-                <p class="text-white-700 mb-8">1.Enter this link in the search bar at the bottom of the screen and click
-                    "Open in Browser
-                    ": https://web.cloudmoonapp.com/</p>
-
-
-                <p class="text-white-700 mb-8">2.Sign up with your homeaccount(or make a new account if you feel unsafe)
-                </p>
-                <p class="text-white-700 mb-8">3.Click your online game and enjoy! </p>
-                <p class="text-white-700 mb-8">4.There are many online games you can play such as Roblox, Fortnite,
-                    Clash Royale, etc.. </p>
-                <p class="text-white-700 mb-8">4.This is a remote proxy browser which means you can do whatever you want
-                    like watch Tiktok or Youtube
-                    fully unblocked and undetected!😉 </p>
-                <!-- IFRAME CONTAINER GRID -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 max-w-7xl mx-auto">
-
-
-                    <!-- Frame 3 -->
+            <div class="container mx-auto px-4 py-8">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-6">
+                        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Online
+                            Games & Proxies</span>
+                    </h1>
                     <div
-                        class="glassmorphism rounded-2xl p-4 bg-white/5 shadow-lg transition-transform hover:scale-[1.01] duration-300">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-semibold text-primary flex items-center">
-                                <i class="fas fa-server mr-2"></i> Unblocked Proxy server 1
-                            </h3>
-                            <button onclick="toggleFullscreen('iframe-3')"
-                                class="text-gray-400 hover:text-white transition-colors" title="Fullscreen">
-                                <i class="fas fa-expand"></i>
-                            </button>
-                        </div>
-                        <div
-                            class="bg-white rounded-xl overflow-hidden h-[500px] flex items-center justify-center relative group">
-                            <!-- Replace src below with your link -->
-                            <iframe id="iframe-3" src="https://web.vserver.app/" width="100%" height="100%"
-                                class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
-                            </iframe>
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <span class="text-gray-400 bg-white/80 px-4 py-2 rounded-full">'
-                                    code</span>
+                        class="glassmorphism inline-block px-8 py-6 rounded-3xl border border-white/10 mb-8 max-w-3xl mx-auto">
+                        <p class="text-primary font-bold mb-4 uppercase tracking-widest text-sm">Quick Instructions</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left text-sm text-gray-300">
+                            <div class="flex items-start">
+                                <i class="fas fa-terminal text-primary mt-1 mr-3"></i>
+                                <span>Enter cloudmoon link at bottom search bar: https://web.cloudmoonapp.com/</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-fingerprint text-primary mt-1 mr-3"></i>
+                                <span>Sign up with an account (home or burner) to save progress.</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-gamepad text-primary mt-1 mr-3"></i>
+                                <span>Play Roblox, Fortnite, Clash Royale, and more unblocked!</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-ghost text-primary mt-1 mr-3"></i>
+                                <span>Remote proxy browsing means fully unblocked Tiktok, Youtube, etc.</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <!-- IFRAME CONTAINER GRID -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-screen-2xl mx-auto">
 
-
-                    <!-- Frame 5 -->
+                    <!-- Frame 1 -->
                     <div
-                        class="glassmorphism rounded-2xl p-4 bg-white/5 shadow-lg transition-transform hover:scale-[1.01] duration-300">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-semibold text-primary flex items-center">
-                                <i class="fas fa-server mr-2"></i> Unblocked Proxy Server 2:
-                            </h3>
-                            <button onclick="toggleFullscreen('iframe-5')"
-                                class="text-gray-400 hover:text-white transition-colors" title="Fullscreen">
-                                <i class="fas fa-expand"></i>
+                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-primary/20">
+                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-satellite-dish text-primary"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                        Proxy Node Omega</h3>
+                                    <p class="text-xs text-green-400 flex items-center">
+                                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                                        Connection: Stable
+                                    </p>
+                                </div>
+                            </div>
+                            <button onclick="toggleFullscreen('iframe-3')"
+                                class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                                title="Fullscreen">
+                                <i class="fas fa-expand text-gray-400"></i>
                             </button>
                         </div>
-                        <div
-                            class="bg-white rounded-xl overflow-hidden h-[500px] flex items-center justify-center relative group">
+                        <div class="bg-white h-[700px] relative group">
+                            <iframe id="iframe-3" src="https://web.vserver.app/" width="100%" height="100%"
+                                class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Frame 2 -->
+                    <div
+                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-secondary/20">
+                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-network-wired text-secondary"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                        Proxy Node Sigma</h3>
+                                    <p class="text-xs text-blue-400 flex items-center">
+                                        <span class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+                                        Connection: Optimized
+                                    </p>
+                                </div>
+                            </div>
+                            <button onclick="toggleFullscreen('iframe-5')"
+                                class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                                title="Fullscreen">
+                                <i class="fas fa-expand text-gray-400"></i>
+                            </button>
+                        </div>
+                        <div class="bg-white h-[700px] relative group">
                             <iframe id="iframe-5" src="https://college-pathway.rakunan-h.ed.jp.n0p.at/" width="100%"
                                 height="100%" class="border-0" allowfullscreen
                                 sandbox="allow-scripts allow-same-origin allow-popups">
                             </iframe>
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <span class="text-gray-400 bg-white/80 px-4 py-2 rounded-full">'
-                                    code</span>
-                            </div>
                         </div>
                     </div>
 
-
-                    <!-- Frame 8 -->
+                    <!-- Frame 3 -->
                     <div
-                        class="glassmorphism rounded-2xl p-4 bg-white/5 shadow-lg transition-transform hover:scale-[1.01] duration-300">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-semibold text-primary flex items-center">
-                                <i class="fas fa-server mr-2"></i> Unblocked proxy server 3:
-                            </h3>
+                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-primary/20">
+                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-broadcast-tower text-primary"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                        Proxy Node Delta</h3>
+                                    <p class="text-xs text-yellow-400 flex items-center">
+                                        <span class="w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></span>
+                                        Connection: Balanced
+                                    </p>
+                                </div>
+                            </div>
                             <button onclick="toggleFullscreen('iframe-8')"
-                                class="text-gray-400 hover:text-white transition-colors" title="Fullscreen">
-                                <i class="fas fa-expand"></i>
+                                class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                                title="Fullscreen">
+                                <i class="fas fa-expand text-gray-400"></i>
                             </button>
                         </div>
-                        <div
-                            class="bg-white rounded-xl overflow-hidden h-[500px] flex items-center justify-center relative group">
+                        <div class="bg-white h-[700px] relative group">
                             <iframe id="iframe-8" src="https://explore.bayworld.net/" width="100%" height="100%"
                                 class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
                             </iframe>
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <span class="text-gray-400 bg-white/80 px-4 py-2 rounded-full">'
-                                    code</span>
-                            </div>
                         </div>
                     </div>
 
-
-
-                    <!-- Frame 10 -->
+                    <!-- Frame 4 -->
                     <div
-                        class="glassmorphism rounded-2xl p-4 bg-white/5 shadow-lg transition-transform hover:scale-[1.01] duration-300">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-semibold text-primary flex items-center">
-                                <i class="fas fa-server mr-2"></i> Movies!
-                            </h3>
+                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-secondary/20">
+                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center">
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-film text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                        Cinema Stream Hub</h3>
+                                    <p class="text-xs text-purple-400 flex items-center">
+                                        <span class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse"></span>
+                                        Connection: Media Optimized
+                                    </p>
+                                </div>
+                            </div>
                             <button onclick="toggleFullscreen('iframe-10')"
-                                class="text-gray-400 hover:text-white transition-colors" title="Fullscreen">
-                                <i class="fas fa-expand"></i>
+                                class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                                title="Fullscreen">
+                                <i class="fas fa-expand text-gray-400"></i>
                             </button>
                         </div>
-                        <div
-                            class="bg-white rounded-xl overflow-hidden h-[500px] flex items-center justify-center relative group">
+                        <div class="bg-white h-[700px] relative group">
                             <iframe id="iframe-10" src="https://ww3.soap2dayhdz.com/" width="100%" height="100%"
-                                class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                                class="border-0" allowfullscreen>
                             </iframe>
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <span class="text-gray-400 bg-white/80 px-4 py-2 rounded-full">
-                                    code</span>
-                            </div>
                         </div>
                     </div>
 
