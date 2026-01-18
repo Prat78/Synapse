@@ -1539,7 +1539,7 @@
                                 </div>
                             </div>
 
-                            <!-- Features Cad -->
+                            <!-- Features Card -->
                             <div class="glassmorphism rounded-2xl p-6">
                                 <h3 class="text-lg font-semibold mb-4 flex items-center">
                                     <i class="fas fa-magic text-secondary mr-2"></i>
@@ -1603,7 +1603,6 @@
                 </div>
 
                 <!-- Room Selection -->
-                <!-- Room Selection -->
                 <div class="mb-6 flex flex-wrap gap-3 justify-center" id="roomSelector">
                     <button onclick="switchRoom('chatroom1')" class="room-btn active" data-room="chatroom1">
                         <i class="fas fa-globe mr-2"></i>Global
@@ -1624,7 +1623,7 @@
                 <!-- Admin Panel -->
                 <div id="adminPanel"
                     class="hidden absolute top-0 left-0 right-0 bottom-0 bg-dark/95 backdrop-blur-sm z-50 p-6 overflow-y-auto">
-                    <div class="max-w-2xl mx-auto">
+                    <div class="max-w-4xl mx-auto">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-2xl font-bold text-red-400">
                                 <i class="fas fa-shield-alt mr-2"></i>Admin Control Panel
@@ -1635,168 +1634,221 @@
                             </button>
                         </div>
 
-                        <div class="glassmorphism rounded-xl p-6 mb-4">
-                            <h3 class="text-lg font-semibold mb-4 text-red-400">Danger Zone</h3>
-                            <button onclick="deleteAllMessages()"
-                                class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all mb-3">
-                                <i class="fas fa-trash-alt mr-2"></i>Delete ALL Messages (Current Room)
-                            </button>
-                            <button onclick="toggleDeleteMode()" id="deleteMode"
-                                class="w-full px-4 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-all">
-                                <i class="fas fa-mouse-pointer mr-2"></i>Enable Delete Mode
-                            </button>
-                        </div>
-
-                        <div class="glassmorphism rounded-xl p-6">
-                            <h3 class="text-lg font-semibold mb-3">Admin Stats</h3>
-                            <div class="space-y-2 text-sm">
-                                <p><i class="fas fa-door-open text-primary mr-2"></i>Current Room: <span
-                                        id="adminCurrentRoom">General</span></p>
-                                <p><i class="fas fa-users text-primary mr-2"></i>Online Users: <span
-                                        id="adminOnlineCount">0</span></p>
-                                <p><i class="fas fa-comments text-secondary mr-2"></i>Total Messages: <span
-                                        id="adminTotalMessages">0</span></p>
-                                <p><i class="fas fa-clock text-yellow-400 mr-2"></i>Auto-delete: 20 minutes</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Main Chat Area -->
-                    <div class="lg:col-span-2">
-                        <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
-                            <!-- Header -->
-                            <div
-                                class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
-                                <div class="flex items-center">
-                                    <div
-                                        class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
-                                        <i class="fas fa-comments"></i>
-                                    </div>
-                                    <div class="ml-3">
-                                        <h3 class="font-semibold" id="currentRoomTitle">Chat</h3>
-                                        <p class="text-sm text-green-400">● <span id="onlineCount">0</span> Online</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Management Section -->
+                            <div class="space-y-6">
+                                <!-- Online Users List -->
+                                <div class="glassmorphism rounded-xl p-6">
+                                    <h3 class="text-lg font-semibold mb-4 text-blue-400"><i
+                                            class="fas fa-users mr-2"></i>Online Users</h3>
+                                    <div id="adminUserList" class="space-y-2 max-h-60 overflow-y-auto pr-2">
+                                        <p class="text-gray-500 text-sm">Loading users...</p>
                                     </div>
                                 </div>
-                                <div class="flex items-center space-x-2">
-                                    <button onclick="changeNickname()"
-                                        class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
-                                        <i class="fas fa-user-edit mr-1"></i>Change Nickname
-                                    </button>
-                                    <button onclick="adminLogin()"
-                                        class="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-full text-xs transition-all"
-                                        id="adminLoginBtn">
-                                        <i class="fas fa-shield-alt mr-1"></i>Admin
-                                    </button>
-                                </div>
-                            </div>
 
-                            <!-- Messages Area -->
-                            <div id="chatroomMessages" class="flex-1 overflow-y-auto p-4 space-y-3">
-                                <div class="text-center text-gray-500 text-sm py-8">
-                                    <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
-                                    <p>Loading messages...</p>
-                                </div>
-                            </div>
-
-                            <!-- Input Area -->
-                            <div class="p-4 border-t border-white/10 bg-dark-light/50">
-                                <!-- Image Preview -->
-                                <div id="imagePreview" class="hidden mb-3 relative inline-block">
-                                    <img id="previewImg" src="" class="max-h-32 rounded-lg border border-white/20">
-                                    <button onclick="cancelImage()"
-                                        class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-xs hover:bg-red-600">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-
-                                <div class="flex space-x-2">
-                                    <input type="text" id="chatroomInput" placeholder="Type your message..."
-                                        maxlength="500"
-                                        class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
-
-                                    <label for="imageUpload"
-                                        class="px-4 py-3 bg-purple-600/80 hover:bg-purple-600 rounded-full cursor-pointer transition-all flex items-center justify-center"
-                                        title="Upload Image">
-                                        <i class="fas fa-image"></i>
-                                    </label>
-                                    <input type="file" id="imageUpload" accept="image/*" class="hidden">
-
-                                    <button id="sendChatroomMessage"
-                                        class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed">
-                                        <i class="fas fa-paper-plane"></i>
-                                    </button>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-2" id="chatroomStatus">Connecting...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sidebar -->
-                    <div class="space-y-6">
-                        <!-- User Info Card -->
-                        <div class="glassmorphism rounded-2xl p-6">
-                            <h3 class="text-lg font-semibold mb-4 flex items-center">
-                                <i class="fas fa-user text-primary mr-2"></i>
-                                Your Profile
-                            </h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center space-x-3">
-                                    <div
-                                        class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                                        <i class="fas fa-user text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold" id="currentNickname">Guest</p>
-                                        <p class="text-xs text-gray-400">Click above to change</p>
+                                <!-- Announcement -->
+                                <div class="glassmorphism rounded-xl p-6">
+                                    <h3 class="text-lg font-semibold mb-4 text-purple-400"><i
+                                            class="fas fa-bullhorn mr-2"></i>Broadcast</h3>
+                                    <div class="flex gap-2">
+                                        <input type="text" id="adminAnnouncement" placeholder="System announcement..."
+                                            class="flex-1 bg-dark-light border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-red-500">
+                                        <button onclick="sendAnnouncement()"
+                                            class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-all text-sm">
+                                            Send
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Rules Card -->
-                        <div class="glassmorphism rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary/10">
-                            <h3 class="text-lg font-semibold mb-3 flex items-center">
-                                <i class="fas fa-shield-alt text-yellow-400 mr-2"></i>
-                                Chat Rules
-                            </h3>
-                            <ul class="space-y-2 text-sm text-gray-300">
-                                <li>✅Do whatever you want👍</li>
-                                <li>❌ I am NOT liable for ANYTHING that happens in here(enter at your own cost as if
-                                    anything happens the creator is NOT involved)</li>
-                                <li>❌ No spam flooding</li>
-                                <li>❌ Do not post any copy righted material, personal info, or anything important as YOU
-                                    are held accountable for it</li>
-                                <li>❌ If you feel like you are being mistreated, just leave🙏</li>
-                                <li>❌ Anything that happens here is NOT monitored</li>
-                            </ul>
-                        </div>
+                            <!-- Danger Zone -->
+                            <div class="glassmorphism rounded-xl p-6 border border-red-500/30">
+                                <h3 class="text-lg font-semibold mb-4 text-red-400"><i
+                                        class="fas fa-exclamation-triangle mr-2"></i> Danger Zone</h3>
+                                <div class="space-y-3">
+                                    <button onclick="deleteAllMessages()"
+                                        class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all text-left flex items-center">
+                                        <i class="fas fa-trash-alt w-8 text-center mr-3 bg-black/20 rounded p-1"></i>
+                                        <div>
+                                            <span class="block text-sm">Clear Chat</span>
+                                            <span class="block text-xs text-red-200">Delete all messages in this
+                                                room</span>
+                                        </div>
+                                    </button>
 
-                        <!-- Stats Card -->
-                        <div class="glassmorphism rounded-2xl p-6">
-                            <h3 class="text-lg font-semibold mb-4 flex items-center">
-                                <i class="fas fa-chart-bar text-secondary mr-2"></i>
-                                Stats
-                            </h3>
-                            <div class="space-y-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-400">Your Messages</span>
-                                    <span class="font-bold text-primary" id="userMessageCount">0</span>
+                                    <button onclick="toggleDeleteMode()" id="deleteMode"
+                                        class="w-full px-4 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-all text-left flex items-center">
+                                        <i
+                                            class="fas fa-mouse-pointer w-8 text-center mr-3 bg-black/20 rounded p-1"></i>
+                                        <div>
+                                            <span class="block text-sm">Delete Mode</span>
+                                            <span class="block text-xs text-orange-200">Click messages to remove
+                                                them</span>
+                                        </div>
+                                    </button>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-400">Room Messages</span>
-                                    <span class="font-bold text-green-400" id="totalMessageCount">0</span>
+                            </div>
+                        </div>
+
+                        <div class="glassmorphism rounded-xl p-6 mt-6">
+                            <h3 class="text-lg font-semibold mb-3">Room Statistics</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div class="bg-dark/50 p-3 rounded-lg">
+                                    <p class="text-gray-400 text-xs uppercase">Current Room</p>
+                                    <p class="font-bold text-primary" id="adminCurrentRoom">General</p>
+                                </div>
+                                <div class="bg-dark/50 p-3 rounded-lg">
+                                    <p class="text-gray-400 text-xs uppercase">Online Users</p>
+                                    <p class="font-bold text-green-400" id="adminOnlineCount">0</p>
+                                </div>
+                                <div class="bg-dark/50 p-3 rounded-lg">
+                                    <p class="text-gray-400 text-xs uppercase">Total Messages</p>
+                                    <p class="font-bold text-blue-400" id="adminTotalMessages">0</p>
+                                </div>
+                                <div class="bg-dark/50 p-3 rounded-lg">
+                                    <p class="text-gray-400 text-xs uppercase">Cleanup Interval</p>
+                                    <p class="font-bold text-yellow-400">20m</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Chat Area -->
+                <div class="lg:col-span-2">
+                    <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
+                        <!-- Header -->
+                        <div
+                            class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
+                            <div class="flex items-center">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="font-semibold" id="currentRoomTitle">Chat</h3>
+                                    <p class="text-sm text-green-400">● <span id="onlineCount">0</span> Online</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="changeNickname()"
+                                    class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all">
+                                    <i class="fas fa-user-edit mr-1"></i>Change Nickname
+                                </button>
+                                <button onclick="adminLogin()"
+                                    class="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-full text-xs transition-all"
+                                    id="adminLoginBtn">
+                                    <i class="fas fa-shield-alt mr-1"></i>Admin
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Messages Area -->
+                        <div id="chatroomMessages" class="flex-1 overflow-y-auto p-4 space-y-3">
+                            <div class="text-center text-gray-500 text-sm py-8">
+                                <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                                <p>Loading messages...</p>
+                            </div>
+                        </div>
+
+                        <!-- Input Area -->
+                        <div class="p-4 border-t border-white/10 bg-dark-light/50">
+                            <!-- Image Preview -->
+                            <div id="imagePreview" class="hidden mb-3 relative inline-block">
+                                <img id="previewImg" src="" class="max-h-32 rounded-lg border border-white/20">
+                                <button onclick="cancelImage()"
+                                    class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-xs hover:bg-red-600">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                            <div class="flex space-x-2">
+                                <input type="text" id="chatroomInput" placeholder="Type your message..." maxlength="500"
+                                    class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
+
+                                <label for="imageUpload"
+                                    class="px-4 py-3 bg-purple-600/80 hover:bg-purple-600 rounded-full cursor-pointer transition-all flex items-center justify-center"
+                                    title="Upload Image">
+                                    <i class="fas fa-image"></i>
+                                </label>
+                                <input type="file" id="imageUpload" accept="image/*" class="hidden">
+
+                                <button id="sendChatroomMessage"
+                                    class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2" id="chatroomStatus">Connecting...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- User Info Card -->
+                    <div class="glassmorphism rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-user text-primary mr-2"></i>
+                            Your Profile
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <div
+                                    class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                                    <i class="fas fa-user text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold" id="currentNickname">Guest</p>
+                                    <p class="text-xs text-gray-400">Click above to change</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rules Card -->
+                    <div class="glassmorphism rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary/10">
+                        <h3 class="text-lg font-semibold mb-3 flex items-center">
+                            <i class="fas fa-shield-alt text-yellow-400 mr-2"></i>
+                            Chat Rules
+                        </h3>
+                        <ul class="space-y-2 text-sm text-gray-300">
+                            <li>✅Do whatever you want👍</li>
+                            <li>❌ I am NOT liable for ANYTHING that happens in here(enter at your own cost as if
+                                anything happens the creator is NOT involved)</li>
+                            <li>❌ No spam flooding</li>
+                            <li>❌ Do not post any copy righted material, personal info, or anything important as YOU
+                                are held accountable for it</li>
+                            <li>❌ If you feel like you are being mistreated, just leave🙏</li>
+                            <li>❌ Anything that happens here is NOT monitored</li>
+                        </ul>
+                    </div>
+
+                    <!-- Stats Card -->
+                    <div class="glassmorphism rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-chart-bar text-secondary mr-2"></i>
+                            Stats
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Your Messages</span>
+                                <span class="font-bold text-primary" id="userMessageCount">0</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Room Messages</span>
+                                <span class="font-bold text-green-400" id="totalMessageCount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
 
- <!-- ROBLOX PAGE -->
+        <!-- ROBLOX PAGE -->
         <div id="robloxPage" class="page-transition hidden">
             <div class="container mx-auto px-4 py-8">
                 <div class="text-center mb-12">
@@ -2098,81 +2150,81 @@
         // AI Configuration
         // ===========================
         // ===========================
-// AI Configuration
-// ===========================
-// ==========================
-// AI CONFIGURATION
-// ==========================
-let HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
-let sessionId = crypto.randomUUID(); // unique session per tab
+        // AI Configuration
+        // ===========================
+        // ==========================
+        // AI CONFIGURATION
+        // ==========================
+        let HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
+        let sessionId = crypto.randomUUID(); // unique session per tab
 
-// ==========================
-// AUTO-REFRESH NGROK URL
-// ==========================
-async function refreshNgrokURL() {
-    try {
-        // Remove /generate to get base URL
-        const baseURL = HF_API_URL.replace('/generate', '');
-        
-        // Ping our /current_url endpoint
-        const res = await fetch(baseURL + "/current_url");
-        const data = await res.json();
-        
-        // If URL changed, update HF_API_URL
-        if (data.url && data.url !== baseURL) {
-            console.log("⚡ NEW NGROK URL DETECTED:", data.url);
-            HF_API_URL = data.url + "/generate";
-            console.log("✅ API URL updated to:", HF_API_URL);
-        }
-    } catch (err) {
-        console.warn("⚠️ URL check failed (normal if server restarting):", err.message);
-    }
-}
+        // ==========================
+        // AUTO-REFRESH NGROK URL
+        // ==========================
+        async function refreshNgrokURL() {
+            try {
+                // Remove /generate to get base URL
+                const baseURL = HF_API_URL.replace('/generate', '');
 
-// ==========================
-// INITIAL CHECK & INTERVAL
-// ==========================
-refreshNgrokURL();  // run once on page load
-setInterval(refreshNgrokURL, 2 * 60 * 1000);  // then every 2 minutes
+                // Ping our /current_url endpoint
+                const res = await fetch(baseURL + "/current_url");
+                const data = await res.json();
 
-// ==========================
-// SEND CHAT FUNCTION
-// ==========================
-async function sendChat(userText) {
-    try {
-        const response = await fetch(HF_API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                prompt: userText,
-                session_id: sessionId,
-                max_tokens: 500
-            })
-        });
-
-        if (!response.ok) throw new Error("Server error");
-
-        const reader = response.body.getReader();
-        let decoder = new TextDecoder("utf-8");
-        let result = "";
-
-        while (true) {
-            const { value, done } = await reader.read();
-            if (done) break;
-            result += decoder.decode(value);
+                // If URL changed, update HF_API_URL
+                if (data.url && data.url !== baseURL) {
+                    console.log("⚡ NEW NGROK URL DETECTED:", data.url);
+                    HF_API_URL = data.url + "/generate";
+                    console.log("✅ API URL updated to:", HF_API_URL);
+                }
+            } catch (err) {
+                console.warn("⚠️ URL check failed (normal if server restarting):", err.message);
+            }
         }
 
-        console.log("🤖 AI RESPONSE:", result);
-        return result;
-    } catch (err) {
-        console.error("❌ Chat failed:", err.message);
-    }
-}
+        // ==========================
+        // INITIAL CHECK & INTERVAL
+        // ==========================
+        refreshNgrokURL();  // run once on page load
+        setInterval(refreshNgrokURL, 2 * 60 * 1000);  // then every 2 minutes
 
-// ==========================
-// EXAMPLE USAGE
-// ==========================
-// sendChat("Hello! How are you?").then(res => console.log(res));
+        // ==========================
+        // SEND CHAT FUNCTION
+        // ==========================
+        async function sendChat(userText) {
+            try {
+                const response = await fetch(HF_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        prompt: userText,
+                        session_id: sessionId,
+                        max_tokens: 500
+                    })
+                });
+
+                if (!response.ok) throw new Error("Server error");
+
+                const reader = response.body.getReader();
+                let decoder = new TextDecoder("utf-8");
+                let result = "";
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    result += decoder.decode(value);
+                }
+
+                console.log("🤖 AI RESPONSE:", result);
+                return result;
+            } catch (err) {
+                console.error("❌ Chat failed:", err.message);
+            }
+        }
+
+        // ==========================
+        // EXAMPLE USAGE
+        // ==========================
+        // sendChat("Hello! How are you?").then(res => console.log(res));
 
 
         // ===========================
@@ -2601,6 +2653,7 @@ async function sendChat(userText) {
 
             document.getElementById('adminPanel').classList.remove('hidden');
             updateAdminStats();
+            updateAdminUserList();
         }
 
         function closeAdminPanel() {
@@ -2617,6 +2670,77 @@ async function sendChat(userText) {
 
             messagesRef.once('value', (snapshot) => {
                 document.getElementById('adminTotalMessages').textContent = snapshot.numChildren();
+            });
+        }
+
+        function updateAdminUserList() {
+            if (!isAdmin) return;
+            const list = document.getElementById('adminUserList');
+
+            presenceRef.on('value', (snapshot) => {
+                list.innerHTML = '';
+                snapshot.forEach((child) => {
+                    const user = child.val();
+                    const uid = child.key;
+
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center justify-between bg-dark/30 p-2 rounded border border-white/5';
+                    div.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                            <span class="text-sm font-semibold ${user.id === currentUser.id ? 'text-primary' : 'text-gray-300'}">
+                                ${escapeHtml(user.nickname)}
+                            </span>
+                        </div>
+                        <div class="flex gap-2">
+                            ${user.id !== currentUser.id ? `
+                                <button onclick="kickUser('${uid}')" class="text-xs pk-2 py-1 bg-red-500/20 text-red-400 rounded hover:bg-red-500/40">Kick</button>
+                                <button onclick="banUser('${uid}')" class="text-xs px-2 py-1 bg-orange-500/20 text-orange-400 rounded hover:bg-orange-500/40">Ban</button>
+                            ` : '<span class="text-xs text-gray-500 italic">You</span>'}
+                        </div>
+                    `;
+                    list.appendChild(div);
+                });
+            });
+        }
+
+        async function sendAnnouncement() {
+            const input = document.getElementById('adminAnnouncement');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const btn = document.querySelector('button[onclick="sendAnnouncement()"]');
+            btn.disabled = true;
+
+            try {
+                await messagesRef.push({
+                    text: text,
+                    type: 'system',
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+                input.value = '';
+                alert('✅ Announcement sent!');
+            } catch (error) {
+                console.error('Error sending announcement:', error);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        function kickUser(uid) {
+            if (!confirm('Kick this user? They will be disconnected immediately.')) return;
+            // Remove their presence node effectively "kicking" them offline until they reconnect
+            presenceRef.child(uid).remove().then(() => {
+                alert('👢 User kicked.');
+            });
+        }
+
+        function banUser(uid) {
+            if (!confirm('BAN this user? They will be blocked from sending messages.')) return;
+            database.ref('bans/' + uid).set(true).then(() => {
+                alert('🚫 User BANNED.');
+                // Also kick them to force a refresh/check
+                presenceRef.child(uid).remove();
             });
         }
 
@@ -2815,6 +2939,31 @@ async function sendChat(userText) {
 
             userMessageCount = parseInt(localStorage.getItem('userMessageCount') || '0');
             document.getElementById('userMessageCount').textContent = userMessageCount;
+
+            checkBanStatus();
+        }
+
+        function checkBanStatus() {
+            if (currentUser.id) {
+                // Check if user is banned
+                database.ref('bans/' + currentUser.id).on('value', (snapshot) => {
+                    if (snapshot.exists() && snapshot.val() === true) {
+                        isBanned = true;
+                        document.getElementById('chatroomInput').disabled = true;
+                        document.getElementById('chatroomInput').placeholder = "⛔ You are banned from this chat.";
+                        document.getElementById('sendChatroomMessage').disabled = true;
+                        alert('⛔ You have been BANNED from the chatroom by an administrator.');
+                    } else {
+                        isBanned = false;
+                        const input = document.getElementById('chatroomInput');
+                        if (input) {
+                            input.disabled = false;
+                            input.placeholder = "Type your message...";
+                            document.getElementById('sendChatroomMessage').disabled = false;
+                        }
+                    }
+                });
+            }
         }
 
         function promptForNickname() {
@@ -2845,6 +2994,7 @@ async function sendChat(userText) {
             userPresenceRef = presenceRef.child(currentUser.id);
 
             userPresenceRef.set({
+                id: currentUser.id, // Explicitly save ID for admin tools
                 nickname: currentUser.nickname,
                 online: true,
                 lastSeen: firebase.database.ServerValue.TIMESTAMP
@@ -2968,6 +3118,17 @@ async function sendChat(userText) {
                         <i class="fas fa-user text-xs"></i>
                     </div>
                 `;
+            } else if (msg.type === 'system') {
+                msgDiv.className = 'flex items-center justify-center my-4';
+                msgDiv.innerHTML = `
+                    <div class="bg-gradient-to-r from-red-900/50 to-purple-900/50 border border-purple-500/30 rounded-lg px-6 py-3 max-w-lg text-center shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                        <div class="flex items-center justify-center text-purple-400 font-bold mb-1 tracking-widest text-xs uppercase">
+                            <i class="fas fa-bullhorn mr-2"></i> System Announcement
+                        </div>
+                        <p class="text-white text-md font-medium">${escapeHtml(msg.text)}</p>
+                        <span class="text-[10px] text-gray-400 mt-1 block">${time}</span>
+                    </div>
+                    `;
             } else {
                 msgDiv.innerHTML = `
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
@@ -3028,13 +3189,6 @@ async function sendChat(userText) {
             });
         }
 
-        function cancelImage() {
-            selectedImage = null;
-            const preview = document.getElementById('imagePreview');
-            if (preview) preview.classList.add('hidden');
-            const uploadInput = document.getElementById('imageUpload');
-            if (uploadInput) uploadInput.value = '';
-        }
 
         // ===========================
         // Send Chatroom Message
@@ -3043,11 +3197,18 @@ async function sendChat(userText) {
             const input = document.getElementById('chatroomInput');
             const btn = document.getElementById('sendChatroomMessage');
             const text = input.value.trim();
-
-            console.log('📤 Send attempt - Text:', text, '| Image:', selectedImage ? selectedImage.name : 'NONE');
+            let isBanned = false; // Will be set by listener but check here just in case
 
             if (!text && !selectedImage) {
                 console.log('❌ Nothing to send');
+                return;
+            }
+
+            // Re-check ban status before sending - simple check
+            /* Note: A robust listener is in checkBanStatus, but this avoids rapid-fire attempts */
+            const banCheck = await database.ref('bans/' + currentUser.id).once('value');
+            if (banCheck.exists() && banCheck.val() === true) {
+                alert('⛔ You are banned.');
                 return;
             }
 
@@ -3078,6 +3239,10 @@ async function sendChat(userText) {
                 }
 
                 const filtered = text ? filterProfanity(text) : null;
+
+                if (!messagesRef) {
+                    throw new Error('Chatroom is not connected. Please refresh.');
+                }
 
                 console.log('💾 Saving to database...');
                 await messagesRef.push({
@@ -3139,32 +3304,42 @@ async function sendChat(userText) {
             const sendBtn = document.getElementById('sendChatroomMessage');
             const chatInput = document.getElementById('chatroomInput');
 
-            if (sendBtn) sendBtn.addEventListener('click', sendChatroomMessage);
+            if (sendBtn) {
+                // Ensure only one listener by using onclick
+                sendBtn.onclick = sendChatroomMessage;
+            }
             if (chatInput) {
-                chatInput.addEventListener('keypress', (e) => {
+                chatInput.onkeypress = (e) => {
                     if (e.key === 'Enter') sendChatroomMessage();
-                });
+                };
 
-                // Paste support for images
+                // Enhanced Paste support for images
                 chatInput.addEventListener('paste', (e) => {
-                    const items = e.clipboardData.items;
+                    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                    if (!items) return;
+
                     for (let i = 0; i < items.length; i++) {
                         if (items[i].type.indexOf('image') !== -1) {
                             const blob = items[i].getAsFile();
-                            const file = new File([blob], 'pasted-image.png', { type: blob.type });
+                            if (!blob) continue;
 
-                            if (file.size > 2 * 1024 * 1024) {
-                                alert('Image too large! Max 2MB');
+                            if (blob.size > 2 * 1024 * 1024) {
+                                alert('🖼️ Image too large! Max 2MB allowed.');
                                 continue;
                             }
 
-                            selectedImage = file;
+                            selectedImage = blob;
                             const reader = new FileReader();
                             reader.onload = (re) => {
-                                document.getElementById('previewImg').src = re.target.result;
-                                document.getElementById('imagePreview').classList.remove('hidden');
+                                console.log('✅ Image pasted:', blob.name);
+                                const previewImg = document.getElementById('previewImg');
+                                const imagePreview = document.getElementById('imagePreview');
+                                if (previewImg) previewImg.src = re.target.result;
+                                if (imagePreview) imagePreview.classList.remove('hidden');
                             };
-                            reader.readAsDataURL(file);
+                            reader.readAsDataURL(blob);
+
+                            // Optional: e.preventDefault(); 
                             break;
                         }
                     }
@@ -3313,7 +3488,7 @@ async function sendChat(userText) {
                         minute: '2-digit'
                     });
                     repliesHTML += `
-                <div class="mt-4 ml-4 pl-4 border-l-2 border-primary/30">
+                    < div class="mt-4 ml-4 pl-4 border-l-2 border-primary/30" >
                     <div class="flex items-center mb-2">
                         <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mr-2">
                             <i class="fas fa-user-tie text-xs"></i>
@@ -3322,29 +3497,29 @@ async function sendChat(userText) {
                         <span class="text-xs text-gray-500 ml-2">${replyTime}</span>
                     </div>
                     <p class="text-gray-300 text-sm">${escapeHtml(reply.text)}</p>
-                </div>
-            `;
+                </div >
+                    `;
                 });
             }
 
             const replyButton = isAdmin ? `
-        <button onclick="replyToFeedback('${item.id}')" class="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm transition-all">
-            <i class="fas fa-reply mr-1"></i>Reply as Developer
-        </button>
-    ` : '';
+                    < button onclick = "replyToFeedback('${item.id}')" class="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm transition-all" >
+                        <i class="fas fa-reply mr-1"></i>Reply as Developer
+        </button >
+                    ` : '';
 
             card.innerHTML = `
-        <div class="flex items-start justify-between mb-3">
+                    < div class="flex items-start justify-between mb-3" >
             <span class="feedback-type-badge ${typeColors[item.type]}">${typeEmojis[item.type]}</span>
             <span class="text-xs text-gray-500">${time}</span>
-        </div>
-        <p class="text-gray-300 mb-3 whitespace-pre-wrap">${escapeHtml(item.text)}</p>
+        </div >
+                    <p class="text-gray-300 mb-3 whitespace-pre-wrap">${escapeHtml(item.text)}</p>
         ${repliesHTML}
-        <div class="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
-            <span class="text-xs text-gray-500">Feedback ID: ${item.id.substring(0, 8)}</span>
-            ${replyButton}
-        </div>
-    `;
+                <div class="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
+                    <span class="text-xs text-gray-500">Feedback ID: ${item.id.substring(0, 8)}</span>
+                    ${replyButton}
+                </div>
+                `;
 
             feedbackList.appendChild(card);
         }
