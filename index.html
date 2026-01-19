@@ -2300,35 +2300,38 @@
         // ==========================
         let HF_API_URL = "https://ai.pratyush-singh365.workers.dev/generate";
         let sessionId = crypto.randomUUID(); // unique session per tab
-
-        // ==========================
-        // AUTO-REFRESH NGROK URL
-        // ==========================
+        
         async function refreshNgrokURL() {
             try {
                 // Remove /generate to get base URL
                 const baseURL = HF_API_URL.replace('/generate', '');
-
-                // Ping our /current_url endpoint
+        
+                // Ping /current_url
                 const res = await fetch(baseURL + "/current_url");
-                const data = await res.json();
-
-                // If URL changed, update HF_API_URL
-                if (data.url && data.url !== baseURL) {
-                    console.log("⚡ NEW NGROK URL DETECTED:", data.url);
-                    HF_API_URL = data.url + "/generate";
-                    console.log("✅ API URL updated to:", HF_API_URL);
+        
+                // Try to parse JSON safely
+                let data;
+                try {
+                    data = await res.json();
+                } catch {
+                    console.warn("⚠️ /current_url returned invalid JSON");
+                    return; // don't update HF_API_URL
+                }
+        
+                // Ensure data.url is a string
+                if (data.url && typeof data.url === "string" && data.url !== baseURL) {
+                    HF_API_URL = data.url.replace(/\/$/, '') + "/generate"; // remove trailing slash
+                    console.log("⚡ NEW NGROK URL DETECTED:", HF_API_URL);
                 }
             } catch (err) {
                 console.warn("⚠️ URL check failed (normal if server restarting):", err.message);
             }
         }
+        
+        // Initial check + auto-refresh every 2 minutes
+        refreshNgrokURL();
+        setInterval(refreshNgrokURL, 2 * 60 * 1000);
 
-        // ==========================
-        // INITIAL CHECK & INTERVAL
-        // ==========================
-        refreshNgrokURL();  // run once on page load
-        setInterval(refreshNgrokURL, 2 * 60 * 1000);  // then every 2 minutes
 
         // ==========================
         // SEND CHAT FUNCTION
