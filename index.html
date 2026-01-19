@@ -1468,7 +1468,7 @@
                                     </div>
                                     <div id="typingIndicator" class="flex items-start hidden">
                                         <div
-                                            class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                                            class="w-30 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
                                             <i class="fas fa-robot text-sm"></i>
                                         </div>
                                         <div class="ml-3">
@@ -2124,18 +2124,161 @@
         // Transform the narrow "games" object into the rich "GAMES" array if needed
         // ===========================
         if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
-            window.GAMES = Object.keys(games).map((key, index) => {
+
+            // 1. Define specific name corrections (Key -> Nice Name)
+            const NAME_CORRECTIONS = {
+                "1v1-lol": "1v1.LOL",
+                "10 minutes til ldawn": "10 Minutes Till Dawn",
+                "achieve unlocked": "Achievement Unlocked",
+                "bad time simulator": "Bad Time Simulator (Sans)",
+                "baldis-basics": "Baldi's Basics",
+                "Bendy and the ink machiene": "Bendy and the Ink Machine",
+                "bloonstd2": "Bloons TD 2",
+                "bloonstd3": "Bloons TD 3",
+                "bloonstd5": "Bloons TD 5",
+                "bloonstd6": "Bloons TD 6",
+                "basket-random": "Basket Random",
+                "basketballstars": "Basketball Stars",
+                "bitlife": "BitLife",
+                "bopcity": "Bop City",
+                "cookierun": "Cookie Run",
+                "cookie-clicker": "Cookie Clicker",
+                "cut the rpoe": "Cut the Rope",
+                "dadish": "Dadish",
+                "dadish2": "Dadish 2",
+                "dadish3": "Dadish 3",
+                "drift hunters": "Drift Hunters",
+                "drive-mad": "Drive Mad",
+                "ducklife1": "Duck Life 1",
+                "fnaf": "Five Nights at Freddy's",
+                "fnaf2": "Five Nights at Freddy's 2",
+                "fnaf3": "Five Nights at Freddy's 3",
+                "fnaf4": "Five Nights at Freddy's 4",
+                "flappybird": "Flappy Bird",
+                "footballbros": "Football Bros",
+                "fruitninja": "Fruit Ninja",
+                "geometry-dash": "Geometry Dash",
+                "goi": "Getting Over It",
+                "gtag": "Gorilla Tag",
+                "GTA Vice city": "GTA Vice City",
+                "gunspin": "Gun Spin",
+                "happywheels": "Happy Wheels",
+                "jetpackjoyride": "Jetpack Joyride",
+                "minecraft": "Minecraft",
+                "motox3m": "Moto X3M",
+                "melon-playground": "Melon Playground",
+                "ovo": "OvO",
+                "OvO2": "OvO 2",
+                "pacman": "Pac-Man",
+                "paperio2": "Paper.io 2",
+                "polytrack": "PolyTrack",
+                "papasbakeria": "Papa's Bakeria",
+                "papasburgeria": "Papa's Burgeria",
+                "papascheeseria": "Papa's Cheeseria",
+                "papasdonuteria": "Papa's Donuteria",
+                "papasfreezeria": "Papa's Freezeria",
+                "papaspizza": "Papa's Pizzeria",
+                "ragdoll-archers": "Ragdoll Archers",
+                "retro-bowl": "Retro Bowl",
+                "roblox": "Roblox",
+                "rooftop-snipers": "Rooftop Snipers",
+                "slope": "Slope",
+                "subway-surfers": "Subway Surfers",
+                "tanuki-sunset": "Tanuki Sunset",
+                "temple-run-2": "Temple Run 2",
+                "vex3": "Vex 3",
+                "vex4": "Vex 4",
+                "vex5": "Vex 5",
+                "vex6": "Vex 6",
+                "vex7": "Vex 7",
+                "watergirl-1": "Fireboy & Watergirl 1",
+                "watergirl-2": "Fireboy & Watergirl 2",
+                "watergirl-3": "Fireboy & Watergirl 3",
+                "watergirl-4": "Fireboy & Watergirl 4",
+                "wordle": "Wordle"
+            };
+
+            // 2. Define Popularity Order (Highest priority first)
+            const POPULAR_KEYS = [
+                "minecraft",
+                "roblox",
+                "1v1-lol",
+                "subway-surfers",
+                "fnaf",
+                "slope",
+                "retro-bowl",
+                "geometry-dash",
+                "happywheels",
+                "cookie-clicker",
+                "bitlife",
+                "paperio2",
+                "pacman",
+                "bloonstd6",
+                "bloonstd5",
+                "angry birds",
+                "bad piggies",
+                "cut the rpoe",
+                "cut the rope",
+                "doodle jump",
+                "flappybird",
+                "fruitninja",
+                "jetpackjoyride",
+                "baldis-basics",
+                "basket-random",
+                "drift hunters",
+                "drive-mad",
+                "motox3m",
+                "polytrack",
+                "balatro",
+                "ovo",
+                "vex",
+                "stickman",
+                "run 3",
+                "gtag",
+                "papas"
+            ];
+
+            const sortedKeys = Object.keys(games).sort((a, b) => {
+                const aLower = a.toLowerCase();
+                const bLower = b.toLowerCase();
+
+                // Get priority index (lower is better)
+                let aIndex = POPULAR_KEYS.findIndex(p => aLower.includes(p));
+                let bIndex = POPULAR_KEYS.findIndex(p => bLower.includes(p));
+
+                // If not found, set to infinity
+                if (aIndex === -1) aIndex = 9999;
+                if (bIndex === -1) bIndex = 9999;
+
+                // Sort by priority first
+                if (aIndex !== bIndex) {
+                    return aIndex - bIndex;
+                }
+
+                // Then alphabetical
+                return aLower.localeCompare(bLower);
+            });
+
+            window.GAMES = sortedKeys.map((key, index) => {
                 const gameData = games[key];
                 const link = typeof gameData === 'object' ? gameData.link : gameData;
                 const customThumb = typeof gameData === 'object' ? gameData.thumb : null;
 
-                // Try to format a nice title
-                let title = key.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                // Determine display title
+                let title = key;
+                if (NAME_CORRECTIONS[key]) {
+                    title = NAME_CORRECTIONS[key];
+                } else {
+                    // Default formatting: Capitalize words, remove hyphens
+                    title = key.split(/[-_]/).map(word =>
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                    ).join(' ');
+                }
 
                 return {
                     id: index,
                     name: title,
-                    category: 'All Games',
+                    category: 'Unblocked', // Default category
                     link: link,
                     thumb: customThumb || 'https://games-f518e.web.app/' + key + '/icon.png',
                     description: 'Play ' + title + ' unblocked and free!'
@@ -2152,7 +2295,9 @@
         // ===========================
         // AI Configuration
         // ===========================
-   
+        // ==========================
+        // AI CONFIGURATION
+        // ==========================
         let HF_API_URL = "https://prisonlike-coessentially-elliot.ngrok-free.dev/generate";
         let sessionId = crypto.randomUUID(); // unique session per tab
 
@@ -3119,7 +3264,7 @@
             } else if (msg.type === 'system') {
                 msgDiv.className = 'flex items-center justify-center my-4';
                 msgDiv.innerHTML = `
-                    <div class="bg-gradient-to-r from-red-900/50 to-purple-900/50 border border-purple-500/30 rounded-lg px-6 py-3 max-w-lg text-center shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                    <div class="bg-gradient-to-r from-red-900/50 to-purple-900/50 border border-purple-500/30 rounded-lg px-6 py-3 w-[95%] text-center shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                         <div class="flex items-center justify-center text-purple-400 font-bold mb-1 tracking-widest text-xs uppercase">
                             <i class="fas fa-bullhorn mr-2"></i> System Announcement
                         </div>
@@ -3132,7 +3277,7 @@
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
                         <i class="fas fa-user text-xs"></i>
                     </div>
-                    <div class="ml-3 max-w-md">
+                    <div class="ml-3 flex-1 min-w-0">
                         <div class="flex items-center mb-1">
                             <span class="text-sm font-semibold text-secondary">${escapeHtml(msg.nickname)}</span>
                             <span class="text-xs text-gray-500 ml-2">${time}</span>
@@ -3151,40 +3296,98 @@
         // ===========================
         // Image Upload Handlers
         // ===========================
+        // ===========================
+        // Image Upload Handlers
+        // ===========================
+
+        // Define handlers globally to allow removal
+        function handleImageSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Check file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Image too large! Max 2MB');
+                return;
+            }
+
+            // Check if it's an image
+            if (!file.type.startsWith('image/')) {
+                alert('Please upload an image file');
+                return;
+            }
+
+            selectedImage = file;
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (re) => {
+                const previewImg = document.getElementById('previewImg');
+                const imagePreview = document.getElementById('imagePreview');
+                if (previewImg) previewImg.src = re.target.result;
+                if (imagePreview) imagePreview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handlePaste(e) {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            if (!items) return;
+
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    const blob = items[i].getAsFile();
+                    if (!blob) continue;
+
+                    if (blob.size > 2 * 1024 * 1024) {
+                        alert('🖼️ Image too large! Max 2MB allowed.');
+                        continue;
+                    }
+
+                    selectedImage = blob;
+                    const reader = new FileReader();
+                    reader.onload = (re) => {
+                        console.log('✅ Image pasted:', blob.name);
+                        const previewImg = document.getElementById('previewImg');
+                        const imagePreview = document.getElementById('imagePreview');
+                        if (previewImg) previewImg.src = re.target.result;
+                        if (imagePreview) imagePreview.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(blob);
+
+                    // Prevent default paste behavior if we handled an image
+                    e.preventDefault();
+                    break;
+                }
+            }
+        }
+
         function setupImageUpload() {
             const imageUpload = document.getElementById('imageUpload');
-            if (!imageUpload) return;
+            if (imageUpload) {
+                // Remove existing listener if any (requires named function, or just overwrite 'onchange')
+                // Using 'onchange' property is simpler and sufficient here
+                imageUpload.onchange = handleImageSelect;
+            }
+        }
 
-            // Remove any existing listeners to avoid duplicates
-            imageUpload.replaceWith(imageUpload.cloneNode(true));
-            const newImageUpload = document.getElementById('imageUpload');
+        function setupChatroomEvents() {
+            const sendBtn = document.getElementById('sendChatroomMessage');
+            const chatInput = document.getElementById('chatroomInput');
 
-            newImageUpload.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
+            if (sendBtn) {
+                sendBtn.onclick = sendChatroomMessage;
+            }
 
-                // Check file size (max 2MB)
-                if (file.size > 2 * 1024 * 1024) {
-                    alert('Image too large! Max 2MB');
-                    return;
-                }
+            if (chatInput) {
+                // Remove previous listener to avoid duplicates if re-initialized
+                chatInput.removeEventListener('paste', handlePaste);
+                chatInput.addEventListener('paste', handlePaste);
 
-                // Check if it's an image
-                if (!file.type.startsWith('image/')) {
-                    alert('Please upload an image file');
-                    return;
-                }
-
-                selectedImage = file;
-
-                // Show preview
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    document.getElementById('previewImg').src = e.target.result;
-                    document.getElementById('imagePreview').classList.remove('hidden');
+                chatInput.onkeypress = (e) => {
+                    if (e.key === 'Enter') sendChatroomMessage();
                 };
-                reader.readAsDataURL(file);
-            });
+            }
         }
 
 
@@ -3194,82 +3397,106 @@
         async function sendChatroomMessage() {
             const input = document.getElementById('chatroomInput');
             const btn = document.getElementById('sendChatroomMessage');
-            const text = input.value.trim();
-            let isBanned = false; // Will be set by listener but check here just in case
 
-            if (!text && !selectedImage) {
-                console.log('❌ Nothing to send');
+            if (!input || !btn) {
+                console.error("❌ Chat elements missing");
                 return;
             }
 
-            // Re-check ban status before sending - simple check
-            /* Note: A robust listener is in checkBanStatus, but this avoids rapid-fire attempts */
-            const banCheck = await database.ref('bans/' + currentUser.id).once('value');
-            if (banCheck.exists() && banCheck.val() === true) {
-                alert('⛔ You are banned.');
+            const text = input.value.trim();
+
+            if (!text && !selectedImage) {
+                // Flash input to indicate empty
+                input.style.borderColor = 'red';
+                setTimeout(() => input.style.borderColor = '', 500);
                 return;
+            }
+
+            // Check connection
+            if (!messagesRef) {
+                alert('⚠️ Chatroom disconnected. Reconnecting...');
+                initFirebase();
+                if (!messagesRef) {
+                    alert('❌ Connection failed. Please refresh the page.');
+                    return;
+                }
+            }
+
+            // Check ban status
+            try {
+                if (currentUser && currentUser.id) {
+                    const banCheck = await database.ref('bans/' + currentUser.id).once('value');
+                    if (banCheck.exists() && banCheck.val() === true) {
+                        alert('⛔ You have been banned from the chat.');
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.warn('⚠️ Ban check skipped:', err);
             }
 
             const now = Date.now();
-            if (now - lastMessageTime < 2000) {
-                alert('⏱️ Please wait a moment before sending another message.');
+            if (now - lastMessageTime < 1500) {
+                // Silent ignore for rapid clicks, or small shake
+                btn.classList.add('shake');
+                setTimeout(() => btn.classList.remove('shake'), 500);
                 return;
             }
 
             btn.disabled = true;
+            const originalIcon = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
             try {
                 let imageData = null;
 
-                // Convert image to base64
+                // Convert image to base64 if selected
                 if (selectedImage) {
-                    console.log('📤 Converting image to base64...');
-
-                    imageData = await new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onload = (e) => resolve(e.target.result);
-                        reader.onerror = reject;
-                        reader.readAsDataURL(selectedImage);
-                    });
-
-                    console.log('✅ Image converted to base64');
+                    try {
+                        imageData = await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = (e) => resolve(e.target.result);
+                            reader.onerror = reject;
+                            reader.readAsDataURL(selectedImage);
+                        });
+                        console.log('✅ Image prepared');
+                    } catch (e) {
+                        console.error('Image processing failed:', e);
+                        alert('❌ Failed to process image.');
+                        throw e;
+                    }
                 }
 
                 const filtered = text ? filterProfanity(text) : null;
 
-                if (!messagesRef) {
-                    throw new Error('Chatroom is not connected. Please refresh.');
-                }
-
-                console.log('💾 Saving to database...');
                 await messagesRef.push({
-                    userId: currentUser.id,
-                    nickname: currentUser.nickname,
+                    userId: currentUser.id || 'anon',
+                    nickname: currentUser.nickname || 'Anonymous',
                     text: filtered,
-                    imageData: imageData, // Base64 string stored in database
+                    imageData: imageData,
+                    type: 'user',
                     timestamp: firebase.database.ServerValue.TIMESTAMP
                 });
 
-                console.log('✅ Message saved');
-
-                // Clear inputs
+                // Success
                 input.value = '';
                 cancelImage();
                 lastMessageTime = now;
 
+                // Update local stats
                 userMessageCount++;
                 localStorage.setItem('userMessageCount', userMessageCount);
-                if (document.getElementById('userMessageCount')) {
-                    document.getElementById('userMessageCount').textContent = userMessageCount;
-                }
+                const countEl = document.getElementById('userMessageCount');
+                if (countEl) countEl.textContent = userMessageCount;
 
             } catch (error) {
-                console.error('❌ Error:', error);
-                alert('❌ Failed to send: ' + error.message);
+                console.error('❌ Send Error:', error);
+                alert('❌ Failed to send message: ' + (error.message || 'Unknown error'));
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                // Ensure focus remains
+                input.focus();
             }
         }
 
@@ -3298,52 +3525,7 @@
             return div.innerHTML;
         }
 
-        function setupChatroomEvents() {
-            const sendBtn = document.getElementById('sendChatroomMessage');
-            const chatInput = document.getElementById('chatroomInput');
 
-            if (sendBtn) {
-                // Ensure only one listener by using onclick
-                sendBtn.onclick = sendChatroomMessage;
-            }
-            if (chatInput) {
-                chatInput.onkeypress = (e) => {
-                    if (e.key === 'Enter') sendChatroomMessage();
-                };
-
-                // Enhanced Paste support for images
-                chatInput.addEventListener('paste', (e) => {
-                    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
-                    if (!items) return;
-
-                    for (let i = 0; i < items.length; i++) {
-                        if (items[i].type.indexOf('image') !== -1) {
-                            const blob = items[i].getAsFile();
-                            if (!blob) continue;
-
-                            if (blob.size > 2 * 1024 * 1024) {
-                                alert('🖼️ Image too large! Max 2MB allowed.');
-                                continue;
-                            }
-
-                            selectedImage = blob;
-                            const reader = new FileReader();
-                            reader.onload = (re) => {
-                                console.log('✅ Image pasted:', blob.name);
-                                const previewImg = document.getElementById('previewImg');
-                                const imagePreview = document.getElementById('imagePreview');
-                                if (previewImg) previewImg.src = re.target.result;
-                                if (imagePreview) imagePreview.classList.remove('hidden');
-                            };
-                            reader.readAsDataURL(blob);
-
-                            // Optional: e.preventDefault(); 
-                            break;
-                        }
-                    }
-                });
-            }
-        }
         function cancelImage() {
             selectedImage = null;
             const preview = document.getElementById('imagePreview');
