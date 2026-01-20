@@ -2295,42 +2295,59 @@
         // ===========================
         // AI Configuration
         // ===========================
-        // ==========================
-        // AI CONFIGURATION
-        // ==========================
+        
         let HF_API_URL = "https://ai.pratyush-singh365.workers.dev/generate";
         let sessionId = crypto.randomUUID(); // unique session per tab
         
-        async function refreshNgrokURL() {
+        // Send a prompt to the AI and stream response token by token
+        async function sendChat(prompt) {
+            const responseContainer = document.getElementById("chat");
+            const data = {
+                prompt: prompt,
+                session_id: sessionId,
+                max_tokens: 500
+            };
+        
             try {
-                // Remove /generate to get base URL
-                const baseURL = HF_API_URL.replace('/generate', '');
+                const res = await fetch(HF_API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
         
-                // Ping /current_url
-                const res = await fetch(baseURL + "/current_url");
+                if (!res.ok) throw new Error("Network response was not ok");
         
-                // Try to parse JSON safely
-                let data;
-                try {
-                    data = await res.json();
-                } catch {
-                    console.warn("⚠️ /current_url returned invalid JSON");
-                    return; // don't update HF_API_URL
+                const reader = res.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let done = false;
+                let buffer = "";
+        
+                while (!done) {
+                    const { value, done: doneReading } = await reader.read();
+                    done = doneReading;
+                    if (value) {
+                        const chunk = decoder.decode(value);
+                        buffer += chunk;
+                        // Show tokens in real-time
+                        responseContainer.innerText = buffer;
+                    }
                 }
         
-                // Ensure data.url is a string
-                if (data.url && typeof data.url === "string" && data.url !== baseURL) {
-                    HF_API_URL = data.url.replace(/\/$/, '') + "/generate"; // remove trailing slash
-                    console.log("⚡ NEW NGROK URL DETECTED:", HF_API_URL);
-                }
+                console.log("✅ AI Response complete");
+        
             } catch (err) {
-                console.warn("⚠️ URL check failed (normal if server restarting):", err.message);
+                console.error("❌ Error:", err);
+                responseContainer.innerText = "Error: " + err.message;
             }
         }
         
-        // Initial check + auto-refresh every 2 minutes
-        refreshNgrokURL();
-        setInterval(refreshNgrokURL, 2 * 60 * 1000);
+      
+        // ==========================
+        // AI CONFIGURATION
+        // ==========================
+                                              
 
 
         // ==========================
