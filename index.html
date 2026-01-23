@@ -2444,7 +2444,8 @@
                         const chunk = decoder.decode(value);
                         buffer += chunk;
                         // Show tokens in real-time
-                        responseContainer.innerText = buffer;
+                        responseContainer.innerHTML = buffer;
+
                     }
                 }
 
