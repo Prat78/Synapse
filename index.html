@@ -1334,6 +1334,75 @@
             background: rgba(239, 68, 68, 0.4);
             transform: rotate(90deg);
         }
+
+        /* ============================================
+           AD SYSTEM STYLES
+           ============================================ */
+        .ads-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .ad-slot {
+            min-height: 100px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .ad-slot:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .ad-slot iframe,
+        .ad-slot img,
+        .ad-slot ins {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Responsive adjustments for ads */
+        @media (max-width: 768px) {
+            .ads-container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .ad-slot {
+                min-height: 80px;
+            }
+        }
+
+        /* Sidebar ad layout option */
+        .ads-sidebar {
+            position: fixed;
+            right: 10px;
+            top: 100px;
+            width: 160px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        @media (max-width: 1200px) {
+            .ads-sidebar {
+                display: none;
+            }
+        }
     </style>
     <script>
 
@@ -2018,8 +2087,9 @@
                             </button>
                         </div>
                         <div class="bg-white h-[700px] relative group">
-                            <iframe id="iframe-3" src="https://about.baltimorefellowship.org/" width="100%" height="100%"
-                                class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                            <iframe id="iframe-3" src="https://about.baltimorefellowship.org/" width="100%"
+                                height="100%" class="border-0" allowfullscreen
+                                sandbox="allow-scripts allow-same-origin allow-popups">
                             </iframe>
                         </div>
                     </div>
@@ -2218,6 +2288,20 @@
             </div>
         </div>
 
+        <!-- ADS CONTAINER - 10 Banner Ad Slots -->
+        <section id="adsContainer" class="ads-container">
+            <div class="ad-slot" id="ad-slot-1"></div>
+            <div class="ad-slot" id="ad-slot-2"></div>
+            <div class="ad-slot" id="ad-slot-3"></div>
+            <div class="ad-slot" id="ad-slot-4"></div>
+            <div class="ad-slot" id="ad-slot-5"></div>
+            <div class="ad-slot" id="ad-slot-6"></div>
+            <div class="ad-slot" id="ad-slot-7"></div>
+            <div class="ad-slot" id="ad-slot-8"></div>
+            <div class="ad-slot" id="ad-slot-9"></div>
+            <div class="ad-slot" id="ad-slot-10"></div>
+        </section>
+
     </main>
 
     <!-- Footer -->
@@ -2414,7 +2498,7 @@
         // Send a prompt to the AI and stream response token by token
         async function sendChat(prompt) {
             const responseContainer = document.getElementById("chatMessages");
-          
+
             const data = {
                 prompt: prompt,
                 session_id: sessionId,
@@ -2578,6 +2662,33 @@
             setupEvents();
             setupChatroomEvents();
             setupAnimations();
+
+            // Load ads on initial page load
+            refreshAds();
+
+            // Initialize Firebase for global announcements (for ALL users)
+            initFirebaseForAnnouncements();
+        }
+
+        // ===========================
+        // Firebase Init for Announcements Only
+        // ===========================
+        function initFirebaseForAnnouncements() {
+            // Only init if not already initialized
+            if (isFirebaseInitialized) return;
+
+            try {
+                firebaseApp = firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+                storage = firebase.storage();
+                isFirebaseInitialized = true;
+                console.log('Firebase initialized for announcements');
+
+                // Setup global announcement listener for ALL users
+                setupGlobalAnnouncementListener();
+            } catch (error) {
+                console.error('Firebase announcement init error:', error);
+            }
         }
 
         // ===========================
@@ -2654,6 +2765,80 @@
         }
 
         // ===========================
+        // AD SYSTEM - Refresh Ads Function
+        // ===========================
+
+        // Adsterra Configuration - REPLACE WITH YOUR ACTUAL ADSTERRA KEY
+        const ADSTERRA_KEY = 'YOUR_ADSTERRA_KEY'; // Replace this with your Adsterra publisher key
+
+        // Function to refresh all 10 ad slots with Adsterra banner ads
+        function refreshAds() {
+            console.log('🔄 Refreshing ads...');
+
+            // Loop through all 10 ad slots
+            for (let i = 1; i <= 10; i++) {
+                const slot = document.getElementById('ad-slot-' + i);
+                if (!slot) continue;
+
+                // Clear the existing content
+                slot.innerHTML = '';
+
+                // Create a unique container for this ad
+                const adContainer = document.createElement('div');
+                adContainer.id = 'adsterra-container-' + i + '-' + Date.now();
+                adContainer.style.width = '100%';
+                adContainer.style.minHeight = '90px';
+                adContainer.style.display = 'flex';
+                adContainer.style.alignItems = 'center';
+                adContainer.style.justifyContent = 'center';
+
+                slot.appendChild(adContainer);
+
+                // Load Adsterra banner script
+                // Note: This is a template - you'll need to use your actual Adsterra banner code
+                try {
+                    // Option 1: Using Adsterra's native banner (recommended)
+                    // Replace the script src with your actual Adsterra banner script URL
+                    const script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.async = true;
+                    script.setAttribute('data-cfasync', 'false');
+
+                    // Example Adsterra banner script structure:
+                    // script.src = '//www.highperformanceformat.com/' + ADSTERRA_KEY + '/invoke.js';
+
+                    // For now, show placeholder if no real key is set
+                    if (ADSTERRA_KEY === 'YOUR_ADSTERRA_KEY') {
+                        adContainer.innerHTML = '<div style="color: #666; font-size: 12px; text-align: center; padding: 20px;">Ad Slot #' + i + '<br><small>Configure ADSTERRA_KEY to display ads</small></div>';
+                    } else {
+                        // Create the Adsterra ad options
+                        const optionsScript = document.createElement('script');
+                        optionsScript.type = 'text/javascript';
+                        optionsScript.innerHTML = `
+                            atOptions = {
+                                'key' : '${ADSTERRA_KEY}',
+                                'format' : 'iframe',
+                                'height' : 90,
+                                'width' : 728,
+                                'params' : {}
+                            };
+                        `;
+                        adContainer.appendChild(optionsScript);
+
+                        // Load the Adsterra script
+                        script.src = '//www.highperformanceformat.com/' + ADSTERRA_KEY + '/invoke.js';
+                        adContainer.appendChild(script);
+                    }
+                } catch (e) {
+                    console.error('Error loading ad for slot ' + i + ':', e);
+                    adContainer.innerHTML = '<div style="color: #666; font-size: 12px;">Ad loading failed</div>';
+                }
+            }
+
+            console.log('✅ Ads refreshed');
+        }
+
+        // ===========================
         // Show Page Function
         // ===========================
         function showPage(name) {
@@ -2686,6 +2871,9 @@
             if (name === 'feedback' && !isFeedbackInitialized && isFirebaseInitialized) {
                 initFeedback();
             }
+
+            // Refresh ads on every page switch
+            refreshAds();
         }
 
         // ===========================
@@ -3168,6 +3356,9 @@
 
                 setupUser();
 
+                // Setup global announcement listener for ALL users
+                setupGlobalAnnouncementListener();
+
                 if (document.getElementById('chatroomPage').classList.contains('hidden') === false) {
                     switchRoom('chatroom1');
                     setupImageUpload();
@@ -3175,6 +3366,110 @@
                 }
             } catch (error) {
                 console.error('Firebase init error:', error);
+            }
+        }
+
+        // ===========================
+        // GLOBAL ANNOUNCEMENT SYSTEM
+        // ===========================
+        let lastAnnouncementTimestamp = 0;
+        let announcementTimeout = null;
+
+        function setupGlobalAnnouncementListener() {
+            if (!database) return;
+
+            const globalAnnouncementRef = database.ref('global_announcements');
+
+            // Listen for changes to global announcements
+            globalAnnouncementRef.on('value', (snapshot) => {
+                if (!snapshot.exists()) return;
+
+                const announcement = snapshot.val();
+
+                // Only show if it's a new announcement (newer than what we've seen)
+                if (announcement.timestamp && announcement.timestamp > lastAnnouncementTimestamp) {
+                    lastAnnouncementTimestamp = announcement.timestamp;
+                    showGlobalAnnouncement(announcement);
+                }
+            });
+
+            console.log('📢 Global announcement listener active');
+        }
+
+        function showGlobalAnnouncement(announcement) {
+            const announcementEl = document.getElementById('globalAnnouncement');
+            const textEl = document.getElementById('announcementText');
+
+            if (!announcementEl || !textEl) return;
+
+            // Set the announcement text
+            let displayText = announcement.text;
+            if (announcement.adminName) {
+                displayText = `<strong>From ${announcement.adminName}:</strong> ${announcement.text}`;
+            }
+            textEl.innerHTML = displayText;
+
+            // Show the announcement with animation
+            announcementEl.classList.add('active');
+
+            // Play a notification sound (optional - you can remove this)
+            playAnnouncementSound();
+
+            // Clear any existing timeout
+            if (announcementTimeout) {
+                clearTimeout(announcementTimeout);
+            }
+
+            // Auto-hide after 15 seconds
+            announcementTimeout = setTimeout(() => {
+                closeGlobalAnnouncement();
+            }, 15000);
+
+            console.log('📢 Showing global announcement:', announcement.text);
+        }
+
+        function closeGlobalAnnouncement() {
+            const announcementEl = document.getElementById('globalAnnouncement');
+            if (announcementEl) {
+                announcementEl.classList.remove('active');
+            }
+            if (announcementTimeout) {
+                clearTimeout(announcementTimeout);
+                announcementTimeout = null;
+            }
+        }
+
+        function playAnnouncementSound() {
+            // Create a simple notification beep
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                gainNode.gain.value = 0.1;
+
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.2);
+
+                // Second beep
+                setTimeout(() => {
+                    const osc2 = audioContext.createOscillator();
+                    const gain2 = audioContext.createGain();
+                    osc2.connect(gain2);
+                    gain2.connect(audioContext.destination);
+                    osc2.frequency.value = 1000;
+                    osc2.type = 'sine';
+                    gain2.gain.value = 0.1;
+                    osc2.start();
+                    osc2.stop(audioContext.currentTime + 0.2);
+                }, 200);
+            } catch (e) {
+                // Audio not supported or blocked
             }
         }
         function switchRoom(room) {
