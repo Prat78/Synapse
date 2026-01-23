@@ -2340,7 +2340,10 @@
         
             } catch (err) {
                 console.error("❌ Error:", err);
-                responseContainer.innerText = "Error: " + err.message;
+                responseContainer.innerHTML = buffer; // NOT innerText
+                responseContainer.scrollTop = responseContainer.scrollHeight;
+
+
             }
         }
         
