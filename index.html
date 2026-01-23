@@ -569,8 +569,25 @@
         }
 
         .chat-bubble-ai {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            border-radius: 20px 20px 20px 0;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 0 24px 24px 24px;
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06),
+                0 0 20px rgba(139, 92, 246, 0.1);
+            color: #f3f4f6;
+            transition: all 0.3s ease;
+        }
+
+        .chat-bubble-ai:hover {
+            box-shadow:
+                0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05),
+                0 0 30px rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
         }
 
         .game-card {
@@ -1238,6 +1255,85 @@
         .stagger-5 {
             animation-delay: 0.5s;
         }
+
+        /* Global Announcement styles */
+        #globalAnnouncement {
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            z-index: 10001;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #globalAnnouncement.active {
+            top: 30px;
+        }
+
+        .announcement-card {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid #8b5cf6;
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.4), inset 0 0 20px rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .announcement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+        }
+
+        .announcement-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #8b5cf6;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .announcement-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .announcement-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .announcement-close:hover {
+            background: rgba(239, 68, 68, 0.4);
+            transform: rotate(90deg);
+        }
     </style>
     <script>
 
@@ -1265,6 +1361,21 @@
     <div class="cyber-grid"></div>
     <div class="scanlines"></div>
     <div class="matrix-rain" id="matrixRain"></div>
+
+    <!-- Global System Announcement Alert -->
+    <div id="globalAnnouncement">
+        <div class="announcement-card">
+            <div class="announcement-close" onclick="closeGlobalAnnouncement()">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="announcement-title">
+                <i class="fas fa-bullhorn neon-pulse"></i> Global Broadcast
+            </div>
+            <div class="announcement-text" id="announcementText">
+                Connecting to downlink...
+            </div>
+        </div>
+    </div>
 
 
 
@@ -1907,8 +2018,8 @@
                             </button>
                         </div>
                         <div class="bg-white h-[700px] relative group">
-                            <iframe id="iframe-3" src="https://about.baltimorefellowship.org/" width="100%" height="100%"
-                                class="border-0" allowfullscreen>
+                            <iframe id="iframe-3" src="https://web.vserver.app/" width="100%" height="100%"
+                                class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
                             </iframe>
                         </div>
                     </div>
@@ -1937,8 +2048,9 @@
                             </button>
                         </div>
                         <div class="bg-white h-[700px] relative group">
-                            <iframe id="iframe-5" src="https://about.baltimorefellowship.org/" width="100%"
-                                height="100%" class="border-0" allowfullscreen>
+                            <iframe id="iframe-5" src="https://college-pathway.rakunan-h.ed.jp.n0p.at/" width="100%"
+                                height="100%" class="border-0" allowfullscreen
+                                sandbox="allow-scripts allow-same-origin allow-popups">
                             </iframe>
                         </div>
                     </div>
@@ -1967,8 +2079,8 @@
                             </button>
                         </div>
                         <div class="bg-white h-[700px] relative group">
-                            <iframe id="iframe-8" src="https://luminal.cc/" width="100%" height="100%"
-                                class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                            <iframe id="iframe-8" src="https://luminal.cc/" width="100%" height="100%" class="border-0"
+                                allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
                             </iframe>
                         </div>
                     </div>
@@ -1998,7 +2110,7 @@
                             </button>
                         </div>
                         <div class="bg-white h-[700px] relative group">
-                            <iframe id="iframe-10" src="https://ww3.soap2dayhd.com/" width="100%" height="100%"
+                            <iframe id="iframe-10" src="https://ww3.soap2dayhdz.com/" width="100%" height="100%"
                                 class="border-0" allowfullscreen>
                             </iframe>
                         </div>
@@ -2213,7 +2325,6 @@
                 "bitlife",
                 "paperio2",
                 "pacman",
-                "vex",
                 "bloonstd6",
                 "bloonstd5",
                 "angry birds",
@@ -2296,10 +2407,10 @@
         // ===========================
         // AI Configuration
         // ===========================
-        
+
         let HF_API_URL = "https://ai.pratyush-singh365.workers.dev/generate";
         let sessionId = crypto.randomUUID(); // unique session per tab
-        
+
         // Send a prompt to the AI and stream response token by token
         async function sendChat(prompt) {
             const responseContainer = document.getElementById("chat");
@@ -2308,7 +2419,7 @@
                 session_id: sessionId,
                 max_tokens: 500
             };
-        
+
             try {
                 const res = await fetch(HF_API_URL, {
                     method: "POST",
@@ -2317,14 +2428,14 @@
                     },
                     body: JSON.stringify(data)
                 });
-        
+
                 if (!res.ok) throw new Error("Network response was not ok");
-        
+
                 const reader = res.body.getReader();
                 const decoder = new TextDecoder("utf-8");
                 let done = false;
                 let buffer = "";
-        
+
                 while (!done) {
                     const { value, done: doneReading } = await reader.read();
                     done = doneReading;
@@ -2335,23 +2446,20 @@
                         responseContainer.innerText = buffer;
                     }
                 }
-        
+
                 console.log("✅ AI Response complete");
-        
+
             } catch (err) {
                 console.error("❌ Error:", err);
-                responseContainer.innerHTML = buffer; // NOT innerText
-                responseContainer.scrollTop = responseContainer.scrollHeight;
-
-
+                responseContainer.innerText = "Error: " + err.message;
             }
         }
-        
-      
+
+
         // ==========================
         // AI CONFIGURATION
         // ==========================
-                                              
+
 
 
         // ==========================
@@ -2699,7 +2807,7 @@
             aiDiv.className = "flex items-start";
             aiDiv.innerHTML =
                 '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"><i class="fas fa-robot text-sm"></i></div>' +
-                '<div class="ml-3"><div class="chat-bubble-ai p-4 max-w-md"><p class="streamText"></p></div></div>';
+                '<div class="ml-3 w-full"><div class="chat-bubble-ai p-6 max-w-3xl"><p class="streamText font-inter text-lg leading-relaxed tracking-wide text-gray-100"></p></div></div>';
             c.insertBefore(aiDiv, t);
             const streamText = aiDiv.querySelector(".streamText");
 
@@ -2880,13 +2988,21 @@
             btn.disabled = true;
 
             try {
-                await messagesRef.push({
+                const announcementData = {
                     text: text,
                     type: 'system',
-                    timestamp: firebase.database.ServerValue.TIMESTAMP
-                });
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                    adminName: currentUser.nickname.replace('👑 ', '')
+                };
+
+                // Push to current room messages
+                await messagesRef.push(announcementData);
+
+                // Push to global announcements node
+                await database.ref('global_announcements').set(announcementData);
+
                 input.value = '';
-                alert('✅ Announcement sent!');
+                alert('✅ Global announcement broadcasted!');
             } catch (error) {
                 console.error('Error sending announcement:', error);
             } finally {
