@@ -2855,11 +2855,11 @@
 
             // Loop through all 10 slots
             for (let i = 1; i <= 10; i++) {
-                // Initial load with a staggered delay (0s, 0.5s, 1s...) to prevent lag spikes
+                // Increased stagger to 800ms to reduce network congestion on load
                 setTimeout(() => {
                     refreshSingleAd(i);
 
-                    // Set up auto-refresh every 60s (plus tiny random offset to prevent sync)
+                    // Set up auto-refresh every 60s
                     // uniqueOffset ensures they never align perfectly
                     const uniqueOffset = i * 2000;
 
@@ -2870,7 +2870,7 @@
                         refreshSingleAd(i);
                     }, 60000 + uniqueOffset);
 
-                }, i * 500);
+                }, i * 800);
             }
         }
 
@@ -2878,62 +2878,66 @@
             const slot = document.getElementById('ad-slot-' + slotId);
             if (!slot) return;
 
-            // Remove existing content to force a fresh impression
-            slot.innerHTML = '';
+            // 1. Show a professional placeholder while loading
+            // This prevents "empty space" layout shifts and keeps the UI looking premium
+            slot.innerHTML = `
+                <div class="flex items-center justify-center w-full h-full bg-dark/20 animate-pulse rounded-xl border border-white/5">
+                    <span class="text-xs text-gray-600 font-orbitron">LOADING SPONSOR...</span>
+                </div>
+            `;
 
-            // Placeholder for Dev Mode
-            if (ADSTERRA_BANNER_KEY === 'YOUR_ADSTERRA_KEY') {
-                slot.innerHTML = `
-                    <div class="flex flex-col items-center justify-center h-full w-full bg-dark-light/30 border border-white/5 rounded-xl hover:border-primary/30 transition-all">
-                        <i class="fas fa-coins text-primary/20 text-3xl mb-2"></i>
-                        <span class="text-[10px] text-gray-500 font-orbitron tracking-widest uppercase">Ad Slot 300x250 #${slotId}</span>
-                        <div class="w-full bg-gray-800 h-1 mt-2 overflow-hidden rounded-full mx-4" style="max-width: 80%">
-                             <div class="h-full bg-primary/50" style="width: 0%; animation: loadingBar 60s linear infinite"></div>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
+            // 2. Clear placeholder and inject ad after a tiny delay to allow DOM paint
+            setTimeout(() => {
+                slot.innerHTML = '';
 
-            try {
-                // Create wrapper for the ad
-                const adWrapper = document.createElement('div');
-                adWrapper.className = 'ad-container-inner';
-                adWrapper.style.width = '300px';
-                adWrapper.style.height = '250px';
+                try {
+                    // Create wrapper for the ad
+                    const adWrapper = document.createElement('div');
+                    adWrapper.className = 'ad-container-inner';
+                    adWrapper.style.width = '300px';
+                    adWrapper.style.height = '250px';
 
-                // Adsterra Configuration Object 
-                const options = document.createElement('script');
-                options.type = 'text/javascript';
-                options.text = `
-                    atOptions = {
-                        'key' : '${ADSTERRA_BANNER_KEY}',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
+                    // Adsterra Configuration Object 
+                    const options = document.createElement('script');
+                    options.type = 'text/javascript';
+                    options.text = `
+                        atOptions = {
+                            'key' : '${ADSTERRA_BANNER_KEY}',
+                            'format' : 'iframe',
+                            'height' : 250,
+                            'width' : 300,
+                            'params' : {}
+                        };
+                    `;
+
+                    // Adsterra Invocation Script
+                    const script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.src = `//www.topcreativeformat.com/${ADSTERRA_BANNER_KEY}/invoke.js`;
+                    script.async = true;
+
+                    // Add error handling for the script itself
+                    script.onerror = function () {
+                        console.warn(`⚠️ [AdSystem] Ad script failed for Slot ${slotId}, retrying in 3s...`);
+                        slot.innerHTML = '<div class="flex items-center justify-center w-full h-full text-xs text-gray-700">Connecting...</div>';
+                        setTimeout(() => refreshSingleAd(slotId), 3000);
                     };
-                `;
 
-                // Adsterra Invocation Script
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.src = `//www.topcreativeformat.com/${ADSTERRA_BANNER_KEY}/invoke.js`;
-                script.async = true;
+                    adWrapper.appendChild(options);
+                    adWrapper.appendChild(script);
+                    slot.appendChild(adWrapper);
 
-                adWrapper.appendChild(options);
-                adWrapper.appendChild(script);
-                slot.appendChild(adWrapper);
-
-            } catch (err) {
-                console.error(`❌ [AdSystem] Failed to load Ad Slot ${slotId}:`, err);
-            }
+                } catch (err) {
+                    console.error(`❌ [AdSystem] Failed to load Ad Slot ${slotId}:`, err);
+                }
+            }, 100);
         }
 
         function refreshAds() {
+            console.log('🔄 [AdSystem] Triggering manual refresh for all slots...');
             // Trigger a quick refresh of all slots staggered
             for (let i = 1; i <= 10; i++) {
-                setTimeout(() => refreshSingleAd(i), i * 100);
+                setTimeout(() => refreshSingleAd(i), i * 200);
             }
         }
 
