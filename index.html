@@ -1336,71 +1336,128 @@
         }
 
         /* ============================================
-           AD SYSTEM STYLES
+           AD SYSTEM STYLES (Max CPM & Visibility)
            ============================================ */
-        .ads-container {
+        .ad-slot-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .ad-grid-3 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 20px;
             z-index: 10;
         }
 
-        .ad-slot {
-            min-height: 100px;
+        .ad-slot-300x250 {
+            width: 300px;
+            height: 250px;
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            position: relative;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
         }
 
-        .ad-slot:hover {
-            border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        .ad-slot-300x250:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+            z-index: 20;
         }
 
-        .ad-slot iframe,
-        .ad-slot img,
-        .ad-slot ins {
-            max-width: 100%;
-            display: block;
+        .ad-slot-300x250::before {
+            content: 'Sponsored';
+            position: absolute;
+            top: -10px;
+            background: #0f172a;
+            padding: 0 8px;
+            font-size: 9px;
+            color: #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
         }
 
-        /* Responsive adjustments for ads */
-        @media (max-width: 768px) {
-            .ads-container {
-                grid-template-columns: 1fr;
-                padding: 10px;
-            }
-
-            .ad-slot {
-                min-height: 80px;
-            }
-        }
-
-        /* Sidebar ad layout option */
-        .ads-sidebar {
+        /* Fixed Side Ads (Desktop) */
+        .fixed-ads-left,
+        .fixed-ads-right {
             position: fixed;
-            right: 10px;
             top: 100px;
-            width: 160px;
-            z-index: 100;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
+            z-index: 40;
+            width: 300px;
         }
 
-        @media (max-width: 1200px) {
-            .ads-sidebar {
-                display: none;
+        .fixed-ads-right {
+            right: 10px;
+        }
+
+        .fixed-ads-left {
+            left: 10px;
+        }
+
+        /* Add padding to main content so ads don't overlap */
+        @media (min-width: 1600px) {
+            main {
+                padding-left: 330px !important;
+                padding-right: 330px !important;
+            }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 1600px) {
+
+            /* Transform sidebars into inline content for smaller screens */
+            .fixed-ads-left,
+            .fixed-ads-right {
+                position: static;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 100%;
+                margin: 20px 0;
+            }
+
+            .fixed-ads-left .ad-slot-300x250,
+            .fixed-ads-right .ad-slot-300x250 {
+                margin: 10px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .ad-grid-3 {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ad-slot-300x250 {
+                transform: scale(0.95);
+            }
+
+            .ad-grid-3 {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -1430,6 +1487,18 @@
     <div class="cyber-grid"></div>
     <div class="scanlines"></div>
     <div class="matrix-rain" id="matrixRain"></div>
+
+    <!-- LEFT SIDEBAR ADS (Desktop) -->
+    <div class="fixed-ads-left">
+        <div class="ad-slot-300x250" id="ad-slot-1"></div>
+        <div class="ad-slot-300x250" id="ad-slot-2"></div>
+    </div>
+
+    <!-- RIGHT SIDEBAR ADS (Desktop) -->
+    <div class="fixed-ads-right">
+        <div class="ad-slot-300x250" id="ad-slot-3"></div>
+        <div class="ad-slot-300x250" id="ad-slot-4"></div>
+    </div>
 
     <!-- Global System Announcement Alert -->
     <div id="globalAnnouncement">
@@ -1527,6 +1596,12 @@
 
     <!-- Main Content -->
     <main class="pt-20">
+        <!-- GLOBAL TOP AD GRID (High Visibility) -->
+        <div class="ad-grid-3">
+            <div class="ad-slot-300x250" id="ad-slot-5"></div>
+            <div class="ad-slot-300x250" id="ad-slot-6"></div>
+            <div class="ad-slot-300x250" id="ad-slot-7"></div>
+        </div>
 
         <!-- HOME PAGE -->
         <div id="homePage" class="page-transition">
@@ -1576,7 +1651,8 @@
                         </div>
                     </div>
                 </div>
-            </section>
+        </div>
+        </section>
         </div>
 
 
@@ -1767,6 +1843,7 @@
                     </div>
                 </div>
             </div>
+        </div>
 
         </div>
 
@@ -2025,7 +2102,6 @@
                 </div>
             </div>
         </div>
-        </div>
 
 
         <!-- ROBLOX PAGE -->
@@ -2060,134 +2136,133 @@
                     </div>
                 </div>
 
-                <!-- IFRAME CONTAINER GRID -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-screen-2xl mx-auto">
-
-                    <!-- Frame 1 -->
-                    <div
-                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-primary/20">
-                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mr-4">
-                                    <i class="fas fa-satellite-dish text-primary"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
-                                        Proxy Node Omega</h3>
-                                    <p class="text-xs text-green-400 flex items-center">
-                                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-                                        Connection: Stable
-                                    </p>
-                                </div>
-                            </div>
-                            <button onclick="toggleFullscreen('iframe-3')"
-                                class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
-                                title="Fullscreen">
-                                <i class="fas fa-expand text-gray-400"></i>
-                            </button>
-                        </div>
-                        <div class="bg-white h-[700px] relative group">
-                            <iframe id="iframe-3" src="https://about.baltimorefellowship.org/" width="100%"
-                                height="100%" class="border-0" allowfullscreen
-                                sandbox="allow-scripts allow-same-origin allow-popups">
-                            </iframe>
-                        </div>
-                    </div>
-
-                    <!-- Frame 2 -->
-                    <div
-                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-secondary/20">
-                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center mr-4">
-                                    <i class="fas fa-network-wired text-secondary"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
-                                        Proxy Node Sigma</h3>
-                                    <p class="text-xs text-blue-400 flex items-center">
-                                        <span class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
-                                        Connection: Optimized
-                                    </p>
-                                </div>
-                            </div>
-                            <button onclick="toggleFullscreen('iframe-5')"
-                                class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
-                                title="Fullscreen">
-                                <i class="fas fa-expand text-gray-400"></i>
-                            </button>
-                        </div>
-                        <div class="bg-white h-[700px] relative group">
-                            <iframe id="iframe-5" src="https://about.baltimorefellowship.org/" width="100%"
-                                height="100%" class="border-0" allowfullscreen
-                                sandbox="allow-scripts allow-same-origin allow-popups">
-                            </iframe>
-                        </div>
-                    </div>
-
-                    <!-- Frame 3 -->
-                    <div
-                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-primary/20">
-                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mr-4">
-                                    <i class="fas fa-broadcast-tower text-primary"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
-                                        Proxy Node Delta</h3>
-                                    <p class="text-xs text-yellow-400 flex items-center">
-                                        <span class="w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></span>
-                                        Connection: Balanced
-                                    </p>
-                                </div>
-                            </div>
-                            <button onclick="toggleFullscreen('iframe-8')"
-                                class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
-                                title="Fullscreen">
-                                <i class="fas fa-expand text-gray-400"></i>
-                            </button>
-                        </div>
-                        <div class="bg-white h-[700px] relative group">
-                            <iframe id="iframe-8" src="https://luminal.cc/" width="100%" height="100%" class="border-0"
-                                allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
-                            </iframe>
-                        </div>
-                    </div>
-
-                    <!-- Frame 4 -->
-                    <div
-                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-secondary/20">
-                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
-                            <div class="flex items-center">
-                                <div
-                                    class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center mr-4">
-                                    <i class="fas fa-film text-purple-400"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
-                                        Cinema Stream Hub</h3>
-                                    <p class="text-xs text-purple-400 flex items-center">
-                                        <span class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse"></span>
-                                        Connection: Media Optimized
-                                    </p>
-                                </div>
-                            </div>
-                            <button onclick="toggleFullscreen('iframe-10')"
-                                class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
-                                title="Fullscreen">
-                                <i class="fas fa-expand text-gray-400"></i>
-                            </button>
-                        </div>
-                        <div class="bg-white h-[700px] relative group">
-                            <iframe id="iframe-10" src="https://ww3.soap2dayhdz.com/" width="100%" height="100%"
-                                class="border-0" allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-
-                </div>
             </div>
+
+            <!-- IFRAME CONTAINER GRID -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-screen-2xl mx-auto">
+
+                <!-- Frame 1 -->
+                <div
+                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-primary/20">
+                    <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mr-4">
+                                <i class="fas fa-satellite-dish text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                    Proxy Node Omega</h3>
+                                <p class="text-xs text-green-400 flex items-center">
+                                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                                    Connection: Stable
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="toggleFullscreen('iframe-3')"
+                            class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                            title="Fullscreen">
+                            <i class="fas fa-expand text-gray-400"></i>
+                        </button>
+                    </div>
+                    <div class="bg-white h-[700px] relative group">
+                        <iframe id="iframe-3" src="https://about.baltimorefellowship.org/" width="100%" height="100%"
+                            class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Frame 2 -->
+                <div
+                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-secondary/20">
+                    <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center mr-4">
+                                <i class="fas fa-network-wired text-secondary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                    Proxy Node Sigma</h3>
+                                <p class="text-xs text-blue-400 flex items-center">
+                                    <span class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+                                    Connection: Optimized
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="toggleFullscreen('iframe-5')"
+                            class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                            title="Fullscreen">
+                            <i class="fas fa-expand text-gray-400"></i>
+                        </button>
+                    </div>
+                    <div class="bg-white h-[700px] relative group">
+                        <iframe id="iframe-5" src="https://about.baltimorefellowship.org/" width="100%" height="100%"
+                            class="border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Frame 3 -->
+                <div
+                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-primary/20">
+                    <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mr-4">
+                                <i class="fas fa-broadcast-tower text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                    Proxy Node Delta</h3>
+                                <p class="text-xs text-yellow-400 flex items-center">
+                                    <span class="w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></span>
+                                    Connection: Balanced
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="toggleFullscreen('iframe-8')"
+                            class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                            title="Fullscreen">
+                            <i class="fas fa-expand text-gray-400"></i>
+                        </button>
+                    </div>
+                    <div class="bg-white h-[700px] relative group">
+                        <iframe id="iframe-8" src="https://luminal.cc/" width="100%" height="100%" class="border-0"
+                            allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Frame 4 -->
+                <div
+                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-secondary/20">
+                    <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center mr-4">
+                                <i class="fas fa-film text-purple-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                    Cinema Stream Hub</h3>
+                                <p class="text-xs text-purple-400 flex items-center">
+                                    <span class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse"></span>
+                                    Connection: Media Optimized
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="toggleFullscreen('iframe-10')"
+                            class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                            title="Fullscreen">
+                            <i class="fas fa-expand text-gray-400"></i>
+                        </button>
+                    </div>
+                    <div class="bg-white h-[700px] relative group">
+                        <iframe id="iframe-10" src="https://ww3.soap2dayhdz.com/" width="100%" height="100%"
+                            class="border-0" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         </div>
 
         <!-- GAMES PAGE -->
@@ -2209,6 +2284,7 @@
                 <div class="flex flex-wrap justify-center gap-3 mb-8" id="categoryFilter"></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="gamesGrid"></div>
             </div>
+        </div>
         </div>
         <!-- FEEDBACK PAGE -->
         <div id="feedbackPage" class="page-transition hidden">
@@ -2288,19 +2364,15 @@
             </div>
         </div>
 
-        <!-- ADS CONTAINER - 10 Banner Ad Slots -->
-        <section id="adsContainer" class="ads-container">
-            <div class="ad-slot" id="ad-slot-1"></div>
-            <div class="ad-slot" id="ad-slot-2"></div>
-            <div class="ad-slot" id="ad-slot-3"></div>
-            <div class="ad-slot" id="ad-slot-4"></div>
-            <div class="ad-slot" id="ad-slot-5"></div>
-            <div class="ad-slot" id="ad-slot-6"></div>
-            <div class="ad-slot" id="ad-slot-7"></div>
-            <div class="ad-slot" id="ad-slot-8"></div>
-            <div class="ad-slot" id="ad-slot-9"></div>
-            <div class="ad-slot" id="ad-slot-10"></div>
-        </section>
+        <!-- New Ad Placements will be injected in various locations -->
+
+        <!-- GLOBAL MID/BOTTOM AD GRID (High Engagement) -->
+        <h3 class="text-center text-gray-500 text-sm uppercase tracking-widest mb-4">Sponsored Content</h3>
+        <div class="ad-grid-3">
+            <div class="ad-slot-300x250" id="ad-slot-8"></div>
+            <div class="ad-slot-300x250" id="ad-slot-9"></div>
+            <div class="ad-slot-300x250" id="ad-slot-10"></div>
+        </div>
 
     </main>
 
@@ -2664,7 +2736,7 @@
             setupAnimations();
 
             // Load ads on initial page load
-            refreshAds();
+            initAdSystem();
 
             // Initialize Firebase for global announcements (for ALL users)
             initFirebaseForAnnouncements();
@@ -2765,81 +2837,106 @@
         }
 
         // ===========================
-        // AD SYSTEM - Refresh Ads Function
+        // AD SYSTEM - Refresh Ads Function (CPM Optimized)
         // ===========================
 
-        // Adsterra Configuration - REPLACE WITH YOUR ACTUAL ADSTERRA KEY
-        const ADSTERRA_KEY = 'YOUR_ADSTERRA_KEY'; // Replace this with your Adsterra publisher key
+        // Adsterra Configuration
+        // Note: For maximum CPM, it is recommended to use 10 different keys if possible, 
+        // but it will work with one global key as well.
+        const ADSTERRA_BANNER_KEY = 'cf6a125c26299b4a476c85e2b484cb3a';
+        let adRefreshIntervals = {}; // Store intervals to clear them if needed
+        let isAdSystemInitialized = false;
 
-        // Function to refresh all 10 ad slots with Adsterra banner ads
-        function refreshAds() {
-            console.log('🔄 Refreshing ads...');
+        function initAdSystem() {
+            if (isAdSystemInitialized) return;
+            isAdSystemInitialized = true;
 
-            // Loop through all 10 ad slots
+            console.log('🚀 [AdSystem] Initializing 10-Banner Staggered Refresh System...');
+
+            // Loop through all 10 slots
             for (let i = 1; i <= 10; i++) {
-                const slot = document.getElementById('ad-slot-' + i);
-                if (!slot) continue;
+                // Initial load with a staggered delay (0s, 0.5s, 1s...) to prevent lag spikes
+                setTimeout(() => {
+                    refreshSingleAd(i);
 
-                // Clear the existing content
-                slot.innerHTML = '';
+                    // Set up auto-refresh every 60s (plus tiny random offset to prevent sync)
+                    // uniqueOffset ensures they never align perfectly
+                    const uniqueOffset = i * 2000;
 
-                // Create a unique container for this ad
-                const adContainer = document.createElement('div');
-                adContainer.id = 'adsterra-container-' + i + '-' + Date.now();
-                adContainer.style.width = '100%';
-                adContainer.style.minHeight = '90px';
-                adContainer.style.display = 'flex';
-                adContainer.style.alignItems = 'center';
-                adContainer.style.justifyContent = 'center';
+                    // Clear existing interval if any (for safety)
+                    if (adRefreshIntervals[i]) clearInterval(adRefreshIntervals[i]);
 
-                slot.appendChild(adContainer);
+                    adRefreshIntervals[i] = setInterval(() => {
+                        refreshSingleAd(i);
+                    }, 60000 + uniqueOffset);
 
-                // Load Adsterra banner script
-                // Note: This is a template - you'll need to use your actual Adsterra banner code
-                try {
-                    // Option 1: Using Adsterra's native banner (recommended)
-                    // Replace the script src with your actual Adsterra banner script URL
-                    const script = document.createElement('script');
-                    script.type = 'text/javascript';
-                    script.async = true;
-                    script.setAttribute('data-cfasync', 'false');
-
-                    // Example Adsterra banner script structure:
-                    // script.src = '//www.highperformanceformat.com/' + ADSTERRA_KEY + '/invoke.js';
-
-                    // For now, show placeholder if no real key is set
-                    if (ADSTERRA_KEY === 'YOUR_ADSTERRA_KEY') {
-                        adContainer.innerHTML = '<div style="color: #666; font-size: 12px; text-align: center; padding: 20px;">Ad Slot #' + i + '<br><small>Configure ADSTERRA_KEY to display ads</small></div>';
-                    } else {
-                        // Create the Adsterra ad options
-                        const optionsScript = document.createElement('script');
-                        optionsScript.type = 'text/javascript';
-                        optionsScript.innerHTML = `
-                            atOptions = {
-                                'key' : '${ADSTERRA_KEY}',
-                                'format' : 'iframe',
-                                'height' : 90,
-                                'width' : 728,
-                                'params' : {}
-                            };
-                        `;
-                        adContainer.appendChild(optionsScript);
-
-                        // Load the Adsterra script
-                        script.src = '//www.highperformanceformat.com/' + ADSTERRA_KEY + '/invoke.js';
-                        adContainer.appendChild(script);
-                    }
-                } catch (e) {
-                    console.error('Error loading ad for slot ' + i + ':', e);
-                    adContainer.innerHTML = '<div style="color: #666; font-size: 12px;">Ad loading failed</div>';
-                }
+                }, i * 500);
             }
-
-            console.log('✅ Ads refreshed');
         }
 
-        // ===========================
-        // Show Page Function
+        function refreshSingleAd(slotId) {
+            const slot = document.getElementById('ad-slot-' + slotId);
+            if (!slot) return;
+
+            // Remove existing content to force a fresh impression
+            slot.innerHTML = '';
+
+            // Placeholder for Dev Mode
+            if (ADSTERRA_BANNER_KEY === 'YOUR_ADSTERRA_KEY') {
+                slot.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full w-full bg-dark-light/30 border border-white/5 rounded-xl hover:border-primary/30 transition-all">
+                        <i class="fas fa-coins text-primary/20 text-3xl mb-2"></i>
+                        <span class="text-[10px] text-gray-500 font-orbitron tracking-widest uppercase">Ad Slot 300x250 #${slotId}</span>
+                        <div class="w-full bg-gray-800 h-1 mt-2 overflow-hidden rounded-full mx-4" style="max-width: 80%">
+                             <div class="h-full bg-primary/50" style="width: 0%; animation: loadingBar 60s linear infinite"></div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                // Create wrapper for the ad
+                const adWrapper = document.createElement('div');
+                adWrapper.className = 'ad-container-inner';
+                adWrapper.style.width = '300px';
+                adWrapper.style.height = '250px';
+
+                // Adsterra Configuration Object 
+                const options = document.createElement('script');
+                options.type = 'text/javascript';
+                options.text = `
+                    atOptions = {
+                        'key' : '${ADSTERRA_BANNER_KEY}',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                `;
+
+                // Adsterra Invocation Script
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = `//www.topcreativeformat.com/${ADSTERRA_BANNER_KEY}/invoke.js`;
+                script.async = true;
+
+                adWrapper.appendChild(options);
+                adWrapper.appendChild(script);
+                slot.appendChild(adWrapper);
+
+            } catch (err) {
+                console.error(`❌ [AdSystem] Failed to load Ad Slot ${slotId}:`, err);
+            }
+        }
+
+        function refreshAds() {
+            // Trigger a quick refresh of all slots staggered
+            for (let i = 1; i <= 10; i++) {
+                setTimeout(() => refreshSingleAd(i), i * 100);
+            }
+        }
+
         // ===========================
         function showPage(name) {
             for (var k in pages) {
