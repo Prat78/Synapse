@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT0KHEJ77Y"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-ZT0KHEJ77Y');
+    </script>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatroom - Synapse AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>tailwind.config = { theme: { extend: { colors: { primary: "#3b82f6", secondary: "#8b5cf6", dark: "#0f172a", "dark-light": "#1e293b" }, fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'], 'orbitron': ['Orbitron', 'monospace'] } } } }</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2579562384309427"
+     crossorigin="anonymous"></script>
+</head>
+
+<body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden hex-pattern">
+    <div class="cyber-grid"></div>
+    <div class="scanlines"></div>
+    <div class="matrix-rain" id="matrixRain"></div>
+
+    <div id="globalAnnouncement">
+        <div class="announcement-card">
+            <div class="announcement-close" onclick="closeGlobalAnnouncement()"><i class="fas fa-times"></i></div>
+            <div class="announcement-title"><i class="fas fa-bullhorn neon-pulse"></i> Global Broadcast</div>
+            <div class="announcement-text" id="announcementText">Connecting...</div>
+        </div>
+    </div>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="text-center relative">
+            <div class="relative w-32 h-32 mx-auto mb-8">
+                <div class="absolute inset-0 border-4 border-transparent border-t-primary rounded-full animate-spin">
+                </div>
+                <div class="absolute inset-2 border-4 border-transparent border-t-secondary rounded-full animate-spin"
+                    style="animation-direction:reverse;animation-duration:0.8s;"></div>
+                <div class="absolute inset-4 border-4 border-transparent border-t-pink-500 rounded-full animate-spin"
+                    style="animation-duration:0.6s;"></div>
+            </div>
+            <h2 class="text-2xl font-orbitron font-bold typing-cursor mb-4">INITIALIZING SYNAPSE</h2>
+            <div class="w-64 mx-auto h-1 bg-gray-800 rounded-full overflow-hidden mb-4">
+                <div class="loading-progress h-full rounded-full"></div>
+            </div>
+            <p class="text-gray-500 text-sm font-orbitron tracking-widest" id="loadingStatus">LOADING...</p>
+        </div>
+    </div>
+    <div id="parallaxBg" class="parallax-bg"></div>
+
+    <nav class="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-white/10">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <i class="fas fa-brain text-white"></i>
+                </div><span class="text-2xl font-orbitron font-bold text-primary">SYNAPSE AI</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                <a href="chat.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">AI Chat</a>
+                <a href="games.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Games</a>
+                <a href="policy.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
+                <a href="proxy.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Online Games</a>
+                <a href="chatroom.html"
+                    class="nav-underline active text-gray-300 hover:text-white transition-colors duration-300">Chatroom</a>
+                <a href="feedback.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Feedback</a>
+            </div>
+            <button id="tryAI" onclick="location.href='chat.html'"
+                class="px-6 py-2 bg-primary rounded-full font-semibold font-orbitron uppercase tracking-wider hover:scale-110 transition-all duration-300">LAUNCH
+                AI</button>
+            <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white"><i
+                    class="fas fa-bars text-2xl"></i></button>
+        </div>
+        <div id="mobileMenu" class="md:hidden mt-4 hidden flex-col space-y-4 px-4">
+            <a href="index.html" class="nav-underline text-gray-300 hover:text-white py-2">Home</a>
+            <!-- mobile menu here -->
+        </div>
+    </nav>
+    <main class="pt-20">
+
+
+        <div id="chatroomPage" class="page-transition">
+            <div class="container mx-auto px-4 py-8 max-w-7xl">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4"><span
+                            class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">🌐 Public
+                            Chatrooms</span></h1>
+                    <p class="text-gray-400">Choose a room and start chatting!</p>
+                </div>
+
+                <div class="mb-6 flex flex-wrap gap-3 justify-center" id="roomSelector">
+                    <button onclick="switchRoom('chatroom1')" class="room-btn active" data-room="chatroom1"><i
+                            class="fas fa-globe mr-2"></i>Global</button>
+                    <button onclick="switchRoom('chatroom2')" class="room-btn" data-room="chatroom2"><i
+                            class="fas fa-comments mr-2"></i>Europe</button>
+                    <button onclick="switchRoom('chatroom3')" class="room-btn" data-room="chatroom3"><i
+                            class="fas fa-comments mr-2"></i>Stockholm</button>
+                    <button onclick="switchRoom('chatroom4')" class="room-btn" data-room="chatroom4"><i
+                            class="fas fa-school mr-2"></i>Ies Solna</button>
+                    <button onclick="switchRoom('chatroom5')" class="room-btn" data-room="chatroom5"><i
+                            class="fas fa-globe mr-2"></i>United States</button>
+                </div>
+
+                <!-- Admin Panel (kept hidden by default) -->
+                <div id="adminPanel"
+                    class="hidden absolute top-0 left-0 right-0 bottom-0 bg-dark/95 backdrop-blur-sm z-50 p-6 overflow-y-auto">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold text-red-400"><i class="fas fa-shield-alt mr-2"></i>Admin
+                                Control Panel</h2> <button onclick="closeAdminPanel()"
+                                class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-all"><i
+                                    class="fas fa-times mr-1"></i>Close</button>
+                        </div>
+                        <!-- simplified admin content for brevity, relying on user to use JS logic -->
+                        <button onclick="deleteAllMessages()" class="px-4 py-2 bg-red-600 rounded">Delete All
+                            Messages</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Main Chat Area -->
+                    <div class="lg:col-span-2">
+                        <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
+                            <div
+                                class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="font-semibold" id="currentRoomTitle">Chat</h3>
+                                        <p class="text-sm text-green-400">● <span id="onlineCount">0</span> Online</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="changeNickname()"
+                                        class="px-3 py-1 bg-primary/20 hover:bg-primary/30 rounded-full text-xs transition-all"><i
+                                            class="fas fa-user-edit mr-1"></i>Change Nickname</button>
+                                    <button onclick="adminLogin()"
+                                        class="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-full text-xs transition-all"
+                                        id="adminLoginBtn"><i class="fas fa-shield-alt mr-1"></i>Admin</button>
+                                </div>
+                            </div>
+
+                            <div id="chatroomMessages" class="flex-1 overflow-y-auto p-4 space-y-3">
+                                <div class="text-center text-gray-500 text-sm py-8"><i
+                                        class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                                    <p>Loading messages...</p>
+                                </div>
+                            </div>
+
+                            <div class="p-4 border-t border-white/10 bg-dark-light/50">
+                                <div id="imagePreview" class="hidden mb-3 relative inline-block"><img id="previewImg"
+                                        src="" class="max-h-32 rounded-lg border border-white/20"><button
+                                        onclick="cancelImage()"
+                                        class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-xs hover:bg-red-600"><i
+                                            class="fas fa-times"></i></button></div>
+                                <div class="flex space-x-2">
+                                    <input type="text" id="chatroomInput" placeholder="Type your message..."
+                                        maxlength="500"
+                                        class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
+                                    <label for="imageUpload"
+                                        class="px-4 py-3 bg-purple-600/80 hover:bg-purple-600 rounded-full cursor-pointer transition-all flex items-center justify-center"
+                                        title="Upload Image"><i class="fas fa-image"></i></label>
+                                    <input type="file" id="imageUpload" accept="image/*" class="hidden">
+                                    <button id="sendChatroomMessage"
+                                        class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"><i
+                                            class="fas fa-paper-plane"></i></button>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2" id="chatroomStatus">Connecting...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="space-y-6">
+                        <div class="glassmorphism rounded-2xl p-6">
+                            <h3 class="text-lg font-semibold mb-4 flex items-center"><i
+                                    class="fas fa-user text-primary mr-2"></i>Your Profile</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center space-x-3">
+                                    <div
+                                        class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                                        <i class="fas fa-user text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold" id="currentNickname">Guest</p>
+                                        <p class="text-xs text-gray-400">Click above to change</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glassmorphism rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary/10">
+                            <h3 class="text-lg font-semibold mb-3 flex items-center"><i
+                                    class="fas fa-shield-alt text-yellow-400 mr-2"></i>Chat Rules</h3>
+                            <ul class="space-y-2 text-sm text-gray-300">
+                                <li>✅Do whatever you want👍</li>
+                                <li>❌ I am NOT liable for ANYTHING here.</li>
+                                <li>❌ No spam flooding</li>
+                            </ul>
+                        </div>
+
+                        <div class="glassmorphism rounded-2xl p-6">
+                            <h3 class="text-lg font-semibold mb-4 flex items-center"><i
+                                    class="fas fa-chart-bar text-secondary mr-2"></i>Stats</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center"><span class="text-gray-400">Your
+                                        Messages</span><span class="font-bold text-primary"
+                                        id="userMessageCount">0</span></div>
+                                <div class="flex justify-between items-center"><span class="text-gray-400">Room
+                                        Messages</span><span class="font-bold text-green-400"
+                                        id="totalMessageCount">0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+    <footer class="mt-16 border-t border-white/10">
+        <div class="container mx-auto px-4 py-8 text-center">
+            <p class="text-gray-500">© 2024 Synapse AI. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="games.js"></script>
+    <script src="script.js"></script>
+</body>
+
+
+</html>
