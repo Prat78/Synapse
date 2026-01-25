@@ -1,136 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Play Game</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2579562384309427"
-     crossorigin="anonymous"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:#000;font-family:Arial}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-.header{
-    position:fixed;top:0;left:0;right:0;height:50px;
-    background:#1e293b;display:flex;align-items:center;
-    justify-content:space-between;padding:0 20px;z-index:100
-}
-.header a,.header button{
-    color:#fff;text-decoration:none;padding:8px 16px;
-    border-radius:8px;border:none;cursor:pointer;font-size:14px
-}
-.back{background:rgba(255,255,255,0.1)}
-.back:hover{background:rgba(255,255,255,0.2)}
-.fs{background:rgba(59,130,246,0.3);color:#93c5fd}
-.fs:hover{background:rgba(59,130,246,0.5)}
-.title{
-    font-weight:bold;
-    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent
-}
-.game{position:fixed;top:50px;left:0;right:0;bottom:0}
-.game iframe{width:100%;height:100%;border:none}
-.loading{
-    position:fixed;top:50px;left:0;right:0;bottom:0;
-    background:#0f172a;display:flex;
-    flex-direction:column;align-items:center;
-    justify-content:center;color:#fff
-}
-.spinner{
-    width:50px;height:50px;
-    border:4px solid rgba(59,130,246,0.3);
-    border-top-color:#3b82f6;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-    margin-bottom:20px
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-body.full .header{display:none}
-body.full .game{top:0}
-</style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: #000;
+            font-family: Arial;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            height: 50px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .header a,
+        .header button {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px
+        }
+
+        .back {
+            background: rgba(255, 255, 255, 0.1)
+        }
+
+        .back:hover {
+            background: rgba(255, 255, 255, 0.2)
+        }
+
+        .fs {
+            background: rgba(59, 130, 246, 0.3);
+            color: #93c5fd
+        }
+
+        .fs:hover {
+            background: rgba(59, 130, 246, 0.5)
+        }
+
+        .title {
+            font-weight: bold;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(59, 130, 246, 0.3);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .game {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .game iframe {
+            width: 100%;
+            height: 100%;
+            border: none
+        }
+
+        .loading {
+            flex-grow: 1;
+            position: relative;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff
+        }
+
+        /* Ads Container Styles */
+        .top-ads-container {
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            background: #000;
+            position: relative;
+            z-index: 1001;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        .ad-unit {
+            min-width: 300px;
+            min-height: 250px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        body.full .header,
+        body.full .top-ads-container {
+            display: none
+        }
+
+        body.full .game {
+            position: fixed;
+            inset: 0;
+        }
+    </style>
 </head>
+
 <body>
+    <div class="top-ads-container">
+        <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2579562384309427"
+            crossorigin="anonymous"></script>
+        <div class="ad-unit">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2579562384309427"
+                data-ad-slot="8050174852" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        <div class="ad-unit">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2579562384309427"
+                data-ad-slot="8050174852" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        <div class="ad-unit">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2579562384309427"
+                data-ad-slot="8050174852" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        <div class="ad-unit">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2579562384309427"
+                data-ad-slot="8050174852" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        <div class="ad-unit">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2579562384309427"
+                data-ad-slot="8050174852" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
 
-<div class="header">
-    <a href="index.html" class="back">
-        <i class="fas fa-arrow-left"></i> Back
-    </a>
-    <span class="title" id="title">Loading...</span>
-    <button class="fs" onclick="goFull()">
-        <i class="fas fa-expand"></i> Fullscreen
-    </button>
-</div>
+    <div class="header">
+        <a href="index.html" class="back">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <span class="title" id="title">Loading...</span>
+        <button class="fs" onclick="goFull()">
+            <i class="fas fa-expand"></i> Fullscreen
+        </button>
+    </div>
 
-<div class="loading" id="loading">
-    <div class="spinner"></div>
-    <p>Loading game...</p>
-</div>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Loading game...</p>
+    </div>
 
-<div class="game" id="game" style="display:none">
-    <iframe id="frame" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe>
-</div>
+    <div class="game" id="game" style="display:none">
+        <iframe id="frame" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe>
+    </div>
 
-<script>
-// Get game data from sessionStorage
-var game = sessionStorage.getItem('currentGame');
+    <script>
+        // Get game data from sessionStorage
+        var game = sessionStorage.getItem('currentGame');
 
-if (!game) {
-    // No game data, redirect back
-    window.location.href = 'index.html';
-} else {
-    try {
-        game = JSON.parse(game);
-        
-        // Set title
-        document.getElementById('title').textContent = game.name || game.title || 'Game';
-        
-        // Load game in iframe
-        var iframe = document.getElementById('frame');
-        iframe.src = game.link;
-        
-        // Show game container when iframe loads
-        iframe.onload = function() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('game').style.display = 'block';
-        };
-        
-        // Fallback: show game after 3 seconds even if onload doesn't fire
-        setTimeout(function() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('game').style.display = 'block';
-        }, 3000);
-        
-    } catch (e) {
-        console.error('Error loading game:', e);
-        alert('Error loading game. Redirecting back...');
-        window.location.href = 'index.html';
-    }
-}
+        if (!game) {
+            // No game data, redirect back
+            window.location.href = 'index.html';
+        } else {
+            try {
+                game = JSON.parse(game);
 
-function goFull() {
-    var elem = document.documentElement;
-    if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
-    }
-    document.body.classList.add('full');
-}
+                // Set title
+                document.getElementById('title').textContent = game.name || game.title || 'Game';
 
-// Remove fullscreen class when exiting fullscreen
-document.addEventListener('fullscreenchange', function() {
-    if (!document.fullscreenElement) {
-        document.body.classList.remove('full');
-    }
-});
-document.addEventListener('webkitfullscreenchange', function() {
-    if (!document.webkitFullscreenElement) {
-        document.body.classList.remove('full');
-    }
-});
+                // Load game in iframe
+                var iframe = document.getElementById('frame');
+                iframe.src = game.link;
 
-</script>
+                // Show game container when iframe loads
+                iframe.onload = function () {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('game').style.display = 'block';
+                };
+
+                // Fallback: show game after 3 seconds even if onload doesn't fire
+                setTimeout(function () {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('game').style.display = 'block';
+                }, 3000);
+
+            } catch (e) {
+                console.error('Error loading game:', e);
+                alert('Error loading game. Redirecting back...');
+                window.location.href = 'index.html';
+            }
+        }
+
+        function goFull() {
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+            document.body.classList.add('full');
+        }
+
+        // Remove fullscreen class when exiting fullscreen
+        document.addEventListener('fullscreenchange', function () {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove('full');
+            }
+        });
+        document.addEventListener('webkitfullscreenchange', function () {
+            if (!document.webkitFullscreenElement) {
+                document.body.classList.remove('full');
+            }
+        });
+
+    </script>
+</body>
+
+</html>
