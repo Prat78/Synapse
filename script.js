@@ -212,10 +212,7 @@ async function sendChat() {
             done = doneReading;
             if (value) {
                 const chunk = decoder.decode(value, { stream: true });
-                const formattedChunk = chunk
-                    .split(/\n\s*\n/)          // split at empty lines
-                    .map(p => `<p>${p.trim()}</p>`)  // wrap each paragraph in <p>
-                    .join('');
+               
                 streamText.innerHTML += formattedChunk;
                 if (c) c.scrollTop = c.scrollHeight;
             }
@@ -1106,4 +1103,5 @@ function toggleFullscreen(id) {
 
 
 document.addEventListener("DOMContentLoaded", init);
+
 
