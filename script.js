@@ -212,10 +212,11 @@ async function sendChat() {
             done = doneReading;
             if (value) {
                 const chunk = decoder.decode(value, { stream: true });
-                streamText.textContent += chunk;
+                streamText.innerHTML += chunk;  // <---- THIS IS THE KEY
                 if (c) c.scrollTop = c.scrollHeight;
             }
         }
+
 
     } catch (err) {
         console.error(err);
@@ -1098,5 +1099,6 @@ function toggleFullscreen(id) {
     else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
     else if (container.msRequestFullscreen) container.msRequestFullscreen();
 }
+
 
 document.addEventListener("DOMContentLoaded", init);
