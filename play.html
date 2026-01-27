@@ -179,6 +179,7 @@
 
                 // Set title
                 document.getElementById('title').textContent = game.name || game.title || 'Game';
+                document.title = (game.name || game.title || 'Game') + ' - Play Unblocked on Synapse AI';
 
                 // Load game in iframe
                 var iframe = document.getElementById('frame');
