@@ -136,7 +136,13 @@
         <a href="index.html" class="back">
             <i class="fas fa-arrow-left"></i> Back
         </a>
-        <span class="title" id="title">Loading...</span>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <span class="title" id="title">Loading...</span>
+            <button id="turboBtn" onclick="toggleTurbo()"
+                style="background: rgba(234, 179, 8, 0.2); color: #fbbf24; border: 1px solid rgba(234, 179, 8, 0.5); font-size: 12px; display: flex; align-items: center; gap: 5px;">
+                <i class="fas fa-bolt"></i> Turbo Mode: OFF
+            </button>
+        </div>
         <button class="fs" onclick="goFull()">
             <i class="fas fa-expand"></i> Fullscreen
         </button>
@@ -228,4 +234,46 @@
             }
         });
 
+        // ===========================
+        // Turbo Mode Logic
+        // ===========================
+        let turboActive = false;
+        function toggleTurbo(silent = false) {
+            turboActive = !turboActive;
+            const btn = document.getElementById('turboBtn');
+            const iframe = document.getElementById('frame');
+
+            if (turboActive) {
+                // Activate Turbo
+                btn.style.background = "rgba(16, 185, 129, 0.3)";
+                btn.style.color = "#10b981";
+                btn.style.borderColor = "rgba(16, 185, 129, 0.5)";
+                btn.innerHTML = '<i class="fas fa-bolt animate-pulse"></i> Turbo: ON';
+
+                // 1. Optimize rendering
+                const footer = document.querySelector('footer');
+                if (footer) footer.style.display = 'none';
+
+                // 2. Browser priority hint
+                if (iframe) {
+                    iframe.setAttribute('importance', 'high');
+                }
+
+                if (!silent) {
+                    alert("🔥 Turbo Mode Active: Background processes paused. Instructions to stop lag: \n1. Close all other tabs. \n2. Plug in your charger (essential for speed). \n3. Keep your laptop on a flat surface.");
+                }
+            } else {
+                // Deactivate
+                btn.style.background = "rgba(234, 179, 8, 0.2)";
+                btn.style.color = "#fbbf24";
+                btn.style.borderColor = "rgba(234, 179, 8, 0.5)";
+                btn.innerHTML = '<i class="fas fa-bolt"></i> Turbo: OFF';
+
+                const footer = document.querySelector('footer');
+                if (footer) footer.style.display = 'block';
+            }
+        }
+
+        // Auto-enable Turbo Mode when game starts
+        setTimeout(() => toggleTurbo(true), 100);
     </script>
