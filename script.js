@@ -1109,4 +1109,3 @@ function toggleFullscreen(id) {
 
 document.addEventListener("DOMContentLoaded", init);
 
-

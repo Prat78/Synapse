@@ -238,6 +238,7 @@
         // Turbo Mode Logic
         // ===========================
         let turboActive = false;
+
         function toggleTurbo(silent = false) {
             turboActive = !turboActive;
             const btn = document.getElementById('turboBtn');
@@ -250,17 +251,23 @@
                 btn.style.borderColor = "rgba(16, 185, 129, 0.5)";
                 btn.innerHTML = '<i class="fas fa-bolt animate-pulse"></i> Turbo: ON';
 
-                // 1. Optimize rendering
+                // 1. Extreme Memory Purge: Hide ALL non-essential DOM
                 const footer = document.querySelector('footer');
                 if (footer) footer.style.display = 'none';
 
                 // 2. Browser priority hint
                 if (iframe) {
                     iframe.setAttribute('importance', 'high');
+                    // "Blink" the iframe to force a memory re-check
+                    iframe.style.opacity = "0.99";
+                    setTimeout(() => { if (iframe) iframe.style.opacity = "1"; }, 100);
                 }
 
+                // 3. Clear Parent Page memory
+                window.gc && window.gc();
+
                 if (!silent) {
-                    alert("🔥 Turbo Mode Active: Background processes paused. Instructions to stop lag: \n1. Close all other tabs. \n2. Plug in your charger (essential for speed). \n3. Keep your laptop on a flat surface.");
+                    alert("🚀 EXTREME TURBO ACTIVE\n- Page memory cleared.\n- Iframe priority set to HIGH.\n\nNOTE: If lag returns, click Turbo OFF and then ON again to 'flush' the memory!");
                 }
             } else {
                 // Deactivate

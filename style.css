@@ -1322,3 +1322,63 @@
     width: 100%;
     margin-bottom: 20px;
 }
+
+/* ============================================
+   MOBILE LAYOUT FIXES (Nav & Tabs)
+   ============================================ */
+@media (max-width: 640px) {
+
+    /* Shrink logo text on small phones */
+    span.text-2xl.font-orbitron {
+        font-size: 1.1rem !important;
+        white-space: nowrap;
+    }
+
+    /* Adjust the "Launch AI" button on mobile */
+    #tryAI {
+        padding: 5px 12px !important;
+        font-size: 0.7rem !important;
+        letter-spacing: 0.05em !important;
+    }
+
+    /* Reduce horizontal padding to fit and prevent overlap */
+    nav .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* Ensure hamburger menu has enough space */
+    #mobileMenuBtn {
+        padding: 5px !important;
+    }
+
+    /* Clean up the mobile dropdown menu */
+    #mobileMenu {
+        background: rgba(15, 23, 42, 0.98) !important;
+        backdrop-filter: blur(20px) !important;
+        margin-top: 0 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #mobileMenu a {
+        font-size: 0.9rem !important;
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    #mobileMenu a:last-child {
+        border-bottom: none;
+    }
+
+    /* Category & Room Button Mobile Fixes */
+    .cat-btn {
+        padding: 6px 12px !important;
+        font-size: 0.8rem !important;
+    }
+
+    .room-btn {
+        padding: 8px 15px !important;
+        font-size: 0.85rem !important;
+    }
+}
