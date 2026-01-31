@@ -1,4 +1,0 @@
-﻿User-agent: *
-Allow: /
-
-Sitemap: https://synapsecorp.pages.dev/sitemap.xml
