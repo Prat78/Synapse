@@ -79,8 +79,8 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
 
     // 2. Define Popularity Order (Highest priority first)
     const POPULAR_KEYS = [
-        "gta",
         "1v1",
+        "gta",
         "minecraft",
         "roblox",
         "subway-surfers",
@@ -1171,6 +1171,4 @@ function updateBadgeUI(count) {
 }
 
 document.addEventListener("DOMContentLoaded", init);
-
-
 
