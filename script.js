@@ -80,9 +80,9 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
     // 2. Define Popularity Order (Highest priority first)
     const POPULAR_KEYS = [
         "gta",
+        "1v1-lol",
         "minecraft",
         "roblox",
-        "1v1-lol",
         "subway-surfers",
         "fnaf",
         "slope",
@@ -117,6 +117,7 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
         "gtag",
         "papas"
     ];
+
 
     const sortedKeys = Object.keys(games).sort((a, b) => {
         const aLower = a.toLowerCase();
