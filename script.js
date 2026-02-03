@@ -484,7 +484,7 @@ function renderGames() {
 
         html += '<div class="game-card glassmorphism rounded-2xl overflow-hidden" onclick="playGame(' + idx + ')">';
         html += '<div class="relative overflow-hidden">';
-        html += '<img src="' + img + '" alt="' + (g.title || g.name).replace(/'/g, "&apos;") + '" class="w-full h-48 object-cover" onerror="this.src=\'https://via.placeholder.com/400x200/1e293b/3b82f6?text=' + encodeURIComponent(g.title || g.name).replace(/'/g, "%27") + '\'">';
+        html += '<img src="' + img + '" alt="' + (g.title || g.name).replace(/'/g, "&apos;") + '" class="w-full h-64 object-cover" onerror="this.src=\'https://via.placeholder.com/400x200/1e293b/3b82f6?text=' + encodeURIComponent(g.title || g.name).replace(/'/g, "%27") + '\'">';
         html += '<div class="absolute top-4 right-4"><span class="bg-primary/80 text-white px-3 py-1 rounded-full text-xs">' + g.category + '</span></div>';
         html += '<div class="play-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>';
         html += '</div>';
