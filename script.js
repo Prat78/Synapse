@@ -1248,15 +1248,7 @@ function protectSite() {
     }, 1000);
 }
 
-// Simple hash function for password security
-async function hashPW(string) {
-    const utf8 = new TextEncoder().encode(string);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-async function adminLogin() {
+function adminLogin() {
     // If already logged in, show the panel
     if (isAdmin) {
         const panel = document.getElementById('adminPanel');
@@ -1267,14 +1259,7 @@ async function adminLogin() {
     const password = prompt("Enter Key:");
     if (!password) return;
 
-    const hashedInput = await hashPW(password);
-
-    // Hash for 'banhammeriusmaximus'
-    const adminHash = "602d4f26694e823469146f25091763784860f4df215914101d2d38520261394c";
-    // Hash for 'developerrules'
-    const devHash = "455d61488c525f0e1dfbffcc13543d842236a2818a7a912177353986a3449171";
-
-    if (hashedInput === devHash) {
+    if (password === "developerrules") {
         isDeveloper = true;
         isAdmin = true;
         sessionStorage.setItem('isDeveloper', 'true');
@@ -1282,7 +1267,7 @@ async function adminLogin() {
         document.body.classList.add('admin-mode');
         document.body.classList.add('dev-mode');
         alert("💎 Welcome, Developer.");
-    } else if (hashedInput === adminHash) {
+    } else if (password === "banhammeriusmaximus") {
         isAdmin = true;
         sessionStorage.setItem('isAdmin', 'true');
         document.body.classList.add('admin-mode');
