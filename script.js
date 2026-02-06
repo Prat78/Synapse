@@ -339,6 +339,12 @@ function init() {
     // Initialize Chat Notifications Badge
     initChatNotifications();
 
+    // Restore Admin Mode if previously logged in this session
+    if (sessionStorage.getItem('isAdmin') === 'true') {
+        isAdmin = true;
+        document.body.classList.add('admin-mode');
+    }
+
     // Page specific init
     const chatroomPage = document.getElementById('chatroomPage');
     if (chatroomPage && !chatroomPage.classList.contains('hidden')) {
@@ -809,6 +815,9 @@ function displayMessage(msg) {
                         <span class="text-sm font-semibold text-primary">${escapeHtml(msg.nickname)}</span>
                     </div>
                     <div class="chat-bubble-user p-3">${messageContent}</div>
+                    <div class="admin-only mt-1">
+                        <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
+                    </div>
                 </div>
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xs"></i></div>`;
         } else {
@@ -820,6 +829,10 @@ function displayMessage(msg) {
                         <span class="text-xs text-gray-500 ml-2">${time}</span>
                     </div>
                     <div class="chat-bubble-ai p-3">${messageContent}</div>
+                    <div class="admin-only mt-1 flex space-x-2">
+                        <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
+                        <button onclick="banUser('${msg.userId}')" class="admin-only-btn"><i class="fas fa-hammer mr-1"></i>Ban</button>
+                    </div>
                 </div>`;
         }
     }
@@ -1169,6 +1182,68 @@ function updateBadgeUI(count) {
         }
     });
 }
+
+// ===========================
+// Admin Panel Logic
+// ===========================
+let isAdmin = false;
+
+function adminLogin() {
+    const password = prompt("Enter Admin Password:");
+    // The password is synapseadmin but you can change it here.
+    if (password === "synapseadmin") {
+        isAdmin = true;
+        sessionStorage.setItem('isAdmin', 'true');
+        document.body.classList.add('admin-mode');
+        document.getElementById('adminPanel').classList.remove('hidden');
+        alert("✅ Admin Access Granted");
+    } else {
+        alert("❌ Incorrect Password");
+    }
+}
+
+function closeAdminPanel() {
+    const panel = document.getElementById('adminPanel');
+    if (panel) panel.classList.add('hidden');
+}
+
+function deleteAllMessages() {
+    if (!isAdmin) return;
+    if (confirm("Are you sure you want to delete ALL messages in " + currentRoom + "?")) {
+        database.ref(`chatroom/${currentRoom}/messages`).remove()
+            .then(() => alert("✅ All messages deleted"))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
+}
+
+function deleteMessage(messageId) {
+    if (!isAdmin) return;
+    database.ref(`chatroom/${currentRoom}/messages/${messageId}`).remove()
+        .catch(err => console.error("Delete error:", err));
+}
+
+function banUser(userId) {
+    if (!isAdmin) return;
+    if (confirm("Ban this user?")) {
+        database.ref('bans/' + userId).set(true)
+            .then(() => alert("✅ User banned"))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
+}
+
+function sendGlobalBroadcast() {
+    if (!isAdmin) return;
+    const text = prompt("Enter global broadcast message:");
+    if (text) {
+        database.ref('global_announcements').set({
+            text: text,
+            adminName: currentUser.nickname || 'Admin',
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        }).then(() => alert("✅ Broadcast sent"))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
+}
+
 
 document.addEventListener("DOMContentLoaded", init);
 
