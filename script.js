@@ -1198,7 +1198,7 @@ let isAdmin = false;
 function adminLogin() {
     const password = prompt("Enter Admin Password:");
     // The password is now banammeriusmaximus
-    if (password === "banammeriusmaximus") {
+    if (password === "banhammeriusmaximus") {
         isAdmin = true;
         sessionStorage.setItem('isAdmin', 'true');
         document.body.classList.add('admin-mode');
@@ -1264,4 +1264,5 @@ function sendGlobalBroadcast() {
 
 
 document.addEventListener("DOMContentLoaded", init);
+
 
