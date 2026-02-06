@@ -1048,7 +1048,14 @@ function displayFeedback(item) {
         });
     }
 
-    card.innerHTML = `<div class="flex items-start justify-between mb-3"><span class="feedback-type-badge ${typeColors[item.type]}">${typeEmojis[item.type]}</span><span class="text-xs text-gray-500">${time}</span></div><p class="text-gray-300 mb-3 whitespace-pre-wrap">${escapeHtml(item.text)}</p>${repliesHTML}`;
+    card.innerHTML = `<div class="flex items-start justify-between mb-3">
+        <span class="feedback-type-badge ${typeColors[item.type]}">${typeEmojis[item.type]}</span>
+        <div class="flex items-center space-x-3">
+            <span class="text-xs text-gray-500">${time}</span>
+            <button onclick="deleteFeedback('${item.id}')" class="admin-only admin-only-btn"><i class="fas fa-trash"></i></button>
+        </div>
+    </div>
+    <p class="text-gray-300 mb-3 whitespace-pre-wrap">${escapeHtml(item.text)}</p>${repliesHTML}`;
     feedbackList.appendChild(card);
 }
 
@@ -1190,12 +1197,14 @@ let isAdmin = false;
 
 function adminLogin() {
     const password = prompt("Enter Admin Password:");
-    // The password is synapseadmin but you can change it here.
-    if (password === "synapseadmin") {
+    // The password is now banammeriusmaximus
+    if (password === "banammeriusmaximus") {
         isAdmin = true;
         sessionStorage.setItem('isAdmin', 'true');
         document.body.classList.add('admin-mode');
-        document.getElementById('adminPanel').classList.remove('hidden');
+        // Show panel if we are on chatroom page
+        const panel = document.getElementById('adminPanel');
+        if (panel) panel.classList.remove('hidden');
         alert("✅ Admin Access Granted");
     } else {
         alert("❌ Incorrect Password");
@@ -1220,6 +1229,15 @@ function deleteMessage(messageId) {
     if (!isAdmin) return;
     database.ref(`chatroom/${currentRoom}/messages/${messageId}`).remove()
         .catch(err => console.error("Delete error:", err));
+}
+
+function deleteFeedback(feedbackId) {
+    if (!isAdmin) return;
+    if (confirm("Delete this feedback?")) {
+        database.ref('feedback/' + feedbackId).remove()
+            .then(() => alert("✅ Feedback deleted"))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
 }
 
 function banUser(userId) {
