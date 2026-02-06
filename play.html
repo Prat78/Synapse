@@ -128,10 +128,104 @@
         body.full .game {
             top: 0
         }
+
+        /* Announcement styles copy */
+        #globalAnnouncement {
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            z-index: 10001;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Orbitron', Arial;
+        }
+
+        #globalAnnouncement.active {
+            top: 60px;
+        }
+
+        .announcement-card {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid #8b5cf6;
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.4), inset 0 0 20px rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .announcement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+        }
+
+        .announcement-title {
+            color: #8b5cf6;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .announcement-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .announcement-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #64748b;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .announcement-close:hover {
+            color: white;
+        }
+
+        .neon-pulse {
+            animation: neonPulse 1.5s infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            from {
+                text-shadow: 0 0 5px #8b5cf6, 0 0 10px #8b5cf6;
+            }
+
+            to {
+                text-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6, 0 0 30px #8b5cf6;
+            }
+        }
     </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
+
+    <div id="globalAnnouncement">
+        <div class="announcement-card">
+            <div class="announcement-close" onclick="closeGlobalAnnouncement()"><i class="fas fa-times"></i></div>
+            <div class="announcement-title"><i class="fas fa-bullhorn neon-pulse mr-2"></i> Global Broadcast</div>
+            <div class="announcement-text" id="announcementText">Connecting...</div>
+        </div>
+    </div>
 
     <div class="header">
         <a href="index.html" class="back">
@@ -286,4 +380,73 @@
 
         // Auto-enable Turbo Mode when game starts
         setTimeout(() => toggleTurbo(true), 100);
+
+        // ===========================
+        // Global Broadcast Logic for Play Page
+        // ===========================
+        const firebaseConfig = {
+            apiKey: "AIzaSyB4p6X2u5thYySUjgCnjQeYZYQ87xg-xds",
+            authDomain: "chatroom-f1e6b.firebaseapp.com",
+            databaseURL: "https://chatroom-f1e6b-default-rtdb.firebaseio.com",
+            projectId: "chatroom-f1e6b",
+            storageBucket: "chatroom-f1e6b.firebasestorage.app",
+            messagingSenderId: "663028089072",
+            appId: "1:663028089072:web:04f2706fd3f5badf334235",
+            measurementId: "G-ZT0KHEJ77Y"
+        };
+
+        function initAnnouncements() {
+            if (typeof firebase === 'undefined') return;
+            try {
+                const app = firebase.initializeApp(firebaseConfig, "announcementApp");
+                const db = firebase.database(app);
+                const ref = db.ref('global_announcements');
+                let lastTimestamp = Date.now();
+
+                ref.on('value', (snapshot) => {
+                    if (!snapshot.exists()) return;
+                    const data = snapshot.val();
+                    if (data.timestamp && data.timestamp > lastTimestamp) {
+                        lastTimestamp = data.timestamp;
+                        showAnnouncement(data);
+                    }
+                });
+            } catch (e) { console.error(e); }
+        }
+
+        function showAnnouncement(data) {
+            const el = document.getElementById('globalAnnouncement');
+            const txt = document.getElementById('announcementText');
+            if (!el || !txt) return;
+
+            txt.innerHTML = data.adminName ? `<strong>From ${data.adminName}:</strong> ${data.text}` : data.text;
+            el.classList.add('active');
+            setTimeout(closeGlobalAnnouncement, 15000);
+        }
+
+        function closeGlobalAnnouncement() {
+            const el = document.getElementById('globalAnnouncement');
+            if (el) el.classList.remove('active');
+        }
+
+        // Load Firebase Scripts and init
+        (function loadFirebase() {
+            const scripts = [
+                "https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js",
+                "https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"
+            ];
+            let loaded = 0;
+            scripts.forEach(src => {
+                const s = document.createElement('script');
+                s.src = src;
+                s.onload = () => {
+                    loaded++;
+                    if (loaded === scripts.length) initAnnouncements();
+                };
+                document.head.appendChild(s);
+            });
+        })();
     </script>
+</body>
+
+</html>
