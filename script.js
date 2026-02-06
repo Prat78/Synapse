@@ -612,6 +612,7 @@ function initFirebaseForAnnouncements() {
         database = firebase.database();
         storage = firebase.storage();
         isFirebaseInitialized = true;
+        setupUser(); // This ensures currentUser.id is generated
         setupGlobalAnnouncementListener();
     } catch (error) {
         console.error('Firebase announcement init error:', error);
@@ -917,10 +918,29 @@ async function sendChatroomMessage() {
     try {
         let imageData = null;
         if (selectedImage) {
-            imageData = await new Promise((resolve, reject) => {
+            // COMPRESSION LOGIC: Resize image before sending to save database space
+            imageData = await new Promise((resolve) => {
                 const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target.result);
-                reader.onerror = reject;
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800; // Resize to max 800px wide
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.6)); // Compress to 60% quality JPEG
+                    };
+                    img.src = e.target.result;
+                };
                 reader.readAsDataURL(selectedImage);
             });
         }
@@ -940,6 +960,9 @@ async function sendChatroomMessage() {
         cancelImage();
         lastMessageTime = Date.now();
 
+        // AUTO-PRUNE: Keep the database small to avoid hit usage limits
+        autoPruneMessages();
+
         userMessageCount++;
         localStorage.setItem('userMessageCount', userMessageCount);
         const countEl = document.getElementById('userMessageCount');
@@ -952,6 +975,33 @@ async function sendChatroomMessage() {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
         input.focus();
+    }
+}
+
+// Auto-cleanup system to prevent database from hitting 1GB limit
+async function autoPruneMessages() {
+    if (!messagesRef) return;
+
+    try {
+        // We only want to keep the latest 150 messages
+        const snapshot = await messagesRef.once('value');
+        const count = snapshot.numChildren();
+
+        if (count > 150) {
+            // Get the oldest messages
+            const oldestQuery = messagesRef.orderByChild('timestamp').limitToFirst(count - 150);
+            const oldestSnapshot = await oldestQuery.once('value');
+
+            const updates = {};
+            oldestSnapshot.forEach(child => {
+                updates[child.key] = null; // Mark for deletion
+            });
+
+            await messagesRef.update(updates);
+            console.log("♻️ Auto-Pruned " + (count - 150) + " old messages to save space.");
+        }
+    } catch (e) {
+        console.error("Prune Error:", e);
     }
 }
 
