@@ -1448,3 +1448,29 @@ button.admin-only-btn:hover {
     background: rgba(239, 68, 68, 0.2);
     border-color: rgba(239, 68, 68, 0.5);
 }
+
+/* Chat Role Badges */
+.role-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.1em;
+    display: inline-flex;
+    align-items: center;
+}
+
+.admin-badge {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.dev-badge {
+    background: rgba(34, 211, 238, 0.2);
+    color: #22d3ee;
+    border: 1px solid rgba(34, 211, 238, 0.4);
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.2);
+}
