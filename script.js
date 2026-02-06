@@ -275,6 +275,7 @@ var searchQuery = '';
 // ===========================
 function init() {
     // 1. Initialize Background Effects (Always run)
+    protectSite();
     createMatrixRain();
     createStars();
     setupAnimations();
@@ -339,10 +340,16 @@ function init() {
     // Initialize Chat Notifications Badge
     initChatNotifications();
 
-    // Restore Admin Mode if previously logged in this session
+    // Restore Admin/Dev Mode if previously logged in this session
     if (sessionStorage.getItem('isAdmin') === 'true') {
         isAdmin = true;
         document.body.classList.add('admin-mode');
+    }
+    if (sessionStorage.getItem('isDeveloper') === 'true') {
+        isDeveloper = true;
+        isAdmin = true; // Developers are also admins
+        document.body.classList.add('admin-mode');
+        document.body.classList.add('dev-mode');
     }
 
     // Page specific init
@@ -572,6 +579,8 @@ let currentRoom = 'general';
 let lastMessageTime = 0;
 let userMessageCount = 0;
 let isFirebaseInitialized = false;
+let isAdmin = false;
+let isDeveloper = false;
 let selectedImage = null;
 const badWords = [];
 const roomTitles = {
@@ -816,7 +825,9 @@ function displayMessage(msg) {
                 <div class="text-right mr-3 max-w-md">
                     <div class="flex items-center justify-end mb-1">
                         <span class="text-xs text-gray-500 mr-2">${time}</span>
-                        <span class="text-sm font-semibold text-primary">${escapeHtml(msg.nickname)}</span>
+                        ${msg.role === 'dev' ? '<span class="role-badge dev-badge">DEVELOPER</span>' : ''}
+                        ${msg.role === 'admin' ? '<span class="role-badge admin-badge">ADMIN</span>' : ''}
+                        <span class="text-sm font-semibold text-primary ml-2">${escapeHtml(msg.nickname)}</span>
                     </div>
                     <div class="chat-bubble-user p-3">${messageContent}</div>
                     <div class="admin-only mt-1">
@@ -829,7 +840,9 @@ function displayMessage(msg) {
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xs"></i></div>
                 <div class="ml-3 flex-1 min-w-0">
                     <div class="flex items-center mb-1">
-                        <span class="text-sm font-semibold text-secondary">${escapeHtml(msg.nickname)}</span>
+                        ${msg.role === 'dev' ? '<span class="role-badge dev-badge">DEVELOPER</span>' : ''}
+                        ${msg.role === 'admin' ? '<span class="role-badge admin-badge">ADMIN</span>' : ''}
+                        <span class="text-sm font-semibold text-secondary ml-2">${escapeHtml(msg.nickname)}</span>
                         <span class="text-xs text-gray-500 ml-2">${time}</span>
                     </div>
                     <div class="chat-bubble-ai p-3">${messageContent}</div>
@@ -919,6 +932,7 @@ async function sendChatroomMessage() {
             text: filtered,
             imageData: imageData,
             type: 'user',
+            role: isDeveloper ? 'dev' : (isAdmin ? 'admin' : 'user'),
             timestamp: firebase.database.ServerValue.TIMESTAMP
         });
 
@@ -1195,31 +1209,91 @@ function updateBadgeUI(count) {
 }
 
 // ===========================
-// Admin Panel Logic
+// Security & Protection
 // ===========================
-let isAdmin = false;
+function protectSite() {
+    // 1. Disable Right Click
+    document.addEventListener('contextmenu', e => {
+        if (isDeveloper) return; // ONLY Developers can right-click
+        e.preventDefault();
+    });
 
-function adminLogin() {
-    // If already logged in, just show the panel and don't ask for password again
+    // 2. Disable Keyboard Shortcuts (F12, Ctrl+Shift+I, etc.)
+    document.onkeydown = function (e) {
+        if (isDeveloper) return true; // ONLY Developers can use shortcuts
+        if (e.keyCode == 123) return false; // F12
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // View Source
+    };
+
+    // 3. Infinite Debugger Loop (Freezes the Inspect Panel)
+    setInterval(function () {
+        if (isDeveloper) return; // Don't kill the dev's browser
+        const startTime = performance.now();
+        debugger;
+        const endTime = performance.now();
+
+        if (endTime - startTime > 100) {
+            document.body.innerHTML = '<div style="background:#000;color:red;height:100vh;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:2rem;text-align:center;padding:20px;">ACCESS DENIED: SECURITY VIOLATION DETECTED<br><br>Inspect tool is prohibited on Synapse AI.</div>';
+            location.reload();
+        }
+    }, 100);
+
+    // 4. Console Bombing
+    setInterval(() => {
+        if (isDeveloper) return;
+        console.clear();
+    }, 1000);
+}
+
+// Simple hash function for password security
+async function hashPW(string) {
+    const utf8 = new TextEncoder().encode(string);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function adminLogin() {
+    // If already logged in, show the panel
     if (isAdmin) {
         const panel = document.getElementById('adminPanel');
         if (panel) panel.classList.remove('hidden');
         return;
     }
 
-    const password = prompt("Enter Admin Password:");
-    // The password is now banhammeriusmaximus
-    if (password === "banhammeriusmaximus") {
+    const password = prompt("Enter Key:");
+    if (!password) return;
+
+    const hashedInput = await hashPW(password);
+
+    // Hash for 'banhammeriusmaximus'
+    const adminHash = "602d4f26694e823469146f25091763784860f4df215914101d2d38520261394c";
+    // Hash for 'developerrules'
+    const devHash = "455d61488c525f0e1dfbffcc13543d842236a2818a7a912177353986a3449171";
+
+    if (hashedInput === devHash) {
+        isDeveloper = true;
+        isAdmin = true;
+        sessionStorage.setItem('isDeveloper', 'true');
+        sessionStorage.setItem('isAdmin', 'true');
+        document.body.classList.add('admin-mode');
+        document.body.classList.add('dev-mode');
+        alert("💎 Welcome, Developer.");
+    } else if (hashedInput === adminHash) {
         isAdmin = true;
         sessionStorage.setItem('isAdmin', 'true');
         document.body.classList.add('admin-mode');
-        // Show panel if we are on chatroom page
-        const panel = document.getElementById('adminPanel');
-        if (panel) panel.classList.remove('hidden');
-        alert("✅ Admin Access Granted");
+        alert("🛡️ Admin Session Started.");
     } else {
-        alert("❌ Incorrect Password");
+        alert("❌ Denied.");
+        return;
     }
+
+    const panel = document.getElementById('adminPanel');
+    if (panel) panel.classList.remove('hidden');
 }
 
 function closeAdminPanel() {
