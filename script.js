@@ -725,19 +725,36 @@ function setupUser() {
 }
 
 function checkBanStatus() {
-    if (currentUser.id) {
-        database.ref('bans/' + currentUser.id).on('value', (snapshot) => {
-            if (snapshot.exists() && snapshot.val() === true) {
-                const input = document.getElementById('chatroomInput');
-                if (input) {
+    if (!currentUser.id) return;
+    database.ref('bans/' + currentUser.id).on('value', (snapshot) => {
+        const input = document.getElementById('chatroomInput');
+        const btn = document.getElementById('sendChatroomMessage');
+        if (!input || !btn) return;
+
+        if (snapshot.exists()) {
+            const expiry = snapshot.val();
+            const check = () => {
+                const now = Date.now();
+                if (now < expiry) {
+                    const remaining = Math.ceil((expiry - now) / 1000);
                     input.disabled = true;
-                    input.placeholder = "⛔ You are banned from this chat.";
-                    document.getElementById('sendChatroomMessage').disabled = true;
-                    alert('⛔ You have been BANNED from the chatroom by an administrator.');
+                    btn.disabled = true;
+                    input.placeholder = `⛔ Banned. Re-opens in ${remaining}s`;
+                    setTimeout(check, 1000);
+                } else {
+                    input.disabled = false;
+                    btn.disabled = false;
+                    input.placeholder = "Type a message...";
+                    database.ref('bans/' + currentUser.id).remove();
                 }
-            }
-        });
-    }
+            };
+            check();
+        } else {
+            input.disabled = false;
+            btn.disabled = false;
+            input.placeholder = "Type a message...";
+        }
+    });
 }
 
 function promptForNickname() {
@@ -1362,9 +1379,20 @@ function deleteFeedback(feedbackId) {
 
 function banUser(userId) {
     if (!isAdmin) return;
-    if (confirm("Ban this user?")) {
-        database.ref('bans/' + userId).set(true)
-            .then(() => alert("✅ User banned"))
+    if (confirm("Ban this user for 3 minutes?")) {
+        const expiry = Date.now() + (3 * 60 * 1000);
+        database.ref('bans/' + userId).set(expiry)
+            .then(() => alert("✅ User banned for 3 minutes"))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
+}
+
+function unbanUser() {
+    if (!isAdmin) return;
+    const userId = prompt("Enter the User ID to unban:");
+    if (userId) {
+        database.ref('bans/' + userId).remove()
+            .then(() => alert("✅ User unbanned! They can now chat again after refreshing."))
             .catch(err => alert("❌ Error: " + err.message));
     }
 }
