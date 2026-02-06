@@ -612,11 +612,15 @@ function initFirebaseForAnnouncements() {
 function setupGlobalAnnouncementListener() {
     if (!database) return;
     const globalAnnouncementRef = database.ref('global_announcements');
-    let lastAnnouncementTimestamp = 0;
+
+    // Initialize with current time so we only show announcements sent AFTER the page loaded
+    let lastAnnouncementTimestamp = Date.now();
 
     globalAnnouncementRef.on('value', (snapshot) => {
         if (!snapshot.exists()) return;
         const announcement = snapshot.val();
+
+        // Only show if the announcement is newer than our last seen/page load time
         if (announcement.timestamp && announcement.timestamp > lastAnnouncementTimestamp) {
             lastAnnouncementTimestamp = announcement.timestamp;
             showGlobalAnnouncement(announcement);
