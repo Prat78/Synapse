@@ -1196,8 +1196,15 @@ function updateBadgeUI(count) {
 let isAdmin = false;
 
 function adminLogin() {
+    // If already logged in, just show the panel and don't ask for password again
+    if (isAdmin) {
+        const panel = document.getElementById('adminPanel');
+        if (panel) panel.classList.remove('hidden');
+        return;
+    }
+
     const password = prompt("Enter Admin Password:");
-    // The password is now banammeriusmaximus
+    // The password is now banhammeriusmaximus
     if (password === "banhammeriusmaximus") {
         isAdmin = true;
         sessionStorage.setItem('isAdmin', 'true');
@@ -1264,5 +1271,4 @@ function sendGlobalBroadcast() {
 
 
 document.addEventListener("DOMContentLoaded", init);
-
 
