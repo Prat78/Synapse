@@ -98,7 +98,8 @@
             <a href="games.html" class="nav-underline text-gray-300 hover:text-white py-2">Games</a>
             <a href="proxy.html" class="nav-underline text-gray-300 hover:text-white py-2">Online Games</a>
             <a href="chatroom.html" class="nav-underline active text-gray-300 hover:text-white py-2 relative">Chatroom
-                <div class="chatroom-badge notif-badge">0</div></a>
+                <div class="chatroom-badge notif-badge">0</div>
+            </a>
             <a href="feedback.html" class="nav-underline text-gray-300 hover:text-white py-2">Feedback</a>
             <a href="policy.html" class="nav-underline text-gray-300 hover:text-white py-2">Policy</a>
         </div>
@@ -139,8 +140,10 @@
                                     class="fas fa-times mr-1"></i>Close</button>
                         </div>
                         <!-- simplified admin content for brevity, relying on user to use JS logic -->
-                        <button onclick="deleteAllMessages()" class="px-4 py-2 bg-red-600 rounded">Delete All
+                        <button onclick="deleteAllMessages()" class="px-4 py-2 bg-red-600 rounded mr-2">Delete All
                             Messages</button>
+                        <button onclick="sendGlobalBroadcast()" class="px-4 py-2 bg-blue-600 rounded">Global
+                            Broadcast</button>
                     </div>
                 </div>
 
