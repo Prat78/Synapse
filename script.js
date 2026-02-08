@@ -81,12 +81,16 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
     const POPULAR_KEYS = [
         "1v1",
         "gta",
+        "Steal a brainrot",
+        "Wrestle bros",
         "minecraft",
         "roblox",
         "subway-surfers",
         "fnaf",
         "slope",
         "retro-bowl",
+        "basketball bros"
+        "basketball stars"
         "geometry-dash",
         "happywheels",
         "cookie-clicker",
@@ -1412,4 +1416,5 @@ function sendGlobalBroadcast() {
 
 
 document.addEventListener("DOMContentLoaded", init);
+
 
