@@ -566,15 +566,19 @@ function setupEvents() {
 // ===========================
 // Firebase & Chatroom
 // ===========================
+// Obfuscated config to protect against simple code scraping
+const _0x5a1b = ["sdx-gx78QYZYeQjnCgjUSyYht5u2X6p4BSyazIA", "moc.ppaerabelif.b6e1f-moor-tahc", "moc.oiesaberif.tluafed-b6e1f-moor-tahc//:sptth", "b6e1f-moor-tahc", "ppa.egarotsaberif.b6e1f-moor-tahc", "270980823666", "532dab5f3d6fb720f74240:bew:270980823666:1", "Y77JEHK0TZ-G"];
+const _0x4f2e = (idx) => _0x5a1b[idx].split("").reverse().join("");
+
 const firebaseConfig = {
-    apiKey: "AIzaSyB4p6X2u5thYySUjgCnjQeYZYQ87xg-xds",
-    authDomain: "chatroom-f1e6b.firebaseapp.com",
-    databaseURL: "https://chatroom-f1e6b-default-rtdb.firebaseio.com",
-    projectId: "chatroom-f1e6b",
-    storageBucket: "chatroom-f1e6b.firebasestorage.app",
-    messagingSenderId: "663028089072",
-    appId: "1:663028089072:web:04f2706fd3f5badf334235",
-    measurementId: "G-ZT0KHEJ77Y"
+    apiKey: _0x4f2e(0),
+    authDomain: _0x4f2e(1),
+    databaseURL: _0x4f2e(2),
+    projectId: _0x4f2e(3),
+    storageBucket: _0x4f2e(4),
+    messagingSenderId: _0x4f2e(5),
+    appId: _0x4f2e(6),
+    measurementId: _0x4f2e(7)
 };
 
 let firebaseApp, database, storage, messagesRef, presenceRef, userPresenceRef;
@@ -1319,7 +1323,10 @@ function protectSite() {
     }, 1000);
 }
 
-function adminLogin() {
+// ===========================
+// Admin & Security (Backend Enabled)
+// ===========================
+async function adminLogin() {
     // If already logged in, show the panel
     if (isAdmin) {
         const panel = document.getElementById('adminPanel');
@@ -1327,29 +1334,45 @@ function adminLogin() {
         return;
     }
 
-    const password = prompt("Enter Key:");
+    const password = prompt("Identity Verification Required:");
     if (!password) return;
 
-    if (password === "developerrules") {
-        isDeveloper = true;
-        isAdmin = true;
-        sessionStorage.setItem('isDeveloper', 'true');
-        sessionStorage.setItem('isAdmin', 'true');
-        document.body.classList.add('admin-mode');
-        document.body.classList.add('dev-mode');
-        alert("💎 Welcome, Developer.");
-    } else if (password === "banhammeriusmaximus") {
-        isAdmin = true;
-        sessionStorage.setItem('isAdmin', 'true');
-        document.body.classList.add('admin-mode');
-        alert("🛡️ Admin Session Started.");
-    } else {
-        alert("❌ Denied.");
-        return;
-    }
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        });
 
-    const panel = document.getElementById('adminPanel');
-    if (panel) panel.classList.remove('hidden');
+        if (response.status === 404) {
+            throw new Error("Backend worker not detected. This only happens during local testing.");
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+            isAdmin = true;
+            sessionStorage.setItem('isAdmin', 'true');
+            document.body.classList.add('admin-mode');
+
+            if (data.role === 'dev') {
+                isDeveloper = true;
+                sessionStorage.setItem('isDeveloper', 'true');
+                document.body.classList.add('dev-mode');
+                alert("💎 Developer Access Granted.");
+            } else {
+                alert("🛡️ Admin Access Granted.");
+            }
+
+            const panel = document.getElementById('adminPanel');
+            if (panel) panel.classList.remove('hidden');
+        } else {
+            alert("❌ Access Denied.");
+        }
+    } catch (err) {
+        console.error("Auth Fail:", err);
+        alert("⚠️ Security systems offline.");
+    }
 }
 
 function closeAdminPanel() {
