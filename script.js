@@ -89,8 +89,8 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
         "fnaf",
         "slope",
         "retro-bowl",
-        "basketball bros"
-        "basketball stars"
+        "basketball bros",
+        "basketball stars",
         "geometry-dash",
         "happywheels",
         "cookie-clicker",
@@ -1416,4 +1416,5 @@ function sendGlobalBroadcast() {
 
 
 document.addEventListener("DOMContentLoaded", init);
+
 
