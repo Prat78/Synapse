@@ -212,59 +212,100 @@
             }
         }
 
-        /* Load Warning Popup Styles */
+        /* Load Warning Popup Styles - Centered & Enlarged */
         .load-warning {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
             background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-left: 5px solid #f59e0b;
-            padding: 20px;
-            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(245, 158, 11, 0.4);
+            border-top: 5px solid #f59e0b;
+            padding: 40px;
+            border-radius: 24px;
             color: white;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(245, 158, 11, 0.1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 158, 11, 0.2);
             z-index: 10002;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 18px;
-            transform: translateY(150%) scale(0.9);
-            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-            max-width: 400px;
+            justify-content: center;
+            text-align: center;
+            gap: 25px;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 600px;
+            width: 90%;
             pointer-events: none;
         }
 
         .load-warning.show {
-            transform: translateY(0) scale(1);
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
             pointer-events: auto;
         }
 
         .load-warning i {
             color: #f59e0b;
-            font-size: 24px;
-            filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.5));
+            font-size: 60px;
+            filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.6));
+            animation: warningPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes warningPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
         }
 
         .load-warning .warning-content {
-            flex: 1;
+            flex: none;
         }
 
         .load-warning .warning-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
+            font-size: 18px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.2em;
             color: #f59e0b;
-            margin-bottom: 4px;
-            font-weight: 700;
+            margin-bottom: 15px;
+            font-weight: 800;
         }
 
         .load-warning .warning-text {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #e2e8f0;
-            font-weight: 500;
+            font-size: 20px;
+            line-height: 1.6;
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .close-warning-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .close-warning-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
         }
     </style>
     <link
@@ -286,10 +327,10 @@
     <div id="loadWarning" class="load-warning">
         <i class="fas fa-exclamation-triangle"></i>
         <div class="warning-content">
-            <div class="warning-title">System Status</div>
-            <div class="warning-text">Games may load slowly as too many people are loading games at the same time.</div>
+            <div class="warning-title">Traffic Alert</div>
+            <div class="warning-text">Games may load slow as too many people are loading games at the same time</div>
         </div>
-    </div>
+        <button class="close-warning-btn" onclick="closeLoadWarning()">I Understand</button>
     </div>
     <div class="header">
         <a href="index.html" class="back">
@@ -380,6 +421,13 @@
                 console.error('Error loading game:', e);
                 alert('Error loading game. Redirecting back...');
                 window.location.href = 'index.html';
+            }
+        }
+
+        function closeLoadWarning() {
+            const warning = document.getElementById('loadWarning');
+            if (warning) {
+                warning.classList.remove('show');
             }
         }
 
