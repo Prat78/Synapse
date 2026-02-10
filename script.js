@@ -80,6 +80,9 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
 
     // 2. Define Popularity Order (Highest priority first)
     const POPULAR_KEYS = [
+        "brawl stars",
+        "basketball bros",
+        "bitlife",
         "1v1",
         "gta",
         "Steal a brainrot",
@@ -90,12 +93,10 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
         "fnaf",
         "slope",
         "retro-bowl",
-        "basketball bros",
         "basketball stars",
         "geometry-dash",
         "happywheels",
         "cookie-clicker",
-        "bitlife",
         "paperio2",
         "pacman",
         "bloonstd6",
