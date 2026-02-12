@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Game - Synapse AI Unblocked Games</title>
+    <meta name="description"
+        content="Play your favorite unblocked games directly in your browser with Synapse AI. Enjoy fast loading, full-screen mode, and a massive library of school-safe games.">
+    <meta name="keywords"
+        content="play games, unblocked games, browser games, Synapse gaming, school unblocked, free online games">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2579562384309427"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        secondary: "#8b5cf6",
+                        dark: "#0f172a",
+                        "dark-light": "#1e293b"
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: #000;
+            font-family: Arial
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100
+        }
+
+        .header a,
+        .header button {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px
+        }
+
+        .back {
+            background: rgba(255, 255, 255, 0.1)
+        }
+
+        .back:hover {
+            background: rgba(255, 255, 255, 0.2)
+        }
+
+        .fs {
+            background: rgba(59, 130, 246, 0.3);
+            color: #93c5fd
+        }
+
+        .fs:hover {
+            background: rgba(59, 130, 246, 0.5)
+        }
+
+        .title {
+            font-weight: bold;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .loading {
+            width: 100%;
+            height: 400px;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .game {
+            width: 100%;
+            height: calc(100vh - 100px);
+            /* Fill most of the viewport while keeping header visible */
+            min-height: 500px;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .game iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Theatre / Fullscreen Mode Fixes */
+        body.full .game {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            border-radius: 0;
+            margin: 0;
+        }
+
+        body.full #topSection,
+        body.full #header,
+        body.full footer {
+            display: none !important;
+        }
+
+        body.full {
+            overflow: hidden !important;
+        }
+
+        .close-theatre {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10001;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        body.full .close-theatre {
+            display: block;
+        }
+
+        .glassmorphism {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-bubble-ai {
+            background: #1e293b;
+            border-radius: 0 20px 20px 20px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .chat-bubble-user {
+            background: #3b82f6;
+            border-radius: 20px 20px 0 20px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            display: inline-block;
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(59, 130, 246, 0.3);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        body.full .header {
+            display: none
+        }
+
+        body.full .game {
+            top: 0
+        }
+
+        /* Announcement styles copy */
+        #globalAnnouncement {
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            z-index: 10001;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Orbitron', Arial;
+        }
+
+        #globalAnnouncement.active {
+            top: 60px;
+        }
+
+        .announcement-card {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid #8b5cf6;
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.4), inset 0 0 20px rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .announcement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+        }
+
+        .announcement-title {
+            color: #8b5cf6;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .announcement-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .announcement-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #64748b;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .announcement-close:hover {
+            color: white;
+        }
+
+        .neon-pulse {
+            animation: neonPulse 1.5s infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            from {
+                text-shadow: 0 0 5px #8b5cf6, 0 0 10px #8b5cf6;
+            }
+
+            to {
+                text-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6, 0 0 30px #8b5cf6;
+            }
+        }
+
+        /* Load Warning Popup Styles - Centered & Enlarged */
+        .load-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(245, 158, 11, 0.4);
+            border-top: 5px solid #f59e0b;
+            padding: 40px;
+            border-radius: 24px;
+            color: white;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 158, 11, 0.2);
+            z-index: 10002;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 25px;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 600px;
+            width: 90%;
+            pointer-events: none;
+        }
+
+        .load-warning.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .load-warning i {
+            color: #f59e0b;
+            font-size: 60px;
+            filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.6));
+            animation: warningPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes warningPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .load-warning .warning-content {
+            flex: none;
+        }
+
+        .load-warning .warning-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #f59e0b;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .load-warning .warning-text {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .close-warning-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .close-warning-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+    </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="globalAnnouncement">
+        <div class="announcement-card">
+            <div class="announcement-close" onclick="closeGlobalAnnouncement()"><i class="fas fa-times"></i></div>
+            <div class="announcement-title"><i class="fas fa-bullhorn neon-pulse mr-2"></i> Global Broadcast</div>
+            <div class="announcement-text" id="announcementText">Connecting...</div>
+        </div>
+    </div>
+
+    <!-- Load Warning Popup -->
+    <div id="loadWarning" class="load-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div class="warning-content">
+            <div class="warning-title">Traffic Alert</div>
+            <div class="warning-text">Games may load slow as too many people are loading games at the same time</div>
+        </div>
+        <button class="close-warning-btn" onclick="closeLoadWarning()">I Understand</button>
+    </div>
+    <div class="header" id="header">
+        <a href="index.html" class="back">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <span class="title" id="title">Loading...</span>
+            <button id="turboBtn" onclick="toggleTurbo()"
+                style="background: rgba(234, 179, 8, 0.2); color: #fbbf24; border: 1px solid rgba(234, 179, 8, 0.5); font-size: 12px; display: flex; align-items: center; gap: 5px;">
+                <i class="fas fa-bolt"></i> Turbo Mode: OFF
+            </button>
+        </div>
+        <button class="fs" onclick="goFull()">
+            <i class="fas fa-expand"></i> Fullscreen
+        </button>
+    </div>
+
+    <div id="topSection" class="pt-20 container mx-auto px-4 max-w-5xl">
+        <!-- AI Chat Section First -->
+        <div class="glassmorphism rounded-2xl overflow-hidden mb-6 flex flex-col shadow-lg mx-auto">
+            <!-- (Chat content remains same) -->
+            <div
+                class="p-3 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/5 to-secondary/5">
+                <div class="flex items-center">
+                    <div
+                        class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center">
+                        <i class="fas fa-robot text-white text-xs"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-semibold text-white">AI Assistant</h3>
+                        <p class="text-[10px] text-green-400">● Ready</p>
+                    </div>
+                </div>
+                <button onclick="resetSession()" class="p-1.5 hover:bg-white/10 rounded-lg transition-all">
+                    <i class="fas fa-redo text-gray-500 text-xs"></i>
+                </button>
+            </div>
+
+            <div id="chatMessages" class="h-[200px] overflow-y-auto p-4 space-y-3 bg-dark/20 text-sm">
+                <div class="flex items-start">
+                    <div
+                        class="w-6 h-6 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-[10px]"></i>
+                    </div>
+                    <div class="ml-2">
+                        <div class="chat-bubble-ai px-3 py-2 text-gray-300">
+                            <p>How can I help you play?</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="typingIndicator" class="flex items-start hidden">
+                    <div
+                        class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-[10px]"></i>
+                    </div>
+                    <div class="ml-2">
+                        <div class="chat-bubble-ai px-3 py-2">
+                            <div class="flex space-x-1">
+                                <span class="typing-dot w-1.5 h-1.5"></span>
+                                <span class="typing-dot w-1.5 h-1.5"></span>
+                                <span class="typing-dot w-1.5 h-1.5"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-3 border-t border-white/10 bg-dark-light/30">
+                <div class="flex space-x-2">
+                    <input type="text" id="chatInput" placeholder="Ask anything..."
+                        class="flex-1 bg-dark-light border border-white/10 rounded-full px-4 py-1.5 text-sm text-white focus:outline-none focus:border-primary">
+                    <button onclick="sendAiChat()"
+                        class="p-2 bg-primary/80 rounded-full hover:scale-105 transition-transform flex items-center justify-center w-9 h-9">
+                        <i class="fas fa-paper-plane text-white text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Info Section -->
+        <div class="glassmorphism p-8 rounded-2xl border border-white/10 mb-12 reveal">
+            <h2 class="text-3xl font-orbitron font-bold mb-4 text-primary" id="gameTitle">Loading Game Details...</h2>
+            <p class="text-gray-300 leading-relaxed text-lg mb-6" id="gameDescription">
+                Our AI systems are retrieving information about this unblocked game. Synapse AI provides safe,
+                high-speed access to the best browser entertainment.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <span class="px-4 py-1 bg-white/5 rounded-full text-xs text-gray-400 border border-white/10">Category:
+                    Unblocked</span>
+                <span class="px-4 py-1 bg-white/5 rounded-full text-xs text-gray-400 border border-white/10">Platform:
+                    HTML5 Browser</span>
+                <span class="px-4 py-1 bg-white/5 rounded-full text-xs text-gray-400 border border-white/10">AI Safety:
+                    Verified</span>
+            </div>
+        </div>
+
+        <!-- AI Game Strategy & Instructions -->
+        <div class="glassmorphism p-8 rounded-2xl border border-white/10 mb-12 reveal">
+            <h3 class="text-xl font-orbitron font-semibold mb-6 text-secondary flex items-center gap-2">
+                <i class="fas fa-microchip"></i> AI-Powered Game Analysis
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-400 text-sm">
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-white font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-bolt text-yellow-400 text-xs"></i> Performance Optimization
+                        </h4>
+                        <p class="leading-relaxed">
+                            Our neural network analyzes your browser's hardware acceleration capabilities to allocate
+                            the optimal amount of GPU memory.
+                        </p>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-white font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-keyboard text-primary text-xs"></i> Control Mapping
+                        </h4>
+                        <p class="leading-relaxed">
+                            Don't know the controls? Our AI Helper automatically detects the game engine and suggests
+                            mappings.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Width Game Container (No max-w constraint) -->
+    <button class="close-theatre" onclick="goFull()"><i class="fas fa-compress"></i> EXIT THEATRE</button>
+    <div id="gameSection" class="container mx-auto px-4 mb-20 scroll-mt-24">
+        <div id="gameContainer" class="reveal">
+            <div class="mb-4 flex items-center justify-between">
+                <h3 class="font-orbitron text-xl text-secondary flex items-center gap-2">
+                    <i class="fas fa-gamepad"></i> Game Viewport
+                </h3>
+                <button onclick="goFull()"
+                    class="px-4 py-2 bg-secondary/20 hover:bg-secondary/40 border border-secondary/50 rounded-lg text-secondary text-sm font-bold flex items-center gap-2 transition-all">
+                    <i class="fas fa-expand-arrows-alt"></i> THEATRE MODE
+                </button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p class="font-orbitron tracking-widest">NEURAL LINKING...</p>
+            </div>
+
+            <div class="game" id="game" style="display:none">
+                <iframe id="frame" allow="autoplay;fullscreen;gamepad" allowfullscreen
+                    title="Unblocked Game Player"></iframe>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SEO Internal Links -->
+    <footer
+        style="margin-top: 50px; padding: 20px; text-align: center; color: #4b5563; font-size: 12px; background: #0f172a;">
+        <div style="margin-bottom: 10px;">
+            <a href="index.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Home</a>
+            <a href="chat.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">AI Chat</a>
+            <a href="games.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Games</a>
+            <a href="proxy.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Online Games</a>
+            <a href="chatroom.html"
+                style="color: #60a5fa; margin: 0 10px; text-decoration: none; position: relative;">Chatroom <div
+                    class="chatroom-badge notif-badge">0</div></a>
+            <a href="feedback.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Feedback</a>
+            <a href="policy.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Policy</a>
+        </div>
+        <p>&copy; 2024 Synapse AI - Best Unblocked Games Platform</p>
+    </footer>
+
+    <script>
+        // Get game data from sessionStorage
+        var game = sessionStorage.getItem('currentGame');
+
+        if (!game) {
+            // No game data, redirect back
+            window.location.href = 'index.html';
+        } else {
+            try {
+                game = JSON.parse(game);
+
+                // Set title
+                const gameName = game.name || game.title || 'Game';
+                document.getElementById('title').textContent = gameName;
+                document.getElementById('gameTitle').textContent = gameName;
+                document.title = gameName + ' - Play Unblocked on Synapse AI';
+
+                // Set Description
+                if (game.description) {
+                    document.getElementById('gameDescription').textContent = game.description;
+                } else {
+                    document.getElementById('gameDescription').textContent = "Experience " + gameName + " on Synapse AI. Our AI-powered unblocked gaming platform ensures high-performance, school-safe gaming with zero lag. Play " + gameName + " unblocked now.";
+                }
+
+                // Load game in iframe
+                var iframe = document.getElementById('frame');
+                iframe.src = game.link;
+
+                // Show game container when iframe loads
+                iframe.onload = function () {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('game').style.display = 'block';
+                };
+
+
+                // Fallback: show game after 3 seconds even if onload doesn't fire
+                setTimeout(function () {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('game').style.display = 'block';
+                }, 3000);
+
+                // Show Load Warning Popup
+                setTimeout(function () {
+                    const warning = document.getElementById('loadWarning');
+                    if (warning) {
+                        warning.classList.add('show');
+                        // Auto-hide after 8 seconds
+                        setTimeout(() => {
+                            warning.classList.remove('show');
+                        }, 8000);
+                    }
+                }, 1000);
+
+            } catch (e) {
+                console.error('Error loading game:', e);
+                alert('Error loading game. Redirecting back...');
+                window.location.href = 'index.html';
+            }
+        }
+
+        function closeLoadWarning() {
+            const warning = document.getElementById('loadWarning');
+            if (warning) {
+                warning.classList.remove('show');
+            }
+        }
+
+        function goFull() {
+            const body = document.body;
+            const isFull = body.classList.toggle('full');
+
+            if (isFull) {
+                var elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        // Remove fullscreen class when exiting fullscreen
+        document.addEventListener('fullscreenchange', function () {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove('full');
+            }
+        });
+        document.addEventListener('webkitfullscreenchange', function () {
+            if (!document.webkitFullscreenElement) {
+                document.body.classList.remove('full');
+            }
+        });
+
+        // ===========================
+        // Turbo Mode Logic
+        // ===========================
+        let turboActive = false;
+
+        function toggleTurbo(silent = false) {
+            turboActive = !turboActive;
+            const btn = document.getElementById('turboBtn');
+            const iframe = document.getElementById('frame');
+
+            if (turboActive) {
+                // Activate Turbo
+                btn.style.background = "rgba(16, 185, 129, 0.3)";
+                btn.style.color = "#10b981";
+                btn.style.borderColor = "rgba(16, 185, 129, 0.5)";
+                btn.innerHTML = '<i class="fas fa-bolt animate-pulse"></i> Turbo: ON';
+
+                // 1. Extreme Memory Purge: Hide ALL non-essential DOM
+                const footer = document.querySelector('footer');
+                if (footer) footer.style.display = 'none';
+
+                // 2. Browser priority hint
+                if (iframe) {
+                    iframe.setAttribute('importance', 'high');
+                    // "Blink" the iframe to force a memory re-check
+                    iframe.style.opacity = "0.99";
+                    setTimeout(() => { if (iframe) iframe.style.opacity = "1"; }, 100);
+                }
+
+                // 3. Clear Parent Page memory
+                window.gc && window.gc();
+
+                if (!silent) {
+                    alert("🚀 EXTREME TURBO ACTIVE\n- Page memory cleared.\n- Iframe priority set to HIGH.\n\nNOTE: If lag returns, click Turbo OFF and then ON again to 'flush' the memory!");
+                }
+            } else {
+                // Deactivate
+                btn.style.background = "rgba(234, 179, 8, 0.2)";
+                btn.style.color = "#fbbf24";
+                btn.style.borderColor = "rgba(234, 179, 8, 0.5)";
+                btn.innerHTML = '<i class="fas fa-bolt"></i> Turbo: OFF';
+
+                const footer = document.querySelector('footer');
+                if (footer) footer.style.display = 'block';
+            }
+        }
+
+        // Auto-enable Turbo Mode when game starts
+        setTimeout(() => toggleTurbo(true), 100);
+
+        // ===========================
+        // AI Chat Logic for Play Page
+        // ===========================
+        let HF_API_URL = "https://ai.pratyush-singh365.workers.dev/generate";
+        let sessionId = crypto.randomUUID();
+
+        async function sendAiChat() {
+            const input = document.getElementById("chatInput");
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            addMessage(msg, "user");
+            input.value = "";
+
+            const typingIndicator = document.getElementById("typingIndicator");
+            typingIndicator.classList.remove("hidden");
+
+            const messagesContainer = document.getElementById("chatMessages");
+
+            const aiDiv = document.createElement("div");
+            aiDiv.className = "flex items-start";
+            aiDiv.innerHTML = `
+                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-robot text-[10px] text-white"></i>
+                </div>
+                <div class="ml-2">
+                    <div class="chat-bubble-ai px-3 py-2 text-gray-300 text-xs">
+                        <p class="streamText font-inter leading-relaxed"></p>
+                    </div>
+                </div>
+            `;
+            messagesContainer.insertBefore(aiDiv, typingIndicator);
+            const streamText = aiDiv.querySelector(".streamText");
+
+            try {
+                const response = await fetch(HF_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        prompt: msg,
+                        session_id: sessionId,
+                        max_tokens: 300
+                    })
+                });
+
+                if (!response.ok) throw new Error("Server asleep");
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let done = false;
+
+                while (!done) {
+                    const { value, done: doneReading } = await reader.read();
+                    done = doneReading;
+                    if (value) {
+                        const chunk = decoder.decode(value, { stream: true });
+                        streamText.innerHTML += chunk;
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                streamText.parentElement.classList.add('border-red-500/50', 'bg-red-500/5');
+                streamText.innerHTML = "<i class='fas fa-exclamation-triangle mr-2 text-red-500'></i> <b>System Offline:</b> Our neural links are currently resting. Please try again in a few minutes! 😴";
+            } finally {
+                typingIndicator.classList.add("hidden");
+            }
+        }
+
+        // Trigger Reveal Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        function addMessage(text, sender) {
+            const c = document.getElementById("chatMessages");
+            const t = document.getElementById("typingIndicator");
+            const d = document.createElement("div");
+
+            d.className = "flex items-start " + (sender === "user" ? "justify-end" : "");
+
+            if (sender === "user") {
+                d.innerHTML = `
+                    <div class="mr-2">
+                        <div class="chat-bubble-user px-3 py-2 text-white max-w-[85%] text-xs">
+                            <p>${text}</p>
+                        </div>
+                    </div>
+                    <div class="w-6 h-6 rounded-full bg-gray-700 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-user text-[10px] text-white"></i>
+                    </div>
+                `;
+            }
+            if (c) {
+                c.insertBefore(d, t);
+                c.scrollTop = c.scrollHeight;
+            }
+        }
+
+        function resetSession() {
+            sessionId = crypto.randomUUID();
+            document.getElementById("chatMessages").innerHTML = `
+                <div class="flex items-start">
+                    <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-[10px]"></i>
+                    </div>
+                    <div class="ml-2">
+                        <div class="chat-bubble-ai px-3 py-2 text-gray-300 text-xs">
+                            <p>Assistant reset. How can I help? 🧠</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="typingIndicator" class="flex items-start hidden">
+                    <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-[10px]"></i>
+                    </div>
+                    <div class="ml-2">
+                        <div class="chat-bubble-ai px-3 py-2">
+                            <div class="flex space-x-1">
+                                <span class="typing-dot w-1 h-1"></span>
+                                <span class="typing-dot w-1 h-1"></span>
+                                <span class="typing-dot w-1 h-1"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ===========================
+        // Global Broadcast Logic for Play Page
+        // ===========================
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB4p6X2u5thYySUjgCnjQeYZYQ87xg-xds",
+            authDomain: "chatroom-f1e6b.firebaseapp.com",
+            databaseURL: "https://chatroom-f1e6b-default-rtdb.firebaseio.com",
+            projectId: "chatroom-f1e6b",
+            storageBucket: "chatroom-f1e6b.firebasestorage.app",
+            messagingSenderId: "663028089072",
+            appId: "1:663028089072:web:04f2706fd3f5badf334235",
+            measurementId: "G-ZT0KHEJ77Y"
+        };
+
+        function initAnnouncements() {
+            if (typeof firebase === 'undefined') return;
+            try {
+                const app = firebase.initializeApp(firebaseConfig, "announcementApp");
+                const db = firebase.database(app);
+                const ref = db.ref('global_announcements');
+                let lastTimestamp = Date.now();
+
+                ref.on('value', (snapshot) => {
+                    if (!snapshot.exists()) return;
+                    const data = snapshot.val();
+                    if (data.timestamp && data.timestamp > lastTimestamp) {
+                        lastTimestamp = data.timestamp;
+                        showAnnouncement(data);
+                    }
+                });
+            } catch (e) { console.error(e); }
+        }
+
+        function showAnnouncement(data) {
+            const el = document.getElementById('globalAnnouncement');
+            const txt = document.getElementById('announcementText');
+            if (!el || !txt) return;
+
+            txt.innerHTML = data.adminName ? `<strong>From ${data.adminName}:</strong> ${data.text}` : data.text;
+            el.classList.add('active');
+            setTimeout(closeGlobalAnnouncement, 15000);
+        }
+
+        function closeGlobalAnnouncement() {
+            const el = document.getElementById('globalAnnouncement');
+            if (el) el.classList.remove('active');
+        }
+
+        // Load Firebase Scripts and init
+        (function loadFirebase() {
+            const scripts = [
+                "https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js",
+                "https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"
+            ];
+            let loaded = 0;
+            scripts.forEach(src => {
+                const s = document.createElement('script');
+                s.src = src;
+                s.onload = () => {
+                    loaded++;
+                    if (loaded === scripts.length) initAnnouncements();
+                };
+                document.head.appendChild(s);
+            });
+        })();
+
+        const chatInput = document.getElementById("chatInput");
+        if (chatInput) {
+            chatInput.addEventListener("keypress", e => {
+                if (e.key === "Enter") sendAiChat();
+            });
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
