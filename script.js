@@ -86,6 +86,7 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
         "1v1",
         "gta",
         "Steal a brainrot",
+        "Five nights at Epsteins",
         "Wrestle bros",
         "minecraft",
         "roblox",
@@ -1434,5 +1435,6 @@ function sendGlobalBroadcast() {
 
 
 document.addEventListener("DOMContentLoaded", init);
+
 
 
