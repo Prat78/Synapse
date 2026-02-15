@@ -348,10 +348,6 @@
         </a>
         <div style="display: flex; align-items: center; gap: 15px;">
             <span class="title" id="title">Loading...</span>
-            <button id="turboBtn" onclick="toggleTurbo()"
-                style="background: rgba(234, 179, 8, 0.2); color: #fbbf24; border: 1px solid rgba(234, 179, 8, 0.5); font-size: 12px; display: flex; align-items: center; gap: 5px;">
-                <i class="fas fa-bolt"></i> Turbo Mode: OFF
-            </button>
         </div>
         <button class="fs" onclick="goFull()">
             <i class="fas fa-expand"></i> Fullscreen
@@ -362,24 +358,45 @@
         <div class="flex flex-wrap items-center justify-center gap-6 mb-10">
             <!-- BOX AD LEFT -->
             <div class="ad-fixed-container ad-box hidden xl:flex">
-                <script
-                    type="text/javascript">atOptions = { 'key': 'cf6a125c26299b4a476c85e2b484cb3a', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };</script>
+                <script type="text/javascript">
+                    atOptions = {
+                        'key': 'cf6a125c26299b4a476c85e2b484cb3a',
+                        'format': 'iframe',
+                        'height': 250,
+                        'width': 300,
+                        'params': {}
+                    };
+                </script>
                 <script type="text/javascript"
                     src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
             </div>
 
             <!-- SCROLLABLE AD TOP -->
             <div class="ad-fixed-container ad-lb-top mx-0">
-                <script
-                    type="text/javascript">atOptions = { 'key': '24d82a14f251de0b584c1c1878965100', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };</script>
+                <script type="text/javascript">
+                    atOptions = {
+                        'key': '24d82a14f251de0b584c1c1878965100',
+                        'format': 'iframe',
+                        'height': 90,
+                        'width': 728,
+                        'params': {}
+                    };
+                </script>
                 <script type="text/javascript"
                     src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
             </div>
 
             <!-- BOX AD RIGHT -->
             <div class="ad-fixed-container ad-box hidden xl:flex">
-                <script
-                    type="text/javascript">atOptions = { 'key': 'cf6a125c26299b4a476c85e2b484cb3a', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };</script>
+                <script type="text/javascript">
+                    atOptions = {
+                        'key': 'cf6a125c26299b4a476c85e2b484cb3a',
+                        'format': 'iframe',
+                        'height': 250,
+                        'width': 300,
+                        'params': {}
+                    };
+                </script>
                 <script type="text/javascript"
                     src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
             </div>
@@ -388,7 +405,6 @@
         <div class="max-w-5xl mx-auto">
             <!-- AI Chat Section First -->
             <div class="glassmorphism rounded-2xl overflow-hidden mb-6 flex flex-col shadow-lg mx-auto">
-                <!-- (Chat content remains same) -->
                 <div
                     class="p-3 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/5 to-secondary/5">
                     <div class="flex items-center">
@@ -401,9 +417,6 @@
                             <p class="text-[10px] text-green-400">● Ready</p>
                         </div>
                     </div>
-                    <button onclick="resetSession()" class="p-1.5 hover:bg-white/10 rounded-lg transition-all">
-                        <i class="fas fa-redo text-gray-500 text-xs"></i>
-                    </button>
                 </div>
 
                 <div id="chatMessages" class="h-[200px] overflow-y-auto p-4 space-y-3 bg-dark/20 text-sm">
@@ -415,21 +428,6 @@
                         <div class="ml-2">
                             <div class="chat-bubble-ai px-3 py-2 text-gray-300">
                                 <p>How can I help you play?</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="typingIndicator" class="flex items-start hidden">
-                        <div
-                            class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-robot text-[10px]"></i>
-                        </div>
-                        <div class="ml-2">
-                            <div class="chat-bubble-ai px-3 py-2">
-                                <div class="flex space-x-1">
-                                    <span class="typing-dot w-1.5 h-1.5"></span>
-                                    <span class="typing-dot w-1.5 h-1.5"></span>
-                                    <span class="typing-dot w-1.5 h-1.5"></span>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -448,66 +446,27 @@
             </div>
 
             <!-- Game Info Section -->
-            <div class="glassmorphism p-8 rounded-2xl border border-white/10 mb-12 reveal">
-                <h2 class="text-3xl font-orbitron font-bold mb-4 text-primary" id="gameTitle">Loading Game Details...
-                </h2>
+            <div class="glassmorphism p-8 rounded-2xl border border-white/10 mb-12">
+                <h2 class="text-3xl font-orbitron font-bold mb-4 text-primary" id="gameTitle">Loading...</h2>
                 <p class="text-gray-300 leading-relaxed text-lg mb-6" id="gameDescription">
-                    Our AI systems are retrieving information about this unblocked game. Synapse AI provides safe,
-                    high-speed access to the best browser entertainment.
+                    Loading game description...
                 </p>
-                <div class="flex flex-wrap gap-4">
-                    <span
-                        class="px-4 py-1 bg-white/5 rounded-full text-xs text-gray-400 border border-white/10">Category:
-                        Unblocked</span>
-                    <span
-                        class="px-4 py-1 bg-white/5 rounded-full text-xs text-gray-400 border border-white/10">Platform:
-                        HTML5 Browser</span>
-                    <span class="px-4 py-1 bg-white/5 rounded-full text-xs text-gray-400 border border-white/10">AI
-                        Safety:
-                        Verified</span>
-                </div>
             </div>
 
             <!-- MID BOX AD -->
             <div class="flex justify-center mb-12">
                 <div class="ad-fixed-container ad-box">
-                    <script
-                        type="text/javascript">atOptions = { 'key': 'cf6a125c26299b4a476c85e2b484cb3a', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };</script>
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key': 'cf6a125c26299b4a476c85e2b484cb3a',
+                            'format': 'iframe',
+                            'height': 250,
+                            'width': 300,
+                            'params': {}
+                        };
+                    </script>
                     <script type="text/javascript"
                         src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
-                </div>
-            </div>
-
-            <!-- AI Game Strategy & Instructions -->
-            <div class="glassmorphism p-8 rounded-2xl border border-white/10 mb-12 reveal">
-                <h3 class="text-xl font-orbitron font-semibold mb-6 text-secondary flex items-center gap-2">
-                    <i class="fas fa-microchip"></i> AI-Powered Game Analysis
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-400 text-sm">
-                    <div class="space-y-6">
-                        <div>
-                            <h4 class="text-white font-semibold mb-2 flex items-center gap-2">
-                                <i class="fas fa-bolt text-yellow-400 text-xs"></i> Performance Optimization
-                            </h4>
-                            <p class="leading-relaxed">
-                                Our neural network analyzes your browser's hardware acceleration capabilities to
-                                allocate
-                                the optimal amount of GPU memory.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="space-y-6">
-                        <div>
-                            <h4 class="text-white font-semibold mb-2 flex items-center gap-2">
-                                <i class="fas fa-keyboard text-primary text-xs"></i> Control Mapping
-                            </h4>
-                            <p class="leading-relaxed">
-                                Don't know the controls? Our AI Helper automatically detects the game engine and
-                                suggests
-                                mappings.
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -516,28 +475,56 @@
         <div class="flex flex-wrap justify-center gap-10 mb-12">
             <div class="flex flex-col gap-10">
                 <div class="ad-fixed-container ad-side-left">
-                    <script
-                        type="text/javascript">atOptions = { 'key': '81f56b1bdcad21cd55ab223c4f4c2c92', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };</script>
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
+                            'format': 'iframe',
+                            'height': 600,
+                            'width': 160,
+                            'params': {}
+                        };
+                    </script>
                     <script type="text/javascript"
                         src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
                 </div>
                 <div class="ad-fixed-container ad-side-left">
-                    <script
-                        type="text/javascript">atOptions = { 'key': '81f56b1bdcad21cd55ab223c4f4c2c92', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };</script>
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
+                            'format': 'iframe',
+                            'height': 600,
+                            'width': 160,
+                            'params': {}
+                        };
+                    </script>
                     <script type="text/javascript"
                         src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
                 </div>
             </div>
             <div class="flex flex-col gap-10">
                 <div class="ad-fixed-container ad-side-right">
-                    <script
-                        type="text/javascript">atOptions = { 'key': '81f56b1bdcad21cd55ab223c4f4c2c92', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };</script>
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
+                            'format': 'iframe',
+                            'height': 600,
+                            'width': 160,
+                            'params': {}
+                        };
+                    </script>
                     <script type="text/javascript"
                         src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
                 </div>
                 <div class="ad-fixed-container ad-side-right">
-                    <script
-                        type="text/javascript">atOptions = { 'key': '81f56b1bdcad21cd55ab223c4f4c2c92', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };</script>
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
+                            'format': 'iframe',
+                            'height': 600,
+                            'width': 160,
+                            'params': {}
+                        };
+                    </script>
                     <script type="text/javascript"
                         src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
                 </div>
@@ -545,10 +532,10 @@
         </div>
     </div>
 
-    <!-- Full Width Game Container (No max-w constraint) -->
+    <!-- Full Width Game Container -->
     <button class="close-theatre" onclick="goFull()"><i class="fas fa-compress"></i> EXIT THEATRE</button>
-    <div id="gameSection" class="container mx-auto px-4 mb-20 scroll-mt-24">
-        <div id="gameContainer" class="reveal">
+    <div id="gameSection" class="container mx-auto px-4 mb-20">
+        <div id="gameContainer">
             <div class="mb-4 flex items-center justify-between">
                 <h3 class="font-orbitron text-xl text-secondary flex items-center gap-2">
                     <i class="fas fa-gamepad"></i> Game Viewport
@@ -569,23 +556,25 @@
                     title="Unblocked Game Player"></iframe>
             </div>
         </div>
-
     </div>
-
-
-
 
     <!-- BOTTOM AD LEADERBOARD -->
     <div class="container mx-auto px-4 flex justify-center mb-10">
         <div class="ad-fixed-container ad-lb-bottom">
-            <script
-                type="text/javascript">atOptions = { 'key': '24d82a14f251de0b584c1c1878965100', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };</script>
+            <script type="text/javascript">
+                atOptions = {
+                    'key': '24d82a14f251de0b584c1c1878965100',
+                    'format': 'iframe',
+                    'height': 90,
+                    'width': 728,
+                    'params': {}
+                };
+            </script>
             <script type="text/javascript"
                 src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
         </div>
     </div>
 
-    <!-- SEO Internal Links -->
     <footer
         style="margin-top: 50px; padding: 20px; text-align: center; color: #4b5563; font-size: 12px; background: #0f172a;">
         <div style="margin-bottom: 10px;">
@@ -593,9 +582,7 @@
             <a href="chat.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">AI Chat</a>
             <a href="games.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Games</a>
             <a href="proxy.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Online Games</a>
-            <a href="chatroom.html"
-                style="color: #60a5fa; margin: 0 10px; text-decoration: none; position: relative;">Chatroom <div
-                    class="chatroom-badge notif-badge">0</div></a>
+            <a href="chatroom.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Chatroom</a>
             <a href="feedback.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Feedback</a>
             <a href="policy.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Policy</a>
         </div>
@@ -603,363 +590,52 @@
     </footer>
 
     <script>
-        // Get game data from sessionStorage
         var game = sessionStorage.getItem('currentGame');
-
         if (!game) {
-            // No game data, redirect back
             window.location.href = 'index.html';
         } else {
             try {
                 game = JSON.parse(game);
-
-                // Set title
                 const gameName = game.name || game.title || 'Game';
                 document.getElementById('title').textContent = gameName;
                 document.getElementById('gameTitle').textContent = gameName;
                 document.title = gameName + ' - Play Unblocked on Synapse AI';
 
-                // Set Description
                 if (game.description) {
                     document.getElementById('gameDescription').textContent = game.description;
                 } else {
-                    document.getElementById('gameDescription').textContent = "Experience " + gameName + " on Synapse AI. Our AI-powered unblocked gaming platform ensures high-performance, school-safe gaming with zero lag. Play " + gameName + " unblocked now.";
+                    document.getElementById('gameDescription').textContent = "Experience " + gameName + " on Synapse AI.";
                 }
 
-                // Load game in iframe
                 var iframe = document.getElementById('frame');
                 iframe.src = game.link;
-
-                // Show game container when iframe loads
                 iframe.onload = function () {
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('game').style.display = 'block';
                 };
 
-
-                // Fallback: show game after 3 seconds even if onload doesn't fire
                 setTimeout(function () {
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('game').style.display = 'block';
-                }, 3000);
-
-
-
+                }, 5000);
             } catch (e) {
-                console.error('Error loading game:', e);
-                alert('Error loading game. Redirecting back...');
                 window.location.href = 'index.html';
             }
         }
 
-
-
         function goFull() {
             const body = document.body;
             const isFull = body.classList.toggle('full');
-
             if (isFull) {
                 var elem = document.documentElement;
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen();
-                } else if (elem.msRequestFullscreen) {
-                    elem.msRequestFullscreen();
-                }
+                if (elem.requestFullscreen) elem.requestFullscreen();
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
+                if (document.exitFullscreen) document.exitFullscreen();
             }
-        }
-
-        // Remove fullscreen class when exiting fullscreen
-        document.addEventListener('fullscreenchange', function () {
-            if (!document.fullscreenElement) {
-                document.body.classList.remove('full');
-            }
-        });
-        document.addEventListener('webkitfullscreenchange', function () {
-            if (!document.webkitFullscreenElement) {
-                document.body.classList.remove('full');
-            }
-        });
-
-        // ===========================
-        // Turbo Mode Logic
-        // ===========================
-        let turboActive = false;
-
-        function toggleTurbo(silent = false) {
-            turboActive = !turboActive;
-            const btn = document.getElementById('turboBtn');
-            const iframe = document.getElementById('frame');
-
-            if (turboActive) {
-                // Activate Turbo
-                btn.style.background = "rgba(16, 185, 129, 0.3)";
-                btn.style.color = "#10b981";
-                btn.style.borderColor = "rgba(16, 185, 129, 0.5)";
-                btn.innerHTML = '<i class="fas fa-bolt animate-pulse"></i> Turbo: ON';
-
-                // 1. Extreme Memory Purge: Hide ALL non-essential DOM
-                const footer = document.querySelector('footer');
-                if (footer) footer.style.display = 'none';
-
-                // 2. Browser priority hint
-                if (iframe) {
-                    iframe.setAttribute('importance', 'high');
-                    // "Blink" the iframe to force a memory re-check
-                    iframe.style.opacity = "0.99";
-                    setTimeout(() => { if (iframe) iframe.style.opacity = "1"; }, 100);
-                }
-
-                // 3. Clear Parent Page memory
-                window.gc && window.gc();
-
-                if (!silent) {
-                    alert("🚀 EXTREME TURBO ACTIVE\n- Page memory cleared.\n- Iframe priority set to HIGH.\n\nNOTE: If lag returns, click Turbo OFF and then ON again to 'flush' the memory!");
-                }
-            } else {
-                // Deactivate
-                btn.style.background = "rgba(234, 179, 8, 0.2)";
-                btn.style.color = "#fbbf24";
-                btn.style.borderColor = "rgba(234, 179, 8, 0.5)";
-                btn.innerHTML = '<i class="fas fa-bolt"></i> Turbo: OFF';
-
-                const footer = document.querySelector('footer');
-                if (footer) footer.style.display = 'block';
-            }
-        }
-
-        // Auto-enable Turbo Mode when game starts
-        setTimeout(() => toggleTurbo(true), 100);
-
-        // ===========================
-        // AI Chat Logic for Play Page
-        // ===========================
-        let HF_API_URL = "https://ai.pratyush-singh365.workers.dev/generate";
-        let sessionId = crypto.randomUUID();
-
-        async function sendAiChat() {
-            const input = document.getElementById("chatInput");
-            const msg = input.value.trim();
-            if (!msg) return;
-
-            addMessage(msg, "user");
-            input.value = "";
-
-            const typingIndicator = document.getElementById("typingIndicator");
-            typingIndicator.classList.remove("hidden");
-
-            const messagesContainer = document.getElementById("chatMessages");
-
-            const aiDiv = document.createElement("div");
-            aiDiv.className = "flex items-start";
-            aiDiv.innerHTML = `
-                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-robot text-[10px] text-white"></i>
-                </div>
-                <div class="ml-2">
-                    <div class="chat-bubble-ai px-3 py-2 text-gray-300 text-xs">
-                        <p class="streamText font-inter leading-relaxed"></p>
-                    </div>
-                </div>
-            `;
-            messagesContainer.insertBefore(aiDiv, typingIndicator);
-            const streamText = aiDiv.querySelector(".streamText");
-
-            try {
-                const response = await fetch(HF_API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        prompt: msg,
-                        session_id: sessionId,
-                        max_tokens: 300
-                    })
-                });
-
-                if (!response.ok) throw new Error("Server asleep");
-
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let done = false;
-
-                while (!done) {
-                    const { value, done: doneReading } = await reader.read();
-                    done = doneReading;
-                    if (value) {
-                        const chunk = decoder.decode(value, { stream: true });
-                        streamText.innerHTML += chunk;
-                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                    }
-                }
-            } catch (err) {
-                console.error(err);
-                streamText.parentElement.classList.add('border-red-500/50', 'bg-red-500/5');
-                streamText.innerHTML = "<i class='fas fa-exclamation-triangle mr-2 text-red-500'></i> <b>System Offline:</b> Our neural links are currently resting. Please try again in a few minutes! 😴";
-            } finally {
-                typingIndicator.classList.add("hidden");
-            }
-        }
-
-        // Trigger Reveal Animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        function addMessage(text, sender) {
-            const c = document.getElementById("chatMessages");
-            const t = document.getElementById("typingIndicator");
-            const d = document.createElement("div");
-
-            d.className = "flex items-start " + (sender === "user" ? "justify-end" : "");
-
-            if (sender === "user") {
-                d.innerHTML = `
-                    <div class="mr-2">
-                        <div class="chat-bubble-user px-3 py-2 text-white max-w-[85%] text-xs">
-                            <p>${text}</p>
-                        </div>
-                    </div>
-                    <div class="w-6 h-6 rounded-full bg-gray-700 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-user text-[10px] text-white"></i>
-                    </div>
-                `;
-            }
-            if (c) {
-                c.insertBefore(d, t);
-                c.scrollTop = c.scrollHeight;
-            }
-        }
-
-        function resetSession() {
-            sessionId = crypto.randomUUID();
-            document.getElementById("chatMessages").innerHTML = `
-                <div class="flex items-start">
-                    <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-robot text-[10px]"></i>
-                    </div>
-                    <div class="ml-2">
-                        <div class="chat-bubble-ai px-3 py-2 text-gray-300 text-xs">
-                            <p>Assistant reset. How can I help? 🧠</p>
-                        </div>
-                    </div>
-                </div>
-                <div id="typingIndicator" class="flex items-start hidden">
-                    <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-robot text-[10px]"></i>
-                    </div>
-                    <div class="ml-2">
-                        <div class="chat-bubble-ai px-3 py-2">
-                            <div class="flex space-x-1">
-                                <span class="typing-dot w-1 h-1"></span>
-                                <span class="typing-dot w-1 h-1"></span>
-                                <span class="typing-dot w-1 h-1"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // ===========================
-        // Global Broadcast Logic for Play Page
-        // ===========================
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB4p6X2u5thYySUjgCnjQeYZYQ87xg-xds",
-            authDomain: "chatroom-f1e6b.firebaseapp.com",
-            databaseURL: "https://chatroom-f1e6b-default-rtdb.firebaseio.com",
-            projectId: "chatroom-f1e6b",
-            storageBucket: "chatroom-f1e6b.firebasestorage.app",
-            messagingSenderId: "663028089072",
-            appId: "1:663028089072:web:04f2706fd3f5badf334235",
-            measurementId: "G-ZT0KHEJ77Y"
-        };
-
-        function initAnnouncements() {
-            if (typeof firebase === 'undefined') return;
-            try {
-                const app = firebase.initializeApp(firebaseConfig, "announcementApp");
-                const db = firebase.database(app);
-                const ref = db.ref('global_announcements');
-                let lastTimestamp = Date.now();
-
-                ref.on('value', (snapshot) => {
-                    if (!snapshot.exists()) return;
-                    const data = snapshot.val();
-                    if (data.timestamp && data.timestamp > lastTimestamp) {
-                        lastTimestamp = data.timestamp;
-                        showAnnouncement(data);
-                    }
-                });
-            } catch (e) { console.error(e); }
-        }
-
-        function showAnnouncement(data) {
-            const el = document.getElementById('globalAnnouncement');
-            const txt = document.getElementById('announcementText');
-            if (!el || !txt) return;
-
-            txt.innerHTML = data.adminName ? `<strong>From ${data.adminName}:</strong> ${data.text}` : data.text;
-            el.classList.add('active');
-            setTimeout(closeGlobalAnnouncement, 15000);
-        }
-
-        function closeGlobalAnnouncement() {
-            const el = document.getElementById('globalAnnouncement');
-            if (el) el.classList.remove('active');
-        }
-
-        // Load Firebase Scripts and init
-        (function loadFirebase() {
-            const scripts = [
-                "https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js",
-                "https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"
-            ];
-            let loaded = 0;
-            scripts.forEach(src => {
-                const s = document.createElement('script');
-                s.src = src;
-                s.onload = () => {
-                    loaded++;
-                    if (loaded === scripts.length) initAnnouncements();
-                };
-                document.head.appendChild(s);
-            });
-        })();
-
-        const chatInput = document.getElementById("chatInput");
-        if (chatInput) {
-            chatInput.addEventListener("keypress", e => {
-                if (e.key === "Enter") sendAiChat();
-            });
         }
     </script>
     <script src="script.js"></script>
-
-    <div id="loadingScreen" class="loading-screen">
-        <div class="flex flex-col items-center text-center px-4">
-            <div class="loading-dots mb-8">
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
-            </div>
-            <div class="text-primary font-orbitron tracking-[0.3em] text-sm animate-pulse" id="loadingStatus">
-                ESTABLISHING NEURAL LINK...
-            </div>
-        </div>
-    </div>
+    <div id="loadingScreen" class="loading-screen" style="display: none;"></div>
 </body>
 
 </html>
