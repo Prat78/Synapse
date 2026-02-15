@@ -142,8 +142,33 @@
 
         body.full #topSection,
         body.full #header,
-        body.full footer {
+        body.full footer,
+        body.full .ad-fixed-container {
             display: none !important;
+        }
+
+        body.full #gameContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+
+        body.full #gameContainer .mb-4,
+        body.full #gameContainer h3 {
+            display: none !important;
+        }
+
+        body.full .game {
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+            margin: 0;
         }
 
         body.full {
@@ -571,11 +596,18 @@
         function goFull() {
             const body = document.body;
             const isFull = body.classList.toggle('full');
+
             if (isFull) {
                 var elem = document.documentElement;
-                if (elem.requestFullscreen) elem.requestFullscreen();
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen().catch(err => {
+                        console.warn('Fullscreen entry failed:', err);
+                    });
+                }
             } else {
-                if (document.exitFullscreen) document.exitFullscreen();
+                if (document.fullscreenElement && document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
             }
         }
     </script>
