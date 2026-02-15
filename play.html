@@ -354,24 +354,9 @@
         </button>
     </div>
 
-    <div id="topSection" class="pt-20 container mx-auto px-4 max-w-screen-2xl">
+    <div id="topSection" class="pt-20 container mx-auto px-4 max-w-[2000px]">
         <div class="flex flex-wrap items-center justify-center gap-6 mb-10">
-            <!-- BOX AD LEFT -->
-            <div class="ad-fixed-container ad-box hidden xl:flex">
-                <script type="text/javascript">
-                    atOptions = {
-                        'key': 'cf6a125c26299b4a476c85e2b484cb3a',
-                        'format': 'iframe',
-                        'height': 250,
-                        'width': 300,
-                        'params': {}
-                    };
-                </script>
-                <script type="text/javascript"
-                    src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
-            </div>
-
-            <!-- SCROLLABLE AD TOP -->
+            <!-- LEADERBOARD AD TOP -->
             <div class="ad-fixed-container ad-lb-top mx-0">
                 <script type="text/javascript">
                     atOptions = {
@@ -385,123 +370,122 @@
                 <script type="text/javascript"
                     src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
             </div>
-
-            <!-- BOX AD RIGHT -->
-            <div class="ad-fixed-container ad-box hidden xl:flex">
-                <script type="text/javascript">
-                    atOptions = {
-                        'key': 'cf6a125c26299b4a476c85e2b484cb3a',
-                        'format': 'iframe',
-                        'height': 250,
-                        'width': 300,
-                        'params': {}
-                    };
-                </script>
-                <script type="text/javascript"
-                    src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
-            </div>
         </div>
 
-        <div class="max-w-5xl mx-auto">
-            <!-- AI Chat Section First -->
-            <div class="glassmorphism rounded-2xl overflow-hidden mb-6 flex flex-col shadow-lg mx-auto">
-                <div
-                    class="p-3 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/5 to-secondary/5">
-                    <div class="flex items-center">
-                        <div
-                            class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center">
-                            <i class="fas fa-robot text-white text-xs"></i>
-                        </div>
-                        <div class="ml-3">
-                            <h3 class="text-sm font-semibold text-white">AI Assistant</h3>
-                            <p class="text-[10px] text-green-400">● Ready</p>
-                        </div>
-                    </div>
+        <div class="flex flex-col lg:flex-row gap-8 items-start justify-center">
+            <!-- LEFT SIDEBAR AD -->
+            <div class="hidden xl:flex flex-col gap-10 w-40 flex-shrink-0">
+                <div class="ad-fixed-container ad-side-left">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
+                            'format': 'iframe',
+                            'height': 600,
+                            'width': 160,
+                            'params': {}
+                        };
+                    </script>
+                    <script type="text/javascript"
+                        src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
                 </div>
+            </div>
 
-                <div id="chatMessages" class="h-[200px] overflow-y-auto p-4 space-y-3 bg-dark/20 text-sm">
-                    <div class="flex items-start">
-                        <div
-                            class="w-6 h-6 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-robot text-[10px]"></i>
-                        </div>
-                        <div class="ml-2">
-                            <div class="chat-bubble-ai px-3 py-2 text-gray-300">
-                                <p>How can I help you play?</p>
+            <!-- MAIN CONTENT AREA -->
+            <div class="flex-grow max-w-5xl mx-auto">
+                <!-- AI Chat Section First -->
+                <div class="glassmorphism rounded-2xl overflow-hidden mb-6 flex flex-col shadow-lg mx-auto">
+                    <div
+                        class="p-3 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/5 to-secondary/5">
+                        <div class="flex items-center">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center">
+                                <i class="fas fa-robot text-white text-xs"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-semibold text-white">AI Assistant</h3>
+                                <p class="text-[10px] text-green-400">● Ready</p>
                             </div>
                         </div>
                     </div>
+
+                    <div id="chatMessages" class="h-[200px] overflow-y-auto p-4 space-y-3 bg-dark/20 text-sm">
+                        <div class="flex items-start">
+                            <div
+                                class="w-6 h-6 rounded-full bg-gradient-to-br from-primary/50 to-secondary/50 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-robot text-[10px]"></i>
+                            </div>
+                            <div class="ml-2">
+                                <div class="chat-bubble-ai px-3 py-2 text-gray-300">
+                                    <p>How can I help you play?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 border-t border-white/10 bg-dark-light/30">
+                        <div class="flex space-x-2">
+                            <input type="text" id="chatInput" placeholder="Ask anything..."
+                                class="flex-1 bg-dark-light border border-white/10 rounded-full px-4 py-1.5 text-sm text-white focus:outline-none focus:border-primary">
+                            <button onclick="sendAiChat()"
+                                class="p-2 bg-primary/80 rounded-full hover:scale-105 transition-transform flex items-center justify-center w-9 h-9">
+                                <i class="fas fa-paper-plane text-white text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="p-3 border-t border-white/10 bg-dark-light/30">
-                    <div class="flex space-x-2">
-                        <input type="text" id="chatInput" placeholder="Ask anything..."
-                            class="flex-1 bg-dark-light border border-white/10 rounded-full px-4 py-1.5 text-sm text-white focus:outline-none focus:border-primary">
-                        <button onclick="sendAiChat()"
-                            class="p-2 bg-primary/80 rounded-full hover:scale-105 transition-transform flex items-center justify-center w-9 h-9">
-                            <i class="fas fa-paper-plane text-white text-xs"></i>
+                <!-- Game Info Section -->
+                <div class="glassmorphism p-8 rounded-2xl border border-white/10 mb-12">
+                    <h2 class="text-3xl font-orbitron font-bold mb-4 text-primary" id="gameTitle">Loading...</h2>
+                    <p class="text-gray-300 leading-relaxed text-lg mb-6" id="gameDescription">
+                        Loading game description...
+                    </p>
+                </div>
+
+                <!-- BOX AD IN MAIN AREA -->
+                <div class="flex justify-center mb-12">
+                    <div class="ad-fixed-container ad-box">
+                        <script type="text/javascript">
+                            atOptions = {
+                                'key': 'cf6a125c26299b4a476c85e2b484cb3a',
+                                'format': 'iframe',
+                                'height': 250,
+                                'width': 300,
+                                'params': {}
+                            };
+                        </script>
+                        <script type="text/javascript"
+                            src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
+                    </div>
+                </div>
+
+                <!-- Full Width Game Container (No max-w constraint) -->
+                <button class="close-theatre" onclick="goFull()"><i class="fas fa-compress"></i> EXIT THEATRE</button>
+                <div id="gameContainer" class="mb-20">
+                    <div class="mb-4 flex items-center justify-between">
+                        <h3 class="font-orbitron text-xl text-secondary flex items-center gap-2">
+                            <i class="fas fa-gamepad"></i> Game Viewport
+                        </h3>
+                        <button onclick="goFull()"
+                            class="px-4 py-2 bg-secondary/20 hover:bg-secondary/40 border border-secondary/50 rounded-lg text-secondary text-sm font-bold flex items-center gap-2 transition-all">
+                            <i class="fas fa-expand-arrows-alt"></i> THEATRE MODE
                         </button>
+                    </div>
+
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p class="font-orbitron tracking-widest">NEURAL LINKING...</p>
+                    </div>
+
+                    <div class="game" id="game" style="display:none">
+                        <iframe id="frame" allow="autoplay;fullscreen;gamepad" allowfullscreen
+                            title="Unblocked Game Player"></iframe>
                     </div>
                 </div>
             </div>
 
-            <!-- Game Info Section -->
-            <div class="glassmorphism p-8 rounded-2xl border border-white/10 mb-12">
-                <h2 class="text-3xl font-orbitron font-bold mb-4 text-primary" id="gameTitle">Loading...</h2>
-                <p class="text-gray-300 leading-relaxed text-lg mb-6" id="gameDescription">
-                    Loading game description...
-                </p>
-            </div>
-
-            <!-- MID BOX AD -->
-            <div class="flex justify-center mb-12">
-                <div class="ad-fixed-container ad-box">
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key': 'cf6a125c26299b4a476c85e2b484cb3a',
-                            'format': 'iframe',
-                            'height': 250,
-                            'width': 300,
-                            'params': {}
-                        };
-                    </script>
-                    <script type="text/javascript"
-                        src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
-                </div>
-            </div>
-        </div>
-
-        <!-- SCROLLABLE SIDEBARS ROW -->
-        <div class="flex flex-wrap justify-center gap-10 mb-12">
-            <div class="flex flex-col gap-10">
-                <div class="ad-fixed-container ad-side-left">
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
-                            'format': 'iframe',
-                            'height': 600,
-                            'width': 160,
-                            'params': {}
-                        };
-                    </script>
-                    <script type="text/javascript"
-                        src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
-                </div>
-                <div class="ad-fixed-container ad-side-left">
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
-                            'format': 'iframe',
-                            'height': 600,
-                            'width': 160,
-                            'params': {}
-                        };
-                    </script>
-                    <script type="text/javascript"
-                        src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
-                </div>
-            </div>
-            <div class="flex flex-col gap-10">
+            <!-- RIGHT SIDEBAR AD -->
+            <div class="hidden xl:flex flex-col gap-10 w-40 flex-shrink-0">
                 <div class="ad-fixed-container ad-side-right">
                     <script type="text/javascript">
                         atOptions = {
@@ -515,45 +499,6 @@
                     <script type="text/javascript"
                         src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
                 </div>
-                <div class="ad-fixed-container ad-side-right">
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
-                            'format': 'iframe',
-                            'height': 600,
-                            'width': 160,
-                            'params': {}
-                        };
-                    </script>
-                    <script type="text/javascript"
-                        src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Full Width Game Container -->
-    <button class="close-theatre" onclick="goFull()"><i class="fas fa-compress"></i> EXIT THEATRE</button>
-    <div id="gameSection" class="container mx-auto px-4 mb-20">
-        <div id="gameContainer">
-            <div class="mb-4 flex items-center justify-between">
-                <h3 class="font-orbitron text-xl text-secondary flex items-center gap-2">
-                    <i class="fas fa-gamepad"></i> Game Viewport
-                </h3>
-                <button onclick="goFull()"
-                    class="px-4 py-2 bg-secondary/20 hover:bg-secondary/40 border border-secondary/50 rounded-lg text-secondary text-sm font-bold flex items-center gap-2 transition-all">
-                    <i class="fas fa-expand-arrows-alt"></i> THEATRE MODE
-                </button>
-            </div>
-
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p class="font-orbitron tracking-widest">NEURAL LINKING...</p>
-            </div>
-
-            <div class="game" id="game" style="display:none">
-                <iframe id="frame" allow="autoplay;fullscreen;gamepad" allowfullscreen
-                    title="Unblocked Game Player"></iframe>
             </div>
         </div>
     </div>
