@@ -570,18 +570,7 @@
                 }
 
                 var iframe = document.getElementById('frame');
-
-                // --- UNIVERSAL PROXY ROUTING ---
-                var proxyBase = "https://muddy-dust-5dcd.pratyush-singh365.workers.dev";
-
-                // Check if the game is already using our proxy (Legacy Mode)
-                if (game.link.startsWith(proxyBase)) {
-                    iframe.src = game.link;
-                } else {
-                    // It's an external game (e.g. Eaglercraft). Wrap it for Universal Mode.
-                    // This relies on the Cloudflare Worker update you just made.
-                    iframe.src = proxyBase + "?url=" + encodeURIComponent(game.link);
-                }
+                iframe.src = game.link;
                 iframe.onload = function () {
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('game').style.display = 'block';
