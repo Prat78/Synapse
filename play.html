@@ -570,7 +570,18 @@
                 }
 
                 var iframe = document.getElementById('frame');
-                iframe.src = game.link;
+
+                // --- UNIVERSAL PROXY ROUTING ---
+                var proxyBase = "https://muddy-dust-5dcd.pratyush-singh365.workers.dev";
+
+                // Check if the game is already using our proxy (Legacy Mode)
+                if (game.link.startsWith(proxyBase)) {
+                    iframe.src = game.link;
+                } else {
+                    // It's an external game (e.g. Eaglercraft). Wrap it for Universal Mode.
+                    // This relies on the Cloudflare Worker update you just made.
+                    iframe.src = proxyBase + "?url=" + encodeURIComponent(game.link);
+                }
                 iframe.onload = function () {
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('game').style.display = 'block';
@@ -607,7 +618,7 @@
     <script>
         function lazyLoadAds() {
             const placeholders = document.querySelectorAll('.ad-placeholder');
-            console.log("Synapse Ad Engine: Initializing " + placeholders.length + " ad units.");
+            console.log("Synapse Ad Engine: Found " + placeholders.length + " units on play page.");
 
             placeholders.forEach((placeholder, index) => {
                 setTimeout(() => {
@@ -615,48 +626,46 @@
                     const height = placeholder.getAttribute('data-height');
                     const width = placeholder.getAttribute('data-width');
 
-                    if (!key) return;
+                    console.log("Synapse: Initializing unit " + key);
 
-                    // 1. Clear loading state
+                    // 1. Remove loading state
                     placeholder.classList.remove('ad-placeholder');
                     placeholder.innerHTML = '';
 
-                    // 2. Create Adsterra Iframe using srcdoc (most reliable method)
+                    // 2. Isolate in iframe to prevent atOptions clash
                     const iframe = document.createElement('iframe');
                     iframe.width = width;
                     iframe.height = height;
                     iframe.frameBorder = "0";
                     iframe.scrolling = "no";
                     iframe.style.border = "none";
-                    iframe.style.overflow = "hidden";
-
-                    // This creates a self-contained environment for the Adsterra script
-                    iframe.srcdoc = `
-                        <body style="margin:0;padding:0;background:transparent;">
-                            <script type="text/javascript">
-                                atOptions = {
-                                    'key' : '${key}',
-                                    'format' : 'iframe',
-                                    'height' : ${height},
-                                    'width' : ${width},
-                                    'params' : {}
-                                };
-                            <\/script>
-                            <script type="text/javascript" src="//www.highperformanceformat.com/${key}/invoke.js"><\/script>
-                        </body>
-                    `;
 
                     placeholder.appendChild(iframe);
-                }, index * 800); // 800ms stagger is safer for multi-ad loading
+
+                    const doc = iframe.contentWindow.document || iframe.contentDocument;
+                    doc.open();
+                    doc.write(`
+                        <body style="margin:0;padding:0;background:transparent;">
+                            <script type="text/javascript">
+                                atOptions = { 'key': '${key}', 'format': 'iframe', 'height': ${height}, 'width': ${width}, 'params': {} };
+                            <\/script>
+                            <script type="text/javascript" src="https://www.highperformanceformat.com/${key}/invoke.js"><\/script>
+                        </body>
+                    `);
+                    doc.close();
+                }, index * 1200);
             });
         }
 
-        // TRIGGER ADS PROMPTLY
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', lazyLoadAds);
-        } else {
-            lazyLoadAds();
-        }
+        // AGGRESSIVE TRIGGER
+        let adInitTry = 0;
+        const adInitInterval = setInterval(() => {
+            adInitTry++;
+            if (document.readyState === 'complete' || adInitTry > 10) {
+                clearInterval(adInitInterval);
+                lazyLoadAds();
+            }
+        }, 500);
     </script>
     <div id="loadingScreen" class="loading-screen" style="display: none;"></div>
 </body>
