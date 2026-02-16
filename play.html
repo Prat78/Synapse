@@ -97,6 +97,32 @@
             -webkit-text-fill-color: transparent
         }
 
+        .ad-fixed-container {
+            min-height: 250px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ad-placeholder::after {
+            content: 'Loading Ad...';
+            position: absolute;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.2);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .ad-side-left,
+        .ad-side-right {
+            min-height: 600px;
+        }
+
         .loading {
             width: 100%;
             height: 400px;
@@ -133,12 +159,8 @@
         body.full footer,
         body.full .ad-fixed-container,
         body.full .glassmorphism,
-        body.full #topSection>div:first-child,
-        /* Hide Top Ad Leaderboard */
-        body.full #topSection>div:nth-child(2)>div:first-child,
-        /* Hide Left Ad Column */
-        body.full #topSection>div:nth-child(2)>div:last-child {
-            /* Hide Right Ad Column */
+        body.full .sidebar-left,
+        body.full .sidebar-right {
             display: none !important;
         }
 
@@ -398,39 +420,22 @@
     </div>
 
     <div id="topSection" class="pt-20 container mx-auto px-4 max-w-[2000px]">
-        <div class="flex flex-wrap items-center justify-center gap-6 mb-10">
-            <!-- LEADERBOARD AD TOP -->
-            <div class="ad-fixed-container ad-lb-top mx-0">
-                <script type="text/javascript">
-                    atOptions = {
-                        'key': '24d82a14f251de0b584c1c1878965100',
-                        'format': 'iframe',
-                        'height': 90,
-                        'width': 728,
-                        'params': {}
-                    };
-                </script>
-                <script type="text/javascript"
-                    src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
+        <!-- SCROLL BANNER -->
+        <div class="mb-10 text-center animate-bounce">
+            <div
+                class="inline-flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 border border-primary/30 rounded-full backdrop-blur-md">
+                <i class="fas fa-chevron-circle-down text-primary text-xl"></i>
+                <span class="font-orbitron font-bold tracking-[0.2em] text-white">SCROLL DOWN TO PLAY GAME</span>
+                <i class="fas fa-chevron-circle-down text-primary text-xl"></i>
             </div>
         </div>
-
         <div class="flex flex-col lg:flex-row gap-8 items-start justify-center">
             <!-- LEFT SIDEBAR AD -->
-            <div class="hidden xl:flex flex-col gap-10 w-40 flex-shrink-0">
-                <div class="ad-fixed-container ad-side-left">
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
-                            'format': 'iframe',
-                            'height': 600,
-                            'width': 160,
-                            'params': {}
-                        };
-                    </script>
-                    <script type="text/javascript"
-                        src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
-                </div>
+            <div class="sidebar-left hidden lg:flex flex-col gap-10 w-40 flex-shrink-0 sticky top-24 self-start">
+                <div class="ad-fixed-container ad-placeholder ad-side-left" data-key="81f56b1bdcad21cd55ab223c4f4c2c92"
+                    data-height="600" data-width="160"></div>
+                <div class="ad-fixed-container ad-placeholder ad-side-left" data-key="81f56b1bdcad21cd55ab223c4f4c2c92"
+                    data-height="600" data-width="160"></div>
             </div>
 
             <!-- MAIN CONTENT AREA -->
@@ -487,19 +492,8 @@
 
                 <!-- BOX AD IN MAIN AREA -->
                 <div class="flex justify-center mb-12">
-                    <div class="ad-fixed-container ad-box">
-                        <script type="text/javascript">
-                            atOptions = {
-                                'key': 'cf6a125c26299b4a476c85e2b484cb3a',
-                                'format': 'iframe',
-                                'height': 250,
-                                'width': 300,
-                                'params': {}
-                            };
-                        </script>
-                        <script type="text/javascript"
-                            src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
-                    </div>
+                    <div class="ad-fixed-container ad-placeholder ad-box" data-key="cf6a125c26299b4a476c85e2b484cb3a"
+                        data-height="250" data-width="300"></div>
                 </div>
 
                 <!-- Full Width Game Container (No max-w constraint) -->
@@ -528,39 +522,19 @@
             </div>
 
             <!-- RIGHT SIDEBAR AD -->
-            <div class="hidden xl:flex flex-col gap-10 w-40 flex-shrink-0">
-                <div class="ad-fixed-container ad-side-right">
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key': '81f56b1bdcad21cd55ab223c4f4c2c92',
-                            'format': 'iframe',
-                            'height': 600,
-                            'width': 160,
-                            'params': {}
-                        };
-                    </script>
-                    <script type="text/javascript"
-                        src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
-                </div>
+            <div class="sidebar-right hidden lg:flex flex-col gap-10 w-40 flex-shrink-0 sticky top-24 self-start">
+                <div class="ad-fixed-container ad-placeholder ad-side-right" data-key="81f56b1bdcad21cd55ab223c4f4c2c92"
+                    data-height="600" data-width="160"></div>
+                <div class="ad-fixed-container ad-placeholder ad-side-right" data-key="81f56b1bdcad21cd55ab223c4f4c2c92"
+                    data-height="600" data-width="160"></div>
             </div>
         </div>
     </div>
 
     <!-- BOTTOM AD LEADERBOARD -->
     <div class="container mx-auto px-4 flex justify-center mb-10">
-        <div class="ad-fixed-container ad-lb-bottom">
-            <script type="text/javascript">
-                atOptions = {
-                    'key': '24d82a14f251de0b584c1c1878965100',
-                    'format': 'iframe',
-                    'height': 90,
-                    'width': 728,
-                    'params': {}
-                };
-            </script>
-            <script type="text/javascript"
-                src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
-        </div>
+        <div class="ad-fixed-container ad-placeholder ad-lb-bottom" data-key="24d82a14f251de0b584c1c1878965100"
+            data-height="90" data-width="728"></div>
     </div>
 
     <footer
@@ -630,6 +604,60 @@
         }
     </script>
     <script src="script.js"></script>
+    <script>
+        function lazyLoadAds() {
+            const placeholders = document.querySelectorAll('.ad-placeholder');
+            console.log("Synapse Ad Engine: Initializing " + placeholders.length + " ad units.");
+
+            placeholders.forEach((placeholder, index) => {
+                setTimeout(() => {
+                    const key = placeholder.getAttribute('data-key');
+                    const height = placeholder.getAttribute('data-height');
+                    const width = placeholder.getAttribute('data-width');
+
+                    if (!key) return;
+
+                    // 1. Clear loading state
+                    placeholder.classList.remove('ad-placeholder');
+                    placeholder.innerHTML = '';
+
+                    // 2. Create Adsterra Iframe using srcdoc (most reliable method)
+                    const iframe = document.createElement('iframe');
+                    iframe.width = width;
+                    iframe.height = height;
+                    iframe.frameBorder = "0";
+                    iframe.scrolling = "no";
+                    iframe.style.border = "none";
+                    iframe.style.overflow = "hidden";
+
+                    // This creates a self-contained environment for the Adsterra script
+                    iframe.srcdoc = `
+                        <body style="margin:0;padding:0;background:transparent;">
+                            <script type="text/javascript">
+                                atOptions = {
+                                    'key' : '${key}',
+                                    'format' : 'iframe',
+                                    'height' : ${height},
+                                    'width' : ${width},
+                                    'params' : {}
+                                };
+                            <\/script>
+                            <script type="text/javascript" src="//www.highperformanceformat.com/${key}/invoke.js"><\/script>
+                        </body>
+                    `;
+
+                    placeholder.appendChild(iframe);
+                }, index * 800); // 800ms stagger is safer for multi-ad loading
+            });
+        }
+
+        // TRIGGER ADS PROMPTLY
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', lazyLoadAds);
+        } else {
+            lazyLoadAds();
+        }
+    </script>
     <div id="loadingScreen" class="loading-screen" style="display: none;"></div>
 </body>
 
