@@ -1441,4 +1441,3 @@ function sendGlobalBroadcast() {
 document.addEventListener("DOMContentLoaded", init);
 
 
-
