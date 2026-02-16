@@ -278,6 +278,13 @@ function addMessage(text, sender) {
 // ===========================
 var currentCategory = 'all';
 var searchQuery = '';
+const AUTH_TOKEN_KEY = "synapse_auth_token";
+// Must match the token in Cloudflare Worker
+const VALID_TOKEN = "synapse_secure_882_alpha_delta_fox";
+
+function isAuth() {
+    return sessionStorage.getItem(AUTH_TOKEN_KEY) === VALID_TOKEN;
+}
 
 // ===========================
 // Initialization Function
@@ -349,16 +356,13 @@ function init() {
     // Initialize Chat Notifications Badge
     initChatNotifications();
 
-    // Restore Admin/Dev Mode if previously logged in this session
-    if (sessionStorage.getItem('isAdmin') === 'true') {
-        isAdmin = true;
+    // Restore Admin/Dev Mode if valid token exists
+    if (isAuth()) {
         document.body.classList.add('admin-mode');
-    }
-    if (sessionStorage.getItem('isDeveloper') === 'true') {
-        isDeveloper = true;
-        isAdmin = true; // Developers are also admins
-        document.body.classList.add('admin-mode');
-        document.body.classList.add('dev-mode');
+        // Check local storage for role flavor (dev vs admin) just for UI style
+        if (sessionStorage.getItem('role') === 'dev') {
+            document.body.classList.add('dev-mode');
+        }
     }
 
     // Page specific init
@@ -1326,7 +1330,7 @@ function protectSite() {
 
 async function adminLogin() {
     // If already logged in, show the panel
-    if (isAdmin) {
+    if (isAuth()) {
         const panel = document.getElementById('adminPanel');
         if (panel) panel.classList.remove('hidden');
         return;
@@ -1336,7 +1340,8 @@ async function adminLogin() {
     if (!password) return;
 
     try {
-        const response = await fetch('/login', {
+        // Sending password to Cloudflare Worker for verification against ENV variables
+        const response = await fetch('https://muddy-dust-5dcd.pratyush-singh365.workers.dev/auth', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password })
@@ -1344,18 +1349,17 @@ async function adminLogin() {
 
         const data = await response.json();
 
-        if (data.success) {
+        if (data.success && data.token) {
+            // Save the Secure Token
+            sessionStorage.setItem(AUTH_TOKEN_KEY, data.token);
+            sessionStorage.setItem('role', data.role);
+
+            // UI Updates
             if (data.role === 'dev') {
-                isDeveloper = true;
-                isAdmin = true;
-                sessionStorage.setItem('isDeveloper', 'true');
-                sessionStorage.setItem('isAdmin', 'true');
                 document.body.classList.add('admin-mode');
                 document.body.classList.add('dev-mode');
-                alert("💎 Welcome, Developer.");
+                alert("💎 Welcome, Developer (Authenticated).");
             } else if (data.role === 'admin') {
-                isAdmin = true;
-                sessionStorage.setItem('isAdmin', 'true');
                 document.body.classList.add('admin-mode');
                 alert("🛡️ Admin Session Started.");
             }
@@ -1363,7 +1367,7 @@ async function adminLogin() {
             const panel = document.getElementById('adminPanel');
             if (panel) panel.classList.remove('hidden');
         } else {
-            alert("❌ Denied: " + (data.message || "Invalid Key"));
+            alert("❌ Denied: " + (data.message || "Invalid Credentials"));
         }
     } catch (e) {
         console.error("Login Error:", e);
@@ -1377,7 +1381,7 @@ function closeAdminPanel() {
 }
 
 function deleteAllMessages() {
-    if (!isAdmin) return;
+    if (!isAuth()) return;
     if (confirm("Are you sure you want to delete ALL messages in " + currentRoom + "?")) {
         database.ref(`chatroom/${currentRoom}/messages`).remove()
             .then(() => alert("✅ All messages deleted"))
@@ -1386,13 +1390,13 @@ function deleteAllMessages() {
 }
 
 function deleteMessage(messageId) {
-    if (!isAdmin) return;
+    if (!isAuth()) return;
     database.ref(`chatroom/${currentRoom}/messages/${messageId}`).remove()
         .catch(err => console.error("Delete error:", err));
 }
 
 function deleteFeedback(feedbackId) {
-    if (!isAdmin) return;
+    if (!isAuth()) return;
     if (confirm("Delete this feedback?")) {
         database.ref('feedback/' + feedbackId).remove()
             .then(() => alert("✅ Feedback deleted"))
@@ -1401,7 +1405,7 @@ function deleteFeedback(feedbackId) {
 }
 
 function banUser(userId) {
-    if (!isAdmin) return;
+    if (!isAuth()) return;
     if (confirm("Ban this user for 3 minutes?")) {
         const expiry = Date.now() + (3 * 60 * 1000);
         database.ref('bans/' + userId).set(expiry)
@@ -1411,7 +1415,7 @@ function banUser(userId) {
 }
 
 function unbanUser() {
-    if (!isAdmin) return;
+    if (!isAuth()) return;
     const userId = prompt("Enter the User ID to unban:");
     if (userId) {
         database.ref('bans/' + userId).remove()
@@ -1421,7 +1425,7 @@ function unbanUser() {
 }
 
 function sendGlobalBroadcast() {
-    if (!isAdmin) return;
+    if (!isAuth()) return;
     const text = prompt("Enter global broadcast message:");
     if (text) {
         database.ref('global_announcements').set({
