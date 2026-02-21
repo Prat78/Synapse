@@ -172,7 +172,7 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
 // ===========================
 // AI Configuration
 // ===========================
-let HF_API_URL = "https://shy-field-e0e2.synapse-corp-dev.workers.dev/generate";
+let HF_API_URL = "https://ai.pratyush-singh365.workers.dev/generate";
 let sessionId = crypto.randomUUID();
 
 async function sendChat() {
@@ -1483,5 +1483,6 @@ function sendGlobalBroadcast() {
 
 
 document.addEventListener("DOMContentLoaded", init);
+
 
 
