@@ -172,7 +172,7 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
 // ===========================
 // AI Configuration
 // ===========================
-let HF_API_URL = "https://withered-bonus-e238.synapse-corp-dev.workers.dev/generate";
+let HF_API_URL = "https://shy-field-e0e2.synapse-corp-dev.workers.dev/generate";
 let sessionId = crypto.randomUUID();
 
 async function sendChat() {
@@ -546,6 +546,7 @@ function renderGames() {
     });
 
     container.innerHTML = html;
+    document.dispatchEvent(new CustomEvent('gamesRendered'));
 }
 
 function playGame(i) {
@@ -831,10 +832,18 @@ function listenToMessages() {
     if (!container) return;
     container.innerHTML = '';
 
-    messagesRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
+    // Remove existing listeners if any (though usually managed by switchRoom .off())
+    messagesRef.orderByChild('timestamp').limitToLast(100).on('child_added', (snapshot) => {
         const msg = snapshot.val();
         msg.id = snapshot.key;
         displayMessage(msg);
+        updateTotalCount();
+    });
+
+    messagesRef.on('child_removed', (snapshot) => {
+        const msgId = snapshot.key;
+        const msgEl = document.querySelector(`[data-message-id="${msgId}"]`);
+        if (msgEl) msgEl.remove();
         updateTotalCount();
     });
 }
@@ -1363,7 +1372,7 @@ async function adminLogin() {
 
     try {
         // Sending password to Cloudflare Worker for verification against ENV variables
-        const response = await fetch('https://withered-bonus-e238.synapse-corp-dev.workers.dev/auth', {
+        const response = await fetch('https://shy-field-e0e2.synapse-corp-dev.workers.dev/auth', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password })
@@ -1402,8 +1411,12 @@ function closeAdminPanel() {
 
 function deleteAllMessages() {
     if (!isAuth()) return;
+    if (!messagesRef) {
+        alert("❌ Error: Message reference not initialized.");
+        return;
+    }
     if (confirm("Are you sure you want to delete ALL messages in " + currentRoom + "?")) {
-        database.ref(`chatroom/${currentRoom}/messages`).remove()
+        messagesRef.remove()
             .then(() => alert("✅ All messages deleted"))
             .catch(err => alert("❌ Error: " + err.message));
     }
@@ -1411,8 +1424,16 @@ function deleteAllMessages() {
 
 function deleteMessage(messageId) {
     if (!isAuth()) return;
-    database.ref(`chatroom/${currentRoom}/messages/${messageId}`).remove()
-        .catch(err => console.error("Delete error:", err));
+    if (!messagesRef) return;
+
+    messagesRef.child(messageId).remove()
+        .then(() => {
+            console.log("Message deleted:", messageId);
+        })
+        .catch(err => {
+            console.error("Delete error:", err);
+            alert("❌ Error deleting message: " + err.message);
+        });
 }
 
 function deleteFeedback(feedbackId) {
