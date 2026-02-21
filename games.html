@@ -262,52 +262,47 @@
             const placeholders = document.querySelectorAll('.ad-placeholder');
             console.log("Synapse Ad Engine: Found " + placeholders.length + " units.");
 
-            placeholders.forEach((placeholder, index) => {
-                setTimeout(() => {
-                    const key = placeholder.getAttribute('data-key');
-                    const height = placeholder.getAttribute('data-height');
-                    const width = placeholder.getAttribute('data-width');
+            placeholders.forEach((placeholder) => {
+                const key = placeholder.getAttribute('data-key');
+                const height = placeholder.getAttribute('data-height');
+                const width = placeholder.getAttribute('data-width');
 
-                    console.log("Synapse: Loading unit " + key);
+                console.log("Synapse: Loading unit " + key);
 
-                    // 1. Remove the loading class immediately
-                    placeholder.classList.remove('ad-placeholder');
-                    placeholder.innerHTML = '';
+                // 1. Remove the loading class immediately
+                placeholder.classList.remove('ad-placeholder');
+                placeholder.innerHTML = '';
 
-                    // 2. Wrap in an iframe to prevent variable collisions (atOptions)
-                    const iframe = document.createElement('iframe');
-                    iframe.width = width;
-                    iframe.height = height;
-                    iframe.frameBorder = "0";
-                    iframe.scrolling = "no";
-                    iframe.style.border = "none";
+                // 2. Wrap in an iframe to prevent variable collisions (atOptions)
+                const iframe = document.createElement('iframe');
+                iframe.width = width;
+                iframe.height = height;
+                iframe.frameBorder = "0";
+                iframe.scrolling = "no";
+                iframe.style.border = "none";
 
-                    placeholder.appendChild(iframe);
+                placeholder.appendChild(iframe);
 
-                    const doc = iframe.contentWindow.document || iframe.contentDocument;
-                    doc.open();
-                    doc.write(`
-                        <body style="margin:0;padding:0;background:transparent;">
-                            <script type="text/javascript">
-                                atOptions = { 'key': '${key}', 'format': 'iframe', 'height': ${height}, 'width': ${width}, 'params': {} };
-                            <\/script>
-                            <script type="text/javascript" src="https://www.highperformanceformat.com/${key}/invoke.js"><\/script>
-                        </body>
-                    `);
-                    doc.close();
-                }, index * 1200);
+                const doc = iframe.contentWindow.document || iframe.contentDocument;
+                doc.open();
+                doc.write(`
+                    <body style="margin:0;padding:0;background:transparent;">
+                        <script type="text/javascript">
+                            atOptions = { 'key': '${key}', 'format': 'iframe', 'height': ${height}, 'width': ${width}, 'params': {} };
+                        <\/script>
+                        <script type="text/javascript" src="https://www.highperformanceformat.com/${key}/invoke.js"><\/script>
+                    </body>
+                `);
+                doc.close();
             });
         }
 
-        // AGGRESSIVE TRIGGER: Run as soon as possible
-        let adInitTry = 0;
-        const adInitInterval = setInterval(() => {
-            adInitTry++;
-            if (document.readyState === 'complete' || adInitTry > 10) {
-                clearInterval(adInitInterval);
-                lazyLoadAds();
-            }
-        }, 500);
+        // INSTANT TRIGGER: Run as soon as DOM is ready
+        if (document.readyState !== 'loading') {
+            lazyLoadAds();
+        } else {
+            document.addEventListener('DOMContentLoaded', lazyLoadAds);
+        }
     </script>
     <div id="loadingScreen" class="loading-screen" style="display: none;"></div>
 </body>
