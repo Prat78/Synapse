@@ -184,17 +184,8 @@
 
             <div class="flex flex-col lg:flex-row gap-8 items-start justify-center">
                 <!-- LEFT SCROLLABLE AD EDGE -->
-                <div class="hidden lg:flex flex-col gap-10 w-40 flex-shrink-0">
-                    <div class="ad-fixed-container ad-placeholder ad-side-left"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
-                    <div class="ad-fixed-container ad-placeholder ad-side-left"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
-                    <div class="ad-fixed-container ad-placeholder ad-side-left"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
-                    <div class="ad-fixed-container ad-placeholder ad-side-left"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
-                    <div class="ad-fixed-container ad-placeholder ad-side-left"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
+                <div id="leftAds" class="hidden lg:flex flex-col gap-10 w-40 flex-shrink-0">
+                    <!-- Dynamic Ads go here -->
                 </div>
 
                 <div class="flex-grow">
@@ -202,17 +193,8 @@
                 </div>
 
                 <!-- RIGHT SCROLLABLE AD EDGE -->
-                <div class="hidden lg:flex flex-col gap-10 w-40 flex-shrink-0">
-                    <div class="ad-fixed-container ad-placeholder ad-side-right"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
-                    <div class="ad-fixed-container ad-placeholder ad-side-right"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
-                    <div class="ad-fixed-container ad-placeholder ad-side-right"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
-                    <div class="ad-fixed-container ad-placeholder ad-side-right"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
-                    <div class="ad-fixed-container ad-placeholder ad-side-right"
-                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
+                <div id="rightAds" class="hidden lg:flex flex-col gap-10 w-40 flex-shrink-0">
+                    <!-- Dynamic Ads go here -->
                 </div>
             </div>
         </div>
@@ -297,12 +279,44 @@
             });
         }
 
-        // INSTANT TRIGGER: Run as soon as DOM is ready
-        if (document.readyState !== 'loading') {
+        function fillSidebars() {
+            const leftAds = document.getElementById('leftAds');
+            const rightAds = document.getElementById('rightAds');
+            const gamesGrid = document.getElementById('gamesGrid');
+
+            if (!leftAds || !rightAds || !gamesGrid) return;
+
+            // Simple logic: add ads based on height of gamesGrid
+            const gridHeight = gamesGrid.offsetHeight;
+            const adHeightWithGap = 700; // 600px ad + gap
+            const count = Math.ceil(gridHeight / adHeightWithGap) + 1;
+
+            leftAds.innerHTML = '';
+            rightAds.innerHTML = '';
+
+            for (let i = 0; i < count; i++) {
+                const adHtml = `
+                    <div class="ad-fixed-container ad-placeholder ad-side-left"
+                        data-key="81f56b1bdcad21cd55ab223c4f4c2c92" data-height="600" data-width="160"></div>
+                `;
+                leftAds.insertAdjacentHTML('beforeend', adHtml);
+                rightAds.insertAdjacentHTML('beforeend', adHtml);
+            }
+
             lazyLoadAds();
-        } else {
-            document.addEventListener('DOMContentLoaded', lazyLoadAds);
         }
+
+        // Run when games are rendered
+        document.addEventListener('gamesRendered', () => {
+            console.log("Games rendered event received, filling sidebars...");
+            fillSidebars();
+        });
+
+        // Instant trigger on load
+        window.addEventListener('load', () => {
+            // Initial fill after short delay to ensure rendering is complete
+            setTimeout(fillSidebars, 1000);
+        });
     </script>
     <div id="loadingScreen" class="loading-screen" style="display: none;"></div>
 </body>
