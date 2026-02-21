@@ -281,6 +281,7 @@ var searchQuery = '';
 // ===========================
 // Secure Auth & Session Management
 // ===========================
+const AUTH_TOKEN_KEY = 'synapse_auth_token';
 const AuthManager = (function () {
     let _role = 'user';
     let _token = null;
