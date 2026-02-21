@@ -1445,7 +1445,10 @@ function unbanUser() {
 }
 
 function sendGlobalBroadcast() {
-    if (!isAuth()) return;
+    if (!AuthManager.isDeveloper()) {
+        alert("🔒 Access Denied: Only Developers can send global broadcasts.");
+        return;
+    }
     const text = prompt("Enter global broadcast message:");
     if (text) {
         database.ref('global_announcements').set({
