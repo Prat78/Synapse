@@ -875,14 +875,14 @@ function displayMessage(msg) {
     } else {
         if (isOwn) {
             msgDiv.innerHTML = `
-                <div class="text-right mr-3 max-w-md">
+                <div class="text-right mr-3 max-w-3xl lg:max-w-4xl">
                     <div class="flex items-center justify-end mb-1">
                         <span class="text-xs text-gray-500 mr-2">${time}</span>
                         ${msg.role === 'dev' ? '<span class="role-badge dev-badge">DEVELOPER</span>' : ''}
                         ${msg.role === 'admin' ? '<span class="role-badge admin-badge">ADMIN</span>' : ''}
                         <span class="text-sm font-semibold text-primary ml-2">${escapeHtml(msg.nickname)}</span>
                     </div>
-                    <div class="chat-bubble-user p-3">${messageContent}</div>
+                    <div class="chat-bubble-user p-3 inline-block text-left">${messageContent}</div>
                     <div class="admin-only mt-1">
                         <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
                     </div>
@@ -891,14 +891,14 @@ function displayMessage(msg) {
         } else {
             msgDiv.innerHTML = `
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xs"></i></div>
-                <div class="ml-3 flex-1 min-w-0">
+                <div class="ml-3 flex-1 min-w-0 max-w-3xl lg:max-w-4xl">
                     <div class="flex items-center mb-1">
                         ${msg.role === 'dev' ? '<span class="role-badge dev-badge">DEVELOPER</span>' : ''}
                         ${msg.role === 'admin' ? '<span class="role-badge admin-badge">ADMIN</span>' : ''}
                         <span class="text-sm font-semibold text-secondary ml-2">${escapeHtml(msg.nickname)}</span>
                         <span class="text-xs text-gray-500 ml-2">${time}</span>
                     </div>
-                    <div class="chat-bubble-ai p-3">${messageContent}</div>
+                    <div class="chat-bubble-ai p-3 inline-block">${messageContent}</div>
                     <div class="admin-only mt-1 flex space-x-2">
                         <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
                         <button onclick="banUser('${msg.userId}')" class="admin-only-btn"><i class="fas fa-hammer mr-1"></i>Ban</button>
@@ -1425,11 +1425,11 @@ function deleteFeedback(feedbackId) {
 }
 
 function banUser(userId) {
-    if (!isAuth()) return;
-    if (confirm("Ban this user for 3 minutes?")) {
-        const expiry = Date.now() + (3 * 60 * 1000);
+    if (!AuthManager.isAdmin()) return;
+    if (confirm("Ban this user for 1 minute and 30 seconds?")) {
+        const expiry = Date.now() + (90 * 1000); // 1 minute 30 seconds
         database.ref('bans/' + userId).set(expiry)
-            .then(() => alert("✅ User banned for 3 minutes"))
+            .then(() => alert("✅ User banned for 1 minute and 30 seconds"))
             .catch(err => alert("❌ Error: " + err.message));
     }
 }
