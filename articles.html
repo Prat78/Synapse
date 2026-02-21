@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT0KHEJ77Y"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-ZT0KHEJ77Y');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2579562384309427"
+        crossorigin="anonymous"></script>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles - AI & Gaming Insights | Synapse AI</title>
+    <meta name="description"
+        content="Explore the latest insights on Artificial Intelligence, language models, and the future of gaming in the Synapse AI Knowledge Hub.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://synapsecorp.pages.dev/articles.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden hex-pattern">
+    <div class="cyber-grid"></div>
+    <div class="scanlines"></div>
+
+    <nav class="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-white/10">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <i class="fas fa-brain text-white"></i>
+                </div><span class="text-2xl font-orbitron font-bold text-primary">SYNAPSE AI</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                <a href="chatroom.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300 relative">Chat
+                    <div class="chatroom-badge notif-badge">0</div>
+                </a>
+                <a href="chat.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">AI Chat</a>
+                <a href="games.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Games</a>
+                <a href="proxy.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Proxy</a>
+                <a href="articles.html"
+                    class="nav-underline active text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
+                <a href="about.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">About</a>
+                <a href="policy.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
+            </div>
+            <button id="tryAI" onclick="location.href='chat.html'"
+                class="hidden md:block px-6 py-2 bg-primary rounded-full font-semibold font-orbitron uppercase tracking-wider hover:scale-110 transition-all duration-300">LAUNCH
+                AI</button>
+            <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white"><i
+                    class="fas fa-bars text-2xl"></i></button>
+        </div>
+        <div id="mobileMenu" class="md:hidden mt-4 hidden flex-col space-y-4 px-4 pb-4">
+            <a href="index.html" class="nav-underline text-gray-300 hover:text-white py-2">Home</a>
+            <a href="chatroom.html" class="nav-underline text-gray-300 hover:text-white py-2 relative">Chat <div
+                    class="chatroom-badge notif-badge">0</div></a>
+            <a href="chat.html" class="nav-underline text-gray-300 hover:text-white py-2">AI Chat</a>
+            <a href="games.html" class="nav-underline text-gray-300 hover:text-white py-2">Games</a>
+            <a href="proxy.html" class="nav-underline text-gray-300 hover:text-white py-2">Proxy</a>
+            <a href="articles.html" class="nav-underline active text-gray-300 hover:text-white py-2">Articles</a>
+            <a href="about.html" class="nav-underline text-gray-300 hover:text-white py-2">About</a>
+            <a href="policy.html" class="nav-underline text-gray-300 hover:text-white py-2">Policy</a>
+        </div>
+    </nav>
+
+    <!-- Knowledge Hub View (Main Layout) -->
+    <main id="hubView" class="pt-32 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-4">
+                    <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">AI Knowledge
+                        Hub</span>
+                </h1>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">Deep dives into artificial intelligence, neural
+                    networks, and how they are transforming the world of entertainment.</p>
+                <div class="mt-8 flex justify-center gap-4">
+                    <div class="glassmorphism px-6 py-3 rounded-full border border-white/10 flex items-center">
+                        <i class="fas fa-search text-gray-500 mr-3"></i>
+                        <input type="text" id="articleSearch" placeholder="Search insights..."
+                            class="bg-transparent border-none outline-none focus:ring-0 text-white w-48 md:w-64">
+                    </div>
+                </div>
+            </div>
+
+            <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Data rendered by JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Article Reader View (Hidden by default) -->
+    <main id="readerView" class="pt-32 pb-16 hidden">
+        <article class="container mx-auto px-4 max-w-3xl">
+            <div class="mb-8">
+                <button onclick="showHub()" class="flex items-center text-primary group transition-all">
+                    <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i> Back to Hub
+                </button>
+            </div>
+
+            <header id="articleHeader" class="mb-12">
+                <!-- Header content rendered by JS -->
+            </header>
+
+            <div id="articleBody"
+                class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 prose prose-invert prose-blue max-w-none shadow-2xl">
+                <!-- Main text rendered by JS -->
+            </div>
+
+            <div
+                class="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                        <i class="fas fa-robot text-primary"></i>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold">Synapse Research Team</p>
+                        <p class="text-gray-500 text-sm">Exploring the frontiers of technology</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <button
+                        class="w-10 h-10 rounded-full glassmorphism flex items-center justify-center hover:bg-primary transition-colors"><i
+                            class="fab fa-twitter"></i></button>
+                    <button
+                        class="w-10 h-10 rounded-full glassmorphism flex items-center justify-center hover:bg-primary transition-colors"><i
+                            class="fab fa-linkedin"></i></button>
+                    <button
+                        class="w-10 h-10 rounded-full glassmorphism flex items-center justify-center hover:bg-primary transition-colors"><i
+                            class="fas fa-link"></i></button>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="mt-16 border-t border-white/10 bg-black/40 backdrop-blur-md">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left mb-8">
+                <div>
+                    <h4 class="text-white font-orbitron font-bold mb-4">Synapse AI</h4>
+                    <p class="text-gray-500 text-sm">The leading edge of unblocked gaming and AI assistance. Safe, fast,
+                        and always evolving.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-orbitron font-bold mb-4">Quick Links</h4>
+                    <ul class="text-gray-500 text-sm space-y-2">
+                        <li><a href="index.html" class="hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="games.html" class="hover:text-primary transition-colors">Games List</a></li>
+                        <li><a href="proxy.html" class="hover:text-primary transition-colors">Unblocked Proxy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-orbitron font-bold mb-4">Support</h4>
+                    <ul class="text-gray-500 text-sm space-y-2">
+                        <li><a href="articles.html" class="hover:text-primary transition-colors">Articles</a></li>
+                        <li><a href="about.html" class="hover:text-primary transition-colors">About Us</a></li>
+                        <li><a href="policy.html" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+                        <li><a href="feedback.html" class="hover:text-primary transition-colors">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/5 text-center">
+                <p class="text-gray-500 text-xs">© 2026 Synapse AI. All rights reserved. Registered for School-Safe
+                    Entertainment.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Article Data Layer -->
+    <script>
+        const ARTICLE_CONTENT = {
+            'ai-text-generators': {
+                id: 'ai-text-generators',
+                title: 'How AI Text Generators Work',
+                category: 'Technology',
+                catColor: 'primary',
+                date: 'February 12, 2026',
+                readTime: '6 min read',
+                icon: 'fas fa-keyboard',
+                excerpt: 'Discover the underlying technology behind large language models and how they predict the next word in a sentence.',
+                body: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">Have you ever wondered how an AI can write a poem, a line of code, or even a technical article like this one? The answer lies in the fascinating world of neural networks and probabilistic predictions.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">The Concept of Prediction</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">At its core, an AI text generator—like the one powering our Synapse AI chat—doesn't "think" in the way humans do. Instead, it predicts. Imagine you are typing a text and your phone suggests the next word. An AI text generator is essentially "predictive text on steroids."</p>
+                    <p class="text-gray-400 leading-relaxed mb-6">When you give an AI a prompt, it looks at the words you've provided and calculates the statistical probability of which word should come next. It does this millions of times per second, building out sentences and paragraphs word by word.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Neural Networks and Training</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">To make these predictions accurately, the AI must be trained on massive amounts of data—digitized books, websites, articles, and computer code. This data is fed into a **Neural Network**, a computer system modeled after the human brain.</p>
+                    <div class="bg-primary/10 border-l-4 border-primary p-6 my-8 rounded-r-xl">
+                        <p class="text-gray-300 font-semibold mb-2">Fun Fact:</p>
+                        <p class="text-gray-400 text-sm italic">Large Language Models (LLMs) can have hundreds of billions of "parameters," which are basically the tiny weights the model uses to decide which word fits best in a specific context.</p>
+                    </div>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Transformers: The Secret Sauce</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">The modern era of AI text generation began with the invention of the **Transformer architecture**. Before Transformers, AI models had trouble remembering what they wrote at the beginning of a long paragraph by the time they reached the end. Transformers use a mechanism called "Attention," which allows the model to "look back" at all parts of your prompt simultaneously.</p>
+                `
+            },
+            'ai-vs-chatgpt': {
+                id: 'ai-vs-chatgpt',
+                title: 'AI vs ChatGPT: The Real Difference',
+                category: 'Concepts',
+                catColor: 'yellow-500',
+                date: 'February 12, 2026',
+                readTime: '6 min read',
+                icon: 'fas fa-robot',
+                excerpt: 'Learn why "AI" and "ChatGPT" are not the same thing, and the broad hierarchy of machine intelligence.',
+                body: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">In modern conversation, the words "AI" and "ChatGPT" are often swapped as synonyms. But doing so is like swapping the words "Engine" and "Sportscar."</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Artificial Intelligence: The Big Picture</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">**Artificial Intelligence (AI)** is an entire field of computer science dedicated to creating systems that can perform tasks that normally require human intelligence. This includes everything from the logic that runs an unblocked game's NPC (Non-Player Character) to the complex algorithms that suggest your next YouTube video.</p>
+                    <div class="bg-yellow-500/10 border-l-4 border-yellow-500 p-6 my-8 rounded-r-xl">
+                        <h4 class="text-white font-bold mb-2">The Hierarchy:</h4>
+                        <p class="text-gray-400 text-sm italic">Computer Science > Artificial Intelligence > Machine Learning > Deep Learning > Large Language Models > <strong>ChatGPT</strong></p>
+                    </div>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">ChatGPT: The Specific Tool</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">**ChatGPT** is a specific application—a product created by a company called OpenAI. It is built on a specific type of AI known as a **Large Language Model (LLM)**. While it is the most famous example of modern AI, it represents just a tiny fraction of what AI actually is.</p>
+                `
+            },
+            'building-synapse-ai': {
+                id: 'building-synapse-ai',
+                title: 'How I Built Synapse AI',
+                category: 'Dev Log',
+                catColor: 'pink-500',
+                date: 'February 12, 2026',
+                readTime: '7 min read',
+                icon: 'fas fa-code',
+                excerpt: 'The journey from a small personal project to a combined gaming and AI hub using Tailwind and Firebase.',
+                body: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">Development isn't just about writing code; it's about solving problems and creating experiences. Synapse AI started as a personal project and evolved into a "Futuristic Terminal" for gaming.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">The Tech Stack</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">I chose a modern tech stack to ensure the site was blazingly fast. Using **Tailwind CSS**, I built a cohesive design system with glassmorphism and neon aesthetics. For the real-time systems, I utilized **Firebase** for global announcements and community feedback.</p>
+                    <div class="bg-pink-500/10 border-l-4 border-pink-500 p-6 my-8 rounded-r-xl">
+                        <p class="text-gray-300 font-semibold mb-2">Technical Challenge:</p>
+                        <p class="text-gray-400 text-sm italic">Getting third-party games to load correctly within a "Theatre Mode" without breaking the layout was tough. After many iterations of absolute positioning and z-index management, I achieved the seamless transition you see now.</p>
+                    </div>
+                `
+            },
+            'future-of-ai-gaming': {
+                id: 'future-of-ai-gaming',
+                title: 'Future of AI in Gaming',
+                category: 'Gaming Future',
+                catColor: 'green-500',
+                date: 'February 12, 2026',
+                readTime: '8 min read',
+                icon: 'fas fa-gamepad',
+                excerpt: 'From procedural generation 2.0 to intelligent NPCs, explore how AI is crafting the next generation of games.',
+                body: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">We are on the verge of a revolution where games are no longer "programmed" by humans alone, but co-created in real-time by intelligent agents.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Intelligent NPCs</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Most Non-Player Characters (NPCs) have historically relied on pre-written scripts. The future features NPCs powered by LLMs with their own "personalities," memory of interactions, and unscripted conversation abilities.</p>
+                    <div class="bg-green-500/10 border-l-4 border-green-500 p-6 my-8 rounded-r-xl">
+                        <h4 class="text-white font-bold mb-2">Did You Know?</h4>
+                        <p class="text-gray-400 text-sm italic">AI is also being used to "up-res" old games. Tools like DLSS use AI neural networks to predict high-resolution frames, allowing 4K visuals on lower-end hardware.</p>
+                    </div>
+                `
+            },
+            'language-models-explained': {
+                id: 'language-models-explained',
+                title: 'What Is a Language Model?',
+                category: 'Deep Learning',
+                catColor: 'secondary',
+                date: 'February 12, 2026',
+                readTime: '5 min read',
+                icon: 'fas fa-project-diagram',
+                excerpt: 'A basic guide on LLMs, neural networks, and how machines process human language using math.',
+                body: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">If you've heard the term "LLM," you likely know it involves AI—but is it a dictionary, a search engine, or something else? A language model is AI trained to understand and generate human language using Natural Language Processing (NLP).</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">How Are They Structured?</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Modern models are built on architectures called **Transformers**. These process words as numbers (called vectors or tokens). By converting language into math, the AI can perform complex calculations to determine relationships between concepts.</p>
+                `
+            }
+        };
+
+        function renderHub(filter = '') {
+            const grid = document.getElementById('articlesGrid');
+            if (!grid) return;
+
+            grid.innerHTML = '';
+            Object.values(ARTICLE_CONTENT).forEach(article => {
+                if (filter && !article.title.toLowerCase().includes(filter.toLowerCase())) return;
+
+                const card = `
+                    <div class="glassmorphism rounded-2xl overflow-hidden border border-white/10 hover:border-${article.catColor === 'primary' ? 'primary' : article.catColor}/50 transition-all duration-300 flex flex-col group cursor-pointer" onclick="showArticle('${article.id}')">
+                        <div class="h-48 bg-gradient-to-br from-${article.catColor === 'primary' ? 'primary/20' : article.catColor + '/20'} to-dark flex items-center justify-center p-8 transition-all duration-300 group-hover:scale-105">
+                            <i class="${article.icon} text-5xl text-${article.catColor === 'primary' ? 'primary' : article.catColor}/40"></i>
+                        </div>
+                        <div class="p-6 flex-grow">
+                            <div class="text-${article.catColor === 'primary' ? 'primary' : article.catColor} text-xs font-bold uppercase tracking-widest mb-2">${article.category}</div>
+                            <h3 class="text-xl font-orbitron font-bold mb-3 group-hover:text-primary transition-colors">${article.title}</h3>
+                            <p class="text-gray-400 text-sm mb-6 leading-relaxed">${article.excerpt}</p>
+                            <span class="text-gray-300 font-semibold group-hover:text-primary flex items-center">
+                                Read Article <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', card);
+            });
+        }
+
+        function showArticle(id) {
+            const article = ARTICLE_CONTENT[id];
+            if (!article) return;
+
+            document.getElementById('hubView').classList.add('hidden');
+            document.getElementById('readerView').classList.remove('hidden');
+
+            document.getElementById('articleHeader').innerHTML = `
+                <div class="inline-block px-4 py-1 rounded-full bg-${article.catColor === 'primary' ? 'primary/20 text-primary' : article.catColor + '/20 text-' + article.catColor} text-xs font-bold uppercase tracking-widest mb-4">
+                    ${article.category}</div>
+                <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-6">${article.title}</h1>
+                <div class="flex items-center text-gray-400 text-sm">
+                    <span class="mr-4"><i class="far fa-calendar-alt mr-2"></i> ${article.date}</span>
+                    <span><i class="far fa-clock mr-2"></i> ${article.readTime}</span>
+                </div>
+            `;
+
+            document.getElementById('articleBody').innerHTML = article.body;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.location.hash = id;
+            document.title = `${article.title} - Synapse AI`;
+        }
+
+        function showHub() {
+            document.getElementById('hubView').classList.remove('hidden');
+            document.getElementById('readerView').classList.add('hidden');
+            window.location.hash = '';
+            document.title = 'Articles - AI & Gaming Insights | Synapse AI';
+        }
+
+        // Initialize from Hash or Load
+        window.addEventListener('load', () => {
+            renderHub();
+
+            const hash = window.location.hash.substring(1);
+            if (hash && ARTICLE_CONTENT[hash]) {
+                showArticle(hash);
+            }
+
+            document.getElementById('articleSearch').oninput = (e) => {
+                renderHub(e.target.value);
+            };
+        });
+
+        // Handle browser back/forward
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && ARTICLE_CONTENT[hash]) {
+                showArticle(hash);
+            } else {
+                showHub();
+            }
+        });
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
