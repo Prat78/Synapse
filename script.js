@@ -1,4 +1,5 @@
 
+
 // ===========================
 // Game Data & Config
 // ===========================
@@ -79,18 +80,24 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
 
     // 2. Define Popularity Order (Highest priority first)
     const POPULAR_KEYS = [
+        "brawl stars",
+        "basketball bros",
+        "bitlife",
+        "1v1",
         "gta",
+        "Steal a brainrot",
+        "Five nights at Epsteins",
+        "Wrestle bros",
         "minecraft",
         "roblox",
-        "1v1-lol",
         "subway-surfers",
         "fnaf",
         "slope",
         "retro-bowl",
+        "basketball stars",
         "geometry-dash",
         "happywheels",
         "cookie-clicker",
-        "bitlife",
         "paperio2",
         "pacman",
         "bloonstd6",
@@ -117,6 +124,7 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
         "gtag",
         "papas"
     ];
+
 
     const sortedKeys = Object.keys(games).sort((a, b) => {
         const aLower = a.toLowerCase();
@@ -148,13 +156,15 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
             ).join(' ');
         }
 
+        const baseDesc = gameData.description || `Play ${title} unblocked on Synapse AI. Immerse yourself in the world of ${title}, offering high-speed gameplay and zero lag for the ultimate school-safe gaming experience. Synapse AI provides the best unblocked versions of your favorite games with artificial intelligence assistance for the perfect gaming session.`;
+
         return {
             id: index,
             name: title,
             category: 'Unblocked',
             link: link,
             thumb: customThumb || 'https://games-f518e.web.app/' + key + '/icon.png',
-            description: 'Play ' + title + ' unblocked and free!'
+            description: baseDesc
         };
     });
 }
@@ -162,7 +172,7 @@ if (typeof games !== 'undefined' && typeof GAMES === 'undefined') {
 // ===========================
 // AI Configuration
 // ===========================
-let HF_API_URL = "https://ai.pratyush-singh365.workers.dev/generate";
+let HF_API_URL = "https://shy-field-e0e2.synapse-corp-dev.workers.dev/generate";
 let sessionId = crypto.randomUUID();
 
 async function sendChat() {
@@ -212,10 +222,17 @@ async function sendChat() {
             done = doneReading;
             if (value) {
                 const chunk = decoder.decode(value, { stream: true });
-                streamText.textContent += chunk;
+                // convert double line breaks into paragraph tags
+                const formattedChunk = chunk
+                    .split(/\n\s*\n/)          // split at empty lines
+                    .map(p => `<p>${p.trim()}</p>`)  // wrap each paragraph in <p>
+                    .join('');
+                streamText.innerHTML += formattedChunk;
+
                 if (c) c.scrollTop = c.scrollHeight;
             }
         }
+
 
     } catch (err) {
         console.error(err);
@@ -261,12 +278,53 @@ function addMessage(text, sender) {
 // ===========================
 var currentCategory = 'all';
 var searchQuery = '';
+// ===========================
+// Secure Auth & Session Management
+// ===========================
+const AUTH_TOKEN_KEY = 'synapse_auth_token';
+const AuthManager = (function () {
+    let _role = 'user';
+    let _token = null;
+
+    return {
+        init: () => {
+            _token = sessionStorage.getItem(AUTH_TOKEN_KEY);
+            _role = sessionStorage.getItem('role') || 'user';
+        },
+        login: (token, role) => {
+            _token = token;
+            _role = role;
+            sessionStorage.setItem(AUTH_TOKEN_KEY, token);
+            sessionStorage.setItem('role', role);
+        },
+        getRole: () => _role,
+        isAdmin: () => (_role === 'admin' || _role === 'dev'),
+        isDeveloper: () => (_role === 'dev'),
+        isAuthenticated: () => !!_token && _token.length > 10
+    };
+})();
+
+function isAuth() {
+    return AuthManager.isAuthenticated();
+}
 
 // ===========================
 // Initialization Function
 // ===========================
 function init() {
+    // 0. Initialize Auth Manager
+    AuthManager.init();
+
+    // 0.1 Restore UI Modes if authenticated
+    if (AuthManager.isAuthenticated()) {
+        document.body.classList.add('admin-mode');
+        if (AuthManager.isDeveloper()) {
+            document.body.classList.add('dev-mode');
+        }
+    }
+
     // 1. Initialize Background Effects (Always run)
+    protectSite();
     createMatrixRain();
     createStars();
     setupAnimations();
@@ -327,6 +385,9 @@ function init() {
 
     // Initialize Firebase for global announcements (for ALL users)
     initFirebaseForAnnouncements();
+
+    // Initialize Chat Notifications Badge
+    initChatNotifications();
 
     // Page specific init
     const chatroomPage = document.getElementById('chatroomPage');
@@ -473,7 +534,7 @@ function renderGames() {
 
         html += '<div class="game-card glassmorphism rounded-2xl overflow-hidden" onclick="playGame(' + idx + ')">';
         html += '<div class="relative overflow-hidden">';
-        html += '<img src="' + img + '" alt="' + (g.title || g.name).replace(/'/g, "&apos;") + '" class="w-full h-48 object-cover" onerror="this.src=\'https://via.placeholder.com/400x200/1e293b/3b82f6?text=' + encodeURIComponent(g.title || g.name).replace(/'/g, "%27") + '\'">';
+        html += '<img src="' + img + '" alt="' + (g.title || g.name).replace(/'/g, "&apos;") + '" class="w-full h-64 object-cover" onerror="this.src=\'https://via.placeholder.com/400x200/1e293b/3b82f6?text=' + encodeURIComponent(g.title || g.name).replace(/'/g, "%27") + '\'">';
         html += '<div class="absolute top-4 right-4"><span class="bg-primary/80 text-white px-3 py-1 rounded-full text-xs">' + g.category + '</span></div>';
         html += '<div class="play-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>';
         html += '</div>';
@@ -485,6 +546,7 @@ function renderGames() {
     });
 
     container.innerHTML = html;
+    document.dispatchEvent(new CustomEvent('gamesRendered'));
 }
 
 function playGame(i) {
@@ -586,6 +648,7 @@ function initFirebaseForAnnouncements() {
         database = firebase.database();
         storage = firebase.storage();
         isFirebaseInitialized = true;
+        setupUser(); // This ensures currentUser.id is generated
         setupGlobalAnnouncementListener();
     } catch (error) {
         console.error('Firebase announcement init error:', error);
@@ -595,11 +658,15 @@ function initFirebaseForAnnouncements() {
 function setupGlobalAnnouncementListener() {
     if (!database) return;
     const globalAnnouncementRef = database.ref('global_announcements');
-    let lastAnnouncementTimestamp = 0;
+
+    // Initialize with current time so we only show announcements sent AFTER the page loaded
+    let lastAnnouncementTimestamp = Date.now();
 
     globalAnnouncementRef.on('value', (snapshot) => {
         if (!snapshot.exists()) return;
         const announcement = snapshot.val();
+
+        // Only show if the announcement is newer than our last seen/page load time
         if (announcement.timestamp && announcement.timestamp > lastAnnouncementTimestamp) {
             lastAnnouncementTimestamp = announcement.timestamp;
             showGlobalAnnouncement(announcement);
@@ -694,19 +761,36 @@ function setupUser() {
 }
 
 function checkBanStatus() {
-    if (currentUser.id) {
-        database.ref('bans/' + currentUser.id).on('value', (snapshot) => {
-            if (snapshot.exists() && snapshot.val() === true) {
-                const input = document.getElementById('chatroomInput');
-                if (input) {
+    if (!currentUser.id) return;
+    database.ref('bans/' + currentUser.id).on('value', (snapshot) => {
+        const input = document.getElementById('chatroomInput');
+        const btn = document.getElementById('sendChatroomMessage');
+        if (!input || !btn) return;
+
+        if (snapshot.exists()) {
+            const expiry = snapshot.val();
+            const check = () => {
+                const now = Date.now();
+                if (now < expiry) {
+                    const remaining = Math.ceil((expiry - now) / 1000);
                     input.disabled = true;
-                    input.placeholder = "⛔ You are banned from this chat.";
-                    document.getElementById('sendChatroomMessage').disabled = true;
-                    alert('⛔ You have been BANNED from the chatroom by an administrator.');
+                    btn.disabled = true;
+                    input.placeholder = `⛔ Banned. Re-opens in ${remaining}s`;
+                    setTimeout(check, 1000);
+                } else {
+                    input.disabled = false;
+                    btn.disabled = false;
+                    input.placeholder = "Type a message...";
+                    database.ref('bans/' + currentUser.id).remove();
                 }
-            }
-        });
-    }
+            };
+            check();
+        } else {
+            input.disabled = false;
+            btn.disabled = false;
+            input.placeholder = "Type a message...";
+        }
+    });
 }
 
 function promptForNickname() {
@@ -748,10 +832,18 @@ function listenToMessages() {
     if (!container) return;
     container.innerHTML = '';
 
-    messagesRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
+    // Remove existing listeners if any (though usually managed by switchRoom .off())
+    messagesRef.orderByChild('timestamp').limitToLast(100).on('child_added', (snapshot) => {
         const msg = snapshot.val();
         msg.id = snapshot.key;
         displayMessage(msg);
+        updateTotalCount();
+    });
+
+    messagesRef.on('child_removed', (snapshot) => {
+        const msgId = snapshot.key;
+        const msgEl = document.querySelector(`[data-message-id="${msgId}"]`);
+        if (msgEl) msgEl.remove();
         updateTotalCount();
     });
 }
@@ -792,23 +884,34 @@ function displayMessage(msg) {
     } else {
         if (isOwn) {
             msgDiv.innerHTML = `
-                <div class="text-right mr-3 max-w-md">
+                <div class="text-right mr-3 max-w-3xl lg:max-w-4xl">
                     <div class="flex items-center justify-end mb-1">
                         <span class="text-xs text-gray-500 mr-2">${time}</span>
-                        <span class="text-sm font-semibold text-primary">${escapeHtml(msg.nickname)}</span>
+                        ${msg.role === 'dev' ? '<span class="role-badge dev-badge">DEVELOPER</span>' : ''}
+                        ${msg.role === 'admin' ? '<span class="role-badge admin-badge">ADMIN</span>' : ''}
+                        <span class="text-sm font-semibold text-primary ml-2">${escapeHtml(msg.nickname)}</span>
                     </div>
-                    <div class="chat-bubble-user p-3">${messageContent}</div>
+                    <div class="chat-bubble-user p-3 inline-block text-left">${messageContent}</div>
+                    <div class="admin-only mt-1">
+                        <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
+                    </div>
                 </div>
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xs"></i></div>`;
         } else {
             msgDiv.innerHTML = `
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xs"></i></div>
-                <div class="ml-3 flex-1 min-w-0">
+                <div class="ml-3 flex-1 min-w-0 max-w-3xl lg:max-w-4xl">
                     <div class="flex items-center mb-1">
-                        <span class="text-sm font-semibold text-secondary">${escapeHtml(msg.nickname)}</span>
+                        ${msg.role === 'dev' ? '<span class="role-badge dev-badge">DEVELOPER</span>' : ''}
+                        ${msg.role === 'admin' ? '<span class="role-badge admin-badge">ADMIN</span>' : ''}
+                        <span class="text-sm font-semibold text-secondary ml-2">${escapeHtml(msg.nickname)}</span>
                         <span class="text-xs text-gray-500 ml-2">${time}</span>
                     </div>
-                    <div class="chat-bubble-ai p-3">${messageContent}</div>
+                    <div class="chat-bubble-ai p-3 inline-block">${messageContent}</div>
+                    <div class="admin-only mt-1 flex space-x-2">
+                        <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
+                        <button onclick="banUser('${msg.userId}')" class="admin-only-btn"><i class="fas fa-hammer mr-1"></i>Ban</button>
+                    </div>
                 </div>`;
         }
     }
@@ -876,10 +979,29 @@ async function sendChatroomMessage() {
     try {
         let imageData = null;
         if (selectedImage) {
-            imageData = await new Promise((resolve, reject) => {
+            // COMPRESSION LOGIC: Resize image before sending to save database space
+            imageData = await new Promise((resolve) => {
                 const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target.result);
-                reader.onerror = reject;
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800; // Resize to max 800px wide
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.6)); // Compress to 60% quality JPEG
+                    };
+                    img.src = e.target.result;
+                };
                 reader.readAsDataURL(selectedImage);
             });
         }
@@ -891,12 +1013,16 @@ async function sendChatroomMessage() {
             text: filtered,
             imageData: imageData,
             type: 'user',
+            role: AuthManager.getRole(),
             timestamp: firebase.database.ServerValue.TIMESTAMP
         });
 
         input.value = '';
         cancelImage();
         lastMessageTime = Date.now();
+
+        // AUTO-PRUNE: Keep the database small to avoid hit usage limits
+        autoPruneMessages();
 
         userMessageCount++;
         localStorage.setItem('userMessageCount', userMessageCount);
@@ -910,6 +1036,33 @@ async function sendChatroomMessage() {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
         input.focus();
+    }
+}
+
+// Auto-cleanup system to prevent database from hitting 1GB limit
+async function autoPruneMessages() {
+    if (!messagesRef) return;
+
+    try {
+        // We only want to keep the latest 150 messages
+        const snapshot = await messagesRef.once('value');
+        const count = snapshot.numChildren();
+
+        if (count > 150) {
+            // Get the oldest messages
+            const oldestQuery = messagesRef.orderByChild('timestamp').limitToFirst(count - 150);
+            const oldestSnapshot = await oldestQuery.once('value');
+
+            const updates = {};
+            oldestSnapshot.forEach(child => {
+                updates[child.key] = null; // Mark for deletion
+            });
+
+            await messagesRef.update(updates);
+            console.log("♻️ Auto-Pruned " + (count - 150) + " old messages to save space.");
+        }
+    } catch (e) {
+        console.error("Prune Error:", e);
     }
 }
 
@@ -1024,7 +1177,14 @@ function displayFeedback(item) {
         });
     }
 
-    card.innerHTML = `<div class="flex items-start justify-between mb-3"><span class="feedback-type-badge ${typeColors[item.type]}">${typeEmojis[item.type]}</span><span class="text-xs text-gray-500">${time}</span></div><p class="text-gray-300 mb-3 whitespace-pre-wrap">${escapeHtml(item.text)}</p>${repliesHTML}`;
+    card.innerHTML = `<div class="flex items-start justify-between mb-3">
+        <span class="feedback-type-badge ${typeColors[item.type]}">${typeEmojis[item.type]}</span>
+        <div class="flex items-center space-x-3">
+            <span class="text-xs text-gray-500">${time}</span>
+            <button onclick="deleteFeedback('${item.id}')" class="admin-only admin-only-btn"><i class="fas fa-trash"></i></button>
+        </div>
+    </div>
+    <p class="text-gray-300 mb-3 whitespace-pre-wrap">${escapeHtml(item.text)}</p>${repliesHTML}`;
     feedbackList.appendChild(card);
 }
 
@@ -1099,4 +1259,229 @@ function toggleFullscreen(id) {
     else if (container.msRequestFullscreen) container.msRequestFullscreen();
 }
 
+
+
+// ===========================
+// Chatroom Notifications
+// ===========================
+let unreadCount = 0;
+let lastSeenTimestamp = parseInt(localStorage.getItem('chatroom_last_seen') || Date.now());
+
+function initChatNotifications() {
+    const isChatroomPage = document.getElementById('chatroomPage') !== null;
+
+    if (!database) {
+        // Wait for Firebase to be initialized
+        setTimeout(initChatNotifications, 500);
+        return;
+    }
+
+    // Reset loop if on chatroom page
+    if (isChatroomPage) {
+        localStorage.setItem('chatroom_last_seen', Date.now());
+        unreadCount = 0;
+        updateBadgeUI(0);
+
+        // Update periodic visibility to clear badge if active
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                localStorage.setItem('chatroom_last_seen', Date.now());
+                unreadCount = 0;
+                updateBadgeUI(0);
+            }
+        });
+    }
+
+    // Listen to Global Room (chatroom1) for new messages since last visit
+    database.ref('chatroom/chatroom1/messages').orderByChild('timestamp').startAt(lastSeenTimestamp + 1).on('child_added', (snapshot) => {
+        if (document.getElementById('chatroomPage')) {
+            // If we are currently ON the chatroom page, just update the seen marker
+            localStorage.setItem('chatroom_last_seen', Date.now());
+            unreadCount = 0;
+            updateBadgeUI(0);
+        } else {
+            // If we're on another page, increment unread count
+            unreadCount++;
+            updateBadgeUI(unreadCount);
+        }
+    });
+}
+
+function updateBadgeUI(count) {
+    const badges = document.querySelectorAll('.chatroom-badge');
+    badges.forEach(badge => {
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.classList.add('active');
+        } else {
+            badge.classList.remove('active');
+        }
+    });
+}
+
+// ===========================
+// Security & Protection
+// ===========================
+function protectSite() {
+    // 1. Disable Right Click
+    document.addEventListener('contextmenu', e => {
+        if (AuthManager.isDeveloper()) return; // ONLY Developers can right-click
+        e.preventDefault();
+    });
+
+    // 2. Disable Keyboard Shortcuts (F12, Ctrl+Shift+I, etc.)
+    document.onkeydown = function (e) {
+        if (AuthManager.isDeveloper()) return true; // ONLY Developers can use shortcuts
+        if (e.keyCode == 123) return false; // F12
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // View Source
+    };
+
+    // 3. Infinite Debugger Loop (Freezes the Inspect Panel)
+    setInterval(function () {
+        if (AuthManager.isDeveloper()) return; // Don't kill the dev's browser
+        const startTime = performance.now();
+        debugger;
+        const endTime = performance.now();
+
+        if (endTime - startTime > 100) {
+            document.body.innerHTML = '<div style="background:#000;color:red;height:100vh;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:2rem;text-align:center;padding:20px;">ACCESS DENIED: SECURITY VIOLATION DETECTED<br><br>Inspect tool is prohibited on Synapse AI.</div>';
+            location.reload();
+        }
+    }, 100);
+
+    // 4. Console Bombing
+    setInterval(() => {
+        if (AuthManager.isDeveloper()) return;
+        console.clear();
+    }, 1000);
+}
+
+async function adminLogin() {
+    // If already logged in, show the panel
+    if (isAuth()) {
+        const panel = document.getElementById('adminPanel');
+        if (panel) panel.classList.remove('hidden');
+        return;
+    }
+
+    const password = prompt("Enter Key:");
+    if (!password) return;
+
+    try {
+        // Sending password to Cloudflare Worker for verification against ENV variables
+        const response = await fetch('https://shy-field-e0e2.synapse-corp-dev.workers.dev/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.token) {
+            // Save Securely via AuthManager
+            AuthManager.login(data.token, data.role);
+
+            // UI Updates
+            document.body.classList.add('admin-mode');
+            if (data.role === 'dev') {
+                document.body.classList.add('dev-mode');
+                alert("💎 Welcome, Developer (Authenticated).");
+            } else if (data.role === 'admin') {
+                alert("🛡️ Admin Session Started.");
+            }
+
+            const panel = document.getElementById('adminPanel');
+            if (panel) panel.classList.remove('hidden');
+        } else {
+            alert("❌ Denied: " + (data.message || "Invalid Credentials"));
+        }
+    } catch (e) {
+        console.error("Login Error:", e);
+        alert("❌ Auth System Error. Please try again later.");
+    }
+}
+
+function closeAdminPanel() {
+    const panel = document.getElementById('adminPanel');
+    if (panel) panel.classList.add('hidden');
+}
+
+function deleteAllMessages() {
+    if (!isAuth()) return;
+    if (!messagesRef) {
+        alert("❌ Error: Message reference not initialized.");
+        return;
+    }
+    if (confirm("Are you sure you want to delete ALL messages in " + currentRoom + "?")) {
+        messagesRef.remove()
+            .then(() => alert("✅ All messages deleted"))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
+}
+
+function deleteMessage(messageId) {
+    if (!isAuth()) return;
+    if (!messagesRef) return;
+
+    messagesRef.child(messageId).remove()
+        .then(() => {
+            console.log("Message deleted:", messageId);
+        })
+        .catch(err => {
+            console.error("Delete error:", err);
+            alert("❌ Error deleting message: " + err.message);
+        });
+}
+
+function deleteFeedback(feedbackId) {
+    if (!isAuth()) return;
+    if (confirm("Delete this feedback?")) {
+        database.ref('feedback/' + feedbackId).remove()
+            .then(() => alert("✅ Feedback deleted"))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
+}
+
+function banUser(userId) {
+    if (!AuthManager.isAdmin()) return;
+    if (confirm("Ban this user for 1 minute and 30 seconds?")) {
+        const expiry = Date.now() + (90 * 1000); // 1 minute 30 seconds
+        database.ref('bans/' + userId).set(expiry)
+            .then(() => alert("✅ User banned for 1 minute and 30 seconds"))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
+}
+
+function unbanUser() {
+    if (!isAuth()) return;
+    const userId = prompt("Enter the User ID to unban:");
+    if (userId) {
+        database.ref('bans/' + userId).remove()
+            .then(() => alert("✅ User unbanned! They can now chat again after refreshing."))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
+}
+
+function sendGlobalBroadcast() {
+    if (!AuthManager.isDeveloper()) {
+        alert("🔒 Access Denied: Only Developers can send global broadcasts.");
+        return;
+    }
+    const text = prompt("Enter global broadcast message:");
+    if (text) {
+        database.ref('global_announcements').set({
+            text: text,
+            adminName: currentUser.nickname || 'Admin',
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        }).then(() => alert("✅ Broadcast sent"))
+            .catch(err => alert("❌ Error: " + err.message));
+    }
+}
+
+
 document.addEventListener("DOMContentLoaded", init);
+
+

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT0KHEJ77Y"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-ZT0KHEJ77Y');</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2579562384309427"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Hub - AI & Gaming Insights | Synapse AI</title>
+    <meta name="description"
+        content="Explore in-depth articles about Artificial Intelligence, Large Language Models, and the future of browser gaming. High-value insights curated by Synapse AI.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://synapsecorp.pages.dev/articles.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>tailwind.config = { theme: { extend: { colors: { primary: "#3b82f6", secondary: "#8b5cf6", dark: "#0f172a" }, fontFamily: { sans: ["Inter", "system-ui"], orbitron: ["Orbitron", "monospace"] } } } }</script>
+
+    <script>(function(s){s.dataset.zone='10640433',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function(s){s.dataset.zone='10640747',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function(s){s.dataset.zone='10640749',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+</head>
+
+<body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden hex-pattern">
+    <nav class="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-white/10">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-2">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <i class="fas fa-brain text-white"></i>
+                </div>
+                <span class="text-2xl font-orbitron font-bold text-primary">SYNAPSE AI</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-300 hover:text-white transition-colors">Home</a>
+                <a href="games.html" class="text-gray-300 hover:text-white transition-colors">Games</a>
+                <a href="articles.html" class="text-primary font-semibold border-b-2 border-primary">Articles</a>
+                <a href="chat.html" class="text-gray-300 hover:text-white transition-colors">AI Chat</a>
+                <a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 pt-32 pb-16">
+        <div id="hubView">
+            <header class="text-center mb-16">
+                <h1 class="text-5xl md:text-6xl font-orbitron font-bold mb-6 italic"><span
+                        class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">KNOWLEDGE
+                        HUB</span></h1>
+                <p class="text-gray-400 max-w-2xl mx-auto leading-relaxed">Deep dives into the technology powering our
+                    future. From the mechanics of large language models to the evolution of browser-based gaming.</p>
+            </header>
+
+            <section id="articlesHub">
+                <div class="flex flex-wrap justify-center gap-4 mb-12" id="filterContainer">
+                    <button onclick="filterArticles('All', this)"
+                        class="filter-btn px-6 py-2 rounded-full bg-primary text-white font-semibold transition-all">All</button>
+                    <button onclick="filterArticles('Technology', this)"
+                        class="filter-btn px-6 py-2 rounded-full bg-white/5 text-gray-400 font-semibold hover:bg-white/10 transition-all">Technology</button>
+                    <button onclick="filterArticles('Concepts', this)"
+                        class="filter-btn px-6 py-2 rounded-full bg-white/5 text-gray-400 font-semibold hover:bg-white/10 transition-all">Concepts</button>
+                    <button onclick="filterArticles('Deep Learning', this)"
+                        class="filter-btn px-6 py-2 rounded-full bg-white/5 text-gray-400 font-semibold hover:bg-white/10 transition-all">Deep
+                        Learning</button>
+                    <button onclick="filterArticles('Gaming', this)"
+                        class="filter-btn px-6 py-2 rounded-full bg-white/5 text-gray-400 font-semibold hover:bg-white/10 transition-all">Gaming</button>
+                    <button onclick="filterArticles('Guides', this)"
+                        class="filter-btn px-6 py-2 rounded-full bg-white/5 text-gray-400 font-semibold hover:bg-white/10 transition-all">Guides</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articlesGrid">
+                    <!-- Articles injected by JS -->
+                </div>
+            </section>
+        </div>
+
+        <div id="articleView" class="hidden">
+            <article class="container mx-auto px-4 max-w-3xl">
+                <div class="mb-8">
+                    <button onclick="showHub()" class="flex items-center text-primary group transition-all">
+                        <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i> Back to
+                        Hub
+                    </button>
+                </div>
+                <header class="mb-12" id="articleHeader">
+                    <!-- Header injected by JS -->
+                </header>
+                <div id="articleContent" class="prose prose-invert max-w-none">
+                    <!-- Content injected by JS -->
+                </div>
+                <div class="mt-12 text-center" id="articleFooter">
+                    <!-- Footer injected by JS -->
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="mt-16 border-t border-white/10 bg-black/40 backdrop-blur-md">
+        <div class="container mx-auto px-4 py-8 text-center md:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                            <i class="fas fa-brain text-white text-xs"></i>
+                        </div>
+                        <span class="text-xl font-orbitron font-bold text-primary">SYNAPSE AI</span>
+                    </div>
+                    <p class="text-gray-500 text-sm">Empowering students through accessible technology and intelligent
+                        gaming insights since 2024.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="text-gray-500 text-sm space-y-2">
+                        <li><a href="games.html" class="hover:text-primary transition-colors">Play Games</a></li>
+                        <li><a href="proxy.html" class="hover:text-primary transition-colors">Web Proxy</a></li>
+                        <li><a href="about.html" class="hover:text-primary transition-colors">About Team</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Support</h4>
+                    <ul class="text-gray-500 text-sm space-y-2">
+                        <li><a href="feedback.html" class="hover:text-primary transition-colors">Contact Us</a></li>
+                        <li><a href="policy.html" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/5 text-center">
+                <p class="text-gray-600 text-xs">© 2026 Synapse AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="script.js"></script>
+    <script>
+        const ARTICLE_DATA = {
+            'ai-text-generators': {
+                id: 'ai-text-generators',
+                title: 'How AI Text Generators Work',
+                category: 'Technology',
+                catColor: 'primary',
+                date: 'February 12, 2026',
+                readTime: '9 min read',
+                excerpt: 'Discover the underlying technology behind large language models and how they predict the next word.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">Have you ever wondered how an AI can write a poem, debug your code, or craft an essay on any topic within seconds? The answer lies in a fascinating combination of mathematics, computational power, and a technique called statistical prediction.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">The Core Idea: Prediction at Scale</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">At its most fundamental level, an AI text generator does one thing: it predicts the next word (or more precisely, the next "token") given everything that came before it. This sounds simple, but when you apply this process at enormous scale — with billions of parameters trained on hundreds of billions of words — something remarkable emerges.</p>
+                    <p class="text-gray-400 leading-relaxed mb-6">Think of the autocomplete on your phone keyboard. An AI text generator works on the same basic principle, but instead of looking at 2-3 words of context, it can look at thousands of words simultaneously.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Neural Networks: The Engine Under the Hood</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">The mechanism that makes this prediction possible is called a <strong>neural network</strong>. Inspired loosely by the structure of biological brains, a neural network is a mathematical system consisting of layers of interconnected nodes. Each connection between neurons has a numerical "weight" — a value that determines how much influence one neuron has on another.</p>
+                    <div class="bg-primary/10 border-l-4 border-primary p-6 my-8 rounded-r-xl">
+                        <p class="text-gray-300 font-semibold mb-2">Key Fact:</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">Modern Large Language Models (LLMs) can have hundreds of billions of parameters. GPT-4, for example, is estimated to have over a trillion parameters.</p>
+                    </div>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">The Transformer Architecture</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">The breakthrough that enabled modern AI text generators was the invention of the <strong>Transformer architecture</strong>. Before Transformers, language models processed text sequentially. Transformers solved this with a mechanism called <strong>Self-Attention</strong>, processing every word in the input simultaneously.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Tokens, Not Words</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">AI text generators don't actually work with words — they work with <strong>tokens</strong>. A token is roughly a word fragment. This approach allows the model to handle any word in any language by combining sub-word fragments it does know.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">From Raw Model to Helpful Assistant</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">The process of making it helpful involves <strong>fine-tuning</strong> and <strong>Reinforcement Learning from Human Feedback (RLHF)</strong>. Human raters evaluate different model responses, training the model to produce responses that humans prefer.</p>
+                </div>`
+            },
+            'ai-vs-chatgpt': {
+                id: 'ai-vs-chatgpt',
+                title: 'AI vs ChatGPT: The Real Difference',
+                category: 'Concepts',
+                catColor: 'yellow-500',
+                date: 'February 12, 2026',
+                readTime: '8 min read',
+                excerpt: 'Learn why "AI" and "ChatGPT" are not the same thing, and the broad hierarchy of machines.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">In everyday conversation, "AI" and "ChatGPT" are used almost interchangeably. But this is like saying "I drove a vehicle" and meaning only a red Ferrari. ChatGPT is one specific product; AI is an entire domain of science.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">What Is Artificial Intelligence, Really?</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Artificial Intelligence (AI) is a branch of computer science focused on building systems that can perform tasks that typically require human-level intelligence. This broad definition encompasses spam filters, computer vision, recommendation engines, and chatbots.</p>
+                    <div class="bg-yellow-500/10 border-l-4 border-yellow-500 p-6 my-8 rounded-r-xl">
+                        <h4 class="text-white font-bold mb-3">The AI Hierarchy</h4>
+                        <p class="text-gray-300 text-sm leading-relaxed">Computer Science &rarr; Artificial Intelligence &rarr; Machine Learning &rarr; Deep Learning &rarr; Natural Language Processing &rarr; Large Language Models &rarr; <strong>ChatGPT (one specific product)</strong></p>
+                    </div>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Machine Learning and Deep Learning</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6"><strong>Machine Learning (ML)</strong> is the subfield concerned with building systems that learn from data. <strong>Deep Learning</strong> is a powerful form of ML that uses neural networks with many layers.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Where Does ChatGPT Fit In?</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">ChatGPT is a specific product built by OpenAI. It is built on a Large Language Model (LLM) called GPT (Generative Pre-trained Transformer). But the LLM landscape is rich, with competitors like Google Gemini and Meta Llama.</p>
+                </div>`
+            },
+            'best-unblocked-games': {
+                id: 'best-unblocked-games',
+                title: 'Best Unblocked Games 2026',
+                category: 'Gaming',
+                catColor: 'green-500',
+                date: 'February 18, 2026',
+                readTime: '10 min read',
+                excerpt: 'Top unblocked games that work at school, from 1v1.lol to Slope and Retro Bowl.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">Whether you're between classes or just need a mental break, browser games are the perfect time-filler. Here are the best unblocked games of 2026 that actually work on school networks.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">1. 1v1.lol — The King of School Gaming</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Combining third-person shooting with building mechanics, 1v1.lol runs flawlessly in any browser and offers deep competitive play.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">2. Slope — High-Speed Reflex Training</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">A deceptively simple game where you control a ball rolling down an endless slope. It creates a "flow state" that makes time fly.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">3. Retro Bowl — Sports Strategy</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">A pixel-art American football management game that blends simple controls with long-term progression and team management.</p>
+                </div>`
+            },
+            'what-is-llm': {
+                id: 'what-is-llm',
+                title: 'What Is a Language Model?',
+                category: 'Deep Learning',
+                catColor: 'secondary',
+                date: 'February 12, 2026',
+                readTime: '7 min read',
+                excerpt: 'A complete beginner\'s guide to LLMs, neural networks, and how machines process human language.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">"Large Language Model" — LLM — is one of the most discussed phrases in tech. It's not a database; it's a mathematical system trained to predict text.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">The Simplest Explanation</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">An LLM predicts the next piece of text given some input. Its "knowledge" is encoded in billions of numerical weights learned during training.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Tokens: The Building Blocks</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Text is converted into numerical representations called tokens. This allows models to handle any language or code by breaking words into fragments.</p>
+                </div>`
+            },
+            'future-gaming': {
+                id: 'future-gaming',
+                title: 'Future of AI in Gaming',
+                category: 'Gaming',
+                catColor: 'green-500',
+                date: 'February 12, 2026',
+                readTime: '9 min read',
+                excerpt: 'From procedural generation to intelligent NPCs, explore how AI is crafting the next generation of games.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">Generative AI is poised to fundamentally rewrite how games are created and experienced. From NPCs that converse to worlds that build themselves.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">The End of Scripted NPCs</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">With LLMs, NPCs are gaining the ability to have unscripted, natural conversations, moving beyond simple Dialogue Trees.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Dynamic, Generative Worlds</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Future games might build themselves around player preferences in real-time, creating "infinite" games uniquely tailored to you.</p>
+                </div>`
+            },
+            'unblock-guide': {
+                id: 'unblock-guide',
+                title: 'How to Unblock Websites at School',
+                category: 'Guides',
+                catColor: 'white',
+                date: 'February 20, 2026',
+                readTime: '8 min read',
+                excerpt: 'A comprehensive guide on using web proxies and other methods to access filtered content responsibly.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">School filters are designed to keep students safe, but they often block helpful sites. Web proxies can help you regain access.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Understanding Network Blocks</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Schools use URL filtering, DNS filtering, and Deep Packet Inspection (DPI) to restrict access based on categories like "Games" or "Social Media".</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">How a Web Proxy Works</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">A proxy acts as an intermediary. The filter only sees you visiting the proxy URL, which then fetches the blocked content for you.</p>
+                </div>`
+            },
+            'evolution-gaming': {
+                id: 'evolution-gaming',
+                title: 'Evolution of Browser Gaming',
+                category: 'Gaming',
+                catColor: 'purple-400',
+                date: 'February 21, 2026',
+                readTime: '9 min read',
+                excerpt: 'Trace the journey from Java applets and Adobe Flash to high-performance HTML5 games.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">From pixelated Java applets to near-console-quality 3D games, browser gaming has undergone a technical revolution.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">The Golden Age: Adobe Flash</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Mid-2000s browser gaming was dominated by Flash, which empowered a generation of indie developers on sites like Newgrounds.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">The Modern Standard: HTML5 and WebGL</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Today, HTML5 and WebGL allow for high-performance 3D games that run natively without any plugins.</p>
+                </div>`
+            },
+            'neural-nets': {
+                id: 'neural-nets',
+                title: 'Understanding Neural Networks',
+                category: 'Deep Learning',
+                catColor: 'red-400',
+                date: 'February 12, 2026',
+                readTime: '10 min read',
+                excerpt: 'A simplified introduction to the mathematical engines that power modern artificial intelligence.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">Neural Networks are the engine behind everything from ChatGPT to self-driving cars. They are math functions organized into layers.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Biological Inspiration</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Artificial neural networks (ANN) mimic the process of neurons in the brain firing in patterns to identify features and reach conclusions.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">Weights and Biases</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Connections between neurons have "weights" that determine the importance of information. The network learns by adjusting these weights through backpropagation.</p>
+                </div>`
+            },
+            'ai-daily-life': {
+                id: 'ai-daily-life',
+                title: 'AI in Your Daily Life',
+                category: 'Technology',
+                catColor: 'blue-300',
+                date: 'February 22, 2026',
+                readTime: '8 min read',
+                excerpt: '6 ways artificial intelligence is already shaping your world, from maps to face recognition.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">By 2026, AI has become an invisible layer of your daily existence, guiding everything from entertainment to navigation.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">1. Curated Entertainment</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Recommendation AI analyzes your behavior on platforms like TikTok and YouTube to predict what will keep you engaged.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">2. Smarter Navigation</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Google Maps uses AI to analyze real-time data and predict traffic patterns to suggest the best routes.</p>
+                </div>`
+            },
+            'safety-guide': {
+                id: 'safety-guide',
+                title: 'Online Gaming Safety Guide',
+                category: 'Guides',
+                catColor: 'green-400',
+                date: 'February 22, 2026',
+                readTime: '9 min read',
+                excerpt: 'Essential tips for students on protecting privacy while gaming online.',
+                content: `
+                <div class="glassmorphism p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 italic">Gaming is a great way to relax, but it comes with risks. Staying safe should always be your top priority.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">1. Personal Information</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Never share real names, addresses, or school info. Use a persona and be cautious of strangers asking for social media handles.</p>
+                    <h2 class="text-2xl font-orbitron font-bold text-white mt-12 mb-6">2. Account Security</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Use unique passwords and enable Two-Factor Authentication (2FA) wherever possible to protect your progress.</p>
+                </div>`
+            }
+        };
+
+        function renderHub(filter = '') {
+            const grid = document.getElementById('articlesGrid');
+            if (!grid) return;
+
+            grid.innerHTML = '';
+            Object.values(ARTICLE_DATA).forEach(article => {
+                if (filter && article.category !== filter) return;
+
+                const card = document.createElement('div');
+                card.className = 'glassmorphism p-6 rounded-2xl border border-white/10 flex flex-col h-full hover:border-primary/50 transition-all duration-300 group shadow-lg cursor-pointer';
+                card.onclick = () => showArticle(article.id);
+                card.innerHTML = `
+                    <div class="mb-4 inline-block px-3 py-1 rounded-full bg-${article.catColor}/20 text-${article.catColor === 'white' ? 'white' : article.catColor} text-[10px] font-bold uppercase tracking-wider">
+                        ${article.category}
+                    </div>
+                    <h3 class="text-xl font-orbitron font-bold mb-3 group-hover:text-primary transition-colors">${article.title}</h3>
+                    <p class="text-gray-400 text-sm mb-6 flex-grow">${article.excerpt}</p>
+                    <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center text-gray-500 text-xs">
+                            <i class="far fa-clock mr-1"></i> ${article.readTime}
+                        </div>
+                        <span class="text-primary text-sm font-semibold flex items-center group-hover:translate-x-1 transition-transform">
+                            Read Article <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterArticles(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('bg-primary', 'text-white');
+                b.classList.add('bg-white/5', 'text-gray-400');
+            });
+            btn.classList.add('bg-primary', 'text-white');
+            btn.classList.remove('bg-white/5', 'text-gray-400');
+            renderHub(category === 'All' ? '' : category);
+        }
+
+        function showArticle(id) {
+            const article = ARTICLE_DATA[id];
+            if (!article) return;
+
+            document.getElementById('hubView').classList.add('hidden');
+            document.getElementById('articleView').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            const url = new URL(window.location);
+            url.searchParams.set('article', id);
+            window.history.pushState({}, '', url);
+
+            document.getElementById('articleHeader').innerHTML = `
+                <div class="inline-block px-4 py-1 rounded-full bg-${article.catColor}/20 text-${article.catColor === 'white' ? 'white' : article.catColor} text-xs font-bold uppercase tracking-widest mb-4">
+                    ${article.category}</div>
+                <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-6">${article.title}</h1>
+                <div class="flex items-center text-gray-400 text-sm">
+                    <span class="mr-4"><i class="far fa-calendar-alt mr-2"></i>${article.date}</span>
+                    <span><i class="far fa-clock mr-2"></i>${article.readTime}</span>
+                </div>
+            `;
+            document.getElementById('articleContent').innerHTML = article.content;
+            document.getElementById('articleFooter').innerHTML = `
+                <button onclick="showHub()"
+                    class="px-8 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-all duration-300 inline-block mr-4">Back to Knowledge Hub</button>
+                <a href="index.html"
+                    class="px-8 py-3 border border-white/20 rounded-full font-semibold hover:scale-105 transition-all duration-300 inline-block">Home</a>
+            `;
+
+            document.title = `${article.title} | Synapse AI`;
+        }
+
+        function showHub() {
+            document.getElementById('hubView').classList.remove('hidden');
+            document.getElementById('articleView').classList.add('hidden');
+
+            const url = new URL(window.location);
+            url.searchParams.delete('article');
+            window.history.pushState({}, '', url);
+
+            document.title = "Knowledge Hub - AI & Gaming Insights | Synapse AI";
+            renderHub();
+        }
+
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            const articleId = params.get('article');
+            if (articleId && ARTICLE_DATA[articleId]) {
+                showArticle(articleId);
+            } else {
+                renderHub();
+            }
+        };
+
+        window.onpopstate = () => {
+            const params = new URLSearchParams(window.location.search);
+            const articleId = params.get('article');
+            if (articleId && ARTICLE_DATA[articleId]) {
+                showArticle(articleId);
+            } else {
+                showHub();
+            }
+        };
+    </script>
+</body>
+
+</html>
