@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V4T99H82MR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-V4T99H82MR');
+    </script>
+
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse AI Chat - Your Advanced AI Assistant</title>
+    <meta name="description"
+        content="Chat with Synapse AI, the intelligent assistant that helps with coding, creative writing, math, research, and more. Fast and free to use.">
+    <meta name="keywords" content="AI chat, free AI, AI assistant, Synapse Chat, AI writing help, coding assistant">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://synapsecorp.pages.dev/chat.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>tailwind.config = { theme: { extend: { colors: { primary: "#3b82f6", secondary: "#8b5cf6", dark: "#0f172a", "dark-light": "#1e293b" }, fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'], 'orbitron': ['Orbitron', 'monospace'] } } } }</script>
+
+
+
+<!-- Direct Pop-Under Handler (Rate Limited: 5 Min) -->
+<script>
+(function() {
+    try {
+        const NOW = Date.now();
+        const LAST_POP = localStorage.getItem('synapse_last_pop') || 0;
+        const FIVE_MIN = 5 * 60 * 1000;
+
+        if (NOW - LAST_POP > FIVE_MIN) {
+            (function(amz){
+                var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
+                s.settings = amz || {};
+                s.src = "\/\/quickwittedconclusion.com\/ckD\/9Q6.bp2\/5HlhSGWUQS9CNZjAg\/yVM\/jvkt3MMPy-0\/2QOqDSIbyiO\/Tbcp3j";
+                s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l);
+            })({});
+            localStorage.setItem('synapse_last_pop', NOW);
+        }
+    } catch(e) { console.error("Ad limit error", e); }
+})();
+</script>
+
+
+</head>
+
+<body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden hex-pattern">
+
+    <div class="cyber-grid"></div>
+    <div class="scanlines"></div>
+    <div class="matrix-rain" id="matrixRain"></div>
+
+    <div id="globalAnnouncement">
+        <div class="announcement-card">
+            <div class="announcement-close" onclick="closeGlobalAnnouncement()"><i class="fas fa-times"></i></div>
+            <div class="announcement-title"><i class="fas fa-bullhorn neon-pulse"></i> Global Broadcast</div>
+            <div class="announcement-text" id="announcementText">Connecting...</div>
+        </div>
+    </div>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="text-center relative">
+            <div class="relative w-32 h-32 mx-auto mb-8">
+                <div class="absolute inset-0 border-4 border-transparent border-t-primary rounded-full animate-spin">
+                </div>
+                <div class="absolute inset-2 border-4 border-transparent border-t-secondary rounded-full animate-spin"
+                    style="animation-direction:reverse;animation-duration:0.8s;"></div>
+                <div class="absolute inset-4 border-4 border-transparent border-t-pink-500 rounded-full animate-spin"
+                    style="animation-duration:0.6s;"></div>
+            </div>
+            <h2 class="text-2xl font-orbitron font-bold typing-cursor mb-4">INITIALIZING SYNAPSE</h2>
+            <div class="w-64 mx-auto h-1 bg-gray-800 rounded-full overflow-hidden mb-4">
+                <div class="loading-progress h-full rounded-full"></div>
+            </div>
+            <p class="text-gray-500 text-sm font-orbitron tracking-widest" id="loadingStatus">LOADING...</p>
+        </div>
+    </div>
+    <div id="parallaxBg" class="parallax-bg"></div>
+
+    <nav class="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-white/10">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <i class="fas fa-brain text-white"></i>
+                </div><span class="text-2xl font-orbitron font-bold text-primary">SYNAPSE AI</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                <a href="chatroom.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300 relative">Chat
+                    <div class="chatroom-badge notif-badge">0</div>
+                </a>
+                <a href="chat.html"
+                    class="nav-underline active text-gray-300 hover:text-white transition-colors duration-300">AI
+                    Chat</a>
+                <a href="games.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Games</a>
+                <a href="proxy.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Proxy</a>
+                <a href="articles.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
+                <a href="about.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">About</a>
+                <a href="policy.html"
+                    class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
+            </div>
+            <button id="tryAI" onclick="location.href='chat.html'"
+                class="hidden md:block px-6 py-2 bg-primary rounded-full font-semibold font-orbitron uppercase tracking-wider hover:scale-110 transition-all duration-300">LAUNCH
+                AI</button>
+            <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white"><i
+                    class="fas fa-bars text-2xl"></i></button>
+        </div>
+        <div id="mobileMenu" class="md:hidden mt-4 hidden flex-col space-y-4 px-4 pb-4">
+            <a href="index.html" class="nav-underline text-gray-300 hover:text-white py-2">Home</a>
+            <a href="chatroom.html" class="nav-underline text-gray-300 hover:text-white py-2 relative">Chat <div
+                    class="chatroom-badge notif-badge">0</div></a>
+            <a href="chat.html" class="nav-underline active text-gray-300 hover:text-white py-2">AI Chat</a>
+            <a href="games.html" class="nav-underline text-gray-300 hover:text-white py-2">Games</a>
+            <a href="proxy.html" class="nav-underline text-gray-300 hover:text-white py-2">Proxy</a>
+            <a href="articles.html" class="nav-underline text-gray-300 hover:text-white py-2">Articles</a>
+            <a href="about.html" class="nav-underline text-gray-300 hover:text-white py-2">About</a>
+            <a href="policy.html" class="nav-underline text-gray-300 hover:text-white py-2">Policy</a>
+        </div>
+    </nav>
+
+
+    <main>
+        <div class="ad-container flex justify-center"><script>(function(msfr){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=msfr||{};s.src="\/\/quickwittedconclusion.com\/cHDa9.6obO2B5\/lySKWUQc9xNij-glyFMfjgka3uMRye0\/2YOPD\/IQyeOUTdcS3p";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script></div>
+
+
+        <div id="chatPage" class="page-transition">
+            <div class="w-full px-4 py-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-orbitron font-bold mb-4"><span
+                            class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Synapse AI
+                            Chat Assistant</span></h1>
+                    <p class="text-gray-400">Your intelligent AI assistant with superpowers 🚀</p>
+                    <div class="ad-container flex justify-center"><script>(function(msfr){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=msfr||{};s.src="\/\/quickwittedconclusion.com\/cHDa9.6obO2B5\/lySKWUQc9xNij-glyFMfjgka3uMRye0\/2YOPD\/IQyeOUTdcS3p";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-6">
+                <!-- Main Chat Area -->
+                <div class="lg:col-span-2">
+                    <div class="glassmorphism rounded-2xl overflow-hidden h-[600px] flex flex-col relative">
+                        <div
+                            class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
+                            <div class="flex items-center">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-pulse-glow">
+                                    <i class="fas fa-brain text-white"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="font-semibold">Synapse AI Assistant</h3>
+                                    <p class="text-sm text-green-400">● Online • Lightning Fast</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="resetSession()" class="p-2 hover:bg-white/10 rounded-lg transition-all"
+                                    title="Clear Chat"><i class="fas fa-trash text-gray-400"></i></button>
+                            </div>
+                        </div>
+
+                        <div id="chatMessages" class="flex-1 w-full overflow-y-auto p-4 space-y-4">
+                            <div class="flex items-start">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-robot text-sm"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="chat-bubble-ai p-4 w-full">
+                                        <p>👋 Hello! I'm Synapse AI. I can help you with:</p>
+                                        <ul class="mt-2 space-y-1 text-sm">
+                                            <li>📝 Essays & homework</li>
+                                            <li>🧮 Math problems</li>
+                                            <li>💡 Creative ideas</li>
+                                            <li>🔬 Research & analysis</li>
+                                            <li>💻 Coding help</li>
+                                        </ul>
+                                        <p class="mt-2">What can I help you with today?</p>
+                                        <p class="mt-2 text-xs opacity-50 italic">Generated by neural sync technology.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Integrated Sponsored Message -->
+                            <div class="flex items-start">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 border border-green-500/30">
+                                    <i class="fas fa-star text-green-400 text-xs"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="glassmorphism p-4 rounded-2xl border border-white/5 bg-white/5">
+                                        <p class="text-[10px] text-green-400 uppercase tracking-widest mb-2 font-bold">
+                                            Sponsored Insight</p>
+                                        <div class="ad-container flex justify-center"><script>(function(msfr){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=msfr||{};s.src="\/\/quickwittedconclusion.com\/cHDa9.6obO2B5\/lySKWUQc9xNij-glyFMfjgka3uMRye0\/2YOPD\/IQyeOUTdcS3p";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="typingIndicator" class="flex items-start hidden">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-robot text-sm"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="chat-bubble-ai p-4 max-w-md">
+                                        <div class="typing-indicator">
+                                            <div class="typing-dot"></div>
+                                            <div class="typing-dot"></div>
+                                            <div class="typing-dot"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 border-t border-white/10 bg-dark-light/50">
+                            <div class="flex space-x-2">
+                                <input type="text" id="chatInput" placeholder="Ask me anything..."
+                                    class="flex-1 bg-dark-light border border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-primary transition-all">
+                                <button id="sendMessage"
+                                    class="px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-full font-semibold hover:scale-105 transition-transform"><i
+                                        class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ad-container flex justify-center"><script>(function(msfr){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=msfr||{};s.src="\/\/quickwittedconclusion.com\/cHDa9.6obO2B5\/lySKWUQc9xNij-glyFMfjgka3uMRye0\/2YOPD\/IQyeOUTdcS3p";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script></div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+
+
+        </div>
+    </main>
+    <footer class="mt-16 border-t border-white/10">
+        <div class="container mx-auto px-4 py-8 text-center">
+            <p class="text-gray-500">© 2024 Synapse AI. All rights reserved.</p>
+            <div class="ad-container flex justify-center"><script>(function(msfr){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=msfr||{};s.src="\/\/quickwittedconclusion.com\/cHDa9.6obO2B5\/lySKWUQc9xNij-glyFMfjgka3uMRye0\/2YOPD\/IQyeOUTdcS3p";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script></div>
+        </div>
+
+
+        </div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="games.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
