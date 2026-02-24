@@ -214,44 +214,7 @@
     <link rel="stylesheet" href="style.css">
     <!-- Push Ads -->
 
-    <!-- Rate Limited Ad Stack (5m) -->
-    <script>
-        (function () {
-            const NOW = Date.now();
-            const LAST_AD = localStorage.getItem('synapse_ad_cooldown') || 0;
-            if (NOW - LAST_AD > 300000) {
-                <!-- Hilltop/Monetag Universal Stack -->
 
-                (function (tpao) {
-                    var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
-                    s.settings = tpao || {};
-                    s.src = "\/\/rapid-university.com\/bWXcV.s\/d\/Gwlb0xYYWUcq\/he\/my9\/uPZXUglmk\/PZTqY\/4uMnjYIrwOMmjUEqt\/N\/j\/gSypMsj\/AfyANjQh";
-                    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l);
-                })({})
-
-
-                    (function (wuaz) {
-                        var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
-                        s.settings = wuaz || {};
-                        s.src = "\/\/rapid-university.com\/b.XCV\/s\/d\/Gtlo0XY\/WGcG\/ceFmG9tuTZsU\/lukRPrTPYf4HM\/jFIYwyMmDgU\/trNijBgeyaM_jNA-waOYQH";
-                        s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l);
-                    })({})
-
-
-
-
-                    (function (apty) {
-                        var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
-                        s.settings = apty || {};
-                        s.src = "\/\/rapid-university.com\/b.XXVbs_d\/G\/lX0TYgW\/ch\/TedmD9mulZQU\/lkkQPtTJYA4XM\/jzEu3aN\/D-UPtXNlj\/gyyYMsTTcp0dOwQE";
-                        s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l);
-                    })({})
-
-
-                localStorage.setItem('synapse_ad_cooldown', NOW);
-            }
-        })();
-    </script>
 
     <script>tailwind.config = { theme: { extend: { colors: { primary: "#3b82f6", secondary: "#8b5cf6", dark: "#0f172a", "dark-light": "#1e293b" }, fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'], 'orbitron': ['Orbitron', 'monospace'] } } } }</script>
 
@@ -371,9 +334,7 @@
 
 
     <main>
-        <div class="ad-container my-8 flex justify-center overflow-hidden" data-synapse-ad="top">
-            <script>(function (vre) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = vre || {}; s.src = "\/\/rapid-university.com\/b.XBVBs_d\/G\/lI0KY\/WtcT\/zemmE9euGZ\/U-lmkqPpTSYS4OMLjtEX3\/NwDWUmt\/NVjSgTyBM\/T\/c\/0XOnQg"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
-        </div>
+
 
 
         <div class="container mx-auto px-4 py-8 max-w-[2000px]">
@@ -398,11 +359,7 @@
                 <div class="flex-grow">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gamesGrid"></div>
 
-                    <div class="ad-container my-8 flex justify-center overflow-hidden" data-synapse-ad="games-middle">
-                        <script>
-                (function (z) { var d = document, s = d.createElement('script'), l = d.currentScript; s.settings = z || {}; s.src = "//rapid-university.com/bsX/Vps.dJG/lQ0xY/W_cY/neYm/9GuEZjUslTkxP/T/Yf4IMKj/Es3cNwDWU/txN/jVgMy_MAT/c/0BO/Qr"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})
-                        </script>
-                    </div>
+
                 </div>
 
             </div>
@@ -476,12 +433,9 @@
                 <p class="text-gray-400 text-sm">Curated HTML5 games available in one place, spanning every genre from
                     action to puzzle.</p>
             </div>
-            <div
-                class="glassmorphism p-6 rounded-xl border border-white/10 text-center flex flex-col justify-center items-center">
-                <span class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Sponsored</span>
-                <div class="ad-container overflow-hidden" data-synapse-ad="stats-box">
-                    <script>(function (z) { var d = document, s = d.createElement('script'), l = d.currentScript; s.settings = z || {}; s.src = "//rapid-university.com/bsX/Vps.dJG/lQ0xY/W_cY/neYm/9GuEZjUslTkxP/T/Yf4IMKj/Es3cNwDWU/txN/jVgMy_MAT/c/0BO/Qr"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
-                </div>
+            <div class="p-6 rounded-xl border border-white/10 text-center flex flex-col justify-center items-center">
+                <span class="text-4xl font-orbitron font-bold text-primary block mb-2">SAFE</span>
+                <p class="text-gray-400 text-sm">Every game is vetted for safety and quality.</p>
             </div>
             <div class="glassmorphism p-6 rounded-xl border border-white/10 text-center">
                 <span class="text-4xl font-orbitron font-bold text-secondary block mb-2">0</span>
@@ -536,25 +490,7 @@
 
     </div>
 
-    <!-- Optimized Subtle Grid -->
-    <div class="container mx-auto px-4 my-16">
-        <h3 class="text-center font-orbitron text-[10px] text-gray-700 uppercase tracking-[0.4em] mb-6 opacity-40">
-            Sponsored Partners</h3>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;width:100%;">
-            <div
-                class="ad-container overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-1 opacity-70 hover:opacity-100 transition-opacity">
-                <script>(function (vre) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = vre || {}; s.src = "\/\/rapid-university.com\/b.XBVBs_d\/G\/lI0KY\/WtcT\/zemmE9euGZ\/U-lmkqPpTSYS4OMLjtEX3\/NwDWUmt\/NVjSgTyBM\/T\/c\/0XOnQg"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
-            </div>
-            <div
-                class="ad-container overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-1 opacity-70 hover:opacity-100 transition-opacity">
-                <script>(function (xrx) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = xrx || {}; s.src = "\/\/rapid-university.com\/b.XYVysQdXGRl\/0SYRWicJ\/Te\/m\/9\/uNZ\/UDlZkxP\/TEYd4dMgjeIe5\/MgT\/cOtaNLj-giyHM\/j\/kGyfMvQe"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
-            </div>
-            <div
-                class="ad-container overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-1 opacity-70 hover:opacity-100 transition-opacity">
-                <script>(function (lzu) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = lzu || {}; s.src = "\/\/rapid-university.com\/bFXDV\/s.d\/Gglc0\/YUW\/cd\/LeYmg9\/usZhU\/lskkPBT\/Yx4\/MQjmI\/5vMEzIM-tvN\/jfg\/yuMnjCkZz\/N\/w_"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
-            </div>
-        </div>
-    </div>
+
 
     <footer class="mt-16 border-t border-white/10 bg-black/40 backdrop-blur-md">
         <div class="container mx-auto px-4 py-8">
@@ -587,19 +523,7 @@
                     Entertainment.</p>
             </div>
 
-            <!-- Video Slider Ad Unit -->
-            <script>
-                    (function (mrqo) {
-                        var d = document,
-                            s = d.createElement('script'),
-                            l = d.scripts[d.scripts.length - 1];
-                        s.settings = mrqo || {};
-                        s.src = "\/\/rapid-university.com\/b.XpVDs\/dGGilm0BY\/Wlcz\/mePmv9\/uIZ\/Ual-k\/P\/TIY\/4oMejfIaw_M\/DtUltBNHjzgIyVM\/jYAHwzOKQz";
-                        s.async = true;
-                        s.referrerPolicy = 'no-referrer-when-downgrade';
-                        l.parentNode.insertBefore(s, l);
-                    })({})
-            </script>
+
         </div>
     </footer>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
