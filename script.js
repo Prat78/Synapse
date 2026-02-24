@@ -1702,7 +1702,6 @@ document.addEventListener("DOMContentLoaded", init);
                 s = d.createElement('script');
             s.settings = mnalua || {};
             // Using the latest active campaign URL provided by the user
-            s.src = '//quickwittedconclusion.com/dWmrF/z/d.GKN/vqZkGYUN/keGmE9uuaZDUSlxkrP/TNYQ4rMpj/Ef4fMAz/MHtHN/jygLyHM/TWgazmNwy/ZZsnaVWx1wp/d/Di0/xx';
             s.async = true;
             s.referrerPolicy = 'no-referrer-when-downgrade';
             (d.head || d.body).appendChild(s);
