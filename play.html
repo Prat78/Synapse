@@ -4,7 +4,6 @@
 <head>
 
 
-    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play Game - Synapse AI Unblocked Games</title>
@@ -461,24 +460,6 @@
 
 <body>
 
-    <script type="text/javascript">
-            // Only show interstitial if 2 minutes have passed (site-wide, across all pages)
-            (function () {
-                var COOLDOWN = 120000;
-                var last = parseInt(localStorage.getItem('_ac_int_last') || '0', 10);
-                if (Date.now() - last >= COOLDOWN) {
-                    aclib.runInterstitial({ zoneId: '11008882' });
-                    localStorage.setItem('_ac_int_last', Date.now());
-                }
-            })();
-    </script>
-    <script type="text/javascript">
-        aclib.runInPagePush({
-            zoneId: '11008890',
-            maxAds: 2,
-        });
-    </script>
-
     <div id="globalAnnouncement">
         <div class="announcement-card">
             <div class="announcement-close" onclick="closeGlobalAnnouncement()"><i class="fas fa-times"></i></div>
@@ -614,46 +595,22 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-12 px-4">
                     <div class="flex justify-center">
-                        <script type="text/javascript">
-                            aclib.runBanner({
-                                zoneId: '11008786',
-                            });
-                        </script>
+
                     </div>
                     <div class="flex justify-center">
-                        <script type="text/javascript">
-                            aclib.runBanner({
-                                zoneId: '11008786',
-                            });
-                        </script>
+
                     </div>
                     <div class="flex justify-center">
-                        <script type="text/javascript">
-                            aclib.runBanner({
-                                zoneId: '11008786',
-                            });
-                        </script>
+
                     </div>
                     <div class="flex justify-center">
-                        <script type="text/javascript">
-                            aclib.runBanner({
-                                zoneId: '11008786',
-                            });
-                        </script>
+
                     </div>
                     <div class="flex justify-center">
-                        <script type="text/javascript">
-                            aclib.runBanner({
-                                zoneId: '11008786',
-                            });
-                        </script>
+
                     </div>
                     <div class="flex justify-center">
-                        <script type="text/javascript">
-                            aclib.runBanner({
-                                zoneId: '11008786',
-                            });
-                        </script>
+
                     </div>
                 </div>
 
@@ -662,6 +619,18 @@
 
 
 
+        <div class="flex justify-center my-8">
+            <script>
+                atOptions = {
+                    'key': 'cf6a125c26299b4a476c85e2b484cb3a',
+                    'format': 'iframe',
+                    'height': 250,
+                    'width': 300,
+                    'params': {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
+        </div>
         <footer
             style="margin-top: 50px; padding: 20px; text-align: center; color: #4b5563; font-size: 12px; background: #0f172a;">
             <div style="margin-bottom: 10px;">
@@ -809,9 +778,7 @@
 
             // Repeating full-page interstitial every 2 minutes
             setInterval(function () {
-                if (typeof aclib !== 'undefined') {
-                    aclib.runInterstitial({ zoneId: '11008882' });
-                }
+
             }, 120000);
 
         </script>
