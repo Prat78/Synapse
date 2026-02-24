@@ -211,6 +211,11 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <link href="https://googleads.github.io/videojs-ima/dist/videojs.ima.css" rel="stylesheet" />
+    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <script src="https://googleads.github.io/videojs-ima/dist/videojs.ima.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
         rel="stylesheet">
@@ -261,6 +266,18 @@
     <div class="cyber-grid"></div>
     <div class="scanlines"></div>
     <div class="matrix-rain" id="matrixRain"></div>
+
+    <script type="text/javascript">
+        aclib.runInterstitial({
+            zoneId: '11008882',
+        });
+    </script>
+    <script type="text/javascript">
+        aclib.runInPagePush({
+            zoneId: '11008890',
+            maxAds: 2,
+        });
+    </script>
 
     <div id="globalAnnouncement">
         <div class="announcement-card">
@@ -339,6 +356,13 @@
     <div class="flex flex-col lg:flex-row justify-between min-h-screen pt-16 px-0 shrink-0">
         <!-- Left Sidebar Ads -->
         <div class="hidden lg:flex flex-shrink-0 w-32 flex-col gap-2 items-center py-2 bg-black/10">
+            <div class="ad-banner-item">
+                <script type="text/javascript">
+                    aclib.runBanner({
+                        zoneId: '11008898',
+                    });
+                </script>
+            </div>
             <div class="ad-banner-item">
                 <script type="text/javascript">
                     aclib.runBanner({
@@ -792,6 +816,26 @@
                     </div>
                 </div>
 
+                <!-- Featured Video Ad -->
+                <div
+                    class="max-w-4xl mx-auto mb-12 rounded-2xl overflow-hidden glassmorphism p-2 shadow-2xl border border-white/10">
+                    <div class="relative pt-[56.25%]">
+                        <video id="games-video" class="video-js vjs-big-play-centered absolute inset-0 w-full h-full"
+                            controls preload="auto" playsinline muted>
+                            <source src="https://storage.googleapis.com/interactive-media-ads-python/placeholder.mp4"
+                                type="video/mp4" />
+                        </video>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const player = videojs('games-video');
+                            player.ima({
+                                adTagUrl: "https://youradexchange.com/video/select.php?r=11008878",
+                            });
+                        });
+                    </script>
+                </div>
+
                 <div class="flex flex-col lg:flex-row gap-4 items-start justify-center">
 
                     <div class="flex-grow">
@@ -958,6 +1002,13 @@
 
         <!-- Right Sidebar Ads -->
         <div class="hidden lg:flex flex-shrink-0 w-32 flex-col gap-2 items-center py-2 bg-black/10">
+            <div class="ad-banner-item">
+                <script type="text/javascript">
+                    aclib.runBanner({
+                        zoneId: '11008898',
+                    });
+                </script>
+            </div>
             <div class="ad-banner-item">
                 <script type="text/javascript">
                     aclib.runBanner({
