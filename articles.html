@@ -186,20 +186,7 @@
 
 
 
-    <!-- Direct Pop-Under Handler (Rate Limited: 5 Min) -->
-    <script>
-            (function () {
-                try {
-                    const NOW = Date.now();
-                    const LAST_POP = localStorage.getItem('synapse_last_pop') || 0;
-                    const FIVE_MIN = 5 * 60 * 1000;
 
-                    if (NOW - LAST_POP > FIVE_MIN) {
-                        localStorage.setItem('synapse_last_pop', NOW);
-                    }
-                } catch (e) { console.error("Ad limit error", e); }
-            })();
-    </script>
 
 
 </head>
@@ -769,21 +756,7 @@
     `;
                 grid.appendChild(card);
 
-                // Inject an ad card every 2 articles
-                if ((index + 1) % 10 === 0 && !filter) {
-                    const adCard = document.createElement('div');
-                    adCard.className = 'glassmorphism p-6 rounded-2xl border border-white/10 flex flex-col justify-center items-center h-full shadow-lg';
-                    adCard.innerHTML = `
-                        <span class="text-[10px] text-gray-500 uppercase tracking-widest mb-4">Sponsored Insight</span>
-                    `;
-                    grid.appendChild(adCard);
 
-                    // Manually create the script to ensure execution
-                    const adContainer = adCard.querySelector('.ad-container');
-                    const script = document.createElement('script');
-                    script.innerHTML = `(function(z){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=z||{};s.src="//rapid-university.com/bsX/Vps.dJG/lQ0xY/W_cY/neYm/9GuEZjUslTkxP/T/Yf4IMKj/Es3cNwDWU/txN/jVgMy_MAT/c/0BO/Qr";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})`;
-                    adContainer.appendChild(script);
-                }
             });
         }
 

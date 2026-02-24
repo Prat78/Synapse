@@ -194,20 +194,7 @@
 
 
 
-    <!-- Direct Pop-Under Handler (Rate Limited: 5 Min) -->
-    <script>
-            (function () {
-                try {
-                    const NOW = Date.now();
-                    const LAST_POP = localStorage.getItem('synapse_last_pop') || 0;
-                    const FIVE_MIN = 5 * 60 * 1000;
 
-                    if (NOW - LAST_POP > FIVE_MIN) {
-                        localStorage.setItem('synapse_last_pop', NOW);
-                    }
-                } catch (e) { console.error("Ad limit error", e); }
-            })();
-    </script>
 
 
 </head>
@@ -319,9 +306,7 @@
                     </div>
                 </div>
 
-                <div class="ad-container my-8 flex justify-center overflow-hidden" data-synapse-ad="top">
-                    <script>(function (vre) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = vre || {}; s.src = "\/\/rapid-university.com\/b.XBVBs_d\/G\/lI0KY\/WtcT\/zemmE9euGZ\/U-lmkqPpTSYS4OMLjtEX3\/NwDWUmt\/NVjSgTyBM\/T\/c\/0XOnQg"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
-                </div>
+
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-screen-2xl mx-auto">
@@ -430,26 +415,7 @@
                     </div>
                 </div>
 
-                <!-- Sponsored Node -->
-                <div
-                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02]">
-                    <div class="glassmorphism p-6 flex items-center border-b border-white/10">
-                        <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center mr-4"><i
-                                class="fas fa-star text-green-400"></i></div>
-                        <div>
-                            <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">Premium
-                                Ad Node</h3>
-                            <p class="text-xs text-green-400 uppercase tracking-widest">Sponsored Node</p>
-                        </div>
-                    </div>
-                    <div
-                        class="glassmorphism h-[700px] flex flex-col items-center justify-center border-2 border-white/5 rounded-lg">
-                        <span class="text-xs text-gray-500 uppercase tracking-widest mb-4 italic">Advertisement</span>
-                        <div class="ad-container overflow-hidden" data-synapse-ad="premium-spot">
-                            <script>(function (z) { var d = document, s = d.createElement('script'), l = d.currentScript; s.settings = z || {}; s.src = "//rapid-university.com/bsX/Vps.dJG/lQ0xY/W_cY/neYm/9GuEZjUslTkxP/T/Yf4IMKj/Es3cNwDWU/txN/jVgMy_MAT/c/0BO/Qr"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
 

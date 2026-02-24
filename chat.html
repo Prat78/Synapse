@@ -193,20 +193,7 @@
 
 
 
-    <!-- Direct Pop-Under Handler (Rate Limited: 5 Min) -->
-    <script>
-            (function () {
-                try {
-                    const NOW = Date.now();
-                    const LAST_POP = localStorage.getItem('synapse_last_pop') || 0;
-                    const FIVE_MIN = 5 * 60 * 1000;
 
-                    if (NOW - LAST_POP > FIVE_MIN) {
-                        localStorage.setItem('synapse_last_pop', NOW);
-                    }
-                } catch (e) { console.error("Ad limit error", e); }
-            })();
-    </script>
 
 
 </head>
@@ -349,19 +336,7 @@
                                 </div>
                             </div>
 
-                            <!-- Integrated Sponsored Message -->
-                            <div class="flex items-start">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 border border-green-500/30">
-                                    <i class="fas fa-star text-green-400 text-xs"></i>
-                                </div>
-                                <div class="ml-3 flex-1">
-                                    <div class="glassmorphism p-4 rounded-2xl border border-white/5 bg-white/5">
-                                        <p class="text-[10px] text-green-400 uppercase tracking-widest mb-2 font-bold">
-                                            Sponsored Insight</p>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div id="typingIndicator" class="flex items-start hidden">
                                 <div
                                     class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">

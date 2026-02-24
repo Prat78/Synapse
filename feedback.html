@@ -30,20 +30,7 @@
 
 
 
-<!-- Direct Pop-Under Handler (Rate Limited: 5 Min) -->
-<script>
-(function() {
-    try {
-        const NOW = Date.now();
-        const LAST_POP = localStorage.getItem('synapse_last_pop') || 0;
-        const FIVE_MIN = 5 * 60 * 1000;
 
-        if (NOW - LAST_POP > FIVE_MIN) {
-            localStorage.setItem('synapse_last_pop', NOW);
-        }
-    } catch(e) { console.error("Ad limit error", e); }
-})();
-</script>
 
 
 </head>

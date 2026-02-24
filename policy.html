@@ -29,20 +29,7 @@
 
 
 
-<!-- Direct Pop-Under Handler (Rate Limited: 5 Min) -->
-<script>
-(function() {
-    try {
-        const NOW = Date.now();
-        const LAST_POP = localStorage.getItem('synapse_last_pop') || 0;
-        const FIVE_MIN = 5 * 60 * 1000;
 
-        if (NOW - LAST_POP > FIVE_MIN) {
-            localStorage.setItem('synapse_last_pop', NOW);
-        }
-    } catch(e) { console.error("Ad limit error", e); }
-})();
-</script>
 
 
 </head>
@@ -168,11 +155,7 @@
                     </p>
                 </div>
 
-                <!-- Integrated Ad Section -->
-                <div
-                    class="glassmorphism p-8 rounded-2xl border border-white/10 flex flex-col items-center justify-center">
-                    <span class="text-[10px] text-gray-500 uppercase tracking-widest mb-4">Support our mission</span>
-                </div>
+
 
                 <!-- Section 3 -->
                 <div class="glassmorphism p-8 rounded-2xl border border-white/10">
