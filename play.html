@@ -14,11 +14,6 @@
         content="play games, unblocked games, browser games, Synapse gaming, school unblocked, free online games">
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-    <link href="https://googleads.github.io/videojs-ima/dist/videojs.ima.css" rel="stylesheet" />
-    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-    <script src="https://googleads.github.io/videojs-ima/dist/videojs.ima.js"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
@@ -467,9 +462,15 @@
 <body>
 
     <script type="text/javascript">
-        aclib.runInterstitial({
-            zoneId: '11008882',
-        });
+            // Only show interstitial if 2 minutes have passed (site-wide, across all pages)
+            (function () {
+                var COOLDOWN = 120000;
+                var last = parseInt(localStorage.getItem('_ac_int_last') || '0', 10);
+                if (Date.now() - last >= COOLDOWN) {
+                    aclib.runInterstitial({ zoneId: '11008882' });
+                    localStorage.setItem('_ac_int_last', Date.now());
+                }
+            })();
     </script>
     <script type="text/javascript">
         aclib.runInPagePush({
@@ -606,23 +607,6 @@
                     </div>
 
                     <div class="game" id="game" style="display:none">
-                        <!-- Pre-game Video Ad -->
-                        <div id="videoAdOverlay"
-                            class="absolute inset-0 z-[60] bg-black rounded-2xl flex flex-col items-center justify-center">
-                            <div class="w-full h-full">
-                                <video id="my-video" class="video-js vjs-big-play-centered w-full h-full" controls
-                                    preload="auto" playsinline>
-                                    <source
-                                        src="https://storage.googleapis.com/interactive-media-ads-python/placeholder.mp4"
-                                        type="video/mp4" />
-                                </video>
-                            </div>
-                            <button id="skipBtn" onclick="skipVideoAd()"
-                                class="absolute bottom-5 right-5 bg-black/80 border border-white/20 text-white px-6 py-2 rounded-full font-orbitron text-xs flex items-center gap-2 hover:bg-primary/80 transition-all z-[70]">
-                                SKIP AD <i class="fas fa-forward"></i>
-                            </button>
-                        </div>
-
                         <iframe id="frame" allow="autoplay;fullscreen;gamepad" allowfullscreen
                             title="Unblocked Game Player"></iframe>
                     </div>
@@ -833,23 +817,12 @@
                 }
             }
 
-            // Initialize VideoJS IMA Ad
-            document.addEventListener('DOMContentLoaded', () => {
-                const player = videojs('my-video', {
-                    autoplay: true,
-                    muted: true,
-                    controls: true
-                });
-
-                player.ima({
-                    adTagUrl: "https://youradexchange.com/video/select.php?r=11008878",
-                });
-
-                // On ad error or complete, show skip button immediately
-                player.on('adserror', () => {
-                    console.log('Ad error, skipping...');
-                });
-            });
+            // Repeating full-page interstitial every 2 minutes
+            setInterval(function () {
+                if (typeof aclib !== 'undefined') {
+                    aclib.runInterstitial({ zoneId: '11008882' });
+                }
+            }, 120000);
 
         </script>
         <script src="script.js"></script>

@@ -49,9 +49,15 @@
 <body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden hex-pattern">
 
     <script type="text/javascript">
-        aclib.runInterstitial({
-            zoneId: '11008882',
-        });
+            // Only show interstitial if 2 minutes have passed (site-wide, across all pages)
+            (function () {
+                var COOLDOWN = 120000;
+                var last = parseInt(localStorage.getItem('_ac_int_last') || '0', 10);
+                if (Date.now() - last >= COOLDOWN) {
+                    aclib.runInterstitial({ zoneId: '11008882' });
+                    localStorage.setItem('_ac_int_last', Date.now());
+                }
+            })();
     </script>
     <script type="text/javascript">
         aclib.runInPagePush({
