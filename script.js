@@ -898,7 +898,7 @@ function displayMessage(msg) {
                     </div>
                     <div class="chat-bubble-user p-3 inline-block text-left">${messageContent}</div>
                     <div class="admin-only mt-1">
-                        <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
+                        <button onclick="deleteMessage('${msg.id}', decodeURIComponent('${encodeURIComponent(msg.nickname || '')}'))" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
                     </div>
                 </div>
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xs"></i></div>`;
@@ -914,8 +914,8 @@ function displayMessage(msg) {
                     </div>
                     <div class="chat-bubble-ai p-3 inline-block">${messageContent}</div>
                     <div class="admin-only mt-1 flex space-x-2">
-                        <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
-                        <button onclick="banUser('${msg.userId}')" class="admin-only-btn"><i class="fas fa-hammer mr-1"></i>Ban</button>
+                        <button onclick="deleteMessage('${msg.id}', decodeURIComponent('${encodeURIComponent(msg.nickname || '')}'))" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
+                        <button onclick="banUser('${msg.userId}', decodeURIComponent('${encodeURIComponent(msg.nickname || '')}'))" class="admin-only-btn"><i class="fas fa-hammer mr-1"></i>Ban</button>
                     </div>
                 </div>`;
         }
@@ -1401,13 +1401,20 @@ function deleteAllMessages() {
     }
 }
 
-function deleteMessage(messageId) {
+function deleteMessage(messageId, nickname) {
     if (!isAuth()) return;
     if (!messagesRef) return;
 
     messagesRef.child(messageId).remove()
         .then(() => {
             console.log("Message deleted:", messageId);
+            if (nickname) {
+                messagesRef.push({
+                    type: 'system',
+                    text: `A message from ${nickname} was deleted by Admin.`,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+            }
         })
         .catch(err => {
             console.error("Delete error:", err);
@@ -1424,12 +1431,21 @@ function deleteFeedback(feedbackId) {
     }
 }
 
-function banUser(userId) {
+function banUser(userId, nickname) {
     if (!AuthManager.isAdmin()) return;
     if (confirm("Ban this user for 1 minute and 30 seconds?")) {
         const expiry = Date.now() + (90 * 1000); // 1 minute 30 seconds
         database.ref('bans/' + userId).set(expiry)
-            .then(() => alert("✅ User banned for 1 minute and 30 seconds"))
+            .then(() => {
+                alert("✅ User banned for 1 minute and 30 seconds");
+                if (nickname && messagesRef) {
+                    messagesRef.push({
+                        type: 'system',
+                        text: `Admin restricted ${nickname} for inappropriate conduct.`,
+                        timestamp: firebase.database.ServerValue.TIMESTAMP
+                    });
+                }
+            })
             .catch(err => alert("❌ Error: " + err.message));
     }
 }
