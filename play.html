@@ -450,7 +450,8 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-<script data-cfasync="false" src="https://pl28788343.effectivegatecpm.com/6f/08/45/6f0845e1a5bc1f01504ca0e6dbfab277.js"></script>
+    <script data-cfasync="false"
+        src="https://pl28788343.effectivegatecpm.com/6f/08/45/6f0845e1a5bc1f01504ca0e6dbfab277.js"></script>
 </head>
 
 <body>
@@ -475,290 +476,341 @@
         </button>
     </div>
 
-    <div id="topSection" class="pt-20 container mx-auto px-4 max-w-[2000px]">
 
-<div class="flex flex-col gap-8 justify-center">
+    <!-- ═══════════════════════════════════════════════════
+     SIX-AD LAYOUT  — ads 1-6 all visible on load
+     ═══════════════════════════════════════════════════ -->
 
-<!-- TOP TOOLS SECTION (AI CHAT & INFO) -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-                <!-- AI Chat (Left) -->
+    <!-- AD 1 (mobile only): 320×50 strip below the nav bar -->
+    <div class="block lg:hidden flex justify-center w-full bg-black/40" style="min-height:50px;">
+        <script
+            data-cfasync="false">atOptions = { 'key': '24d82a14f251de0b584c1c1878965100', 'format': 'iframe', 'height': 50, 'width': 320, 'params': {} };</script>
+        <script data-cfasync="false"
+            src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
+    </div>
 
-<div class="lg:col-span-7">
-                    <div class="glassmorphism rounded-3xl overflow-hidden flex flex-col shadow-2xl h-full">
-                        <div
-                            class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
-                            <div class="flex items-center">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-robot text-white"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="font-bold text-white tracking-wide">Synapse AI Assistant</h3>
-                                    <div class="flex items-center gap-2">
-                                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                                        <span
-                                            class="text-[10px] text-green-400 font-medium uppercase tracking-tighter">Neural
-                                            Link Active</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <div class="flex flex-row justify-between min-h-screen pt-16 px-0">
 
-                        <div id="chatMessages"
-                            class="h-[250px] overflow-y-auto p-6 space-y-4 bg-dark/40 backdrop-blur-md">
-                            <div class="flex items-start">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0 border border-indigo-500/30">
-                                    <i class="fas fa-brain text-indigo-400 text-xs"></i>
-                                </div>
-                                <div class="ml-3">
-                                    <div class="chat-bubble-ai px-4 py-3 text-gray-200 shadow-sm">
-                                        <p class="text-sm">Welcome to the synapse. How can I assist your gaming session
-                                            today?</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-4 border-t border-white/10 bg-dark-light/50">
-                            <div class="flex space-x-3">
-                                <input type="text" id="chatInput" placeholder="Ask for tips, cheats, or help..."
-                                    class="flex-1 bg-dark/60 border border-white/10 rounded-2xl px-6 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all outline-none">
-                                <button onclick="sendAiChat()"
-                                    class="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg">
-                                    <i class="fas fa-paper-plane text-white"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+        <!-- AD 2: Left sticky 160×600 skyscraper -->
+        <div class="hidden lg:flex flex-shrink-0 w-[180px] items-start justify-center py-6 bg-black/10">
+            <div class="sticky top-20">
+                <div class="hidden lg:flex justify-center" style="min-height:600px;">
+                    <script
+                        data-cfasync="false">atOptions = { 'key': '81f56b1bdcad21cd55ab223c4f4c2c92', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };</script>
+                    <script data-cfasync="false"
+                        src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
                 </div>
-
-                <!-- Game Info (Right) -->
-                <div class="lg:col-span-5">
-                    <div
-                        class="glassmorphism p-8 rounded-3xl border border-white/10 flex flex-col h-full shadow-2xl relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                            <i class="fas fa-info-circle text-8xl"></i>
-                        </div>
-                        <div class="relative z-10 flex-grow">
-                            <div
-                                class="inline-block px-3 py-1 bg-primary/20 rounded-full text-[10px] font-bold text-primary uppercase tracking-widest mb-4">
-                                Database Entry</div>
-                            <h2 class="text-3xl font-orbitron font-bold mb-4 text-white hover:text-primary transition-colors"
-                                id="gameTitle">Loading...</h2>
-                            <div class="w-12 h-1 bg-gradient-to-r from-primary to-secondary mb-6 rounded-full"></div>
-                            <p class="text-gray-400 leading-relaxed text-sm mb-8" id="gameDescription">
-                                Processing game metadata... encryption protocols established.
-                            </p>
-                        </div>
-
-<div class="flex justify-center my-4 w-full">
-<script>
-  atOptions = {
-    'key' : 'cf6a125c26299b4a476c85e2b484cb3a',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script data-cfasync="false" src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
-</div>
-
-
-                    </div>
-                </div>
-            </div>
-
-<div class="flex flex-col gap-8 justify-center">
-
-<!-- Full Width Game Container (No max-w constraint) -->
-                <button class="close-theatre" onclick="toggleTheater()"><i class="fas fa-compress"></i> EXIT
-                    THEATRE</button>
-                <div id="gameContainer" class="mb-20">
-                    <div class="mb-4 flex items-center justify-between">
-                        <h3 class="font-orbitron text-xl text-secondary flex items-center gap-2">
-                            <i class="fas fa-gamepad"></i> Game Viewport
-                        </h3>
-                        <button onclick="toggleTheater()"
-                            class="px-4 py-2 bg-secondary/20 hover:bg-secondary/40 border border-secondary/50 rounded-lg text-secondary text-sm font-bold flex items-center gap-2 transition-all">
-                            <i class="fas fa-expand-arrows-alt"></i> THEATRE MODE
-                        </button>
-                    </div>
-
-<div class="loading" id="loading">
-                        <div class="spinner"></div>
-                        <p class="font-orbitron tracking-widest">NEURAL LINKING...</p>
-                    </div>
-
-                    <div class="game" id="game" style="display:none">
-                        <iframe id="frame" allow="autoplay;fullscreen;gamepad" allowfullscreen
-                            title="Unblocked Game Player"></iframe>
-                    </div>
-                </div>
-
             </div>
         </div>
 
+        <!-- CENTRE: main content -->
+        <main class="flex-grow w-full px-2 overflow-x-hidden">
+            <div id="topSection" class="pt-20 container mx-auto px-4 max-w-[2000px]">
 
-<div class="flex justify-center my-4 w-full">
-<script async="async" data-cfasync="false" src="https://pl28788345.effectivegatecpm.com/cb54d1e3a7a7a676c81b222b316e2f9d/invoke.js"></script>
-<div id="container-cb54d1e3a7a7a676c81b222b316e2f9d"></div>
-</div>
+                <div class="flex flex-col gap-8 justify-center">
 
-<footer
-            style="margin-top: 50px; padding: 20px; text-align: center; color: #4b5563; font-size: 12px; background: #0f172a;">
-            <div style="margin-bottom: 10px;">
-                <a href="index.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Home</a>
+                    <!-- TOP TOOLS SECTION (AI CHAT & INFO) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+                        <!-- AI Chat (Left) -->
 
-                <a href="chat.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">AI Chat</a>
-                <a href="games.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Games</a>
-                <a href="proxy.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Online Games</a>
-                <a href="feedback.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Feedback</a>
-                <a href="policy.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Policy</a>
-            </div>
-            <p>&copy; 2024 Synapse AI - Best Unblocked Games Platform</p>
+                        <div class="lg:col-span-7">
+                            <div class="glassmorphism rounded-3xl overflow-hidden flex flex-col shadow-2xl h-full">
+                                <div
+                                    class="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/10">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
+                                            <i class="fas fa-robot text-white"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="font-bold text-white tracking-wide">Synapse AI Assistant</h3>
+                                            <div class="flex items-center gap-2">
+                                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                                <span
+                                                    class="text-[10px] text-green-400 font-medium uppercase tracking-tighter">Neural
+                                                    Link Active</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-        </footer>
+                                <div id="chatMessages"
+                                    class="h-[250px] overflow-y-auto p-6 space-y-4 bg-dark/40 backdrop-blur-md">
+                                    <div class="flex items-start">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0 border border-indigo-500/30">
+                                            <i class="fas fa-brain text-indigo-400 text-xs"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <div class="chat-bubble-ai px-4 py-3 text-gray-200 shadow-sm">
+                                                <p class="text-sm">Welcome to the synapse. How can I assist your gaming
+                                                    session
+                                                    today?</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-        <script>
-            var game = sessionStorage.getItem('currentGame');
-            if (!game) {
-                // Show a friendly fallback instead of redirecting (helps with SEO indexing)
-                document.getElementById('title').textContent = 'Gaming Hub';
-                document.getElementById('gameTitle').textContent = 'Select a Game to Play';
-                document.getElementById('gameDescription').innerHTML = 'It looks like you haven\'t selected a game yet. Browse our full library of 100+ unblocked games.<br><br><a href="games.html" class="inline-block px-6 py-2 bg-primary rounded-full text-white font-bold hover:scale-105 transition-all">Browse All Games →</a>';
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('game').style.display = 'none';
-            } else {
-                try {
-                    game = JSON.parse(game);
-                    const gameName = game.name || game.title || 'Game';
-                    document.getElementById('title').textContent = gameName;
-                    document.getElementById('gameTitle').textContent = gameName;
-                    document.title = gameName + ' - Play Unblocked on Synapse AI';
+                                <div class="p-4 border-t border-white/10 bg-dark-light/50">
+                                    <div class="flex space-x-3">
+                                        <input type="text" id="chatInput" placeholder="Ask for tips, cheats, or help..."
+                                            class="flex-1 bg-dark/60 border border-white/10 rounded-2xl px-6 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all outline-none">
+                                        <button onclick="sendAiChat()"
+                                            class="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg">
+                                            <i class="fas fa-paper-plane text-white"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Game Info (Right) -->
+                        <div class="lg:col-span-5">
+                            <div
+                                class="glassmorphism p-8 rounded-3xl border border-white/10 flex flex-col h-full shadow-2xl relative overflow-hidden group">
+                                <div
+                                    class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                    <i class="fas fa-info-circle text-8xl"></i>
+                                </div>
+                                <div class="relative z-10 flex-grow">
+                                    <div
+                                        class="inline-block px-3 py-1 bg-primary/20 rounded-full text-[10px] font-bold text-primary uppercase tracking-widest mb-4">
+                                        Database Entry</div>
+                                    <h2 class="text-3xl font-orbitron font-bold mb-4 text-white hover:text-primary transition-colors"
+                                        id="gameTitle">Loading...</h2>
+                                    <div class="w-12 h-1 bg-gradient-to-r from-primary to-secondary mb-6 rounded-full">
+                                    </div>
+                                    <p class="text-gray-400 leading-relaxed text-sm mb-8" id="gameDescription">
+                                        Processing game metadata... encryption protocols established.
+                                    </p>
+                                    <!-- AD 3: 300×250 inside game-info panel -->
+                                    <div class="flex justify-center w-full" style="min-height:250px;">
+                                        <script
+                                            data-cfasync="false">atOptions = { 'key': 'cf6a125c26299b4a476c85e2b484cb3a', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };</script>
+                                        <script data-cfasync="false"
+                                            src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
+                                    </div>
+                                </div>
 
-                    if (game.description) {
-                        document.getElementById('gameDescription').textContent = game.description;
-                    } else {
-                        document.getElementById('gameDescription').textContent = "Experience " + gameName + " on Synapse AI.";
-                    }
+                            </div>
+                        </div>
+                    </div>
 
-                    var iframe = document.getElementById('frame');
-                    iframe.src = game.link;
+                    <div class="flex flex-col gap-8 justify-center">
 
-                    // Show game div (with ad overlay on top), hide spinner
-                    function revealGameBox() {
+                        <!-- Full Width Game Container (No max-w constraint) -->
+                        <button class="close-theatre" onclick="toggleTheater()"><i class="fas fa-compress"></i> EXIT
+                            THEATRE</button>
+                        <!-- AD 4: 728×90 banner directly above the game -->
+                        <div class="flex justify-center w-full" style="min-height:90px;">
+                            <script
+                                data-cfasync="false">atOptions = { 'key': '24d82a14f251de0b584c1c1878965100', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };</script>
+                            <script data-cfasync="false"
+                                src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
+                        </div>
+                        <div id="gameContainer" class="mb-20">
+                            <div class="mb-4 flex items-center justify-between">
+                                <h3 class="font-orbitron text-xl text-secondary flex items-center gap-2">
+                                    <i class="fas fa-gamepad"></i> Game Viewport
+                                </h3>
+                                <button onclick="toggleTheater()"
+                                    class="px-4 py-2 bg-secondary/20 hover:bg-secondary/40 border border-secondary/50 rounded-lg text-secondary text-sm font-bold flex items-center gap-2 transition-all">
+                                    <i class="fas fa-expand-arrows-alt"></i> THEATRE MODE
+                                </button>
+                            </div>
+
+                            <div class="loading" id="loading">
+                                <div class="spinner"></div>
+                                <p class="font-orbitron tracking-widest">NEURAL LINKING...</p>
+                            </div>
+
+                            <div class="game" id="game" style="display:none">
+                                <iframe id="frame" allow="autoplay;fullscreen;gamepad" allowfullscreen
+                                    title="Unblocked Game Player"></iframe>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- AD 5: Native banner below the game -->
+                <div class="flex justify-center w-full my-4">
+                    <script async="async" data-cfasync="false"
+                        src="https://pl28788345.effectivegatecpm.com/cb54d1e3a7a7a676c81b222b316e2f9d/invoke.js"></script>
+                    <div id="container-cb54d1e3a7a7a676c81b222b316e2f9d"></div>
+                </div>
+
+                <footer
+                    style="margin-top: 50px; padding: 20px; text-align: center; color: #4b5563; font-size: 12px; background: #0f172a;">
+                    <div style="margin-bottom: 10px;">
+                        <a href="index.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Home</a>
+
+                        <a href="chat.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">AI Chat</a>
+                        <a href="games.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Games</a>
+                        <a href="proxy.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Online
+                            Games</a>
+                        <a href="feedback.html"
+                            style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Feedback</a>
+                        <a href="policy.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Policy</a>
+                    </div>
+                    <p>&copy; 2024 Synapse AI - Best Unblocked Games Platform</p>
+
+                </footer>
+
+                <script>
+                    var game = sessionStorage.getItem('currentGame');
+                    if (!game) {
+                        // Show a friendly fallback instead of redirecting (helps with SEO indexing)
+                        document.getElementById('title').textContent = 'Gaming Hub';
+                        document.getElementById('gameTitle').textContent = 'Select a Game to Play';
+                        document.getElementById('gameDescription').innerHTML = 'It looks like you haven\'t selected a game yet. Browse our full library of 100+ unblocked games.<br><br><a href="games.html" class="inline-block px-6 py-2 bg-primary rounded-full text-white font-bold hover:scale-105 transition-all">Browse All Games →</a>';
                         document.getElementById('loading').style.display = 'none';
-                        document.getElementById('game').style.display = 'block';
-                        startAdCountdown();
+                        document.getElementById('game').style.display = 'none';
+                    } else {
+                        try {
+                            game = JSON.parse(game);
+                            const gameName = game.name || game.title || 'Game';
+                            document.getElementById('title').textContent = gameName;
+                            document.getElementById('gameTitle').textContent = gameName;
+                            document.title = gameName + ' - Play Unblocked on Synapse AI';
+
+                            if (game.description) {
+                                document.getElementById('gameDescription').textContent = game.description;
+                            } else {
+                                document.getElementById('gameDescription').textContent = "Experience " + gameName + " on Synapse AI.";
+                            }
+
+                            var iframe = document.getElementById('frame');
+                            iframe.src = game.link;
+
+                            // Show game div (with ad overlay on top), hide spinner
+                            function revealGameBox() {
+                                document.getElementById('loading').style.display = 'none';
+                                document.getElementById('game').style.display = 'block';
+                                startAdCountdown();
+                            }
+
+                            iframe.onload = revealGameBox;
+                            setTimeout(revealGameBox, 5000);
+                        } catch (e) {
+                            window.location.href = 'games.html';
+                        }
                     }
 
-                    iframe.onload = revealGameBox;
-                    setTimeout(revealGameBox, 5000);
-                } catch (e) {
-                    window.location.href = 'games.html';
-                }
-            }
+                    // ---- Pre-game Interstitial Countdown ----
+                    var _adTimer = null;
+                    var AD_SECONDS = 3;
 
-            // ---- Pre-game Interstitial Countdown ----
-            var _adTimer = null;
-            var AD_SECONDS = 3;
+                    function startAdCountdown() {
+                        var seconds = AD_SECONDS;
+                        var btn = document.getElementById('skipBtn');
+                        var bigNum = document.getElementById('skipCountdown');      // large centre number
+                        var btnNum = document.getElementById('skipCountdownBtn');    // number inside button
+                        var bar = document.getElementById('adProgressBar');
+                        if (!btn) return;
 
-            function startAdCountdown() {
-                var seconds = AD_SECONDS;
-                var btn = document.getElementById('skipBtn');
-                var bigNum = document.getElementById('skipCountdown');      // large centre number
-                var btnNum = document.getElementById('skipCountdownBtn');    // number inside button
-                var bar = document.getElementById('adProgressBar');
-                if (!btn) return;
+                        btn.disabled = true;
+                        if (bigNum) bigNum.textContent = seconds;
+                        if (btnNum) btnNum.textContent = seconds;
+                        if (bar) bar.style.width = '0%';
 
-                btn.disabled = true;
-                if (bigNum) bigNum.textContent = seconds;
-                if (btnNum) btnNum.textContent = seconds;
-                if (bar) bar.style.width = '0%';
-
-                // Kick off progress bar on next frame so CSS transition applies
-                requestAnimationFrame(function () {
-                    requestAnimationFrame(function () {
-                        if (bar) bar.style.width = '100%';
-                        if (bar) bar.style.transition = 'width ' + AD_SECONDS + 's linear';
-                    });
-                });
-
-                _adTimer = setInterval(function () {
-                    seconds--;
-                    if (bigNum) bigNum.textContent = Math.max(seconds, 0);
-                    if (btnNum) btnNum.textContent = Math.max(seconds, 0);
-                    if (seconds <= 0) {
-                        clearInterval(_adTimer);
-                        btn.disabled = false;
-                        btn.innerHTML = 'Skip Ad &nbsp;<i class="fas fa-forward" style="font-size:11px"></i>';
-                    }
-                }, 1000);
-            }
-
-            function skipVideoAd() {
-                var overlay = document.getElementById('videoAdOverlay');
-                if (!overlay) return;
-                overlay.classList.add('hidden');
-                setTimeout(function () { overlay.style.display = 'none'; }, 500);
-                clearInterval(_adTimer);
-            }
-
-            function toggleTheater() {
-                const body = document.body;
-                body.classList.toggle('full');
-                // If we are entering theater mode but not fullscreen, we should ensure we scroll to top
-                if (body.classList.contains('full')) {
-                    window.scrollTo(0, 0);
-                }
-            }
-
-            function goFull() {
-                const elem = document.documentElement;
-                if (!document.fullscreenElement) {
-                    if (elem.requestFullscreen) {
-                        elem.requestFullscreen().catch(err => {
-                            console.warn('Fullscreen entry failed:', err);
+                        // Kick off progress bar on next frame so CSS transition applies
+                        requestAnimationFrame(function () {
+                            requestAnimationFrame(function () {
+                                if (bar) bar.style.width = '100%';
+                                if (bar) bar.style.transition = 'width ' + AD_SECONDS + 's linear';
+                            });
                         });
+
+                        _adTimer = setInterval(function () {
+                            seconds--;
+                            if (bigNum) bigNum.textContent = Math.max(seconds, 0);
+                            if (btnNum) btnNum.textContent = Math.max(seconds, 0);
+                            if (seconds <= 0) {
+                                clearInterval(_adTimer);
+                                btn.disabled = false;
+                                btn.innerHTML = 'Skip Ad &nbsp;<i class="fas fa-forward" style="font-size:11px"></i>';
+                            }
+                        }, 1000);
                     }
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
+
+                    function skipVideoAd() {
+                        var overlay = document.getElementById('videoAdOverlay');
+                        if (!overlay) return;
+                        overlay.classList.add('hidden');
+                        setTimeout(function () { overlay.style.display = 'none'; }, 500);
+                        clearInterval(_adTimer);
                     }
-                }
-            }
 
-            // Sync body class with fullscreen state
-            document.addEventListener('fullscreenchange', () => {
-                if (document.fullscreenElement) {
-                    document.body.classList.add('full');
-                } else {
-                    // Usually when exiting fullscreen, people want theater mode to end too
-                    // But we check if the user intentionally wants to stay in theater mode
-                    // For simplicity, we'll sync them for now as per current design
-                    document.body.classList.remove('full');
-                }
-            });
+                    function toggleTheater() {
+                        const body = document.body;
+                        body.classList.toggle('full');
+                        // If we are entering theater mode but not fullscreen, we should ensure we scroll to top
+                        if (body.classList.contains('full')) {
+                            window.scrollTo(0, 0);
+                        }
+                    }
 
-            // Map sendAiChat to sendChat from script.js
-            function sendAiChat() {
-                if (typeof sendChat === 'function') {
-                    sendChat();
-                } else {
-                    console.error('sendChat function not found in script.js');
-                }
-            }
+                    function goFull() {
+                        const elem = document.documentElement;
+                        if (!document.fullscreenElement) {
+                            if (elem.requestFullscreen) {
+                                elem.requestFullscreen().catch(err => {
+                                    console.warn('Fullscreen entry failed:', err);
+                                });
+                            }
+                        } else {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            }
+                        }
+                    }
 
-            // Repeating full-page interstitial every 2 minutes
-            setInterval(function () {
+                    // Sync body class with fullscreen state
+                    document.addEventListener('fullscreenchange', () => {
+                        if (document.fullscreenElement) {
+                            document.body.classList.add('full');
+                        } else {
+                            // Usually when exiting fullscreen, people want theater mode to end too
+                            // But we check if the user intentionally wants to stay in theater mode
+                            // For simplicity, we'll sync them for now as per current design
+                            document.body.classList.remove('full');
+                        }
+                    });
 
-            }, 120000);
+                    // Map sendAiChat to sendChat from script.js
+                    function sendAiChat() {
+                        if (typeof sendChat === 'function') {
+                            sendChat();
+                        } else {
+                            console.error('sendChat function not found in script.js');
+                        }
+                    }
 
-        </script>
-        <script src="script.js"></script>
-        <div id="loadingScreen" class="loading-screen" style="display: none;"></div>
+                    // Repeating full-page interstitial every 2 minutes
+                    setInterval(function () {
+
+                    }, 120000);
+
+                </script>
+                <script src="script.js"></script>
+                <div id="loadingScreen" class="loading-screen" style="display: none;"></div>
+
+
+        </main><!-- end centre -->
+
+        <!-- AD 6: Right sticky 160×600 skyscraper -->
+        <div class="hidden lg:flex flex-shrink-0 w-[180px] items-start justify-center py-6 bg-black/10">
+            <div class="sticky top-20">
+                <div class="hidden lg:flex justify-center" style="min-height:600px;">
+                    <script
+                        data-cfasync="false">atOptions = { 'key': '81f56b1bdcad21cd55ab223c4f4c2c92', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };</script>
+                    <script data-cfasync="false"
+                        src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- end six-ad outer flex -->
 
 </body>
 
