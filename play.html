@@ -450,7 +450,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    </head>
+</head>
 
 <body>
 
@@ -474,18 +474,25 @@
         </button>
     </div>
 
-<!-- ═══════════════════════════════════════════════════
+    <!-- ═══════════════════════════════════════════════════
      SIX-AD LAYOUT  — ads 1-6 all visible on load
      ═══════════════════════════════════════════════════ -->
 
     <!-- AD 1 (mobile only): 320×50 strip below the nav bar -->
 
-<div class="flex flex-row justify-between min-h-screen pt-16 px-0">
+    <div class="flex flex-row justify-between min-h-screen pt-16 px-0">
 
-        <!-- AD 2: Left sticky 160×600 skyscraper -->
-        <div class="hidden lg:flex flex-shrink-0 w-[180px] items-start justify-center py-6 bg-black/10">
-            <div class="sticky top-20">
-                
+        <!-- LEFT SIDEBAR: Multiple Long Ads -->
+        <div class="hidden lg:flex flex-shrink-0 w-[180px] flex-col items-center gap-6 py-6 bg-black/10">
+            <!-- Add unique Adsterra codes here -->
+            <div class="ad-slot text-center text-gray-500 text-sm p-4 border border-dashed border-gray-600 rounded">
+                [Put Adsterra Left Ad 1 Here]
+            </div>
+            <div class="ad-slot text-center text-gray-500 text-sm p-4 border border-dashed border-gray-600 rounded">
+                [Put Adsterra Left Ad 2 Here]
+            </div>
+            <div class="ad-slot text-center text-gray-500 text-sm p-4 border border-dashed border-gray-600 rounded">
+                [Put Adsterra Left Ad 3 Here]
             </div>
         </div>
 
@@ -569,7 +576,7 @@
                                         Processing game metadata... encryption protocols established.
                                     </p>
                                     <!-- AD 3: 300×250 inside game-info panel -->
-                                    
+
                                 </div>
 
                             </div>
@@ -582,12 +589,14 @@
                         <button class="close-theatre" onclick="toggleTheater()"><i class="fas fa-compress"></i> EXIT
                             THEATRE</button>
                         <!-- AD 4: 728×90 banner directly above the game -->
-                        
+
                         <div class="flex justify-center w-full my-6">
-  <script data-cfasync="false">atOptions={'key':'24d82a14f251de0b584c1c1878965100','format':'iframe','height':90,'width':728,'params':{}};</script>
-  <script data-cfasync="false" src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
-</div>
-<div id="gameContainer" class="mb-20">
+                            <script
+                                data-cfasync="false">atOptions = { 'key': '24d82a14f251de0b584c1c1878965100', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };</script>
+                            <script data-cfasync="false"
+                                src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
+                        </div>
+                        <div id="gameContainer" class="mb-20">
                             <div class="mb-4 flex items-center justify-between">
                                 <h3 class="font-orbitron text-xl text-secondary flex items-center gap-2">
                                     <i class="fas fa-gamepad"></i> Game Viewport
@@ -614,7 +623,7 @@
 
                 <!-- AD 5: Native banner below the game -->
 
-<footer
+                <footer
                     style="margin-top: 50px; padding: 20px; text-align: center; color: #4b5563; font-size: 12px; background: #0f172a;">
                     <div style="margin-bottom: 10px;">
                         <a href="index.html" style="color: #60a5fa; margin: 0 10px; text-decoration: none;">Home</a>
@@ -770,12 +779,19 @@
                 <script src="script.js"></script>
                 <div id="loadingScreen" class="loading-screen" style="display: none;"></div>
 
-</main><!-- end centre -->
+        </main><!-- end centre -->
 
-        <!-- AD 6: Right sticky 160×600 skyscraper -->
-        <div class="hidden lg:flex flex-shrink-0 w-[180px] items-start justify-center py-6 bg-black/10">
-            <div class="sticky top-20">
-                
+        <!-- RIGHT SIDEBAR: Multiple Long Ads -->
+        <div class="hidden lg:flex flex-shrink-0 w-[180px] flex-col items-center gap-6 py-6 bg-black/10">
+            <!-- Add unique Adsterra codes here -->
+            <div class="ad-slot text-center text-gray-500 text-sm p-4 border border-dashed border-gray-600 rounded">
+                [Put Adsterra Right Ad 1 Here]
+            </div>
+            <div class="ad-slot text-center text-gray-500 text-sm p-4 border border-dashed border-gray-600 rounded">
+                [Put Adsterra Right Ad 2 Here]
+            </div>
+            <div class="ad-slot text-center text-gray-500 text-sm p-4 border border-dashed border-gray-600 rounded">
+                [Put Adsterra Right Ad 3 Here]
             </div>
         </div>
 
