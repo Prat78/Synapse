@@ -1583,6 +1583,8 @@ document.addEventListener("DOMContentLoaded", init);
         el.style.width = w + 'px';
         el.style.maxWidth = '100%';
         el.style.minHeight = h + 'px';
+        el.style.margin = '0 auto'; // Centering fix
+        el.style.display = 'block'; // Ensure margin auto works
         el.style.overflow = 'hidden';
 
         // Create the isolated iframe
