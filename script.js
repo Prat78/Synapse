@@ -1562,13 +1562,12 @@ function initAdBlockDetector() {
 document.addEventListener("DOMContentLoaded", init);
 
 // ===========================
-// Stealth Force-Loader (v5.0 — Direct Injection)
+// Stealth Force-Loader (v6.0 — Origin-Preserving Isolation)
 // ===========================
 (function () {
-    // Base domain (split to avoid static analysis)
     var _h = 'https://www.' + 'highperformance' + 'format.com/';
 
-    // 1. Preconnect to delivery domains
+    // 1. Preconnect
     ['highperformanceformat.com', 'whistlemiddletrains.com', 'effectivegatecpm.com'].forEach(function (d) {
         var l = document.createElement('link');
         l.rel = 'preconnect';
@@ -1576,91 +1575,79 @@ document.addEventListener("DOMContentLoaded", init);
         document.head.appendChild(l);
     });
 
-    // 2. Inject ad scripts DIRECTLY on the page (not in iframe)
-    //    This ensures the ad network sees the real domain = impressions count
     function injectUnit(el) {
         if (!el || el.dataset.spLoaded) return;
-        var key = el.dataset.spK;
-        var w = parseInt(el.dataset.spW) || 300;
-        var h = parseInt(el.dataset.spH) || 250;
+        var key = el.dataset.spK, w = parseInt(el.dataset.spW) || 300, h = parseInt(el.dataset.spH) || 250;
         if (!key) return;
 
-        // Set container dimensions
         el.style.width = w + 'px';
         el.style.maxWidth = '100%';
         el.style.minHeight = h + 'px';
         el.style.overflow = 'hidden';
 
-        // Step 1: Set atOptions on window (the invoke.js reads this)
-        window.atOptions = {
-            'key': key,
-            'format': 'iframe',
-            'height': h,
-            'width': w,
-            'params': {}
-        };
+        // Create the isolated iframe
+        var f = document.createElement('iframe');
+        f.style.cssText = 'width:' + w + 'px;height:' + h + 'px;border:none;overflow:hidden;background:transparent;';
+        f.setAttribute('scrolling', 'no');
+        f.setAttribute('frameborder', '0');
 
-        // Step 2: Create and inject the invoke.js script directly
-        var s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = _h + key + '/invoke.js';
-        s.async = true;
-        el.appendChild(s);
+        el.innerHTML = '';
+        el.appendChild(f);
 
-        el.dataset.spLoaded = '1';
+        // USE document.write to preserve origin while isolating atOptions
+        try {
+            var doc = f.contentWindow.document;
+            doc.open();
+            doc.write('<!DOCTYPE html><html><body style="margin:0;padding:0;background:transparent;overflow:hidden;">' +
+                '<script type="text/javascript">' +
+                'var atOptions = {"key":"' + key + '","format":"iframe","height":' + h + ',"width":' + w + ',"params":{}};' +
+                '<\/script>' +
+                '<script type="text/javascript" src="' + _h + key + '/invoke.js"><\/script>' +
+                '</body></html>');
+            doc.close();
+            el.dataset.spLoaded = '1';
+        } catch (e) {
+            console.error('Ad injection failed:', e);
+        }
     }
 
-    // 3. Staggered priority loader
     function loadAllUnits() {
         var units = Array.prototype.slice.call(document.querySelectorAll('.sp-unit'));
         if (!units.length) return;
 
-        var above = [];
-        var below = [];
+        var above = [], below = [];
         units.forEach(function (u) {
             var r = u.getBoundingClientRect();
-            if (r.top < window.innerHeight + 200) {
-                above.push(u);
-            } else {
-                below.push(u);
-            }
+            if (r.top < window.innerHeight + 300) above.push(u);
+            else below.push(u);
         });
 
-        // Priority: visible ads first
         above.forEach(function (el, i) {
-            setTimeout(function () { injectUnit(el); }, 100 + (i * 250));
+            setTimeout(function () { injectUnit(el); }, 100 + (i * 200));
         });
 
-        // Deferred: below-fold ads after 1.5s
         below.forEach(function (el, i) {
             setTimeout(function () { injectUnit(el); }, 1500 + (i * 400));
         });
     }
 
-    // 4. Watchdog: detect killed/empty ads and force-reload
     function watchdog() {
-        var units = document.querySelectorAll('.sp-unit[data-sp-loaded]');
-        units.forEach(function (el) {
-            // Check if the ad actually rendered (invoke.js creates an iframe inside the container)
-            var rendered = el.querySelector('iframe');
-            if (!rendered || rendered.offsetHeight < 5) {
-                el.removeAttribute('data-sp-loaded');
-                el.innerHTML = '';
-                injectUnit(el);
-            }
+        document.querySelectorAll('.sp-unit[data-sp-loaded]').forEach(function (el) {
+            // Check if iframe is empty or collapsed
+            var f = el.querySelector('iframe');
+            try {
+                if (!f || !f.contentWindow || f.offsetHeight < 5) {
+                    el.removeAttribute('data-sp-loaded');
+                    injectUnit(el);
+                }
+            } catch (e) { }
         });
     }
 
-    // 5. Initialize
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadAllUnits);
-    } else {
-        loadAllUnits();
-    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadAllUnits);
+    else loadAllUnits();
 
-    // 6. Watchdog every 30 seconds
     setInterval(watchdog, 30000);
-
     window.injectUnit = injectUnit;
 })();
 
