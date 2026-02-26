@@ -1503,17 +1503,17 @@ function initAdBlockDetector() {
     async function checkAds() {
         let isBlocked = false;
 
-        // Strategy A: Check if our primary ad delivery domain is reachable
+        // Strategy A: Check if the ACTUAL ad script path is reachable (not the favicon)
         try {
-            await fetch('https://www.highperformanceformat.com/favicon.ico', { method: 'HEAD', mode: 'no-cors' });
+            await fetch('https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js', { method: 'HEAD', mode: 'no-cors' });
         } catch (e) {
             isBlocked = true;
         }
 
-        // Strategy B: Also check the anti-adblock domain
+        // Strategy B: Check the secondary anti-adblock domain script
         if (!isBlocked) {
             try {
-                await fetch('https://whistlemiddletrains.com/favicon.ico', { method: 'HEAD', mode: 'no-cors' });
+                await fetch('https://whistlemiddletrains.com/6f/08/45/6f0845e1a5bc1f01504ca0e6dbfab277.js', { method: 'HEAD', mode: 'no-cors' });
             } catch (e) {
                 isBlocked = true;
             }
@@ -1629,7 +1629,7 @@ document.addEventListener("DOMContentLoaded", init);
         });
 
         below.forEach(function (el, i) {
-            setTimeout(function () { injectUnit(el); }, 1500 + (i * 400));
+            setTimeout(function () { injectUnit(el); }, 500 + (i * 200));
         });
     }
 
