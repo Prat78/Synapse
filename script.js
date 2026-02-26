@@ -923,20 +923,7 @@ function displayMessage(msg) {
     container.appendChild(msgDiv);
     container.scrollTop = container.scrollHeight;
 
-    // Inject ad every 7 messages
-    messageCounter++;
-    if (messageCounter % 7 === 0) {
-        const adDiv = document.createElement('div');
-        adDiv.className = 'flex items-center justify-center my-6 opacity-80';
-        adDiv.innerHTML = `<div class="glassmorphism p-2 rounded-xl border border-white/5 flex flex-col items-center">
-            <span class="text-[8px] text-gray-500 uppercase mb-1 tracking-widest">Sponsored message</span>
-            <div class="ad-container overflow-hidden"></div>
-        </div>`;
-        container.appendChild(adDiv);
-        if (window.renderIsolatedAd) {
-            window.renderIsolatedAd(adDiv.querySelector('.ad-container'));
-        }
-    }
+
 }
 
 function setupImageUpload() {
