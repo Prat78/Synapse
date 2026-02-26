@@ -29,24 +29,6 @@
     <link rel="stylesheet" href="style.css">
     <script>tailwind.config = { theme: { extend: { colors: { primary: "#3b82f6", secondary: "#8b5cf6", dark: "#0f172a", "dark-light": "#1e293b" }, fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'], 'orbitron': ['Orbitron', 'monospace'] } } } }</script>
 
-
-
-<!-- Direct Pop-Under Handler (Rate Limited: 5 Min) -->
-<script>
-(function() {
-    try {
-        const NOW = Date.now();
-        const LAST_POP = localStorage.getItem('synapse_last_pop') || 0;
-        const FIVE_MIN = 5 * 60 * 1000;
-
-        if (NOW - LAST_POP > FIVE_MIN) {
-            localStorage.setItem('synapse_last_pop', NOW);
-        }
-    } catch(e) { console.error("Ad limit error", e); }
-})();
-</script>
-
-
 </head>
 
 <body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden hex-pattern">
@@ -80,6 +62,7 @@
         </div>
     </div>
     <div id="parallaxBg" class="parallax-bg"></div>
+
     <nav class="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-white/10">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-2">
@@ -126,16 +109,43 @@
             <a href="policy.html" class="nav-underline text-gray-300 hover:text-white py-2">Policy</a>
         </div>
     </nav>
-    <main class="pt-20">
 
+    <div class="flex flex-col lg:flex-row justify-between min-h-screen pt-16 px-0 shrink-0">
+        <!-- Left Sidebar: Ad 2 (160x600) -->
+        <div
+            class="hidden lg:flex flex-shrink-0 w-[180px] flex-col items-center py-4 bg-black/10 border-r border-white/5">
+            <div class="my-4">
+                <script>
+                    atOptions = { 'key': '81f56b1bdcad21cd55ab223c4f4c2c92', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script>
+            </div>
+        </div>
 
+        <main class="flex-grow w-full px-2 lg:px-8">
+            <!-- Ad 3: 728x90 Leaderboard -->
+            <div class="flex justify-center mt-24 mb-4">
+                <script>
+                    atOptions = { 'key': '24d82a14f251de0b584c1c1878965100', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script>
+            </div>
 
-        <div id="robloxPage" class="page-transition">
-            <div class="container mx-auto px-4 py-8">
+            <div class="container mx-auto px-4 py-8 max-w-[1400px]">
                 <div class="text-center mb-12">
                     <h1 class="text-4xl md:text-5xl font-orbitron font-bold mb-6"><span
                             class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Unblocked
                             Online Games & Proxies</span></h1>
+
+                    <!-- Ad 6: 320x50 Top Strip -->
+                    <div class="flex justify-center my-4">
+                        <script>
+                            atOptions = { 'key': '3b778bf9b4ac85cd02fc7e17f000d8d5', 'format': 'iframe', 'height': 50, 'width': 320, 'params': {} };
+                        </script>
+                        <script
+                            src="https://www.highperformanceformat.com/3b778bf9b4ac85cd02fc7e17f000d8d5/invoke.js"></script>
+                    </div>
+
                     <div
                         class="glassmorphism inline-block px-8 py-6 rounded-3xl border border-white/10 mb-8 max-w-3xl mx-auto">
                         <p class="text-primary font-bold mb-4 uppercase tracking-widest text-sm">Quick Instructions</p>
@@ -156,304 +166,165 @@
                     </div>
                 </div>
 
-                <div class="ad-container my-8 flex justify-center overflow-hidden" data-synapse-ad="top"><script>(function(vre){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=vre||{};s.src="\/\/rapid-university.com\/b.XBVBs_d\/G\/lI0KY\/WtcT\/zemmE9euGZ\/U-lmkqPpTSYS4OMLjtEX3\/NwDWUmt\/NVjSgTyBM\/T\/c\/0XOnQg";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script></div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Proxy Node Gamma (New) -->
+                    <div
+                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] border border-white/10">
+                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-bolt text-green-400"></i></div>
+                                <div>
+                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                        Proxy Node Gamma</h3>
+                                    <p class="text-xs text-green-400 flex items-center"><span
+                                            class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>Connection:
+                                        Direct</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white h-[700px] relative group">
+                            <iframe src="https://ww3.soap2dayhdz.com/" width="100%" height="100%" class="border-0"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Proxy Node Omega -->
+                    <div
+                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] border border-white/10">
+                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mr-4"><i
+                                        class="fas fa-satellite-dish text-primary"></i></div>
+                                <div>
+                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                        Proxy Node Omega</h3>
+                                    <p class="text-xs text-green-400 flex items-center"><span
+                                            class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>Connection:
+                                        Stable</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-gradient-to-br from-primary/10 to-secondary/10 h-[700px] relative group flex flex-col items-center justify-center">
+                            <i class="fas fa-external-link-alt text-6xl text-primary mb-6"></i>
+                            <h3 class="text-2xl font-orbitron font-bold text-white mb-4">MTAG Proxy</h3>
+                            <a href="https://www.mtagprox.com/" target="_blank"
+                                class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full font-orbitron font-bold uppercase tracking-wider hover:scale-110 transition-all shadow-lg">Launch
+                                MTAG Proxy →</a>
+                        </div>
+                    </div>
+
+                    <!-- Proxy Node Sigma -->
+                    <div
+                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] border border-white/10">
+                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-network-wired text-secondary"></i></div>
+                                <div>
+                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                        Proxy Node Sigma</h3>
+                                    <p class="text-xs text-blue-400 flex items-center"><span
+                                            class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>Connection:
+                                        Optimized</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white h-[700px] relative group">
+                            <iframe src="https://about.baltimorefellowship.org/" width="100%" height="100%"
+                                class="border-0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Proxy Node Delta -->
+                    <div
+                        class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] border border-white/10">
+                        <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center">
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-broadcast-tower text-yellow-500"></i></div>
+                                <div>
+                                    <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
+                                        Proxy Node Delta</h3>
+                                    <p class="text-xs text-yellow-400 flex items-center"><span
+                                            class="w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></span>Connection:
+                                        Balanced</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white h-[700px] relative group">
+                            <iframe src="https://ww3.soap2dayhdz.com/" width="100%" height="100%" class="border-0"
+                                allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO Content -->
+                <section class="mt-24 max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-orbitron font-bold mb-8 text-center text-primary">Unblocked Web Proxy Guide
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                        <div class="glassmorphism p-8 rounded-2xl border border-white/10">
+                            <h3 class="text-xl font-bold mb-4 flex items-center"><i
+                                    class="fas fa-shield-alt text-primary mr-3"></i>Security First</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Synapse AI curated proxies are vetted for
+                                safety and high uptime. Perfect for accessing blocked sites at school or work while
+                                keeping your browsing encrypted.</p>
+                        </div>
+                        <div class="glassmorphism p-8 rounded-2xl border border-white/10">
+                            <h3 class="text-xl font-bold mb-4 flex items-center"><i
+                                    class="fas fa-tachometer-alt text-secondary mr-3"></i>High Performance</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Our nodes are distributed globally to
+                                ensure low-latency streaming for games like Roblox and Fortnite.</p>
+                        </div>
+                    </div>
+                </section>
             </div>
+        </main>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-screen-2xl mx-auto">
-                <div
-                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-primary/20">
-                    <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mr-4"><i
-                                    class="fas fa-satellite-dish text-primary"></i></div>
-                            <div>
-                                <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">Proxy
-                                    Node Omega</h3>
-                                <p class="text-xs text-green-400 flex items-center"><span
-                                        class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>Connection:
-                                    Stable</p>
-                            </div>
-                        </div>
-                        <button onclick="toggleFullscreen('iframe-3')"
-                            class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
-                            title="Fullscreen"><i class="fas fa-expand text-gray-400"></i></button>
-                    </div>
-                    <div
-                        class="bg-gradient-to-br from-primary/10 to-secondary/10 h-[700px] relative group flex flex-col items-center justify-center border-2 border-primary/20 rounded-lg">
-                        <i class="fas fa-external-link-alt text-6xl text-primary mb-6"></i>
-                        <h3 class="text-2xl font-orbitron font-bold text-white mb-4">MTAG Proxy</h3>
-                        <p class="text-gray-300 mb-6 max-w-md text-center px-4">This proxy uses advanced security that
-                            prevents embedding. Click below to open it in a new tab.</p>
-                        <a href="https://www.mtagprox.com/" target="_blank" rel="noopener noreferrer"
-                            class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full font-orbitron font-bold uppercase tracking-wider hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-primary/50">
-                            Launch MTAG Proxy →
-                        </a>
-                    </div>
-                </div>
-
-                <div
-                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-secondary/20">
-                    <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center mr-4"><i
-                                    class="fas fa-network-wired text-secondary"></i></div>
-                            <div>
-                                <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
-                                    Proxy
-                                    Node Sigma</h3>
-                                <p class="text-xs text-blue-400 flex items-center"><span
-                                        class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>Connection:
-                                    Optimized</p>
-                            </div>
-                            <button onclick="toggleFullscreen('iframe-5')"
-                                class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
-                                title="Fullscreen"><i class="fas fa-expand text-gray-400"></i></button>
-                        </div>
-                        <div class="bg-white h-[700px] relative group"><iframe id="iframe-5"
-                                src="https://about.baltimorefellowship.org/" width="100%" height="100%" class="border-0"
-                                allowfullscreen></iframe></div>
-                    </div>
-                </div>
-
-                <div
-                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-primary/20">
-                    <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mr-4"><i
-                                    class="fas fa-broadcast-tower text-primary"></i></div>
-                            <div>
-                                <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">
-                                    Proxy
-                                    Node Delta</h3>
-                                <p class="text-xs text-yellow-400 flex items-center"><span
-                                        class="w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></span>Connection:
-                                    Balanced</p>
-                            </div>
-                        </div>
-                        <button onclick="toggleFullscreen('iframe-8')"
-                            class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
-                            title="Fullscreen"><i class="fas fa-expand text-gray-400"></i></button>
-                    </div>
-                    <div class="bg-white h-[700px] relative group"><iframe id="iframe-8" src="https://luminal.cc/"
-                            width="100%" height="100%" class="border-0" allowfullscreen
-                            sandbox="allow-scripts allow-same-origin allow-popups"></iframe></div>
-                </div>
-
-                <div
-                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-secondary/20">
-                    <div class="glassmorphism p-6 flex items-center justify-between border-b border-white/10">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center mr-4">
-                                <i class="fas fa-gamepad text-purple-400"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">More
-                                    Nodes Coming</h3>
-                                <p class="text-xs text-purple-400 flex items-center"><span
-                                        class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse"></span>Status:
-                                    Launching Soon</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-gradient-to-br from-purple-500/10 to-secondary/10 h-[700px] relative group flex flex-col items-center justify-center border-2 border-purple-500/20 rounded-lg">
-                        <i class="fas fa-satellite text-6xl text-purple-400 mb-6"></i>
-                        <h3 class="text-2xl font-orbitron font-bold text-white mb-4">New Node Incoming</h3>
-                        <p class="text-gray-300 mb-6 max-w-md text-center px-4">We are setting up an additional
-                            proxy
-                            node. Check back soon for more options!</p>
-                    </div>
-                </div>
-
-                <!-- Sponsored Node -->
-                <div
-                    class="gradient-border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02]">
-                    <div class="glassmorphism p-6 flex items-center border-b border-white/10">
-                        <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center mr-4"><i
-                                class="fas fa-star text-green-400"></i></div>
-                        <div>
-                            <h3 class="text-xl font-orbitron font-bold text-white uppercase tracking-wider">Premium
-                                Ad Node</h3>
-                            <p class="text-xs text-green-400 uppercase tracking-widest">Sponsored Node</p>
-                        </div>
-                    </div>
-                    <div
-                        class="glassmorphism h-[700px] flex flex-col items-center justify-center border-2 border-white/5 rounded-lg">
-                        <span class="text-xs text-gray-500 uppercase tracking-widest mb-4 italic">Advertisement</span>
-                        <div class="ad-container overflow-hidden" data-synapse-ad="premium-spot">
-                            <script>(function (z) { var d = document, s = d.createElement('script'), l = d.currentScript; s.settings = z || {}; s.src = "//rapid-university.com/bsX/Vps.dJG/lQ0xY/W_cY/neYm/9GuEZjUslTkxP/T/Yf4IMKj/Es3cNwDWU/txN/jVgMy_MAT/c/0BO/Qr"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
-                        </div>
-                    </div>
-                </div>
+        <!-- Right Sidebar -->
+        <div
+            class="hidden lg:flex flex-shrink-0 w-[180px] flex-col overflow-x-hidden gap-8 items-center py-4 bg-black/10 border-l border-white/5">
+            <!-- Ad Unit 4: 468x60 -->
+            <div class="my-4">
+                <script>
+                    atOptions = { 'key': '412228ce3f7e514eff0e088bc88dd0a7', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/412228ce3f7e514eff0e088bc88dd0a7/invoke.js"></script>
+            </div>
+            <!-- Ad Unit 5: 160x300 -->
+            <div class="my-4">
+                <script>
+                    atOptions = { 'key': '4f27449c855a63c1993335475e8b0253', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/4f27449c855a63c1993335475e8b0253/invoke.js"></script>
+            </div>
+            <!-- Ad Unit 1: 300x250 -->
+            <div class="my-4">
+                <script>
+                    atOptions = { 'key': 'cf6a125c26299b4a476c85e2b484cb3a', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script>
             </div>
         </div>
+    </div>
 
-        <!-- SEO Content Section -->
-        <div class="container mx-auto px-4 py-16 max-w-4xl">
-            <h2 class="text-3xl font-orbitron font-bold mb-8 text-center"><span
-                    class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">What Is a Web
-                    Proxy
-                    & How Does It Work?</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                <div class="glassmorphism p-8 rounded-2xl border border-white/10">
-                    <div class="flex items-center mb-4"><i class="fas fa-network-wired text-2xl text-primary mr-4"></i>
-                        <h3 class="text-xl font-bold">How Proxies Work</h3>
-                    </div>
-                    <p class="text-gray-400 leading-relaxed">A web proxy acts as an intermediary server between your
-                        browser and the websites you want to visit. When you send a request through a proxy, the
-                        request
-                        goes to the proxy server first. The proxy then fetches the content on your behalf and relays
-                        it
-                        back to you. From the perspective of the target website, the request appears to come from
-                        the
-                        proxy server's IP address rather than your own, which allows you to bypass network-level
-                        restrictions set by schools, workplaces, or ISPs.</p>
-                </div>
-                <div class="glassmorphism p-8 rounded-2xl border border-white/10">
-                    <div class="flex items-center mb-4"><i class="fas fa-shield-alt text-2xl text-secondary mr-4"></i>
-                        <h3 class="text-xl font-bold">Why Use Synapse Proxy?</h3>
-                    </div>
-                    <p class="text-gray-400 leading-relaxed">Synapse AI's proxy nodes are curated and tested
-                        regularly
-                        to ensure maximum uptime and speed. Many generic proxy sites serve malware-laced ads or log
-                        your
-                        browsing history. Our curated proxy links are selected for both safety and performance. We
-                        hand-pick each proxy node and only list those that do not collect personal data, making
-                        Synapse
-                        one of the safest places to access a free web proxy for school or work environments.</p>
-                </div>
-            </div>
-            <div class="glassmorphism p-8 rounded-2xl border border-white/10 mb-8">
-                <h3 class="text-2xl font-orbitron font-bold mb-6 text-primary">Playing Roblox, Fortnite & More via
-                    Proxy
-                </h3>
-                <p class="text-gray-300 leading-relaxed mb-4">One of the most popular use cases for our proxy nodes
-                    is
-                    accessing cloud gaming platforms like Xbox Cloud Gaming, which hosts popular titles like
-                    <strong>Roblox</strong>, <strong>Fortnite</strong>, <strong>Minecraft</strong>, <strong>Clash
-                        Royale</strong>, and hundreds of other AAA games. Because these games run on remote servers
-                    in
-                    the cloud and are streamed to your browser, they bypass traditional network firewalls entirely.
-                </p>
-                <p class="text-gray-300 leading-relaxed mb-4">Here's the step-by-step process: First, open one of
-                    our
-                    Proxy Nodes above. Once the proxy loads, navigate to <strong>xbox.com/play</strong> inside the
-                    proxy's address bar. Sign in with a free Microsoft account (no Xbox subscription needed for free
-                    titles like Fortnite). The games will then stream directly to your browser through the proxy
-                    connection, making them fully playable in school or on restricted networks.</p>
-                <p class="text-gray-300 leading-relaxed">This method works because the proxy server's connection is
-                    not
-                    subject to your local network's content filters. The data travels from Microsoft's servers to
-                    the
-                    proxy, and then from the proxy to your browser — all over standard HTTPS, which is almost never
-                    blocked.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="glassmorphism p-6 rounded-xl border border-white/10 text-center">
-                    <i class="fas fa-tachometer-alt text-3xl text-green-400 mb-4 block"></i>
-                    <h4 class="font-bold text-white mb-2">High Speed</h4>
-                    <p class="text-gray-400 text-sm">Our proxy nodes are hosted on high-bandwidth servers to
-                        minimize
-                        latency during gaming sessions.</p>
-                </div>
-                <div class="glassmorphism p-6 rounded-xl border border-white/10 text-center">
-                    <i class="fas fa-lock text-3xl text-blue-400 mb-4 block"></i>
-                    <h4 class="font-bold text-white mb-2">Secure HTTPS</h4>
-                    <p class="text-gray-400 text-sm">All proxy connections use encrypted HTTPS to protect your
-                        session
-                        data from interception.</p>
-                </div>
-                <div class="glassmorphism p-6 rounded-xl border border-white/10 text-center">
-                    <i class="fas fa-sync-alt text-3xl text-purple-400 mb-4 block"></i>
-                    <h4 class="font-bold text-white mb-2">Regularly Updated</h4>
-                    <p class="text-gray-400 text-sm">We monitor our proxy nodes daily and swap out any that become
-                        slow
-                        or unreliable.</p>
-                </div>
-            </div>
-            <div class="glassmorphism p-8 rounded-2xl border border-white/10">
-                <h3 class="text-2xl font-orbitron font-bold mb-6 text-secondary">Frequently Asked Questions</h3>
-                <div class="space-y-6">
-                    <div>
-                        <h4 class="font-bold text-white mb-2">Is using a web proxy safe?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Using a reputable web proxy from a trusted
-                            source like Synapse AI is generally safe for accessing content at school. We only list
-                            proxies that we have manually reviewed. However, you should never enter passwords or
-                            sensitive personal information through any third-party proxy.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-white mb-2">Will the proxy work on my Chromebook or school iPad?
-                        </h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Yes! Since our proxies run entirely in your
-                            browser using standard web technologies, they work on any device that can run a modern
-                            browser — including Chromebooks, iPads, and school-managed Windows laptops. No downloads
-                            or
-                            extensions are required.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-white mb-2">What's the difference between the proxy nodes?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Each proxy node uses a different underlying
-                            service. Proxy Node Omega uses MTAG, a well-known school proxy service. Proxy Node Sigma
-                            uses an alternative provider with different server locations, which may be faster for
-                            some
-                            users depending on their geographic location. We recommend trying both to see which is
-                            faster for you.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-white mb-2">Can I use YouTube or TikTok through the proxy?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Yes. Because the proxy server acts as a
-                            remote
-                            browser on your behalf, all traffic — including YouTube videos and TikTok feeds — is
-                            routed
-                            through it. This means that as long as the proxy itself is not blocked by your network,
-                            you
-                            can access any website through it, including social media platforms, video streaming
-                            sites,
-                            and online games.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main>
     <footer class="mt-16 border-t border-white/10 bg-black/40 backdrop-blur-md">
-        <div class="container mx-auto px-4 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left mb-8">
-                <div>
-                    <h4 class="text-white font-orbitron font-bold mb-4">Synapse AI</h4>
-                    <p class="text-gray-500 text-sm">The leading edge of unblocked gaming and AI assistance. Safe, fast,
-                        and always evolving.</p>
-                </div>
-                <div>
-                    <h4 class="text-white font-orbitron font-bold mb-4">Quick Links</h4>
-                    <ul class="text-gray-500 text-sm space-y-2">
-                        <li><a href="index.html" class="hover:text-primary transition-colors">Home</a></li>
-                        <li><a href="games.html" class="hover:text-primary transition-colors">Games List</a></li>
-                        <li><a href="proxy.html" class="hover:text-primary transition-colors">Unblocked Proxy</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-orbitron font-bold mb-4">Support</h4>
-                    <ul class="text-gray-500 text-sm space-y-2">
-                        <li><a href="articles.html" class="hover:text-primary transition-colors">Articles</a></li>
-                        <li><a href="about.html" class="hover:text-primary transition-colors">About Us</a></li>
-                        <li><a href="policy.html" class="hover:text-primary transition-colors">Privacy Policy</a></li>
-                        <li><a href="feedback.html" class="hover:text-primary transition-colors">Feedback</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="pt-8 border-t border-white/5 text-center">
-                <p class="text-gray-500 text-xs">© 2026 Synapse AI. All rights reserved. Registered for School-Safe
-                    Entertainment.</p>
+        <div class="container mx-auto px-4 py-12 text-center text-gray-500 text-xs">
+            <p class="mb-4">© 2026 Synapse AI. All rights reserved. Registered for School-Safe Entertainment.</p>
+            <div class="flex justify-center gap-6 font-orbitron uppercase tracking-widest text-[10px]">
+                <a href="index.html" class="hover:text-primary">Home</a>
+                <a href="games.html" class="hover:text-primary">Games</a>
+                <a href="policy.html" class="hover:text-primary">Privacy</a>
             </div>
         </div>
-
-
     </footer>
+
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-    <script src="games.js"></script>
     <script src="script.js"></script>
 </body>
 
