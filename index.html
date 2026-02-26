@@ -3,8 +3,6 @@
 
 <head>
 
-    <meta name='admaven-placement' content=BqjsEpdUF>
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-V4T99H82MR"></script>
     <script>
@@ -14,170 +12,6 @@
 
         gtag('config', 'G-V4T99H82MR');
     </script>
-    <!-- InMobi Choice. Consent Manager Tag v3.0 (for TCF 2.3) -->
-    <script type="text/javascript" async=true>
-        (function () {
-            var host = "www.themoneytizer.com";
-            var element = document.createElement('script');
-            var firstScript = document.getElementsByTagName('script')[0];
-            var url = 'https://cmp.inmobi.com'
-                .concat('/choice/', '6Fv0cGNfc_bw8', '/', host, '/choice.js?tag_version=V3');
-            var uspTries = 0;
-            var uspTriesLimit = 3;
-            element.async = true;
-            element.type = 'text/javascript';
-            element.src = url;
-
-            firstScript.parentNode.insertBefore(element, firstScript);
-
-            function makeStub() {
-                var TCF_LOCATOR_NAME = '__tcfapiLocator';
-                var queue = [];
-                var win = window;
-                var cmpFrame;
-
-                function addFrame() {
-                    var doc = win.document;
-                    var otherCMP = !!(win.frames[TCF_LOCATOR_NAME]);
-
-                    if (!otherCMP) {
-                        if (doc.body) {
-                            var iframe = doc.createElement('iframe');
-
-                            iframe.style.cssText = 'display:none';
-                            iframe.name = TCF_LOCATOR_NAME;
-                            doc.body.appendChild(iframe);
-                        } else {
-                            setTimeout(addFrame, 5);
-                        }
-                    }
-                    return !otherCMP;
-                }
-
-                function tcfAPIHandler() {
-                    var gdprApplies;
-                    var args = arguments;
-
-                    if (!args.length) {
-                        return queue;
-                    } else if (args[0] === 'setGdprApplies') {
-                        if (
-                            args.length > 3 &&
-                            args[2] === 2 &&
-                            typeof args[3] === 'boolean'
-                        ) {
-                            gdprApplies = args[3];
-                            if (typeof args[2] === 'function') {
-                                args[2]('set', true);
-                            }
-                        }
-                    } else if (args[0] === 'ping') {
-                        var retr = {
-                            gdprApplies: gdprApplies,
-                            cmpLoaded: false,
-                            cmpStatus: 'stub'
-                        };
-
-                        if (typeof args[2] === 'function') {
-                            args[2](retr);
-                        }
-                    } else {
-                        if (args[0] === 'init' && typeof args[3] === 'object') {
-                            args[3] = Object.assign(args[3], { tag_version: 'V3' });
-                        }
-                        queue.push(args);
-                    }
-                }
-
-                function postMessageEventHandler(event) {
-                    var msgIsString = typeof event.data === 'string';
-                    var json = {};
-
-                    try {
-                        if (msgIsString) {
-                            json = JSON.parse(event.data);
-                        } else {
-                            json = event.data;
-                        }
-                    } catch (ignore) { }
-
-                    var payload = json.__tcfapiCall;
-
-                    if (payload) {
-                        window.__tcfapi(
-                            payload.command,
-                            payload.version,
-                            function (retValue, success) {
-                                var returnMsg = {
-                                    __tcfapiReturn: {
-                                        returnValue: retValue,
-                                        success: success,
-                                        callId: payload.callId
-                                    }
-                                };
-                                if (msgIsString) {
-                                    returnMsg = JSON.stringify(returnMsg);
-                                }
-                                if (event && event.source && event.source.postMessage) {
-                                    event.source.postMessage(returnMsg, '*');
-                                }
-                            },
-                            payload.parameter
-                        );
-                    }
-                }
-
-                while (win) {
-                    try {
-                        if (win.frames[TCF_LOCATOR_NAME]) {
-                            cmpFrame = win;
-                            break;
-                        }
-                    } catch (ignore) { }
-
-                    if (win === window.top) {
-                        break;
-                    }
-                    win = win.parent;
-                }
-                if (!cmpFrame) {
-                    addFrame();
-                    win.__tcfapi = tcfAPIHandler;
-                    win.addEventListener('message', postMessageEventHandler, false);
-                }
-            };
-
-            makeStub();
-
-            var uspStubFunction = function () {
-                var arg = arguments;
-                if (typeof window.__uspapi !== uspStubFunction) {
-                    setTimeout(function () {
-                        if (typeof window.__uspapi !== 'undefined') {
-                            window.__uspapi.apply(window.__uspapi, arg);
-                        }
-                    }, 500);
-                }
-            };
-
-            var checkIfUspIsReady = function () {
-                uspTries++;
-                if (window.__uspapi === uspStubFunction && uspTries < uspTriesLimit) {
-                    console.warn('USP is not accessible');
-                } else {
-                    clearInterval(uspInterval);
-                }
-            };
-
-            if (typeof window.__uspapi === 'undefined') {
-                window.__uspapi = uspStubFunction;
-                var uspInterval = setInterval(checkIfUspIsReady, 6000);
-            }
-        })();
-    </script>
-    <!-- End InMobi Choice. Consent Manager Tag v3.0 (for TCF 2.3) -->
-
-
     <base target="_self">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -214,7 +48,40 @@
     <link rel="stylesheet" href="style.css">
     <!-- Push Ads -->
 
+    <!-- Rate Limited Ad Stack (5m) -->
+    <script>
+        (function () {
+            const NOW = Date.now();
+            const LAST_AD = localStorage.getItem('synapse_ad_cooldown') || 0;
+            if (NOW - LAST_AD > 300000) {
+                <!-- Hilltop/Monetag Universal Stack -->
 
+                (function (tpao) {
+                    var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
+                    s.settings = tpao || {};
+                    s.src = "\/\/rapid-university.com\/bWXcV.s\/d\/Gwlb0xYYWUcq\/he\/my9\/uPZXUglmk\/PZTqY\/4uMnjYIrwOMmjUEqt\/N\/j\/gSypMsj\/AfyANjQh";
+                    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l);
+                })({})
+
+
+                    (function (wuaz) {
+                        var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
+                        s.settings = wuaz || {};
+                        s.src = "\/\/rapid-university.com\/b.XCV\/s\/d\/Gtlo0XY\/WGcG\/ceFmG9tuTZsU\/lukRPrTPYf4HM\/jFIYwyMmDgU\/trNijBgeyaM_jNA-waOYQH";
+                        s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l);
+                    })({})
+                    (function (apty) {
+                        var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
+                        s.settings = apty || {};
+                        s.src = "\/\/rapid-university.com\/b.XXVbs_d\/G\/lX0TYgW\/ch\/TedmD9mulZQU\/lkkQPtTJYA4XM\/jzEu3aN\/D-UPtXNlj\/gyyYMsTTcp0dOwQE";
+                        s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l);
+                    })({})
+
+
+                localStorage.setItem('synapse_ad_cooldown', NOW);
+            }
+        })();
+    </script>
 
     <script>
         tailwind.config = {
@@ -240,37 +107,9 @@
 
 
 
-
-    <!-- Preload Ad Scripts to ensure instant render and maximum impressions -->
-
-
-    <!-- AD PERFORMANCE OPTIMIZATION -->
-    <link rel="preconnect" href="https://www.highperformanceformat.com">
-    <link rel="dns-prefetch" href="https://www.highperformanceformat.com">
-    <link rel="preload" href="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/412228ce3f7e514eff0e088bc88dd0a7/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/4f27449c855a63c1993335475e8b0253/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/3b778bf9b4ac85cd02fc7e17f000d8d5/invoke.js" as="script">
-    <!-- END AD PERFORMANCE OPTIMIZATION -->
 </head>
 
 <body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden hex-pattern">
-<div class="ad-slot-top-banner flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : '3b778bf9b4ac85cd02fc7e17f000d8d5',
-		'format' : 'iframe',
-		'height' : 50,
-		'width' : 320,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/3b778bf9b4ac85cd02fc7e17f000d8d5/invoke.js"></script></div>
-
-
-
-
 
     <div class="cyber-grid"></div>
     <div class="scanlines"></div>
@@ -337,7 +176,7 @@
                     class="nav-underline text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
             </div>
             <button id="tryAI" onclick="location.href='chat.html'"
-                class="block overflow-x-auto px-6 py-2 bg-primary rounded-full font-semibold font-orbitron uppercase tracking-wider hover:scale-110 transition-all duration-300">LAUNCH
+                class="hidden md:block px-6 py-2 bg-primary rounded-full font-semibold font-orbitron uppercase tracking-wider hover:scale-110 transition-all duration-300">LAUNCH
                 AI</button>
             <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white"><i
                     class="fas fa-bars text-2xl"></i></button>
@@ -354,60 +193,13 @@
             <a href="policy.html" class="nav-underline text-gray-300 hover:text-white py-2">Policy</a>
         </div>
     </nav>
-<div class="ad-slot-leaderboard flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : '24d82a14f251de0b584c1c1878965100',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script></div>
-
-
-
-
-<div class="flex flex-col lg:flex-row justify-between min-h-screen pt-16 px-0 shrink-0">
-    <!-- Left Sidebar -->
-    <div class="flex flex-shrink-0 w-[180px] flex-col gap-2 items-center py-2 bg-black/10">
-<div class="ad-slot-skyscraper flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : '81f56b1bdcad21cd55ab223c4f4c2c92',
-		'format' : 'iframe',
-		'height' : 600,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script></div>
-
-        
-
-
-        
-
-
-    </div>
-    <main class="flex-grow w-full px-2">
-
-<div class="flex justify-center my-8 w-full">
-<div class="overflow-hidden rounded-lg shadow-lg border border-white/5 bg-black/20 block overflow-x-auto" style="min-width: 728px; min-height: 90px; text-align: center;">
-<script>
-</script>
-</div>
-</div>
-
-
-
-    
 
 
 
     <main>
-
-
-
+        <div class="ad-container my-8 flex justify-center overflow-hidden" data-synapse-ad="top">
+            <script>(function (vre) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = vre || {}; s.src = "\/\/rapid-university.com\/b.XBVBs_d\/G\/lI0KY\/WtcT\/zemmE9euGZ\/U-lmkqPpTSYS4OMLjtEX3\/NwDWUmt\/NVjSgTyBM\/T\/c\/0XOnQg"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
+        </div>
 
 
         <div id="homePage" class="page-transition">
@@ -421,18 +213,7 @@
                     <span class="cursor-blink neon-text text-primary">|</span>
                 </h1>
 
-                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto reveal stagger-1
-<div class="ad-slot-square flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : 'cf6a125c26299b4a476c85e2b484cb3a',
-		'format' : 'iframe',
-		'height' : 250,
-		'width' : 300,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js"></script></div>
-">Your all-in-one hub
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto reveal stagger-1">Your all-in-one hub
                     for free browser gaming and advanced AI assistance. No installs, no limits.✨</p>
                 <button onclick="window.location.href='chat.html'"
                     class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full text-lg font-semibold hover:scale-110 transition-all duration-300 animate-pulse-glow btn-ripple hover-glow neon-glow reveal stagger-2">
@@ -441,17 +222,7 @@
 
 
 
-                <div class="mt-16 reveal <div class="ad-slot-content-banner flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : '412228ce3f7e514eff0e088bc88dd0a7',
-		'format' : 'iframe',
-		'height' : 60,
-		'width' : 468,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/412228ce3f7e514eff0e088bc88dd0a7/invoke.js"></script></div>
-stagger-3">
+                <div class="mt-16 reveal stagger-3">
                     <div
                         class="glassmorphism gradient-border rounded-3xl p-8 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div class="text-center hover-lift card-shine stagger-1">
@@ -482,15 +253,7 @@ stagger-3">
                     </div>
                 </div>
 
-                
-<div class="flex justify-center my-6 w-full">
-<div class="overflow-hidden rounded-lg shadow-lg border border-white/5 bg-black/20 block overflow-x-auto" style="min-width: 468px; min-height: 60px; text-align: center;">
-<script>
-</script>
-</div>
-</div>
-
-<!-- FAQ Section for Value -->
+                <!-- FAQ Section for Value -->
                 <div class="mt-20 reveal stagger-5">
                     <h2 class="text-3xl font-orbitron font-bold mb-8 text-center text-secondary">Frequently Asked
                         Questions</h2>
@@ -525,15 +288,7 @@ stagger-3">
                     </div>
                 </div>
 
-                
-<div class="flex justify-center my-6 w-full">
-<div class="overflow-hidden rounded-lg shadow-lg border border-white/5 bg-black/20 block overflow-x-auto" style="min-width: 468px; min-height: 60px; text-align: center;">
-<script>
-</script>
-</div>
-</div>
-
-<!-- SEO Content Section -->
+                <!-- SEO Content Section -->
                 <div class="mt-20 text-left max-w-4xl mx-auto reveal stagger-4">
                     <h2 class="text-3xl font-orbitron font-bold mb-6 text-primary">The Ultimate Destination for
                         Unblocked Games & AI</h2>
@@ -623,61 +378,34 @@ stagger-3">
 
 
         </div>
-    
-<div class="flex justify-center my-6 w-full">
-<div class="overflow-hidden rounded-lg shadow-lg border border-white/5 bg-black/20" style="min-width: 300px; min-height: 250px; text-align: center;">
-<script>
-</script>
-</div>
-</div>
-
-</main>
-
-
-
-
-    <div class="flex justify-center my-8">
-
-</div>
-<div class="flex justify-center my-4">
-
-</div>
-
     </main>
-    <!-- Right Sidebar -->
-    <div class="flex flex-shrink-0 w-[180px] flex-col gap-2 items-center py-2 bg-black/10">
-<div class="ad-slot-minisky flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : '4f27449c855a63c1993335475e8b0253',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/4f27449c855a63c1993335475e8b0253/invoke.js"></script></div>
-
-        
 
 
-        
-
-
+    <!-- Optimized Subtle Grid -->
+    <div class="container mx-auto px-4 my-16">
+        <h3 class="text-center font-orbitron text-[10px] text-gray-700 uppercase tracking-[0.4em] mb-6 opacity-40">
+            Sponsored Partners</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;width:100%;">
+            <div
+                class="ad-container overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-1 opacity-70 hover:opacity-100 transition-opacity">
+                <script>(function (vre) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = vre || {}; s.src = "\/\/rapid-university.com\/b.XBVBs_d\/G\/lI0KY\/WtcT\/zemmE9euGZ\/U-lmkqPpTSYS4OMLjtEX3\/NwDWUmt\/NVjSgTyBM\/T\/c\/0XOnQg"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
+            </div>
+            <div
+                class="ad-container overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-1 opacity-70 hover:opacity-100 transition-opacity">
+                <script>(function (xrx) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = xrx || {}; s.src = "\/\/rapid-university.com\/b.XYVysQdXGRl\/0SYRWicJ\/Te\/m\/9\/uNZ\/UDlZkxP\/TEYd4dMgjeIe5\/MgT\/cOtaNLj-giyHM\/j\/kGyfMvQe"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
+            </div>
+            <div
+                class="ad-container overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-1 opacity-70 hover:opacity-100 transition-opacity">
+                <script>(function (lzu) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = lzu || {}; s.src = "\/\/rapid-university.com\/bFXDV\/s.d\/Gglc0\/YUW\/cd\/LeYmg9\/usZhU\/lskkPBT\/Yx4\/MQjmI\/5vMEzIM-tvN\/jfg\/yuMnjCkZz\/N\/w_"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
+            </div>
+            <div
+                class="ad-container overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-1 opacity-70 hover:opacity-100 transition-opacity">
+                <script>(function (vre) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = vre || {}; s.src = "\/\/rapid-university.com\/b.XBVBs_d\/G\/lI0KY\/WtcT\/zemmE9euGZ\/U-lmkqPpTSYS4OMLjtEX3\/NwDWUmt\/NVjSgTyBM\/T\/c\/0XOnQg"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
+            </div>
+        </div>
     </div>
-</div>
 
-
-
-
-
-<div class="flex justify-center my-4 w-full">
-<div class="overflow-hidden rounded-lg shadow-lg border border-white/5 bg-black/20" style="min-width: 320px; min-height: 50px; text-align: center;">
-<script>
-</script>
-</div>
-</div>
-
-<footer class="mt-16 border-t border-white/10 bg-black/40 backdrop-blur-md">
+    <footer class="mt-16 border-t border-white/10 bg-black/40 backdrop-blur-md">
         <div class="container mx-auto px-4 py-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left mb-8">
                 <div>
@@ -708,19 +436,30 @@ stagger-3">
                     Entertainment.</p>
             </div>
 
+            <div class="ad-container flex justify-center">
+                <script>(function (vre) { var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; s.settings = vre || {}; s.src = "\/\/rapid-university.com\/b.XBVBs_d\/G\/lI0KY\/WtcT\/zemmE9euGZ\/U-lmkqPpTSYS4OMLjtEX3\/NwDWUmt\/NVjSgTyBM\/T\/c\/0XOnQg"; s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade'; l.parentNode.insertBefore(s, l); })({})</script>
+            </div>
 
+            <!-- Video Slider Ad Unit -->
+            <script>
+                    (function (mrqo) {
+                        var d = document,
+                            s = d.createElement('script'),
+                            l = d.scripts[d.scripts.length - 1];
+                        s.settings = mrqo || {};
+                        s.src = "\/\/rapid-university.com\/b.XpVDs\/dGGilm0BY\/Wlcz\/mePmv9\/uIZ\/Ual-k\/P\/TIY\/4oMejfIaw_M\/DtUltBNHjzgIyVM\/jYAHwzOKQz";
+                        s.async = true;
+                        s.referrerPolicy = 'no-referrer-when-downgrade';
+                        l.parentNode.insertBefore(s, l);
+                    })({})
+            </script>
         </div>
-    
-
-</footer>
+    </footer>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     <script src="games.js"></script>
     <script src="script.js"></script>
-
-
-
 </body>
 
 </html>

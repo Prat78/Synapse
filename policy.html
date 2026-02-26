@@ -3,7 +3,6 @@
 
 <head>
 
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-V4T99H82MR"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -30,40 +29,25 @@
 
 
 
+<!-- Direct Pop-Under Handler (Rate Limited: 5 Min) -->
+<script>
+(function() {
+    try {
+        const NOW = Date.now();
+        const LAST_POP = localStorage.getItem('synapse_last_pop') || 0;
+        const FIVE_MIN = 5 * 60 * 1000;
+
+        if (NOW - LAST_POP > FIVE_MIN) {
+            localStorage.setItem('synapse_last_pop', NOW);
+        }
+    } catch(e) { console.error("Ad limit error", e); }
+})();
+</script>
 
 
-
-
-    <!-- Preload Ad Scripts to ensure instant render and maximum impressions -->
-
-
-    <!-- AD PERFORMANCE OPTIMIZATION -->
-    <link rel="preconnect" href="https://www.highperformanceformat.com">
-    <link rel="dns-prefetch" href="https://www.highperformanceformat.com">
-    <link rel="preload" href="https://www.highperformanceformat.com/cf6a125c26299b4a476c85e2b484cb3a/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/412228ce3f7e514eff0e088bc88dd0a7/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/4f27449c855a63c1993335475e8b0253/invoke.js" as="script">
-    <link rel="preload" href="https://www.highperformanceformat.com/3b778bf9b4ac85cd02fc7e17f000d8d5/invoke.js" as="script">
-    <!-- END AD PERFORMANCE OPTIMIZATION -->
 </head>
 
 <body class="min-h-screen bg-dark text-white font-sans overflow-x-hidden hex-pattern">
-<div class="ad-slot-top-banner flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : '3b778bf9b4ac85cd02fc7e17f000d8d5',
-		'format' : 'iframe',
-		'height' : 50,
-		'width' : 320,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/3b778bf9b4ac85cd02fc7e17f000d8d5/invoke.js"></script></div>
-
-
-
-
 
     <div class="cyber-grid"></div>
     <div class="scanlines"></div>
@@ -105,7 +89,7 @@
                     class="nav-underline active text-gray-300 hover:text-white transition-colors duration-300">Policy</a>
             </div>
             <button id="tryAI" onclick="location.href='chat.html'"
-                class="block overflow-x-auto px-6 py-2 bg-primary rounded-full font-semibold font-orbitron uppercase tracking-wider hover:scale-110 transition-all duration-300">LAUNCH
+                class="hidden md:block px-6 py-2 bg-primary rounded-full font-semibold font-orbitron uppercase tracking-wider hover:scale-110 transition-all duration-300">LAUNCH
                 AI</button>
             <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white"><i
                     class="fas fa-bars text-2xl"></i></button>
@@ -122,54 +106,6 @@
             <a href="policy.html" class="nav-underline active text-gray-300 hover:text-white py-2">Policy</a>
         </div>
     </nav>
-<div class="ad-slot-leaderboard flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : '24d82a14f251de0b584c1c1878965100',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/24d82a14f251de0b584c1c1878965100/invoke.js"></script></div>
-
-
-
-
-<div class="flex flex-col lg:flex-row justify-between min-h-screen pt-16 px-0 shrink-0">
-    <!-- Left Sidebar -->
-    <div class="flex flex-shrink-0 w-[180px] flex-col gap-2 items-center py-2 bg-black/10">
-<div class="ad-slot-skyscraper flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : '81f56b1bdcad21cd55ab223c4f4c2c92',
-		'format' : 'iframe',
-		'height' : 600,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/81f56b1bdcad21cd55ab223c4f4c2c92/invoke.js"></script></div>
-
-        
-
-
-        
-
-
-        
-
-
-    </div>
-    <main class="flex-grow w-full px-2">
-
-<div class="flex justify-center my-8 w-full">
-<div class="overflow-hidden rounded-lg shadow-lg border border-white/5 bg-black/20 block overflow-x-auto" style="min-width: 728px; min-height: 90px; text-align: center;">
-<script>
-</script>
-</div>
-</div>
-
-
 
     <main class="pt-24 pb-16">
 
@@ -232,7 +168,11 @@
                     </p>
                 </div>
 
-
+                <!-- Integrated Ad Section -->
+                <div
+                    class="glassmorphism p-8 rounded-2xl border border-white/10 flex flex-col items-center justify-center">
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest mb-4">Support our mission</span>
+                </div>
 
                 <!-- Section 3 -->
                 <div class="glassmorphism p-8 rounded-2xl border border-white/10">
@@ -264,105 +204,9 @@
             </div>
         </div>
 
-    
-<div class="flex justify-center my-6 w-full">
-<div class="overflow-hidden rounded-lg shadow-lg border border-white/5 bg-black/20" style="min-width: 300px; min-height: 250px; text-align: center;">
-<script>
-</script>
-</div>
-</div>
+    </main>
 
-</main>
-
-    <div class="flex justify-center my-8">
-
-</div>
-<div class="flex justify-center my-4">
-
-</div>
-</main>
-    <!-- Right Sidebar -->
-    <div class="flex flex-shrink-0 w-[180px] flex-col gap-2 items-center py-2 bg-black/10">
-<div class="ad-slot-minisky flex justify-center my-4 overflow-hidden rounded-lg"><script type="text/javascript">
-	atOptions = {
-		'key' : '4f27449c855a63c1993335475e8b0253',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="https://www.highperformanceformat.com/4f27449c855a63c1993335475e8b0253/invoke.js"></script></div>
-
-        
-
-
-        
-
-
-        
-
-
-    </div>
-</div>
-
-<section class="container mx-auto px-4 py-16 border-t border-white/10">
-    <div class="text-center mb-12">
-        <h2 class="text-3xl font-orbitron font-bold text-glow italic"><span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">SYNAPSE PREMIUM PARTNERS</span></h2>
-        <p class="text-gray-500 text-xs uppercase tracking-widest mt-2">Aggressive Monetization Grid v5.0</p>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-<div class="flex justify-center my-4">
-
-</div>
-
-        
-<div class="flex justify-center my-4">
-
-</div>
-
-        
-<div class="flex justify-center my-4">
-
-</div>
-
-        
-<div class="flex justify-center my-4">
-
-</div>
-
-        
-<div class="flex justify-center my-4">
-
-</div>
-
-        
-<div class="flex justify-center my-4">
-
-</div>
-
-        
-<div class="flex justify-center my-4">
-
-</div>
-
-        
-<div class="flex justify-center my-4">
-
-</div>
-
-    </div>
-</section>
-
-<div class="flex justify-center my-4 w-full">
-<div class="overflow-hidden rounded-lg shadow-lg border border-white/5 bg-black/20" style="min-width: 320px; min-height: 50px; text-align: center;">
-<script>
-</script>
-</div>
-</div>
-
-<footer class="mt-16 border-t border-white/10 bg-black/40 backdrop-blur-md">
+    <footer class="mt-16 border-t border-white/10 bg-black/40 backdrop-blur-md">
         <div class="container mx-auto px-4 py-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left mb-8">
                 <div>
@@ -399,41 +243,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="script.js"></script>
-
-
-<!-- Floating Ads -->
-<div class="fixed bottom-4 left-4 z-[9999] block w-[300px] glassmorphism p-2 rounded-xl border border-primary/20 shadow-2xl animate-bounce-slow">
-    <div class="flex justify-between items-center mb-1 px-2">
-        <span class="text-[8px] text-gray-400 uppercase tracking-widest">Sponsored</span>
-        <button onclick="this.parentElement.parentElement.remove()" class="text-gray-500 hover:text-white"><i class="fas fa-times text-[10px]"></i></button>
-    </div>
-    
-<div class="flex justify-center my-4">
-
-</div>
-
-</div>
-<div class="fixed bottom-4 right-4 z-[9999] block w-[300px] glassmorphism p-2 rounded-xl border border-secondary/20 shadow-2xl animate-bounce-slow" style="animation-delay: 1s;">
-    <div class="flex justify-between items-center mb-1 px-2">
-        <span class="text-[8px] text-gray-400 uppercase tracking-widest">Sponsored</span>
-        <button onclick="this.parentElement.parentElement.remove()" class="text-gray-500 hover:text-white"><i class="fas fa-times text-[10px]"></i></button>
-    </div>
-    
-<div class="flex justify-center my-4">
-
-</div>
-
-</div>
-
-<!-- Sticky Bottom Ad -->
-<div class="fixed bottom-0 left-0 right-0 z-[10000] bg-black/80 backdrop-blur-md border-t border-white/10 py-2 flex justify-center items-center">
-    <div class="absolute -top-6 right-4">
-        <button onclick="this.parentElement.parentElement.remove()" class="bg-dark border border-white/10 text-white px-3 py-1 rounded-t-lg text-[10px] font-bold uppercase tracking-widest">Close Ad</button>
-    </div>
-    <div class="max-w-[728px] w-full mx-auto">
-        
-    </div>
-</div>
 </body>
 
 </html>

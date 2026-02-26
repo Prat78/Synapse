@@ -328,7 +328,7 @@ function init() {
     createMatrixRain();
     createStars();
     setupAnimations();
-
+    initAdBlockDetector(); // 1.1 AdBlock Detection
 
 
     // 2. Handle Loading Screen Logic - Checking Session Immediately
@@ -898,7 +898,7 @@ function displayMessage(msg) {
                     </div>
                     <div class="chat-bubble-user p-3 inline-block text-left">${messageContent}</div>
                     <div class="admin-only mt-1">
-                        <button onclick="deleteMessage('${msg.id}', decodeURIComponent('${encodeURIComponent(msg.nickname || '')}'))" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
+                        <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
                     </div>
                 </div>
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xs"></i></div>`;
@@ -914,8 +914,8 @@ function displayMessage(msg) {
                     </div>
                     <div class="chat-bubble-ai p-3 inline-block">${messageContent}</div>
                     <div class="admin-only mt-1 flex space-x-2">
-                        <button onclick="deleteMessage('${msg.id}', decodeURIComponent('${encodeURIComponent(msg.nickname || '')}'))" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
-                        <button onclick="banUser('${msg.userId}', decodeURIComponent('${encodeURIComponent(msg.nickname || '')}'))" class="admin-only-btn"><i class="fas fa-hammer mr-1"></i>Ban</button>
+                        <button onclick="deleteMessage('${msg.id}')" class="admin-only-btn"><i class="fas fa-trash mr-1"></i>Delete</button>
+                        <button onclick="banUser('${msg.userId}')" class="admin-only-btn"><i class="fas fa-hammer mr-1"></i>Ban</button>
                     </div>
                 </div>`;
         }
@@ -923,7 +923,20 @@ function displayMessage(msg) {
     container.appendChild(msgDiv);
     container.scrollTop = container.scrollHeight;
 
-
+    // Inject ad every 7 messages
+    messageCounter++;
+    if (messageCounter % 7 === 0) {
+        const adDiv = document.createElement('div');
+        adDiv.className = 'flex items-center justify-center my-6 opacity-80';
+        adDiv.innerHTML = `<div class="glassmorphism p-2 rounded-xl border border-white/5 flex flex-col items-center">
+            <span class="text-[8px] text-gray-500 uppercase mb-1 tracking-widest">Sponsored message</span>
+            <div class="ad-container overflow-hidden"></div>
+        </div>`;
+        container.appendChild(adDiv);
+        if (window.renderIsolatedAd) {
+            window.renderIsolatedAd(adDiv.querySelector('.ad-container'));
+        }
+    }
 }
 
 function setupImageUpload() {
@@ -1151,7 +1164,13 @@ function initFeedback() {
     }
 }
 
-
+// Reusable ad injection helper for dynamic content
+function injectAdTag(element) {
+    if (!element) return;
+    const script = document.createElement('script');
+    script.innerHTML = `(function(z){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=z||{};s.src="https://rapid-university.com/baXKVnsLd.Gwlo0-Y_WCcf/weJmg9WuQZtU/lMkKP/T/YJ4UMvjbEa3RNYD/U/trNpj/gZy/MhTgcz0/ONQA";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})`;
+    element.appendChild(script);
+}
 
 function listenToFeedback() {
     feedbackRef.orderByChild('timestamp').limitToLast(50).on('value', (snapshot) => {
@@ -1165,8 +1184,16 @@ function listenToFeedback() {
         const items = [];
         snapshot.forEach((child) => { items.push({ id: child.key, ...child.val() }); });
         const reversedItems = items.reverse();
-        reversedItems.forEach((item) => {
+        reversedItems.forEach((item, index) => {
             displayFeedback(item);
+            // Inject an ad every 2 feedback items
+            if ((index + 1) % 10 === 0) {
+                const adDiv = document.createElement('div');
+                adDiv.className = 'py-4 flex justify-center border-y border-white/5 opacity-80';
+                adDiv.innerHTML = `<div class="ad-container overflow-hidden"></div>`;
+                feedbackList.appendChild(adDiv);
+                injectAdTag(adDiv.querySelector('.ad-container'));
+            }
         });
     });
 }
@@ -1401,20 +1428,13 @@ function deleteAllMessages() {
     }
 }
 
-function deleteMessage(messageId, nickname) {
+function deleteMessage(messageId) {
     if (!isAuth()) return;
     if (!messagesRef) return;
 
     messagesRef.child(messageId).remove()
         .then(() => {
             console.log("Message deleted:", messageId);
-            if (nickname) {
-                messagesRef.push({
-                    type: 'system',
-                    text: `A message from ${nickname} was deleted by Admin.`,
-                    timestamp: firebase.database.ServerValue.TIMESTAMP
-                });
-            }
         })
         .catch(err => {
             console.error("Delete error:", err);
@@ -1431,21 +1451,12 @@ function deleteFeedback(feedbackId) {
     }
 }
 
-function banUser(userId, nickname) {
+function banUser(userId) {
     if (!AuthManager.isAdmin()) return;
     if (confirm("Ban this user for 1 minute and 30 seconds?")) {
         const expiry = Date.now() + (90 * 1000); // 1 minute 30 seconds
         database.ref('bans/' + userId).set(expiry)
-            .then(() => {
-                alert("✅ User banned for 1 minute and 30 seconds");
-                if (nickname && messagesRef) {
-                    messagesRef.push({
-                        type: 'system',
-                        text: `Admin restricted ${nickname} for inappropriate conduct.`,
-                        timestamp: firebase.database.ServerValue.TIMESTAMP
-                    });
-                }
-            })
+            .then(() => alert("✅ User banned for 1 minute and 30 seconds"))
             .catch(err => alert("❌ Error: " + err.message));
     }
 }
@@ -1476,4 +1487,249 @@ function sendGlobalBroadcast() {
     }
 }
 
+
+// ===========================
+// ADBLOCK DETECTOR
+// ===========================
+function initAdBlockDetector() {
+    // 1. Inject Overlay HTML
+    const overlay = document.createElement('div');
+    overlay.id = 'adblockOverlay';
+    overlay.className = 'adblock-overlay';
+    overlay.innerHTML = `
+        <div class="adblock-card">
+            <div class="adblock-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2 class="adblock-title font-orbitron">SHIELD ACTIVE</h2>
+            <p class="adblock-message font-inter">
+                Our neural link detects an AdBlocker. To keep <strong>Synapse AI</strong> free and maintain our high-performance servers, please disable your AdBlocker and refresh the page.
+            </p>
+            <button onclick="window.location.reload()" class="adblock-btn font-orbitron">
+                I'VE DISABLED IT - REFRESH
+            </button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // 2. Detection Logic
+    async function checkAds() {
+        const adCheckUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+        let isBlocked = false;
+
+        // Strategy A: Try to fetch a known ad script
+        try {
+            const response = await fetch(adCheckUrl, { method: 'HEAD', mode: 'no-cors' });
+        } catch (error) {
+            isBlocked = true;
+        }
+
+        // Strategy B: Check for hidden fake ad element
+        if (!isBlocked) {
+            const fakeAd = document.createElement('div');
+            fakeAd.innerHTML = '&nbsp;';
+            fakeAd.className = 'adsbygoogle ad-unit ad-placement';
+            fakeAd.style.position = 'absolute';
+            fakeAd.style.left = '-9999px';
+            fakeAd.style.height = '1px';
+            fakeAd.style.width = '1px';
+            document.body.appendChild(fakeAd);
+
+            setTimeout(() => {
+                if (fakeAd.offsetHeight === 0 || fakeAd.display === 'none' || window.getComputedStyle(fakeAd).display === 'none') {
+                    showAdblockOverlay();
+                }
+                document.body.removeChild(fakeAd);
+            }, 100);
+        }
+
+        if (isBlocked) {
+            showAdblockOverlay();
+        }
+    }
+
+    function showAdblockOverlay() {
+        overlay.classList.add('active');
+        document.body.classList.add('no-scroll');
+
+        // Disable interactive elements
+        document.querySelectorAll('a, button').forEach(el => {
+            if (!el.classList.contains('adblock-btn')) {
+                el.style.pointerEvents = 'none';
+            }
+        });
+    }
+
+    // Run check after a short delay
+    setTimeout(checkAds, 1000);
+}
+
 document.addEventListener("DOMContentLoaded", init);
+
+// ===========================
+// Hardcore Isolated Ad Renderer (Version 3.0 - Anti-Sandbagging)
+// ===========================
+(function () {
+    // Primary Ad Campaign URL
+    var AD_CAMPAIGN_URL = '//rapid-university.com/bsX/Vps.dJG/lQ0xY/W_cY/neYm/9GuEZjUslTkxP/T/Yf4IMKj/Es3cNwDWU/txN/jVgMy_MAT/c/0BO/Qr';
+
+    // Generates a random cache-buster to force the server to treat every load as a fresh user session
+    function getCacheBuster() {
+        return '?' + Math.random().toString(36).substring(2, 12) + '_' + Date.now();
+    }
+
+    function buildSrcdoc(src) {
+        // Add the unique ID to the script source itself inside the iframe
+        var uniqueSrc = src + getCacheBuster();
+        return [
+            '<!DOCTYPE html><html><head>',
+            '<style>*{margin:0;padding:0;box-sizing:border-box}',
+            'body{background:transparent;overflow:hidden;',
+            'display:flex;align-items:center;justify-content:center;',
+            'width:100%;height:100%;}</style></head><body>',
+            '<script>(function(z){',
+            'var d=document,s=d.createElement("script"),l=d.currentScript;',
+            's.settings=z||{};',
+            's.src="', uniqueSrc, '";',
+            's.async=true;',
+            's.referrerPolicy="no-referrer-when-downgrade";',
+            'l.parentNode.insertBefore(s,l);})({})',
+            '<\/script></body></html>'
+        ].join('');
+    }
+
+    function renderIsolatedAd(container) {
+        if (!container) return;
+        // Check if we already have an iframe; if so, we are rotating it
+        var existingIframe = container.querySelector('iframe');
+        var iframe = existingIframe || document.createElement('iframe');
+
+        if (!existingIframe) {
+            iframe.style.cssText = [
+                'width:100%;',
+                'min-height:90px;',
+                'height:100%;',
+                'border:none;',
+                'background:transparent;',
+                'overflow:hidden;'
+            ].join('');
+            iframe.setAttribute('scrolling', 'no');
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('sandbox', 'allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin');
+        }
+
+        // Force a fresh load with a new srcdoc and a new cache-buster
+        iframe.srcdoc = buildSrcdoc(AD_CAMPAIGN_URL);
+
+        if (!existingIframe) {
+            container.innerHTML = '';
+            container.appendChild(iframe);
+        }
+    }
+
+    // Initialize/Refresh all containers
+    function refreshAllAds() {
+        var containers = document.querySelectorAll('.ad-container');
+        containers.forEach(function (el, i) {
+            // Stagger loading to look like organic traffic instead of a bot burst
+            setTimeout(function () { renderIsolatedAd(el); }, i * 400);
+        });
+    }
+
+    // Initial load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', refreshAllAds);
+    } else {
+        refreshAllAds();
+    }
+
+    // CPM BOOSTER: Rotate ads every 90 seconds while the user is on the page.
+    // This turns a single session into 10+ paid sessions.
+    setInterval(function () {
+        // Only refresh if the user is actually looking at the tab (saves resources)
+        if (!document.hidden) {
+            console.log("♻️ Rotating ad inventory to boost CPM...");
+            refreshAllAds();
+        }
+    }, 90000);
+
+    window.renderIsolatedAd = renderIsolatedAd;
+})();
+
+
+// ===========================
+// Pop-Under Ads (4/day cap)
+// ===========================
+(function () {
+    var PU_KEY_DATE = 'pu_date';
+    var PU_KEY_COUNT = 'pu_count';
+    var PU_MAX = 6;           // max pop-unders per calendar day
+    var PU_COOLDOWN = 60 * 1000; // min 1 min gap between pop-unders (ms)
+    var PU_LAST_KEY = 'pu_last';
+
+    function getTodayStr() {
+        return new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+    }
+
+    function getCount() {
+        var stored = localStorage.getItem(PU_KEY_DATE);
+        if (stored !== getTodayStr()) {
+            // New day — reset
+            localStorage.setItem(PU_KEY_DATE, getTodayStr());
+            localStorage.setItem(PU_KEY_COUNT, '0');
+            localStorage.removeItem(PU_LAST_KEY);
+            return 0;
+        }
+        return parseInt(localStorage.getItem(PU_KEY_COUNT) || '0', 10);
+    }
+
+    function bumpCount() {
+        localStorage.setItem(PU_KEY_COUNT, String(getCount() + 1));
+        localStorage.setItem(PU_LAST_KEY, String(Date.now()));
+    }
+
+    function canFire() {
+        if (getCount() >= PU_MAX) return false;
+        var last = parseInt(localStorage.getItem(PU_LAST_KEY) || '0', 10);
+        return (Date.now() - last) >= PU_COOLDOWN;
+    }
+
+    function firePopUnder() {
+        if (!canFire()) return;
+        bumpCount();
+        (function (mnalua) {
+            var d = document,
+                s = d.createElement('script');
+            s.settings = mnalua || {};
+            // Using the latest active campaign URL provided by the user
+            s.async = true;
+            s.referrerPolicy = 'no-referrer-when-downgrade';
+            (d.head || d.body).appendChild(s);
+        })({});
+    }
+
+    // Attach once — fire on the first qualifying user click anywhere on the page.
+    // After firing, listener reattaches itself with the cooldown respected so
+    // rapid clicks don't spam the user.
+    function attachListener() {
+        var fired = false;
+        function handler(e) {
+            // Ignore programmatic / synthetic clicks
+            if (!e.isTrusted) return;
+            if (fired) return;
+            fired = true;
+            document.removeEventListener('click', handler, true);
+            firePopUnder();
+            // Reattach after cooldown so next natural interaction can fire again
+            setTimeout(attachListener, PU_COOLDOWN);
+        }
+        document.addEventListener('click', handler, true);
+    }
+
+    // Small initial delay so the page feels responsive first
+    setTimeout(attachListener, 2000);
+})();
+
+
+
+

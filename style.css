@@ -520,7 +520,24 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Ad containers — each slot gets its own iframe via script.js */
+.ad-container {
+    min-height: 90px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
 
+.ad-container iframe {
+    display: block;
+    width: 100%;
+    min-height: 90px;
+    border: none;
+    overflow: hidden;
+}
 
 
 .nav-underline {
@@ -1355,7 +1372,26 @@
     transform: rotate(90deg);
 }
 
+/* ============================================
+           AD SYSTEM STYLES (Max CPM & Visibility)
+           ============================================ */
+.ad-slot-wrapper,
+.ad-container {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 250px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+}
 
+.ad-container script {
+    display: none;
+}
 
 /* ============================================
    MOBILE LAYOUT FIXES (Nav & Tabs)
@@ -1503,4 +1539,107 @@ button.admin-only-btn:hover {
 
 .animate-bounce-x {
     animation: bounce-x 1s infinite;
+}
+
+/* ============================================
+   ADBLOCK DETECTOR UI
+   ============================================ */
+.adblock-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.adblock-overlay.active {
+    display: flex;
+    animation: fadeInModal 0.5s ease forwards;
+}
+
+.adblock-card {
+    max-width: 500px;
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.adblock-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+}
+
+.adblock-icon {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #3b82f6, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: scalePulse 2s ease-in-out infinite;
+}
+
+.adblock-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.adblock-message {
+    font-family: 'Inter', sans-serif;
+    color: #9ca3af;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.adblock-btn {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+}
+
+.adblock-btn:hover {
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+}
+
+.no-scroll {
+    overflow: hidden !important;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
