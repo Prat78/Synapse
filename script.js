@@ -364,16 +364,40 @@ function init() {
             setTimeout(() => clearInterval(statusInterval), 2500);
         }
 
-        // Fade Out Animation
-        setTimeout(() => {
-            if (loadingScreen) {
+        // Fade Out Animation Function
+        const hideLoader = () => {
+            if (loadingScreen && loadingScreen.style.opacity !== "0") {
                 loadingScreen.style.opacity = "0";
                 loadingScreen.style.transition = "opacity 0.5s ease";
                 setTimeout(() => {
                     loadingScreen.style.display = "none";
                 }, 500);
             }
-        }, 2500);
+        };
+
+        let checks = 0;
+        const loaderInterval = setInterval(() => {
+            checks++;
+            let loadedAds = 0;
+            const units = document.querySelectorAll('.sp-unit');
+            units.forEach(el => {
+                const f = el.querySelector('iframe');
+                try {
+                    if (f && f.contentWindow) {
+                        const doc = f.contentWindow.document;
+                        if (doc.body && doc.body.innerHTML.length > 150) loadedAds++;
+                    }
+                } catch (e) {
+                    loadedAds++; // cross origin = success
+                }
+            });
+
+            // Wait for at least 6 ads, or timeout after ~15 seconds (150 * 100ms)
+            if (loadedAds >= 6 || checks > 150) {
+                clearInterval(loaderInterval);
+                hideLoader();
+            }
+        }, 100);
 
         // Mark site as loaded
         sessionStorage.setItem('siteLoaded', 'true');
@@ -1539,11 +1563,11 @@ function initAdBlockDetector() {
         }
 
         if (isBlocked) {
-            showAdblockOverlay();
+            window.showAdblockOverlay();
         }
     }
 
-    function showAdblockOverlay() {
+    window.showAdblockOverlay = function () {
         overlay.classList.add('active');
         document.body.classList.add('no-scroll');
 
@@ -1553,7 +1577,7 @@ function initAdBlockDetector() {
                 el.style.pointerEvents = 'none';
             }
         });
-    }
+    };
 
     // Run check after a short delay
     setTimeout(checkAds, 1000);
@@ -1617,39 +1641,98 @@ document.addEventListener("DOMContentLoaded", init);
         var units = Array.prototype.slice.call(document.querySelectorAll('.sp-unit'));
         if (!units.length) return;
 
-        var above = [], below = [];
-        units.forEach(function (u) {
-            var r = u.getBoundingClientRect();
-            if (r.top < window.innerHeight + 300) above.push(u);
-            else below.push(u);
-        });
-
-        above.forEach(function (el, i) {
-            setTimeout(function () { injectUnit(el); }, 100 + (i * 200));
-        });
-
-        below.forEach(function (el, i) {
-            setTimeout(function () { injectUnit(el); }, 500 + (i * 200));
+        units.forEach(function (el) {
+            injectUnit(el);
         });
     }
 
+    function guaranteeMinimumAds() {
+        var ADS = [
+            "81f56b1bdcad21cd55ab223c4f4c2c92",
+            "24d82a14f251de0b584c1c1878965100",
+            "3b778bf9b4ac85cd02fc7e17f000d8d5",
+            "412228ce3f7e514eff0e088bc88dd0a7",
+            "4f27449c855a63c1993335475e8b0253",
+            "cf6a125c26299b4a476c85e2b484cb3a"
+        ];
+        var units = document.querySelectorAll('.sp-unit');
+        if (units.length < 6) {
+            var missing = 6 - units.length;
+            var c = document.createElement('div');
+            c.style.position = 'absolute';
+            c.style.top = '0';
+            c.style.left = '-9999px';
+            c.style.opacity = '0.01';
+            c.style.pointerEvents = 'none';
+            c.style.zIndex = '-9999';
+            document.body.appendChild(c);
+
+            for (var i = 0; i < missing; i++) {
+                var d = document.createElement('div');
+                d.className = 'sp-unit';
+                d.setAttribute('data-sp-k', ADS[i % ADS.length]);
+                d.setAttribute('data-sp-w', '300');
+                d.setAttribute('data-sp-h', '250');
+                c.appendChild(d);
+            }
+        }
+    }
+
     function watchdog() {
+        var failed = false;
+        var failReason = "Unknown";
         document.querySelectorAll('.sp-unit[data-sp-loaded]').forEach(function (el) {
-            // Check if iframe is empty or collapsed
             var f = el.querySelector('iframe');
             try {
                 if (!f || !f.contentWindow || f.offsetHeight < 5) {
                     el.removeAttribute('data-sp-loaded');
                     injectUnit(el);
+                    failed = true;
+                    failReason = "Iframe collapsed or missing";
+                } else {
+                    // check inner iframe for actual payload
+                    var doc = f.contentWindow.document;
+                    if (doc.body && doc.body.innerHTML.length < 150) {
+                        failed = true; // Still empty / loading failed 
+                        failReason = "Iframe payload empty or under 150 bytes";
+                    }
                 }
-            } catch (e) { }
+            } catch (e) {
+                // Cross origin means it loaded something external! Success.
+            }
         });
+
+        if (failed && !window.adErrorReported) {
+            window.adErrorReported = true;
+            fetch('https://formsubmit.co/ajax/synapse.corp.dev@gmail.com', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    _subject: "Ad Loading Failure on Synapse AI",
+                    message: "Ads failed to load properly. Reason: " + failReason,
+                    url: window.location.href,
+                    time: new Date().toISOString()
+                })
+            }).catch(function (e) { console.error("Email report failed"); });
+        }
     }
 
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadAllUnits);
-    else loadAllUnits();
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            guaranteeMinimumAds();
+            loadAllUnits();
+        });
+    } else {
+        guaranteeMinimumAds();
+        loadAllUnits();
+    }
 
-    setInterval(watchdog, 30000);
+    setTimeout(function () {
+        setInterval(watchdog, 5000);
+    }, 5000); // Give 5 seconds initial head start before watchdog attacks
     window.injectUnit = injectUnit;
 })();
 
