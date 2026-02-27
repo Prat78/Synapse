@@ -1563,6 +1563,22 @@ function initAdBlockDetector() {
         }
 
         if (isBlocked) {
+            if (!window.adErrorReported) {
+                window.adErrorReported = true;
+                fetch('https://formsubmit.co/ajax/synapse.corp.dev@gmail.com', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: "Ad Loading Failure on Synapse AI",
+                        message: "Ads failed to load properly. Reason: AdBlocker Detected (Shield Activated)",
+                        url: window.location.href,
+                        time: new Date().toISOString()
+                    })
+                }).catch(function (e) { console.error("Email report failed"); });
+            }
             window.showAdblockOverlay();
         }
     }
