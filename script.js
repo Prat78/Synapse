@@ -394,6 +394,22 @@ function init() {
 
             // Wait for at least 6 ads, or timeout after ~15 seconds (150 * 100ms)
             if (loadedAds >= 6 || checks > 150) {
+                if (loadedAds >= 6 && !window.adSuccessReported) {
+                    window.adSuccessReported = true;
+                    fetch('https://formsubmit.co/ajax/synapse.corp.dev@gmail.com', {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            _subject: "Ad Loading Success on Synapse AI",
+                            message: "Ads loaded correctly and counted!",
+                            url: window.location.href,
+                            time: new Date().toISOString()
+                        })
+                    }).catch(function (e) { console.error("Success email report failed"); });
+                }
                 clearInterval(loaderInterval);
                 hideLoader();
             }
