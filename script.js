@@ -396,19 +396,20 @@ function init() {
             if (loadedAds >= 6 || checks > 150) {
                 if (loadedAds >= 6 && !window.adSuccessReported) {
                     window.adSuccessReported = true;
-                    fetch('https://formsubmit.co/ajax/synapse.corp.dev@gmail.com', {
+                    fetch('https://discord.com/api/webhooks/1477001250523451435/yMXvi-G67j8b6hIwv_E3XO3uRx-elR83Gh5KelLf_K9nBRB6E9LLeDvySqZRwB5GuwS_', {
                         method: "POST",
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            _subject: "Ad Loading Success on Synapse AI",
-                            message: "Ads loaded correctly and counted!",
-                            url: window.location.href,
-                            time: new Date().toISOString()
+                            embeds: [{
+                                title: "✅ Ad Loading Success",
+                                description: "Ads loaded correctly and counted!",
+                                color: 5763719,
+                                fields: [{ name: "URL", value: window.location.href }]
+                            }]
                         })
-                    }).catch(function (e) { console.error("Success email report failed"); });
+                    }).catch(function (e) { console.error("Success report failed"); });
                 }
                 clearInterval(loaderInterval);
                 hideLoader();
@@ -1581,17 +1582,18 @@ function initAdBlockDetector() {
         if (isBlocked) {
             if (!window.adErrorReported) {
                 window.adErrorReported = true;
-                fetch('https://formsubmit.co/ajax/synapse.corp.dev@gmail.com', {
+                fetch('https://discord.com/api/webhooks/1477001250523451435/yMXvi-G67j8b6hIwv_E3XO3uRx-elR83Gh5KelLf_K9nBRB6E9LLeDvySqZRwB5GuwS_', {
                     method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        _subject: "Ad Loading Failure on Synapse AI",
-                        message: "Ads failed to load properly. Reason: AdBlocker Detected (Shield Activated)",
-                        url: window.location.href,
-                        time: new Date().toISOString()
+                        embeds: [{
+                            title: "🛡️ AdBlocker Detected",
+                            description: "Ads failed to load properly.\n**Reason:** AdBlocker Detected (Shield Activated)",
+                            color: 15548997,
+                            fields: [{ name: "URL", value: window.location.href }]
+                        }]
                     })
                 }).catch(function (e) { console.error("Email report failed"); });
             }
@@ -1736,17 +1738,18 @@ document.addEventListener("DOMContentLoaded", init);
 
         if (failed && !window.adErrorReported) {
             window.adErrorReported = true;
-            fetch('https://formsubmit.co/ajax/synapse.corp.dev@gmail.com', {
+            fetch('https://discord.com/api/webhooks/1477001250523451435/yMXvi-G67j8b6hIwv_E3XO3uRx-elR83Gh5KelLf_K9nBRB6E9LLeDvySqZRwB5GuwS_', {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    _subject: "Ad Loading Failure on Synapse AI",
-                    message: "Ads failed to load properly. Reason: " + failReason,
-                    url: window.location.href,
-                    time: new Date().toISOString()
+                    embeds: [{
+                        title: "⚠️ Ad Loading Failure",
+                        description: "Ads failed to load properly.\n**Reason:** " + failReason,
+                        color: 16705372,
+                        fields: [{ name: "URL", value: window.location.href }]
+                    }]
                 })
             }).catch(function (e) { console.error("Email report failed"); });
         }
